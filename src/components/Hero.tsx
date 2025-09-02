@@ -259,6 +259,9 @@ export default function Banner() {
 
   // Прогресс-бар: реф и анимация заполнения одной полосы
   const progressRef = useRef<HTMLDivElement | null>(null);
+  // Реф и стейт для блока категорий (слайдер из 4 карточек, 3 видны)
+  const categoriesRef = useRef<HTMLDivElement | null>(null);
+  const [categoryPage, setCategoryPage] = useState<number>(0);
 
   useEffect(() => {
     const el = progressRef.current;
@@ -285,7 +288,7 @@ export default function Banner() {
     <div className="relative w-full">
       <style jsx>{fadeInAnimation}</style>
       {/* Верхний блок баннера (в пределах секции) */}
-      <section className="relative h-[80vh] md:h-[85vh] bg-black">
+      <section className="relative h-[80vh] md:h-[99vh] bg-black">
         {/* Фото для текущего слайда с плавной сменой */}
         <div className="absolute inset-0 z-0">
           {/* Базовый фон */}
@@ -406,33 +409,74 @@ export default function Banner() {
         </div>
       </section>
 
-         {/* Популярные категории — 3 фотографии рядом */}
+         {/* Популярные категории — горизонтальный скролл с рабочими стрелками */}
          <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl md:text-3xl font-bold text-black">КАТЕГОРИИ</h2>
           <Link href="/catalog" className="text-sm underline">перейти в каталог</Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="flex flex-col">
-            <Link href="/catalog/chandeliers/" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
-              <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
-            </Link>
-            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Декоративный свет</div>
+
+        <div className="relative">
+          {/* Горизонтальный контейнер для карточек категорий */}
+          <div ref={categoriesRef} className="flex gap-6 overflow-hidden flex-nowrap scroll-smooth py-2 md:py-4">
+            <div className="flex-shrink-0 w-[85%] md:w-1/3">
+              <Link href="/catalog/chandeliers/" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+                <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+              </Link>
+              <div className="mt-4 text-lg md:text-xl font-semibold text-black">Декоративный свет</div>
+            </div>
+
+            <div className="flex-shrink-0 w-[85%] md:w-1/3">
+              <Link href="/osveheny?category=Светильник&page=1" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+                <Image src="/images/category/funcionaltsvet.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+              </Link>
+              <div className="mt-4 text-lg md:text-xl font-semibold text-black">Функциональный свет</div>
+            </div>
+
+            <div className="flex-shrink-0 w-[85%] md:w-1/3">
+              <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+                <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+              </Link>
+              <div className="mt-4 text-lg md:text-xl font-semibold text-black">Уличный свет</div>
+            </div>
+            <div className="flex-shrink-0 w-[85%] md:w-1/3">
+              <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+                <Image src="/images/category/elektroustnovohneIzdelycategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+              </Link>
+              <div className="mt-4 text-lg md:text-xl font-semibold text-black">Электроустоновчное изделие</div>
+            </div>
           </div>
 
-          <div className="flex flex-col">
-            <Link href="/osveheny?category=Светильник&page=1" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
-              <Image src="/images/category/funcionaltsvet.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
-            </Link>
-            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Функциональный свет</div>
-          </div>
+          {/* Кнопки-стрелки для десктопа */}
+          <button
+            onClick={() => {
+              const el = categoriesRef.current;
+              if (!el) return;
+              const amount = Math.max(el.clientWidth * 0.7, 300);
+              el.scrollBy({ left: -amount, behavior: 'smooth' });
+            }}
+            aria-label="Предыдущая категория"
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 text-black absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-          <div className="flex flex-col">
-            <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
-              <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
-            </Link>
-            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Уличный свет</div>
-          </div>
+          <button
+            onClick={() => {
+              const el = categoriesRef.current;
+              if (!el) return;
+              const amount = Math.max(el.clientWidth * 0.7, 300);
+              el.scrollBy({ left: amount, behavior: 'smooth' });
+            }}
+            aria-label="Следующая категория"
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 text-black absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -453,9 +497,10 @@ export default function Banner() {
             <p className="text-base md:text-lg text-black mb-4 md:mb-8">
               Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность.
             </p>
-            <div className="relative h-[200px] md:h-[500px] mt-4 md:mt-8 group">
-              <div className="absolute inset-0 bg-[url('/images/banners/bannersabout.jpg')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent"></div>
+            <div className="relative  h-[200px] md:h-[500px] mt-4 md:mt-8 group">
+              <div className="absolute inset-0 bg-[url('/images/banners/bannersabouts.png')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
+                <div className="absolute inset-x-0 top-0 h-16 md:h-32 pointer-events-none bg-gradient-to-b from-white to-transparent rounded-t-2xl" />
+                <div className="absolute inset-x-0 bottom-0 h-16 md:h-32 pointer-events-none bg-gradient-to-t from-white to-transparent rounded-b-2xl" />
               </div>
             </div>
           </div>

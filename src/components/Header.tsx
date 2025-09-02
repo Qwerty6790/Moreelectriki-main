@@ -62,6 +62,7 @@ const Header = () => {
   const [isMobileCatalogOpen, setIsMobileCatalogOpen] = useState(false);
   const [expandedAccordionItems, setExpandedAccordionItems] = useState<number[]>([]);
   const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
+  const [isCatalogDrawerMounted, setIsCatalogDrawerMounted] = useState(false);
   const [isBrandsMenuOpen, setIsBrandsMenuOpen] = useState(false);
   const brandsButtonRef = useRef<HTMLButtonElement | null>(null);
   const [brandsTopOffset, setBrandsTopOffset] = useState<number>(64);
@@ -428,8 +429,22 @@ const Header = () => {
   };
 
   const openCatalogMenuFromButton = (buttonEl: HTMLElement | null) => {
-    updateCatalogMenuTop(buttonEl);
-    setIsCatalogMenuOpen(true);
+    // Mount drawer first, then open to allow CSS transition
+    setIsCatalogDrawerMounted(true);
+    setTimeout(() => {
+      updateCatalogMenuTop(buttonEl);
+      setIsCatalogMenuOpen(true);
+    }, 20);
+  };
+
+  const openCatalogDrawer = () => {
+    setIsCatalogDrawerMounted(true);
+    setTimeout(() => {
+      setIsCatalogMenuOpen(true);
+      // hide vertical scrollbar on page while drawer is open (remain scrollable)
+      try { document.documentElement.classList.add('hide-vertical-scrollbar'); } catch {}
+      try { document.body.classList.add('hide-vertical-scrollbar'); } catch {}
+    }, 20);
   };
 
   const updateBrandsMenuTop = (buttonEl: HTMLElement | null) => {
@@ -487,6 +502,24 @@ const Header = () => {
     };
   }, [isCatalogMenuOpen]);
 
+  // Mount/unmount drawer to allow smooth open/close animation
+  useEffect(() => {
+    let t: any;
+    if (isCatalogMenuOpen) {
+      setIsCatalogDrawerMounted(true);
+      try { document.documentElement.classList.add('hide-vertical-scrollbar'); } catch {}
+      try { document.body.classList.add('hide-vertical-scrollbar'); } catch {}
+    } else {
+      // wait for transition to finish before unmounting
+      t = setTimeout(() => {
+        setIsCatalogDrawerMounted(false);
+        try { document.documentElement.classList.remove('hide-vertical-scrollbar'); } catch {}
+        try { document.body.classList.remove('hide-vertical-scrollbar'); } catch {}
+      }, 340);
+    }
+    return () => clearTimeout(t);
+  }, [isCatalogMenuOpen]);
+
   // Показ вторичного хедера при скролле
   useEffect(() => {
     const onScroll = () => {
@@ -537,6 +570,8 @@ const Header = () => {
     if (!isCatalogMenuOpen) return;
     updateCatalogMenuTop(isStickyHeaderVisible ? stickyCatalogButtonRef.current : catalogButtonRef.current);
   }, [isStickyHeaderVisible, isCatalogMenuOpen]);
+
+  
 
   useEffect(() => {
     const recalc = () => {
@@ -635,6 +670,33 @@ const Header = () => {
         .menu-transition {
           transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
+
+        /* Скрыть полосу прокрутки, но сохранить прокрутку (кросс-браузерно) */
+        .hide-scrollbar {
+          -ms-overflow-style: none !important; /* IE and Edge */
+          scrollbar-width: none !important; /* Firefox */
+          -webkit-overflow-scrolling: touch;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          height: 0 !important;
+          width: 0 !important;
+          display: none !important; /* Chrome, Safari and Opera */
+        }
+
+        /* Visual hide for horizontal scrollbar: adds padding and negative margin to conceal the bar on Windows/Edge
+           while preserving horizontal scrollability */
+        .hide-scrollbar-x {
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          padding-bottom: 12px !important;
+          margin-bottom: -12px !important;
+        }
+        .hide-scrollbar-x::-webkit-scrollbar { height: 0 !important; }
+
+        /* Полностью скрыть вертикальный скролл полосы страницы при открытом drawer */
+        .hide-vertical-scrollbar {
+          overflow-y: hidden !important;
+        }
         
         @keyframes searchModalFadeIn {
           from {
@@ -662,6 +724,12 @@ const Header = () => {
           100% { opacity: 1; transform: rotateX(0deg) translateY(0); }
         }
         .catalog-book-enter { animation: catalogBookOpen 360ms cubic-bezier(0.22, 0.61, 0.36, 1); transform-origin: top center; }
+
+        /* Drawer transitions already use utility classes; ensure smoothness */
+        .drawer-enter { transform: translateX(-100%); }
+        .drawer-enter-active { transform: translateX(0); transition: transform 300ms ease-in-out; }
+        .drawer-exit { transform: translateX(0); }
+        .drawer-exit-active { transform: translateX(-100%); transition: transform 300ms ease-in-out; }
       `}</style>
       
       <div className="w-full relative">
@@ -694,7 +762,7 @@ const Header = () => {
           </div>
 
           {/* Ряд с логотипом, поиском и иконками */}
-          <div className={clsx(headerText, bannerPath ? 'bg-transparent' : 'bg-black/90 border-y border-white/10')}>
+          <div className={clsx(headerText, bannerPath ? 'bg-transparent' : 'bg-black/90 ')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <div className="flex items-center h-14 md:h-14 gap-3">
                 {/* Бургер для мобилы */}
@@ -722,7 +790,7 @@ const Header = () => {
                       placeholder="Поиск"
                       className={clsx(
                         'w-full pl-10 pr-4 py-2 rounded-md outline-none text-sm placeholder:text-white/70',
-                        bannerPath ? 'bg-black/40 border border-white/10' : 'bg-black/60 border border-white/10'
+                        bannerPath ? 'bg-black/40 ' : 'bg-black/60 '
                       )}
                     />
                   </div>
@@ -753,45 +821,30 @@ const Header = () => {
           {/* Навигация */}
           <div className={clsx('hidden md:block', headerText, bannerPath ? 'bg-transparent' : 'bg-black/90')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
-              <nav className="flex h-10 items-center justify-between text-[14px] md:text-[15px] tracking-widest uppercase whitespace-nowrap">
-                <a href="/company/about" className="hover:text-white/90">Компания</a>
-                <button
-                  ref={catalogButtonRef}
-                  onMouseEnter={() => openCatalogMenuFromButton(catalogButtonRef.current)}
-                  onFocus={() => openCatalogMenuFromButton(catalogButtonRef.current)}
-                  onClick={handleCatalogClick}
-                  className="inline-flex items-center hover:text-white"
-                >
-                  КАТАЛОГ
-                </button>
-                <a href="/sales" className="hover:text-white/90">Акции</a>
+              <nav className="flex h-10 items-center justify-between text-[13px] md:text-[15px] tracking-widest uppercase flex-wrap gap-2">
+                <button onClick={openCatalogDrawer} className="hover:text-white/90 py-1 px-2 text-sm">МЕНЮ</button>
+                {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
+                <a href="/sales" className="hover:text-white/90 py-1 px-2 text-sm">Акции</a>
                 <button
                   ref={brandsButtonRef}
                   onClick={handleBrandsClick}
                   onMouseEnter={() => openBrandsMenuFromButton(brandsButtonRef.current)}
                   onFocus={() => openBrandsMenuFromButton(brandsButtonRef.current)}
-                  className="hover:text-white/90 inline-flex items-center"
+                  className="hover:text-white/90 inline-flex items-center py-1 px-2 text-sm"
                 >
                   БРЕНДЫ
                 </button>
-                <a href="/projects" className="hover:text-white/90">Проекты</a>
-                <a href="/blog" className="hover:text-white/90">Блог</a>
-                <a href="/how-to-buy" className="hover:text-white/90">Как купить</a>
-                <a href="/contacts" className="hover:text-white/90">Контакты</a>
+                <a href="/projects" className="hover:text-white/90 py-1 px-2 text-sm">Проекты</a>
+                <a href="/blog" className="hover:text-white/90 py-1 px-2 text-sm">Блог</a>
+                <a href="/how-to-buy" className="hover:text-white/90 py-1 px-2 text-sm">Как купить</a>
+                <a href="/contacts" className="hover:text-white/90 py-1 px-2 text-sm">Контакты</a>
               </nav>
 
               {/* Мобильная адаптивная полоса меню (горизонтальный скролл) */}
               <div className="md:hidden text-white bg-black/40">
-                <div className="px-3 py-2 overflow-x-auto">
+                <div className="px-3 py-2 overflow-x-auto hide-scrollbar">
                   <div className={clsx('flex items-center gap-5 text-[13px] tracking-widest uppercase whitespace-nowrap', headerText)}>
-                    <a href="/company/about" className="hover:text-white/90">Компания</a>
-                    <button
-                      ref={mobileCatalogButtonRef}
-                      onClick={handleMobileCatalogClick}
-                      className="inline-flex items-center hover:text-white"
-                    >
-                      КАТАЛОГ
-                    </button>
+                    <button onClick={openCatalogDrawer} className="hover:text-white/90">Меню</button>
                     <a href="/sales" className="hover:text-white/90">Акции</a>
                     <a href="/brands" className="hover:text-white/90">Бренды</a>
                     <a href="/projects" className="hover:text-white/90">Проекты</a>
@@ -821,7 +874,7 @@ const Header = () => {
 
               {/* Навигация */}
               <div className="mt-2">
-                <div className="flex flex-col space-y-1">
+                <div className="flex  flex-col space-y-0">
                     <button
                       onClick={() => setIsMobileCatalogOpen((v) => !v)}
                       className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white hover:bg-gray-800 rounded-lg"
@@ -902,7 +955,7 @@ const Header = () => {
           isStickyHeaderVisible ? 'translate-y-0' : '-translate-y-full'
         )}
       >
-        <div className="bg-black text-white/95 border-b border-white/10">
+        <div className="bg-black text-white/95 ">
           <div className="max-w-[1280px] mx-auto px-3 md:px-4">
             <div className="flex items-center h-12 md:h-14 gap-0">
               {/* Левая группа: логотип + меню */}
@@ -915,15 +968,15 @@ const Header = () => {
                   onClick={handleStickyCatalogClick}
                   className="inline-flex items-center text-white/90 hover:text-white text-[12px] sm:text-[13px] tracking-widest uppercase"
                 >КАТАЛОГ</button>
-                <nav className="hidden sm:flex items-center gap-4 md:gap-6 text-[12px] sm:text-[13px] tracking-widest uppercase">
-                  <a href="/brands" className="hover:text-white">Бренды</a>
-                  <a href="/sales" className="hover:text-white">Акции</a>
-                  <a href="/projects" className="hover:text-white">Проекты</a>
-                  <a href="/contacts" className="hover:text-white">Контакты</a>
+                <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
+                  <a href="/brands" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
+                  <a href="/sales" className="hover:text-white py-1 px-2 text-sm">Акции</a>
+                  <a href="/projects" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
+                  <a href="/contacts" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
                 </nav>
               </div>
               {/* Центр: поиск */}
-              <div className="flex-1 flex items-center border-x border-white/10 px-2 sm:px-4">
+              <div className="flex-1 flex items-center  px-2 sm:px-4">
                 <button
                   onClick={() => setIsSearchOpen(true)}
                   className="group flex items-center justify-between w-full text-white/80 hover:text-white"
@@ -1022,56 +1075,44 @@ const Header = () => {
 
       {/* Порталы для выпадающих меню */}
       {/* Каталог меню: полноширинная панель */}
-      {typeof window !== 'undefined' && isCatalogMenuOpen && createPortal(
-        <div id="catalog-menu" className="fixed left-0 right-0 z-[99999] catalog-3d" style={{ top: catalogTopOffset }}>
+      {/* Боковая панель каталога (drawer) */}
+      {/* Боковая панель каталога (drawer) с анимацией */}
+      {typeof window !== 'undefined' && isCatalogDrawerMounted && createPortal(
+        <div className={"fixed inset-0 z-[99999]"} onTransitionEnd={() => {
+          // Ensure overlay pointer-events are disabled when closed
+          const overlay = document.getElementById('catalog-overlay');
+          if (overlay && !isCatalogMenuOpen) overlay.classList.add('pointer-events-none');
+          if (overlay && isCatalogMenuOpen) overlay.classList.remove('pointer-events-none');
+        }}>
           <div
-            className="border-t border-black/5 bg-white/20 backdrop-blur-xl shadow-2xl catalog-book-enter"
-            role="menu"
-            aria-label="Каталог"
-            tabIndex={0}
-          >
-          <div className="max-w-[1280px] mx-auto px-4 py-6">
-            <div className="flex items-start justify-between gap-6">
-              {/* Сетка категорий */}
-              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {catalogData.lighting.map((item, index) => (
-                  <div key={index} className="group rounded-xl border border-black/10 bg-white/20 backdrop-blur-md p-4 hover:shadow-md transition-all duration-200">
-                    <a href={item.link.replace('/osveheny', '/catalog')} className="flex items-center gap-3">
-                      <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
-                      <span className="text-base font-semibold text-black">{item.title}</span>
-                    </a>
-                    <div className="mt-3 grid grid-cols-1 gap-1.5">
-                      {item.subcategories?.slice(0, 6).map((sub, sidx) => (
-                         <a key={sidx} href={sub.link.replace('/osveheny', '/catalog')} className="text-sm text-black/80 hover:text-black">
-                          {sub.title}
-                        </a>
-                      ))}
+            id="catalog-overlay"
+            className={"absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+            onClick={() => setIsCatalogMenuOpen(false)}
+          />
+          <aside aria-hidden={!isCatalogMenuOpen} className={"absolute left-0 top-0 bottom-0 w-[360px] bg-white/95 backdrop-blur-lg p-4 overflow-hidden shadow-2xl transform transition-transform duration-300 " + (isCatalogMenuOpen ? 'translate-x-0' : '-translate-x-[100%]') }>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold text-black">Меню</h3>
+              <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-2xl leading-none">×</button>
+            </div>
+            {/* Вертикальный список меню */}
+            <div className="overflow-y-auto hide-scrollbar" style={{ maxHeight: 'calc(110vh - 140px)' }}>
+              <div className="space-y-2">
+                {catalogData.lighting.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <img src={item.image} alt={item.title} className="w-20 h-20 object-contain rounded" />
+                    <div>
+                      <a href={item.link.replace('/osveheny', '/catalog')} className="text-base font-semibold text-black">{item.title}</a>
+                      <div className="mt-2 flex flex-col text-sm text-black/70">
+                        {item.subcategories?.slice(0, 6).map((sub, sidx) => (
+                          <a key={sidx} href={sub.link.replace('/osveheny', '/catalog')} className="py-1">{sub.title}</a>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-              {/* Промо-блок справа */}
-              <div className="hidden lg:flex w-[300px] flex-col gap-3">
-                <div className="rounded-xl border border-black/5 bg-gradient-to-br from-black/[0.03] to-black/[0.02] p-4">
-                  <div className="text-sm font-semibold text-black">Подбор освещения</div>
-                  <div className="mt-1 text-sm text-black/70">Поможем с проектом и расчётами — бесплатно.</div>
-                  <a href="/contacts" className="mt-3 inline-flex items-center text-sm font-medium text-black hover:underline">Связаться</a>
-                </div>
-                <div className="rounded-xl border border-black/5 bg-transparent p-4">
-                  <div className="text-sm font-semibold text-black">Скидки для дизайнеров</div>
-                  <div className="mt-1 text-sm text-black/70">Эксклюзивные условия и 3D-модели.</div>
-                  <a href="/designers/club" className="mt-3 inline-flex items-center text-sm font-medium text-black hover:underline">Узнать больше</a>
-                </div>
-                {/* Область для фотографии (увеличенная) */}
-                <div className="rounded-xl5 bg-transparent p-5 flex items-center justify-center">
-                  <div className="w-full h-72  rounded  flex items-center justify-center">
-                  <img src="/images/banners/bannersmexanisms.png" alt="Скидки для дизайнеров" className="w-full h-full object-contain" />
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          </div>
+          </aside>
         </div>,
         document.body
       )}
