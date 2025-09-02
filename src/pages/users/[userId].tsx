@@ -74,7 +74,7 @@ const UserProfile = () => {
                         </div>
                     </div>
                 ) : (
-                    <p className="text-red-500 text-lg">Пользователь не найден.</p>
+                    <p className="text-gray-900 text-lg">Пользователь не найден.</p>
                 )}
             </div>
         </div>

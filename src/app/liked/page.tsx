@@ -40,7 +40,7 @@ const Liked: React.FC = () => {
           console.error(error);
         }
       } else {
-        setError('Ваш список Избранного пуст.');
+        setError('Ваш список Избранного');
       }
       setLoading(false);
     };

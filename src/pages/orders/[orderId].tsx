@@ -33,14 +33,22 @@ const OrderDetails: React.FC = () => {
       if (!orderId) return;
 
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        setOrder(res.data.order);
-      } catch (error) {
-        console.error('Ошибка при загрузке заказа:', error);
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+        const headers: Record<string, string> = {};
+        if (token) headers.Authorization = `Bearer ${token}`;
+
+        try {
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}`, { headers });
+          setOrder(res.data.order);
+        } catch (err) {
+          // Повторная попытка без токена (на случай гостевого заказа)
+          try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}`);
+            setOrder(res.data.order);
+          } catch (err2) {
+            console.error('Ошибка при загрузке заказа:', err2);
+          }
+        }
       } finally {
         setLoading(false);
       }

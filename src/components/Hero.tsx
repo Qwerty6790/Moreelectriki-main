@@ -1,10 +1,178 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import Maytoni from '@/app/cardproducts/page';
+// CSS для анимации появления текста
+const fadeInAnimation = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes textGlow {
+    0% {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+    100% {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 2s ease-out forwards;
+  }
+  
+  .animate-slide-in {
+    animation: slideInFromBottom 1.5s ease-out forwards;
+  }
+  
+  .animate-delay-1 {
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+  
+  .animate-delay-2 {
+    animation-delay: 1.2s;
+    opacity: 0;
+  }
+
+  .text-glow {
+    animation: textGlow 3s ease-in-out infinite;
+  }
+
+  .search-text-container {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s ease-out;
+  }
+
+  .search-text-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Плавное появление слева */
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-left {
+    animation: slideInFromLeft 0.7s ease-out forwards;
+  }
+
+  .word-slide-in-left {
+    display: inline-block;
+    /* Делать текст видимым сразу, чтобы не было "мигания" при загрузке */
+    opacity: 1;
+    transform: translateX(0);
+    /* animation-fill-mode both помогает избежать резкого появления */
+    animation: slideInFromLeft 0.45s ease-out both;
+    will-change: transform, opacity;
+    margin-right: 0.32em;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Анимация раскрытия книги для текста слайдов */
+  @keyframes bookOpenLeft {
+    0% {
+      transform: perspective(1000px) rotateY(-90deg) translateY(10px);
+      opacity: 0;
+    }
+    60% { opacity: 1; }
+    100% {
+      transform: perspective(1000px) rotateY(0deg) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bookOpenRight {
+    0% {
+      transform: perspective(1000px) rotateY(90deg) translateY(10px);
+      opacity: 0;
+    }
+    60% { opacity: 1; }
+    100% {
+      transform: perspective(1000px) rotateY(0deg) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .book-open-left {
+    transform-origin: left;
+    animation: bookOpenLeft 0.7s ease-out forwards;
+  }
+
+  .book-open-right {
+    transform-origin: right;
+    animation: bookOpenRight 0.7s ease-out forwards;
+  }
+
+  .book-open-delay-1 { animation-delay: 0.05s; }
+  .book-open-delay-2 { animation-delay: 0.18s; }
+
+  /* Плавная анимация для заголовков (включается/выключается целиком) */
+  .heading-animate {
+    opacity: 0;
+    transform: translateX(-18px) scale(0.995);
+    transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+  }
+
+  .heading-visible {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  @keyframes wordSlideIn {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .word-animate {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-14px);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    /* Увеличенный отступ между словами в заголовках */
+    margin-right: 0.2em;
+    word-spacing: 0.1em;
+  }
+
+  .heading-visible .word-animate {
+    animation: wordSlideIn 420ms cubic-bezier(.2,.9,.2,1) forwards;
+    animation-delay: var(--d);
+  }
+`;
 
 interface SideBannerSlide {
    id: number;
@@ -16,158 +184,313 @@ interface SideBannerSlide {
    buttonText: string;
 }
 
-// --- КОНЕЦ ДАННЫХ ДЛЯ СЛАЙДЕРОВ ---
+interface VideoBanner {
+  id: number;
+  title: string;
+  subtitle: string;
+  textColor: 'white' | 'black';
+  bgImage: string;
+}
 
 export default function Banner() {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(console.error);
-    }
-  }, []);
-
-  const handleTimeUpdate = () => {
-    const v = videoRef.current;
-    if (v && v.currentTime >= 4) {
-      v.pause();
-      v.currentTime = 4;
-    }
-  };
-
-  // Данные для баннера
-  const bannerData = {
-    title: 'Выбирай свой свет',
-    subtitle: 'Сделай дизайн своим выбором',
-    textColor: 'white',
-    videoUrl: '/images/dzx1j_8hlzu.mp4'
-  };
-
-  // Популярные категории для каталога
-  const popularCategories = [
-    { id: 1, title: 'ЛЮСТРЫ', image: '/images/Lustracategpory.png', link: '/osveheny?category=Люстра' },
-    { id: 2, title: 'СВЕТИЛЬНИКИ', image: '/images/svetilnikicategory.png', link: '/osveheny?category=Светильник' },
-    { id: 3, title: 'БРА', image: '/images/bracategory.png', link: '/osveheny?category=Бра' },
-    { id: 4, title: 'НАСТОЛЬНЫЕ ЛАМПЫ', image: '/images/nastolnycategory.png', link: '/osveheny?category=Настольная%20лампа' },
-    { id: 5, title: 'ТОРШЕРЫ', image: '/images/torhernaplonacategory.png', link: '/osveheny?category=Торшер' },
-    { id: 6, title: 'УЛИЧНОЕ ОСВЕЩЕНИЕ', image: '/images/ylihnoecategory.png', link: '/osveheny?category=Уличный%20светильник' },
-    { id: 7, title: 'ЭЛЕКТРОУСТАНОВОЧНОЕ ИЗДЕЛИЕ', image: '/images/image.png', link: '/osveheny?category=Уличный%20светильник' },
+  // Слайды главного баннера (текст + цвет)
+  const videoBanners: VideoBanner[] = [
+    { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersosveheniy.jpg' },
+    { id: 2, title: 'Эстетика и функциональность', subtitle: 'Профессиональные решения для дома и офиса', textColor: 'white', bgImage: '/images/banners/bannersyosveheny2.jpg' },
+    { id: 3, title: 'Эстетика и функциональность', subtitle: 'Профессиональные решения для дома и офиса', textColor: 'white', bgImage: '/images/banners/bannersyosveheny3.jpg' },
   ];
 
+  // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [baseBg, setBaseBg] = useState<string>(videoBanners[0].bgImage);
+  const [transitionBg, setTransitionBg] = useState<string | null>(null);
+  const [isCrossfading, setIsCrossfading] = useState(false);
+
+  const currentBanner = videoBanners[currentVideoIndex];
+  const [titleVisible, setTitleVisible] = useState(true);
+
+  // Detect mobile to limit banners and adjust layout
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const visibleVideoBanners = isMobile ? videoBanners.slice(0, 2) : videoBanners;
+  const safeCurrentIndex = Math.min(currentVideoIndex, Math.max(0, visibleVideoBanners.length - 1));
+  const safeCurrentBanner = visibleVideoBanners[safeCurrentIndex] || visibleVideoBanners[0];
+
+  // Авто-смена слайдов: каждые 3 секунды (учитываем видимые баннеры)
+  useEffect(() => {
+    if (visibleVideoBanners.length <= 1) return;
+    const timer = setTimeout(() => {
+      setCurrentVideoIndex((prev) => (prev + 1) % visibleVideoBanners.length);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [currentVideoIndex, visibleVideoBanners.length]);
+
+  // Инициализация базового фона теперь задаётся сразу через initialBaseBg, без эффекта
+
+  // Кроссфейд фона при смене слайда (учитываем безопасный баннер)
+  useEffect(() => {
+    const nextBg = safeCurrentBanner?.bgImage;
+    if (!nextBg || nextBg === baseBg) return;
+    setTransitionBg(nextBg);
+    const raf = requestAnimationFrame(() => setIsCrossfading(true));
+    setTitleVisible(false);
+    const titleTimer = setTimeout(() => setTitleVisible(true), 160);
+    const t = setTimeout(() => {
+      setBaseBg(nextBg);
+      setTransitionBg(null);
+      setIsCrossfading(false);
+    }, 500);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(titleTimer);
+      clearTimeout(t);
+    };
+  }, [safeCurrentBanner?.bgImage, baseBg]);
+
+  const handleManualNavigation = (index: number) => {
+    setCurrentVideoIndex(index);
+  };
+
+  // Прогресс-бар: реф и анимация заполнения одной полосы
+  const progressRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = progressRef.current;
+    if (!el || visibleVideoBanners.length <= 1) return;
+    // Сбрасываем ширину без анимации
+    el.style.transition = 'none';
+    el.style.width = '0%';
+    // Принудительный reflow чтобы transition сработал
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    el.offsetWidth;
+    const duration = 3000; // ms, совпадает с таймером смены слайда
+    el.style.transition = `width ${duration}ms linear`;
+    // Запускаем анимацию заполнения
+    el.style.width = '100%';
+
+    return () => {
+      if (el) {
+        el.style.transition = '';
+      }
+    };
+  }, [currentVideoIndex, visibleVideoBanners.length]);
+
   return (
-    <div className="w-full">
-      {/* Видео баннер */}
-      <div className="absolute top-0 left-0 right-0 h-screen -z-10">
-        <div className="absolute inset-0">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            onTimeUpdate={handleTimeUpdate}
-            className="w-full h-full object-cover"
-          >
-            <source src={bannerData.videoUrl} type="video/mp4" />
-          </video>
+    <div className="relative w-full">
+      <style jsx>{fadeInAnimation}</style>
+      {/* Верхний блок баннера (в пределах секции) */}
+      <section className="relative h-[80vh] md:h-[85vh] bg-black">
+        {/* Фото для текущего слайда с плавной сменой */}
+        <div className="absolute inset-0 z-0">
+          {/* Базовый фон */}
+          {baseBg && (
+            <Image
+              src={baseBg}
+              alt="Главный баннер"
+              fill
+              priority
+              className={`object-cover ${currentVideoIndex === 2 ? 'md:object-center object-left' : ''}`}
+              sizes="100vw"
+            />
+          )}
+          {/* Переходный фон поверх с кроссфейдом */}
+          {transitionBg && (
+            <Image
+              src={transitionBg}
+              alt="Главный баннер (смена)"
+              fill
+              priority
+              className="object-cover transition-opacity duration-500"
+              sizes="100vw"
+              style={{ opacity: isCrossfading ? 1 : 0 }}
+            />
+          )}
+          <div className="absolute inset-0 bg-black/20" />
         </div>
-      </div>
-      
-      {/* Контент баннера */}
-      <div className="relative pt-20 md:pt-36 w-full h-screen">
-        <div className="max-w-7xl mx-auto px-4 h-[calc(100vh-112px)] flex items-center">
-          <div className="w-full md:w-1/2">
-            <h1 className={`text-4xl md:text-7xl font-bold mb-2 ${bannerData.textColor === 'white' ? 'text-white' : 'text-black'}`}>
-              {bannerData.title}
+
+        {/* Контент баннера */}
+        <div className="relative w-full h-full">
+        <div className="absolute inset-0 flex items-center justify-start px-6 md:px-44 z-20">
+          <div className="max-w-3xl">
+            <h1
+              className={`text-left text-4xl md:text-7xl font-bold mb-3 ${
+                currentBanner.textColor === 'white' ? 'text-white' : 'text-black'
+              } ${titleVisible ? 'heading-animate heading-visible' : 'heading-animate'}`}
+            >
+              {currentBanner.title.split(' ').map((word, i) => (
+                <span
+                  key={`t-${i}`}
+                  className="word-animate"
+                  style={{ ['--d' as any]: `${i * 70}ms` }}
+                >
+                  {word}
+                  {i !== currentBanner.title.split(' ').length - 1 ? ' ' : ''}
+                </span>
+              ))}
             </h1>
-            <h2 className={`text-4xl md:text-7xl font-bold mb-8 ${bannerData.textColor === 'white' ? 'text-white' : 'text-black'}`}>
-              {bannerData.subtitle}
+            <h2
+              className={`text-left text-2xl md:text-5xl  ${
+                currentBanner.textColor === 'white' ? 'text-white/90' : 'text-black/90'
+              } ${titleVisible ? 'heading-animate heading-visible' : 'heading-animate'}`}
+            >
+              {currentBanner.subtitle.split(' ').map((word, i) => (
+                <span
+                  key={`s-${i}`}
+                  className="word-animate"
+                  style={{ ['--d' as any]: `${220 + i * 35}ms` }}
+                >
+                  {word}
+                  {i !== currentBanner.subtitle.split(' ').length - 1 ? ' ' : ''}
+                </span>
+              ))}
             </h2>
           </div>
         </div>
+
+        {/* Индикатор видео — одна шкала заполняется и после заполнения меняется слайд */}
+        {visibleVideoBanners.length > 1 && (
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-[70%] md:w-[50%]">
+            <div
+              className="w-full h-3 bg-white/20 rounded-full cursor-pointer"
+              onClick={(e) => {
+                const el = e.currentTarget as HTMLDivElement;
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const pct = Math.max(0, Math.min(1, x / rect.width));
+                const target = Math.round(pct * (visibleVideoBanners.length - 1));
+                handleManualNavigation(target);
+              }}
+              role="button"
+              aria-label="Прогресс слайдов"
+            >
+              <div
+                ref={progressRef}
+                className="h-3 bg-white rounded-full"
+                style={{ width: '0%' }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Стрелки управления (скрываем на мобилке если только 1 баннер) */}
+        {visibleVideoBanners.length > 1 && (
+          <>
+            <button
+              onClick={() => handleManualNavigation(
+                currentVideoIndex === 0 ? visibleVideoBanners.length - 1 : currentVideoIndex - 1
+              )}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-all duration-300 ease-in-out z-20"
+              style={{ left: '14px' }}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => handleManualNavigation((currentVideoIndex + 1) % videoBanners.length)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-all duration-300 ease-in-out z-20"
+              style={{ right: '14px' }}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
+        </div>
+      </section>
+
+         {/* Популярные категории — 3 фотографии рядом */}
+         <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl md:text-3xl font-bold text-black">КАТЕГОРИИ</h2>
+          <Link href="/catalog" className="text-sm underline">перейти в каталог</Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-col">
+            <Link href="/catalog/chandeliers/" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
+              <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+            </Link>
+            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Декоративный свет</div>
+          </div>
+
+          <div className="flex flex-col">
+            <Link href="/osveheny?category=Светильник&page=1" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
+              <Image src="/images/category/funcionaltsvet.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+            </Link>
+            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Функциональный свет</div>
+          </div>
+
+          <div className="flex flex-col">
+            <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px]">
+              <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+            </Link>
+            <div className="mt-4 text-lg md:text-xl font-semibold text-black">Уличный свет</div>
+          </div>
+        </div>
       </div>
 
-      {/* Контент под баннером */}
-      <div className="bg-white py-8 md:py-12 relative">
-        <div className="max-w-7xl mx-auto px-4">
-         
-          {/* Категории товаров */}
-          <div className="mb-8 md:mb-12 relative">
-            <div className="absolute top-0 left-0 w-1/2 h-full bg-gray-100 -z-10"></div>
-            <div className="mx-auto">
-              <h2 className="text-2xl md:text-3xl text-black font-bold mb-6 md:mb-8">Популярные категории</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-7 relative">
-                {popularCategories.map((category, index) => (
-                  <div
-                    key={category.id}
-                    className="transform transition-transform duration-200 hover:scale-105"
-                  >
-                    <a href={category.link} className="group block text-center h-full">
-                      <div className="relative rounded-md overflow-hidden h-[150px] md:h-[200px] md:w-[200px]">
-                        <img 
-                          src={category.image} 
-                          alt={category.title} 
-                          className="w-full h-full object-contain  group-hover:scale-105 transition-transform duration-300 ease-in-out p-2"
-                        />
-                        <div className="absolute right-0 w-1/2 h-full bg-gradient-to-t transition-all duration-300"></div>
-                      </div>
-                      <p className="font-bold -mr-5 text-sm md:text-base text-black mt-2 md:mt-3 group-hover:text-yellow-300 transition-colors duration-200">{category.title}</p>
-                    </a>
-                  </div>
-                ))}
+      {/* Категории товаров — удалено, оставлен только блок популярных категорий */}
+
+   
+
+      {/* Новая секция с тезисами и фотографией */}
+      <div className="mb-12 md:mb-24 max-w-8xl mx-auto px-4 md:px-4">
+        <div className="flex flex-col md:flex-row gap-12 md:gap-12">
+          {/* На мобилках показываем фото первым (order) */}
+          {/* Левая часть с тезисами */}
+          <div className="w-full md:w-1/2 space-y-6 md:space-y-8 py-4 md:py-8 order-2 md:order-1">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Твой свет для комфорта:<br/>
+              новинки от производителей
+            </h2>
+            <p className="text-base md:text-lg text-black mb-4 md:mb-8">
+              Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность.
+            </p>
+            <div className="relative h-[200px] md:h-[500px] mt-4 md:mt-8 group">
+              <div className="absolute inset-0 bg-[url('/images/banners/bannersabout.jpg')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent"></div>
               </div>
             </div>
           </div>
 
-          {/* Новая секция с тезисами и фотографией */}
-          <div className="mb-12 md:mb-24">
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-              {/* Левая часть с тезисами */}
-              <div className="w-full md:w-1/2 space-y-6 md:space-y-8 py-4 md:py-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                  Твой свет для комфорта:<br/>
-                  новинки от производителей
-                </h2>
-                <p className="text-base md:text-lg text-black mb-4 md:mb-8">
-                  Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность.
-                </p>
-                <div className="relative h-[200px] md:h-[300px] mt-4 md:mt-8 group">
-                  <div className="absolute inset-0 bg-[url('/images/photo.webp')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent"></div>
-                  </div>
-                </div>
-              </div>
+          {/* Правая часть с фотографией */}
+          <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] group order-1 md:order-2 px-0 md:px-0">
+            <h2 className='text-3xl md:text-4xl py-4 md:py-8 font-bold text-gray-900'>
+              Открывай для себя новые возможности каждый день
+            </h2>
+            <span className='text-lg md:text-2xl text-black'>
+            Мы предлагаем широкий ассортимент светильников, люстр и электротехнических товаров от лучших мировых производителей. В нашем каталоге представлены как классические, так и современные решения для освещения: от изысканных хрустальных люстр до стильных подвесных светильников, функциональных спотов и энергосберегающих систем. У нас вы можете найти всё, что необходимо для создания комфортной и гармоничной световой атмосферы в доме, офисе, ресторане или торговом помещении.
 
-              {/* Правая часть с фотографией */}
-              <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] group">
-                <h2 className='text-3xl md:text-4xl py-4 md:py-8 font-bold text-gray-900'>
-                  Открывай для себя новые возможности каждый день
-                </h2>
-                <span className='text-lg md:text-2xl text-black'>
-                  Мы предлагаем широкий ассортимент светильников, люстр и электротехнических товаров от лучших мировых производителей.
-                  У нас вы можете найти все, что вам нужно для освещения вашего дома или офиса. Так же предлагаем не только продажу, но и полный комплекс услуг по проектированию и монтажу.Плюсом является то, что мы работаем с любыми покупателями, как физическими, так и юридическими лицами.
-                </span>
-              </div>
-            </div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-center mt-8 md:mt-12">О компании MoreElecktriki</h2>
-              <div className="gap-8 md:gap-12 items-center">
-                {/* Левая часть - текст о компании */}
-                <div className="space-y-4 md:space-y-6">
-                  <div className="space-y-3 md:space-y-4">
-                    <h3 className="text-3xl md:text-4xl font-bold text-black">Освещаем вашу жизнь</h3>
-                    <p className="text-lg md:text-2xl text-black leading-relaxed">
-                      MoreElecktriki — ведущий поставщик качественного освещения в России. 
-                      Мы специализируемся на продаже премиальных светильников, люстр и 
-                      электротехнических товаров от лучших мировых производителей.
-                    </p>
-                    <p className="text-lg md:text-2xl text-black leading-relaxed">
-                      Наша команда профессионалов поможет вам создать идеальное освещение 
-                      для дома, офиса или коммерческого объекта. Мы предлагаем не только 
-                      продажу, но и полный комплекс услуг по проектированию и монтажу.
-                    </p>
-                  </div>
-                </div>
+Мы предоставляем не только продажу товаров, но и полный комплекс услуг — от профессионального проектирования и подбора оборудования до квалифицированного монтажа и последующего сервисного обслуживания. Наши специалисты помогут разработать индивидуальный проект освещения с учётом особенностей вашего интерьера, технических требований и бюджета.
+
+Дополнительным преимуществом является гибкость работы: мы сотрудничаем как с частными клиентами, так и с организациями, строительными компаниями, дизайнерами и архитекторами.
+
+            </span>
+          </div>
+        </div>
+        <div>
+          <div className="gap-8 md:gap-12 items-center">
+            {/* Левая часть - текст о компании */}
+            <div className="space-y-4 md:space-y-6">
+              <div className="space-y-10 mt-20  md:space-y-4">
+                <h3 className="text-3xl   md:text-4xl font-bold text-black">Освещаем вашу жизнь</h3>
+                <p className="text-lg md:text-2xl text-black leading-relaxed">
+                  MoreElektriki — ведущий поставщик качественного освещения в России. 
+                  Мы специализируемся на продаже премиальных светильников, люстр и 
+                  электротехнических товаров от лучших мировых производителей.
+                </p>
+                <p className="text-lg md:text-2xl text-black leading-relaxed">
+                  Наша команда профессионалов поможет вам создать идеальное освещение 
+                  для дома, офиса или коммерческого объекта. Мы предлагаем не только 
+                  продажу, но и полный комплекс услуг по проектированию и монтажу.
+                </p>
               </div>
             </div>
           </div>
@@ -176,4 +499,3 @@ export default function Banner() {
     </div>
   );
 }
-

@@ -125,12 +125,17 @@ const ProductDetail: React.FC = () => {
       likedData.products = likedData.products.filter((p: ProductI) => p._id !== product._id);
       localStorage.setItem('liked', JSON.stringify(likedData));
       setIsFavorite(false);
+      const count = likedData.products.length;
+      window.dispatchEvent(new CustomEvent('liked:updated', { detail: { count } }));
       toast.success('Товар удалён из избранного');
     } else {
       // Добавляем товар
       likedData.products.push(product);
       localStorage.setItem('liked', JSON.stringify(likedData));
       setIsFavorite(true);
+      const count = likedData.products.length;
+      window.dispatchEvent(new CustomEvent('liked:updated', { detail: { count } }));
+      window.dispatchEvent(new CustomEvent('liked:itemAdded', { detail: { name: product.name, imageUrl: mainImage } }));
       toast.success('Товар добавлен в избранное');
     }
   };
@@ -238,118 +243,116 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Dimensions */}
-            <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-12">
-              {product.height && <span className="text-base sm:text-xl">{product.height}</span>}
-              {product.length && product.height && <span className="text-base sm:text-xl">×</span>}
-              {product.length && <span className="text-base sm:text-xl">{product.length}</span>}
-              {product.width && (product.height || product.length) && <span className="text-base sm:text-xl">×</span>}
-              {product.width && <span className="text-base sm:text-xl">{product.width}</span>}
-              {product.diameter && (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs sm:text-sm text-gray-600">⌀</span>
-                  <span className="text-base sm:text-xl">{product.diameter}</span>
-                </div>
-              )}
+            <div className="mb-6 sm:mb-12">
+              <h3 className="text-sm font-semibold mb-3 text-gray-900">Размеры</h3>
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                {product.height && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Высота:</span>
+                    <span className="font-medium">{product.height} мм</span>
+                  </div>
+                )}
+                {product.length && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Длина:</span>
+                    <span className="font-medium">{product.length} мм</span>
+                  </div>
+                )}
+                {product.width && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Ширина:</span>
+                    <span className="font-medium">{product.width} мм</span>
+                  </div>
+                )}
+                {product.diameter && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Диаметр:</span>
+                    <span className="font-medium">{product.diameter} мм</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Specifications */}
-            <div className="space-y-4 sm:space-y-6">
-              {product.lightStyle && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Стиль</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.lightStyle}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-900">Характеристики</h3>
+              
+              <div className="grid grid-cols-1 gap-3">
+                {product.lightStyle && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Стиль</span>
+                    <span className="text-sm font-medium text-gray-900">{product.lightStyle}</span>
+                  </div>
+                )}
 
-              {product.lampType && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Тип лампы</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.lampType}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.lampType && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Тип лампы</span>
+                    <span className="text-sm font-medium text-gray-900">{product.lampType}</span>
+                  </div>
+                )}
 
-              {product.color && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Цвет</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.color}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.color && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Цвет</span>
+                    <span className="text-sm font-medium text-gray-900">{product.color}</span>
+                  </div>
+                )}
 
-              {product.socketType && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Цоколь</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.socketType}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.socketType && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Цоколь</span>
+                    <span className="text-sm font-medium text-gray-900">{product.socketType}</span>
+                  </div>
+                )}
 
-              {product.lampsCount && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Количество ламп</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.lampsCount}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.lampsCount && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Количество ламп</span>
+                    <span className="text-sm font-medium text-gray-900">{product.lampsCount} шт</span>
+                  </div>
+                )}
 
-              {product.lampPower && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Мощность лампы, Вт</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.lampPower}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.lampPower && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Мощность лампы</span>
+                    <span className="text-sm font-medium text-gray-900">{product.lampPower} Вт</span>
+                  </div>
+                )}
 
-              {product.totalPower && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Общая мощность, Вт</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.totalPower}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.totalPower && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Общая мощность</span>
+                    <span className="text-sm font-medium text-gray-900">{product.totalPower} Вт</span>
+                  </div>
+                )}
 
-              {product.voltage && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Напряжение, В</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.voltage}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.voltage && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Напряжение</span>
+                    <span className="text-sm font-medium text-gray-900">{product.voltage} В</span>
+                  </div>
+                )}
 
-              {product.material && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Материал</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.material}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
+                {product.material && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Материал</span>
+                    <span className="text-sm font-medium text-gray-900">{product.material}</span>
+                  </div>
+                )}
 
-              <div>
-                <p className="text-xs sm:text-sm mb-2">Цветовая температура, К</p>
-                <div className="h-px bg-gray-200"></div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-sm text-gray-600">Степень защиты</span>
+                  <span className="text-sm font-medium text-gray-900">IP 20</span>
+                </div>
+
+                {product.source && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-600">Производитель</span>
+                    <span className="text-sm font-medium text-gray-900">{product.source}</span>
+                  </div>
+                )}
               </div>
-
-              <div>
-                <p className="text-xs sm:text-sm mb-2">Мощность, Вт</p>
-                <p className="text-xs sm:text-sm text-gray-600">36</p>
-                <div className="h-px bg-gray-200"></div>
-              </div>
-
-              <div>
-                <p className="text-xs sm:text-sm mb-2">Степень защиты</p>
-                <p className="text-xs sm:text-sm text-gray-600">IP 20</p>
-                <div className="h-px bg-gray-200"></div>
-              </div>
-
-              {product.source && (
-                <div>
-                  <p className="text-xs sm:text-sm mb-2">Источник</p>
-                  <p className="text-xs sm:text-sm text-gray-600">{product.source}</p>
-                  <div className="h-px bg-gray-200"></div>
-                </div>
-              )}
             </div>
 
             {/* Price and Action */}
@@ -359,6 +362,31 @@ const ProductDetail: React.FC = () => {
                   {new Intl.NumberFormat('ru-RU').format(product.price)} ₽
                 </span>
                 <span className="text-xs sm:text-sm text-gray-600">В наличии: {product.stock}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    try {
+                      const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
+                      const idx = cart.products.findIndex((item: any) => item.article === product.article);
+                      if (idx > -1) cart.products[idx].quantity += 1;
+                      else cart.products.push({ article: product.article, source: product.source, name: product.name, quantity: 1, price: product.price, imageUrl: mainImage || (Array.isArray(product.imageAddress) ? product.imageAddress[0] : (typeof product.imageAddress === 'string' ? product.imageAddress : undefined)) });
+                      localStorage.setItem('cart', JSON.stringify(cart));
+                      const count = cart.products.length;
+                      localStorage.setItem('cartCount', String(count));
+                      window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
+                      window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: product.name, price: product.price, imageUrl: mainImage } }));
+                      toast.success('Товар добавлен в корзину');
+                    } catch (err) {
+                      console.error('Ошибка добавления в корзину со страницы товара', err);
+                      toast.error('Ошибка');
+                    }
+                  }}
+                  className="px-5 py-3 bg-black text-white rounded-lg hover:bg-gray-900"
+                >
+                  В корзину
+                </button>
+                <a href="/cart" className="text-sm text-gray-700 underline">Перейти в корзину</a>
               </div>
             </div>
           </div>

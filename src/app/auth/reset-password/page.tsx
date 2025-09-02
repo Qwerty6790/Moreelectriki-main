@@ -41,7 +41,7 @@ const Recover: React.FC = () => {
         <h1 className="text-3xl font-bold text-black text-center mb-6">MoreElectriki</h1>
         <p className="text-3xl font-bold text-black text-center mb-6">Восстановить пароль по почте</p>
         
-        {errorMessage && <p className="text-red-900 text-center">{errorMessage}</p>}
+        {errorMessage && <p className="text-gray-900 text-center">{errorMessage}</p>}
         {successMessage && <p className="text-green-900 text-center">{successMessage}</p>}
 
         <form onSubmit={handleSubmit}>

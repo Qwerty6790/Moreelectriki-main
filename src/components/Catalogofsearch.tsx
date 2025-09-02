@@ -176,8 +176,12 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
                           const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
                           const idx = cart.products.findIndex((item: any) => item.article === product.article);
                           if (idx > -1) cart.products[idx].quantity += 1;
-                          else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, imageUrl: mainImage });
+                          else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, price: product.price, imageUrl: mainImage });
                           localStorage.setItem('cart', JSON.stringify(cart));
+                          const count = cart.products.length;
+                          localStorage.setItem('cartCount', String(count));
+                          window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
+                          window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: product.name, price: product.price, imageUrl: mainImage } }));
                           toast.success('Товар добавлен');
                         } catch (err) { console.error('Ошибка добавления в корзину (table):', err); toast.error('Ошибка'); }
                       }}
@@ -242,8 +246,12 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
         const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
         const idx = cart.products.findIndex((item: any) => item.article === product.article);
         if (idx > -1) cart.products[idx].quantity += 1;
-        else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, imageUrl: targetImageSrc });
+        else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, price: product.price, imageUrl: targetImageSrc });
         localStorage.setItem('cart', JSON.stringify(cart));
+        const count = cart.products.length;
+        localStorage.setItem('cartCount', String(count));
+        window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
+        window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: product.name, price: product.price, imageUrl: targetImageSrc } }));
         toast.success('Товар добавлен');
       } catch (err) { console.error('Ошибка добавления в корзину (grid):', err); toast.error('Ошибка'); }
     }, [product, targetImageSrc, isPurchasable]); 

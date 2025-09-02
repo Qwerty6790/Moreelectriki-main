@@ -14,9 +14,17 @@ const Cart: React.FC = () => {
   const [cartProducts, setCartProducts] = useState<ProductI[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState<number>(0);
-  const [isOnlinePaymentModalOpen, setIsOnlinePaymentModalOpen] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
+  const [deliveryMethod, setDeliveryMethod] = useState<'delivery' | 'pickup'>('delivery');
+  const [contactName, setContactName] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [comment, setComment] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Загрузка товаров корзины и проверка авторизации
   useEffect(() => {
@@ -60,6 +68,7 @@ const Cart: React.FC = () => {
     setCartCount(updatedProducts.length);
     localStorage.setItem('cartCount', updatedProducts.length.toString());
     setCartProducts(updatedProducts);
+    try { window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count: updatedProducts.length } })); } catch {}
   };
 
   // Удаление продукта (уменьшение количества или полное удаление)
@@ -120,44 +129,99 @@ const Cart: React.FC = () => {
     }
   };
 
-  // Логика оформления заказа
+  // Логика оформления заказа (гость или авторизованный)
   const confirmOrder = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      toast.error('Необходимо войти в систему для оформления заказа');
+    if (!contactName.trim() || !contactPhone.trim()) {
+      toast.error('Укажите имя и телефон');
       return;
     }
 
+    const token = localStorage.getItem('token');
     const products = cartProducts.map((product) => ({
       name: product.name,
       article: product.article,
       source: product.source,
-              quantity: product.quantity ?? 0,
+      quantity: product.quantity ?? 0,
       price: product.price || 0,
     }));
 
+    const payload: any = {
+      products,
+      contactName,
+      contactPhone,
+      contactEmail: contactEmail || undefined,
+      deliveryMethod,
+      paymentMethod,
+      address: deliveryMethod === 'delivery' ? address : 'pickup',
+      comment: comment || undefined,
+      isGuest: !token,
+    };
+
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Bearer ${token}`;
+
     try {
-      await axios.post(
+      setIsSubmitting(true);
+      const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/orders/add-order`,
-        { products },
-        { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` } }
+        payload,
+        { headers }
       );
+
+      // Если бэк вернул ссылку на оплату — редиректим
+      if (paymentMethod === 'online') {
+        const paymentUrl =
+          data?.confirmation?.confirmation_url || data?.paymentUrl || data?.url || data?.redirectUrl;
+        if (paymentUrl) {
+          window.location.href = paymentUrl;
+          return;
+        }
+      }
+
       toast.success('Заказ успешно создан!');
       handleClearCart();
-      setIsOnlinePaymentModalOpen(false);
-      router.push('/orders');
+      setIsCheckoutModalOpen(false);
+      if (token) {
+        router.push('/orders');
+      } else {
+        router.push('/');
+      }
     } catch (error) {
       console.error('Ошибка при создании заказа:', error);
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
-          toast.error('Пожалуйста, войдите в аккаунт заново.');
-          localStorage.removeItem('token');
+          // Пробуем как гость без токена (если вдруг заглючил локальный токен)
+          try {
+            const { data } = await axios.post(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/orders/add-order`,
+              { ...payload, isGuest: true },
+              { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            if (paymentMethod === 'online') {
+              const paymentUrl =
+                data?.confirmation?.confirmation_url || data?.paymentUrl || data?.url || data?.redirectUrl;
+              if (paymentUrl) {
+                window.location.href = paymentUrl;
+                return;
+              }
+            }
+
+            toast.success('Заказ успешно создан!');
+            handleClearCart();
+            setIsCheckoutModalOpen(false);
+            router.push('/');
+          } catch (guestErr) {
+            toast.error('Ошибка при создании заказа. Повторите попытку.');
+          }
         } else {
           toast.error('Ошибка при создании заказа. Повторите попытку.');
         }
       } else {
         toast.error('Произошла неизвестная ошибка.');
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -338,14 +402,7 @@ const Cart: React.FC = () => {
                           </div>
                         </div>
                         
-                        <div className="mt-4 pt-3 border-t border-gray-100">
-                          <div className="flex items-center gap-2">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-                            <label className="text-sm text-gray-600">
-                              Рассчитать стоимость сборки и установки
-                            </label>
-                          </div>
-                        </div>
+                       
                       </motion.div>
                     );
                   })}
@@ -373,12 +430,9 @@ const Cart: React.FC = () => {
                       <span className="text-2xl font-bold text-black">ИТОГО</span>
                       <span className="text-2xl font-bold text-black">{totalToPay.toLocaleString()} ₽</span>
                     </div>
-                    <div className="mb-8 p-4 bg-green-50 rounded-lg flex items-center gap-3 text-sm">
-                      <span className="text-black/70">Вернется бонусами:</span>
-                      <span className="bg-green-500 text-white px-2 py-1 rounded font-medium">0₽</span>
-                    </div>
+                   
                     <button
-                      onClick={() => setIsOnlinePaymentModalOpen(true)}
+                      onClick={() => setIsCheckoutModalOpen(true)}
                       className="w-full py-4 bg-black text-white text-center font-medium rounded-xl hover:bg-gray-900 transition-all shadow-md hover:shadow-lg text-lg"
                     >
                       ОФОРМИТЬ ЗАКАЗ
@@ -394,57 +448,94 @@ const Cart: React.FC = () => {
         </div>
       </div>
 
-      {/* Модальное окно оплаты */}
-      {isOnlinePaymentModalOpen && (
-        <motion.div 
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      {/* Модальное окно оформления заказа (гость/аккаунт, оплата/самовывоз) */}
+      {isCheckoutModalOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          onClick={() => setIsOnlinePaymentModalOpen(false)}
+          onClick={() => setIsCheckoutModalOpen(false)}
         >
-          <motion.div 
-            className="bg-white rounded-2xl p-8 max-w-md w-full"
+          <motion.div
+            className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-lg md:max-w-2xl lg:max-w-3xl"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'spring', damping: 25 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-2xl font-bold mb-6 text-black">Подтверждение оплаты</h3>
-            <div className="space-y-6 mb-8">
-              <div className="p-4 bg-gray-50 rounded-xl space-y-2">
-                <p className="text-black">Адрес получения:</p>
-                <p className="text-lg font-medium text-black">
-                  Деревня Исаково 103А Истринский район
-                </p>
+            <h3 className="text-xl font-bold mb-3 text-black">Оформление заказа</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <div className="grid grid-cols-1 gap-2.5">
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">Имя*</label>
+                  <input value={contactName} onChange={(e) => setContactName(e.target.value)} placeholder="Ваше имя" className="border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-black text-sm" />
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">Телефон*</label>
+                  <input value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} placeholder="+7 (___) ___-__-__" className="border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-black text-sm" />
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">E-mail</label>
+                  <input value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="name@mail.ru" className="border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-black text-sm" />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">Способ получения</label>
+                  <div className="flex flex-wrap gap-2">
+                    <button onClick={() => setDeliveryMethod('delivery')} className={`px-3 py-1.5 rounded-lg border text-sm ${deliveryMethod === 'delivery' ? 'bg-black text-white border-black' : 'border-gray-300 text-black'}`}>Доставка</button>
+                    <button onClick={() => setDeliveryMethod('pickup')} className={`px-3 py-1.5 rounded-lg border text-sm ${deliveryMethod === 'pickup' ? 'bg-black text-white border-black' : 'border-gray-300 text-black'}`}>Самовывоз</button>
+                  </div>
+                </div>
+
+                {deliveryMethod === 'delivery' ? (
+                  <div className="grid grid-cols-1 gap-2">
+                    <label className="text-sm text-black/70">Адрес доставки</label>
+                    <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Город, улица, дом, квартира" className="border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-black text-sm" />
+                  </div>
+                ) : (
+                  <div className="p-4 bg-gray-50 rounded-xl">
+                    <p className="text-sm text-black/70">Адрес самовывоза:</p>
+                    <p className="text-black font-medium mt-1">Деревня Исаково 103А, Истринский район</p>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl">
-                <svg
-                  className="w-5 h-5 text-black"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c1.657 0 3-1.343 3-3V5a3 3 0 00-6 0v3c0 1.657 1.343 3 3 3z"></path>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z"></path>
-                </svg>
-                <div>
-                  <p className="font-medium text-black">Безопасный платеж</p>
-                  <p className="text-sm text-black">Оплата через YooKassa</p>
+
+              <div className="grid grid-cols-1 gap-2.5">
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">Способ оплаты</label>
+                  <div className="flex flex-wrap gap-2">
+                    <button onClick={() => setPaymentMethod('online')} className={`px-3 py-1.5 rounded-lg border text-sm ${paymentMethod === 'online' ? 'bg-black text-white border-black' : 'border-gray-300 text-black'}`}>Онлайн оплата</button>
+                    <button onClick={() => setPaymentMethod('cod')} className={`px-3 py-1.5 rounded-lg border text-sm ${paymentMethod === 'cod' ? 'bg-black text-white border-black' : 'border-gray-300 text-black'}`}>Без предоплаты</button>
+                  </div>
+                  {paymentMethod === 'online' && (
+                    <div className="flex items-center gap-2.5 p-2 border border-gray-200 rounded-xl mt-2">
+                      <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" d="M12 11c1.657 0 3-1.343 3-3V5a3 3 0 00-6 0v3c0 1.657 1.343 3 3 3z"></path><path strokeLinecap="round" strokeLinejoin="round" d="M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z"></path></svg>
+                      <div>
+                        <p className="font-medium text-black text-sm">Безопасный платеж</p>
+                        <p className="text-xs text-black">Оплата через YooKassa</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <label className="text-sm text-black/70">Комментарий к заказу</label>
+                  <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Пожелания, удобное время звонка..." className="border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-black min-h-[56px] text-sm" />
                 </div>
               </div>
             </div>
-            <div className="flex gap-4">
+
+            <div className="flex gap-3">
               <button
                 onClick={confirmOrder}
-                className="flex-1 py-4 bg-black text-white rounded-xl hover:bg-gray-900 transition-all duration-300 font-medium"
+                disabled={isSubmitting}
+                className="flex-1 py-2.5 bg-black text-white rounded-xl hover:bg-gray-900 transition-all duration-300 font-medium disabled:opacity-60 text-sm"
               >
-                Оплатить
+                {isSubmitting ? 'Отправляем...' : paymentMethod === 'online' ? 'Перейти к оплате' : 'Оформить без предоплаты'}
               </button>
               <button
-                onClick={() => setIsOnlinePaymentModalOpen(false)}
-                className="flex-1 py-4 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-all duration-300 font-medium"
+                onClick={() => setIsCheckoutModalOpen(false)}
+                className="flex-1 py-2.5 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-all duration-300 font-medium text-sm"
               >
                 Отмена
               </button>

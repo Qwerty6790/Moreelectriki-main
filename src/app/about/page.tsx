@@ -140,29 +140,7 @@ const About = () => {
             backgroundPosition: 'center 30%'
           }}
         >
-          <div className="absolute inset-0 " />
-          <div className="relative container mx-auto px-4 h-full flex items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-3xl mx-auto text-center text-black"
-            >
-              <Gem className="w-16 h-16 mx-auto mb-8 text-black" />
-              <h1 className="text-5xl font-black mb-6 drop-shadow-lg">
-                Искусство света
-              </h1>
-              <p className="text-xl text-black leading-relaxed mb-8 drop-shadow-md">
-                Мы создаем неповторимую атмосферу в вашем доме с помощью эксклюзивных светильников и профессиональных решений по освещению
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-black text-white px-8 py-4 rounded-lg font-medium hover:bg-yellow-300 transition-colors backdrop-blur-sm"
-              >
-                Получить консультацию
-              </motion.button>
-            </motion.div>
-          </div>
+          
         </div>
       </div>
 

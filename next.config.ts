@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-icons'],
   },
+  async rewrites() {
+    return [
+      { source: '/catalog', destination: '/osveheny' },
+      { source: '/catalog/:slug*', destination: '/osveheny/:slug*' },
+    ];
+  },
+  async redirects() {
+    return [
+      { source: '/osveheny', destination: '/catalog', permanent: false },
+      { source: '/osveheny/:slug*', destination: '/catalog/:slug*', permanent: false },
+    ];
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {

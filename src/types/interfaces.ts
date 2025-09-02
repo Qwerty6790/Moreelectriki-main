@@ -1,33 +1,33 @@
 import { ReactNode } from 'react';
 
 export interface ProductI {
-  [x: string]: ReactNode;
   _id: string;
   article: string;
   name: string;
+  source: string;
+  stock: number; // храним как число, для совместимости можно маппить на строку при выводе
   price: number;
-  imageAddress: string | string[]; // Ссылка на изображение (строка или массив строк)
-  stock: number; // Количество на складе
-  source: string; // Источник данных
-  visible?: boolean; // Видимость товара (для админки)
-  quantity?: number; // Для корзины
+  imageAddress?: string | string[];   // старое поле для API
+  imageAddresses?: string[];           // всегда массив строк
+  visible?: boolean;                  // видимость товара
+  isHidden?: boolean;                 // альтернативный вариант visible
+  quantity: number;
 
-  // Размеры
-  height?: number; // Высота (мм)
-  length?: number; // Длина (мм)
-  width?: number;  // Ширина (мм)
-  diameter?: number; // Диаметр (мм)
+  // новые поля для светильников
+  socketType?: string; // тип цоколя (E27, GU10 и т.д.)
+  lampCount?: number;  // количество ламп
+  shadeColor?: string; // цвет плафона
+  frameColor?: string; // цвет арматуры
   
-  // Характеристики светильника
-  lightStyle?: string; // Стиль светильника (современный, классический, минимализм и т.д.)
-  lampType?: string; // Вид лампы (LED, галогенная, накаливания и т.д.)
-  color?: string; // Цвет
-  socketType?: string; // Цоколь (E27, E14, GU10 и т.д.)
-  lampsCount?: number; // Количество ламп
-  lampPower?: number; // Мощность лампы (Вт)
-  totalPower?: number; // Общая мощность (Вт)
-  voltage?: number; // Напряжение (В)
-  material?: string; // Материал (металл, пластик, стекло и т.д.)
+  // поля для фильтрации
+  isNew?: boolean | string; // является ли товар новинкой
+  inStock?: boolean | string; // в наличии ли товар
+  outOfStock?: boolean | string; // товар под заказ
+  createdAt?: string | Date; // дата создания товара
+  updatedAt?: string | Date; // дата обновления товара
+  
+  // для любых дополнительных динамических полей (старые поля)
+  [key: string]: any;
 }
 
 export interface OrderI {
