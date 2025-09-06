@@ -882,7 +882,11 @@ const Header = () => {
 
           {/* Мобильное меню (портал) */}
           {typeof window !== 'undefined' && isMobileMenuOpen && createPortal(
-            <div id="mobile-menu" className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto min-h-[100dvh] pb-[env(safe-area-inset-bottom)]">
+            <div
+              id="mobile-menu"
+              className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto h-[100dvh] pb-[env(safe-area-inset-bottom)]"
+              style={{ height: '100dvh', paddingBottom: 'env(safe-area-inset-bottom)' }}
+            >
               <div className="max-w-8xl mx-auto px-4 py-4 min-h-full">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
                 <div className="flex items-center justify-between py-3 border-b border-gray-700">
