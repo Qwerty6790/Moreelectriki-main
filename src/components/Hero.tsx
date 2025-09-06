@@ -197,7 +197,7 @@ export default function Banner() {
   const videoBanners: VideoBanner[] = [
     { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
     { id: 3, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny5.jpeg' },
-    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersosveheniy.jpg' },
+    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersopenspace.jpg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
@@ -318,11 +318,11 @@ export default function Banner() {
         </div>
 
         {/* Контент баннера */}
-        <div className="relative w-full h-full">
-        <div className="absolute inset-0 flex items-start md:items-center justify-start px-4 md:px-44 z-20">
+        <div className="relative  w-full h-full">
+        <div className="absolute mt-20  max-lg:mt-52   inset-0 flex items-start md:items-center justify-start px-4 md:px-44 z-20">
           <div className="max-w-3xl">
             <h1
-              className={`text-left text-3xl md:text-7xl font-bold mb-3 ${
+              className={`text-left text-5xl md:text-7xl font-bold  ${
                 currentBanner.textColor === 'white' ? 'text-white' : 'text-black'
               } ${titleVisible ? 'heading-animate heading-visible' : 'heading-animate'}`}
             >
