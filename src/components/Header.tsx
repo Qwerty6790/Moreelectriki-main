@@ -880,13 +880,13 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Мобильное меню */}
-          {isMobileMenuOpen && (
+          {/* Мобильное меню (портал) */}
+          {typeof window !== 'undefined' && isMobileMenuOpen && createPortal(
             <div id="mobile-menu" className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto">
-            <div className="max-w-8xl mx-auto px-4 py-4">
+              <div className="max-w-8xl mx-auto px-4 py-4">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
-              <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                <a href="/" style={{ letterSpacing: '0.4em' }} className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
+                <div className="flex items-center justify-between py-3 border-b border-gray-700">
+                  <a href="/" style={{ letterSpacing: '0.4em' }} className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-800"
@@ -895,14 +895,14 @@ const Header = () => {
                   </button>
                 </div>
 
-              {/* Навигация */}
-              <div className="mt-2">
-                <div className="flex  flex-col space-y-0">
+                {/* Навигация */}
+                <div className="mt-2">
+                  <div className="flex  flex-col space-y-0">
                     <button
                       onClick={() => setIsMobileCatalogOpen((v) => !v)}
                       className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white hover:bg-gray-800 rounded-lg"
                     >
-                    <span>КАТАЛОГ</span>
+                      <span>КАТАЛОГ</span>
                       <span className="text-white/60 text-sm">{isMobileCatalogOpen ? '−' : '+'}</span>
                     </button>
                     {isMobileCatalogOpen && (
@@ -938,7 +938,7 @@ const Header = () => {
                         ))}
                       </div>
                     )}
-                  <a href="/about" className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg">О нас</a>
+                    <a href="/about" className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg">О нас</a>
                     <a 
                       href="/brands"
                       className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg"
@@ -966,7 +966,8 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>,
+            document.body
           )}
         </header>
       </div>
