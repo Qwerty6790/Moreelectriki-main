@@ -5,7 +5,7 @@ import { Phone, Mail, MessageCircle } from 'lucide-react';
 const Footer = () => {
   return (
     <footer className=" text-black py-8 border-t border-gray-100">
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="container mx-auto px-4 max-w-[1550px]">
         {/* Main Footer Content - Compact Version */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10">
         <h3 className="text-black font-medium text-2xl  mb-3">MoreElecriki</h3>

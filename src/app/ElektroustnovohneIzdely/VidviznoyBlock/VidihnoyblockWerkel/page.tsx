@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { ProductI } from '@/types/interfaces';
-import CatalogOfProductSearch from '@/components/catalogofsearch';
+import CatalogOfProductSearch from '@/components/Catalogofsearch';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import PaginationComponents from '@/components/PaginationComponents';
 import { NEXT_PUBLIC_API_URL } from '@/utils/constants';

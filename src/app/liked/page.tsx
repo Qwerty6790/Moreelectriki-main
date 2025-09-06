@@ -90,7 +90,7 @@ const Liked: React.FC = () => {
 
   return (
     <motion.section
-      className="min-h-screen bg-gray-50"
+      className="min-h-screen bg-white"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -98,10 +98,10 @@ const Liked: React.FC = () => {
       <Toaster position="top-center" richColors />
 
       {/* Hero секция */}
-      <div className="relative mt-32 h-[300px] bg-black overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
+      <div className="relative mt-32 h-[300px]  overflow-hidden">
+        <div className="relative max-w-[1550px] mx-auto px-4 h-full flex items-center">
           <div className="space-y-4">
-            <h1 className="text-7xl font-bold text-white tracking-tight">Избранное</h1>
+            <h1 className="text-7xl font-bold text-black tracking-tight">Избранное</h1>
             <div className="flex items-center text-black/60 text-sm">
               <Link href="/" className="hover:text-black transition-colors">
                 Главная
@@ -114,7 +114,7 @@ const Liked: React.FC = () => {
       </div>
 
       {/* Основной контент */}
-      <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-10 pb-20">
+      <div className="max-w-[1550px] mx-auto px-4 -mt-10 relative z-10 pb-20">
         {loading ? (
           <div className="bg-white rounded-2xl shadow-xl p-12 flex justify-center">
             <ClipLoader color="#000000" size={40} />

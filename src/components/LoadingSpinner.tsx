@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface LoadingSpinnerProps {
+  isLoading?: boolean;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   text?: string;
   showText?: boolean;

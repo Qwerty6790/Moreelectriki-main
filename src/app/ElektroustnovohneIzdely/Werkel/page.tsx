@@ -26,6 +26,7 @@ interface WerkelSeries {
   url?: string;
   colors: Color[];
   frames?: Frame[];
+  previewImages?: string[];
 }
 
 // Все серии Werkel из name.tsx
@@ -34,23 +35,24 @@ const werkelSeriesData: WerkelSeries[] = [
     id: 'info-sockets-werkel',
     name: 'Встраиваемая серия',
     image: '/images/series/werkel.webp',
+    previewImages: ['/images/series/seriesvstraivayemay.webp','/images/series/seriesvstraivayemay2.webp','/images/series/seriesvstraivayemay3.webp'],
     colors: [
-      { id: 'Белое глянцевое', name: 'Белое глянцевое', image: '/images/colors/белыйглянцевыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/white-gloss', description: 'Элегантный глянцевый белый — идеален для современных интерьеров, легко очищается и визуально расширяет пространство.' },
-      { id: 'Черный матовый', name: 'Черный матовый', image: '/images/colors/черныйматовыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/black-matte', description: 'Роскошный матовый чёрный — устойчив к отпечаткам, создаёт глубокий контраст в интерьере.' },
-      { id: 'Белый акрил', name: 'Белый акрил', image: '/images/colors/белыйакрилWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/white-acrylic', description: 'Прочный акриловый белый с мягким световым отражением — приятен на ощупь и долговечен.' },
-      { id: 'Серебряный матовый', name: 'Серебряный матовый', image: '/images/colors/серебряныйматовыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/silver-matte', description: 'Стильный серебристый мат — добавляет сдержанной элегантности и хорошо сочетается с металлами.' },
-      { id: 'Серебряный рифленый', name: 'Серебряный рифленый', image: '/images/colors/серебряныйрифленыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/silver-corrugated', description: 'Текстурированный серебристый — скрывает мелкие дефекты и добавляет тактильности.' },
-      { id: 'Никель рифленый глянцевый', name: 'Никель рифленый глянцевый', image: '/images/colors/никельрифленыйглянцевыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/nickel-corrugated-gloss', description: 'Никелевый глянец с рифлением — роскошный акцент, создаёт богатую игру света.' },
-      { id: 'Айвори матовый', name: 'Айвори матовый', image: '/images/colors/айвориматовыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/ivory-matte', description: 'Теплый айвори в матовом исполнении — мягкий и уютный выбор для жилых пространств.' },    
-      { id: 'Айвори акрил', name: 'Айвори акрил', image: '/images/colors/айвориакрилWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/ivory-acrylic', description: 'Акриловый айвори — гигиеничный и лёгкий в уходе, с приятным блеском.' },
-      { id: 'Слоновая кость глянцевый', name: 'Слоновая кость глянцевый', image: '/images/colors/слоноваякостьгялнцевыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/ivory-gloss', description: 'Классическая слоновая кость с глянцем — нейтральный, но благородный вариант.' },
-      { id: 'Шампань металлик', name: 'Шампань металлик', image: '/images/colors/шампаньметалликWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/champagne-metallic', description: 'Шампань с металлическим отблеском — тёплый металлический оттенок для роскошных интерьеров.' },
-      { id: 'Шампань рифленый', name: 'Шампань рифленый', image: '/images/colors/шампаньрифленыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/champagne-corrugated', description: 'Рифлёный шампань — практичен и визуально интересен за счёт текстуры.' },
-      { id: 'Бронза глянцевый', name: 'Бронза глянцевый', image: '/images/colors/бронзаглянцевыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/bronze-corrugated', description: 'Тёплая бронза в глянце — создаёт уют и стильный винтажный акцент.' },
-      { id: 'Графит акрил', name: 'Графит акрил', image: '/images/colors/графитакрилWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/graphite-acrylic', description: 'Акриловый графит — глубокий оттенок с современным характером и гладкой поверхностью.' },
-      { id: 'Графит матовый', name: 'Графит матовый', image: '/images/colors/графитматовыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/graphite-matte', description: 'Матовый графит — минималистичный и практичный, отлично скрывает следы.' },
-      { id: 'Графит рифленый', name: 'Графит рифленый', image: '/images/colors/графитрифленыйWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/graphite-corrugated', description: 'Рифлёный графит добавляет глубины и тактильности дизайну.' },
-      { id: 'Черный акрил', name: 'Черный акрил', image: '/images/colors/черныйакрилWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/black-acrylic', description: 'Гладкий чёрный акрил — современный, устойчивый к царапинам и легко чистится.' },
+      { id: 'Белое глянцевое', name: 'Белое глянцевое', image: '/images/colors/белыйглянцевыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/white-gloss', description: 'Элегантный глянцевый белый — идеален для современных интерьеров, легко очищается и визуально расширяет пространство.' },
+      { id: 'Черный матовый', name: 'Черный матовый', image: '/images/colors/черныйматовыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/black-matte', description: 'Роскошный матовый чёрный — устойчив к отпечаткам, создаёт глубокий контраст в интерьере.' },
+      { id: 'Белый акрил', name: 'Белый акрил', image: '/images/colors/белыйакрилWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/white-acrylic', description: 'Прочный акриловый белый с мягким световым отражением — приятен на ощупь и долговечен.' },
+      { id: 'Серебряный матовый', name: 'Серебряный матовый', image: '/images/colors/серебряныйматовыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/silver-matte', description: 'Стильный серебристый мат — добавляет сдержанной элегантности и хорошо сочетается с металлами.' },
+      { id: 'Серебряный рифленый', name: 'Серебряный рифленый', image: '/images/colors/серебряныйрифленыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/silver-corrugated', description: 'Текстурированный серебристый — скрывает мелкие дефекты и добавляет тактильности.' },
+      { id: 'Никель рифленый глянцевый', name: 'Никель рифленый глянцевый', image: '/images/colors/никельрифленыйглянцевыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/nickel-corrugated-gloss', description: 'Никелевый глянец с рифлением — роскошный акцент, создаёт богатую игру света.' },
+      { id: 'Айвори матовый', name: 'Айвори матовый', image: '/images/colors/айвориматовыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/ivory-matte', description: 'Теплый айвори в матовом исполнении — мягкий и уютный выбор для жилых пространств.' },    
+      { id: 'Айвори акрил', name: 'Айвори акрил', image: '/images/colors/айвориакрилWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/ivory-acrylic', description: 'Акриловый айвори — гигиеничный и лёгкий в уходе, с приятным блеском.' },
+      { id: 'Слоновая кость глянцевый', name: 'Слоновая кость глянцевый', image: '/images/colors/слоноваякостьгялнцевыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/ivory-gloss', description: 'Классическая слоновая кость с глянцем — нейтральный, но благородный вариант.' },
+      { id: 'Шампань металлик', name: 'Шампань металлик', image: '/images/colors/шампаньметалликWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/champagne-metallic', description: 'Шампань с металлическим отблеском — тёплый металлический оттенок для роскошных интерьеров.' },
+      { id: 'Шампань рифленый', name: 'Шампань рифленый', image: '/images/colors/шампаньрифленыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/champagne-corrugated', description: 'Рифлёный шампань — практичен и визуально интересен за счёт текстуры.' },
+      { id: 'Бронза глянцевый', name: 'Бронза глянцевый', image: '/images/colors/бронзаглянцевыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/bronze-corrugated', description: 'Тёплая бронза в глянце — создаёт уют и стильный винтажный акцент.' },
+      { id: 'Графит акрил', name: 'Графит акрил', image: '/images/colors/графитакрилWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/graphite-acrylic', description: 'Акриловый графит — глубокий оттенок с современным характером и гладкой поверхностью.' },
+      { id: 'Графит матовый', name: 'Графит матовый', image: '/images/colors/графитматовыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/graphite-matte', description: 'Матовый графит — минималистичный и практичный, отлично скрывает следы.' },
+      { id: 'Графит рифленый', name: 'Графит рифленый', image: '/images/colors/графитрифленыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/graphite-corrugated', description: 'Рифлёный графит добавляет глубины и тактильности дизайну.' },
+      { id: 'Черный акрил', name: 'Черный акрил', image: '/images/colors/черныйакрилWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/black-acrylic', description: 'Гладкий чёрный акрил — современный, устойчивый к царапинам и легко чистится.' },
     ],
     frames: [
       { id: 'Черная латунь', name: 'Черная латунь', image: '/images/frames/черныйлатуньрамкаWerkel.webp', url: '/catalog/products?category=(черный/латунь)&page=1&subcategory=&source=Werkel&exclude_name=Vintage,Ретро,Gallant,Выключатель,Розетка' },
@@ -77,7 +79,8 @@ const werkelSeriesData: WerkelSeries[] = [
   {
     id: 'gallant',
     name: 'Серия Gallant',
-    image: '/images/series/gallant.png',
+    image: '/images/series/seriesnaklandnoy3.png',
+    previewImages: ['/images/series/gallant.png','/images/series/seriesnaklandnoy.png','/images/series/seriesnaklandnoy2.png', ],
     colors: [
       { id: 'Графит рифленый', name: 'Графит рифленый', image: '/images/colors/графитрифленыйGallant.webp', url: '/ElektroustnovohneIzdely/Werkel/gallant-graphite-corrugated' },
       { id: 'Черный хром', name: 'Черный хром', image: '/images/colors/черныйхромGallant.webp', url: '/ElektroustnovohneIzdely/Werkel/gallant-black-chrome' },
@@ -91,15 +94,17 @@ const werkelSeriesData: WerkelSeries[] = [
     id: 'retro',
     name: 'Серия Retro',
     image: '/images/series/retro.png',
+    previewImages: ['/images/series/seriesretro3.png','/images/series/seriesretro4.png','/images/series/seriesretro2.png',],
     colors: [
-      { id: 'Металлическое', name: 'Металлическое', image: '/images/colors/ретрометалическоеWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/retro-metallic' },
-      { id: 'Керамическое', name: 'Керамическое', image: '/images/colors/ретрокерамическоеWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/retro-ceramic' },
+      { id: 'Металлическое', name: 'Металлическое', image: '/images/colors/ретрометалическоеWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/retro-metallic' },
+      { id: 'Керамическое', name: 'Керамическое', image: '/images/colors/ретрокерамическоеWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/retro-ceramic' },
     ],
   },
   {
     id: 'vintage',
     name: 'Серия Vintage',
     image: '/images/series/vintage.png',
+    previewImages: ['/images/series/serisvintage3.png','/images/series/serisvintage2.png','/images/series/serisvintage4.png'],
     colors: [
       { id: 'Черный матовый', name: 'Черный матовый', image: '/images/colors/черныйматовыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-black-matte' },
       { id: 'Мокко матовый хром', name: 'Мокко матовый хром', image: '/images/colors/моккоматоыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-mokko-chrome' },
@@ -186,30 +191,12 @@ const WerkelPage: React.FC = () => {
         <meta name="description" content="Изучите коллекции Werkel - от классического винтажа до современных матовых серий. Качественные электроустановочные изделия для вашего интерьера." />
       </Head>
 
-      {/* Full-width banner */}
-      <div className="w-full">
-        <div
-          className="relative w-full h-64 md:h-96 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${selectedSeries?.id === 'info-sockets-werkel' ? '/images/banners/bannersWerkel.png' : (selectedSeries ? selectedSeries.image : '/images/banners/bannersWerkel.png')})`,
-          }}
-          onMouseEnter={pauseAutoplay}
-          onMouseLeave={resumeAutoplay}
-        >
-          <div className="absolute inset-0 bg-black/30"></div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow">
-              {selectedSeries ? selectedSeries.name : 'Коллекции Werkel'}
-            </h1>
-          </div>
-          
-        </div>
-      </div>
+    
 
-      <div className="min-h-screen bg-white py-12">
+      <div className="min-h-screen bg-white py-56">
         <div className="container mx-auto px-4">
-  
-          {!selectedSeries ? (
+        <h2 className='text-black  text-6xl font-bold mb-10'>Werkel</h2>
+          {!selectedSeries ? (  
             <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-7xl mx-auto">
               {werkelSeriesData.map((series) => (
                 <div
@@ -217,12 +204,26 @@ const WerkelPage: React.FC = () => {
                   onClick={() => handleSeriesClick(series)}
                   className="space-y-4 block transition-transform duration-300 hover:scale-105 cursor-pointer"
                 >
-                  <div className="relative overflow-hidden rounded-lg">
-                    <img
-                      src={series.image}
-                      alt={`Серия ${series.name}`}
-                      className="w-[190px] h-[190px] object-contain"
-                    />
+                  <div className="relative overflow-visible rounded-lg pl-6">{/* allow overflow for preview images */}
+                    {/* three overlapping preview images behind the main image */}
+                    <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 flex items-center pointer-events-none">
+                      {(series.previewImages && series.previewImages.length ? series.previewImages.slice(0, 3) : [series.image, series.image, series.image]).map((img, i) => (
+                        <img
+                          key={i}
+                          src={img}
+                          alt={`preview-${i}`}
+                          className={`w-32 h-32 object-contain scale-125 rounded -ml-12 ${i === 0 ? 'opacity-60 translate-x-0' : i === 1 ? 'opacity-50 translate-x-4' : 'opacity-40 translate-x-8'}`}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="relative z-10">
+                      <img
+                        src={series.image}
+                        alt={`Серия ${series.name}`}
+                        className="w-[190px] h-[190px] object-contain mx-auto"
+                      />
+                    </div>
                   </div>
                   <div className="space-y-4">
                     <h2 className="text-5xl font-bold text-black">{series.name}</h2>

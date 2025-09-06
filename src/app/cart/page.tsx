@@ -236,7 +236,7 @@ const Cart: React.FC = () => {
 
   return (
     <motion.section
-      className="min-h-screen bg-gray-50"
+      className="min-h-screen bg-white"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -244,8 +244,8 @@ const Cart: React.FC = () => {
       <Toaster position="top-center" richColors />
 
       {/* Hero секция */}
-      <div className="relative mt-32 h-[300px] bg-black overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
+      <div className="relative mt-12 h-[300px] bg-white overflow-hidden">
+        <div className="relative max-w-[1550px] mx-auto px-4 h-full flex items-center">
           <div className="space-y-4">
             <h1 className="text-7xl font-bold text-white tracking-tight">Корзина</h1>
             <div className="flex items-center text-black/60 text-sm">
@@ -260,7 +260,7 @@ const Cart: React.FC = () => {
       </div>
 
       {/* Основной контент */}
-      <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-10 pb-20">
+      <div className="max-w-[1550px] mx-auto px-4 -mt-10 relative z-10 pb-20">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Секция товаров корзины */}
           <div className={`${!error ? 'lg:col-span-2' : 'lg:col-span-3'}`}>

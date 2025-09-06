@@ -195,9 +195,9 @@ interface VideoBanner {
 export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
-    { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersosveheniy.jpg' },
-    { id: 2, title: 'Эстетика и функциональность', subtitle: 'Профессиональные решения для дома и офиса', textColor: 'white', bgImage: '/images/banners/bannersyosveheny2.jpg' },
-    { id: 3, title: 'Эстетика и функциональность', subtitle: 'Профессиональные решения для дома и офиса', textColor: 'white', bgImage: '/images/banners/bannersyosveheny3.jpg' },
+    { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
+    { id: 3, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny5.jpeg' },
+    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersosveheniy.jpg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
@@ -288,7 +288,7 @@ export default function Banner() {
     <div className="relative w-full">
       <style jsx>{fadeInAnimation}</style>
       {/* Верхний блок баннера (в пределах секции) */}
-      <section className="relative h-[80vh] md:h-[99vh] bg-black">
+      <section className="relative h-[60vh] md:h-[87vh] bg-black">
         {/* Фото для текущего слайда с плавной сменой */}
         <div className="absolute inset-0 z-0">
           {/* Базовый фон */}
@@ -319,10 +319,10 @@ export default function Banner() {
 
         {/* Контент баннера */}
         <div className="relative w-full h-full">
-        <div className="absolute inset-0 flex items-center justify-start px-6 md:px-44 z-20">
+        <div className="absolute inset-0 flex items-start md:items-center justify-start px-4 md:px-44 z-20">
           <div className="max-w-3xl">
             <h1
-              className={`text-left text-4xl md:text-7xl font-bold mb-3 ${
+              className={`text-left text-3xl md:text-7xl font-bold mb-3 ${
                 currentBanner.textColor === 'white' ? 'text-white' : 'text-black'
               } ${titleVisible ? 'heading-animate heading-visible' : 'heading-animate'}`}
             >
@@ -338,7 +338,7 @@ export default function Banner() {
               ))}
             </h1>
             <h2
-              className={`text-left text-2xl md:text-5xl  ${
+              className={`text-left text-xl md:text-5xl  ${
                 currentBanner.textColor === 'white' ? 'text-white/90' : 'text-black/90'
               } ${titleVisible ? 'heading-animate heading-visible' : 'heading-animate'}`}
             >
@@ -358,9 +358,9 @@ export default function Banner() {
 
         {/* Индикатор видео — одна шкала заполняется и после заполнения меняется слайд */}
         {visibleVideoBanners.length > 1 && (
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-[70%] md:w-[50%]">
+          <div className="absolute bottom-8 left-0 right-0 z-20 px-4 md:px-8">
             <div
-              className="w-full h-3 bg-white/20 rounded-full cursor-pointer"
+              className="w-full h-2 md:h-3 bg-white/10 rounded-full cursor-pointer"
               onClick={(e) => {
                 const el = e.currentTarget as HTMLDivElement;
                 const rect = el.getBoundingClientRect();
@@ -374,7 +374,7 @@ export default function Banner() {
             >
               <div
                 ref={progressRef}
-                className="h-3 bg-white rounded-full"
+                className="h-2 md:h-3 bg-white/40 rounded-full transition-all duration-300 ease-linear"
                 style={{ width: '0%' }}
               />
             </div>
@@ -456,7 +456,7 @@ export default function Banner() {
               el.scrollBy({ left: -amount, behavior: 'smooth' });
             }}
             aria-label="Предыдущая категория"
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 text-black absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10"
+            className="md:flex items-center justify-center w-10 h-10 rounded-full  text-white absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -471,7 +471,7 @@ export default function Banner() {
               el.scrollBy({ left: amount, behavior: 'smooth' });
             }}
             aria-label="Следующая категория"
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 text-black absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10"
+            className="md:flex items-center justify-center w-10 h-10 rounded-full  text-white absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -489,7 +489,7 @@ export default function Banner() {
         <div className="flex flex-col md:flex-row gap-12 md:gap-12">
           {/* На мобилках показываем фото первым (order) */}
           {/* Левая часть с тезисами */}
-          <div className="w-full md:w-1/2 space-y-6 md:space-y-8 py-4 md:py-8 order-2 md:order-1">
+          <div className="w-full md:w-1/2 space-y-8 md:space-y-8 py-4 md:py-8 order-2 md:order-1">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Твой свет для комфорта:<br/>
               новинки от производителей
@@ -506,7 +506,7 @@ export default function Banner() {
           </div>
 
           {/* Правая часть с фотографией */}
-          <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] group order-1 md:order-2 px-0 md:px-0">
+          <div className="w-full md:w-1/2 relative h-auto md:h-[600px] group order-1 md:order-2 px-0 md:px-0">
             <h2 className='text-3xl md:text-4xl py-4 md:py-8 font-bold text-gray-900'>
               Открывай для себя новые возможности каждый день
             </h2>

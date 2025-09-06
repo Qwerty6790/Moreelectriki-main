@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, User, Menu as MenuIcon, X, ShoppingCart, ChevronDown } from 'lucide-react';
+import { Search, User, Menu as MenuIcon, X, ShoppingCart, ChevronDown, ShoppingBagIcon, LucideShoppingBag, ShoppingCartIcon, ShoppingBasket, SearchCheckIcon, SearchSlash, SearchCodeIcon, SearchXIcon, SearchX } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import axios from 'axios';
 import clsx from 'clsx';
 import Image from 'next/image';
+import SearchResults from '@/pages/search/[qwery]';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+import { FaSearch } from 'react-icons/fa';
 
 // Интерфейс для товара (используется в поиске)
 interface Product {
@@ -63,10 +66,7 @@ const Header = () => {
   const [expandedAccordionItems, setExpandedAccordionItems] = useState<number[]>([]);
   const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
   const [isCatalogDrawerMounted, setIsCatalogDrawerMounted] = useState(false);
-  const [isBrandsMenuOpen, setIsBrandsMenuOpen] = useState(false);
-  const brandsButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [brandsTopOffset, setBrandsTopOffset] = useState<number>(64);
-  const [brandAlphabet, setBrandAlphabet] = useState<string>('Все');
+  // Brands menu removed
   const router = useRouter();
   const pathname = usePathname();
   const isHome =
@@ -78,7 +78,7 @@ const Header = () => {
     if (!pathname) return null;
     if (pathname === '/') return '/images/banners/bannersabout.webp';
     else if (pathname.startsWith('/osveheny')) return '/images/banners/bannersylihnoeosveheny.jpg';
-    else if (pathname.startsWith('/catalog')) return '/images/banners/bannersylihnoeosveheniy.jpg';
+    else if (pathname.startsWith('/catalog')) return '/images/banners/bannersyosveheny3.jpg';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Werkel')) return '/images/series/werkel.webp';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Voltum')) return '/images/banners/bannersVoltum.jpg';
     else if (pathname.startsWith('/ElektroustnovohneIzdely')) return '/images/banners/bannerselektroustnovohneIzdely.png';
@@ -87,10 +87,15 @@ const Header = () => {
 
   const isVoltum = pathname?.startsWith('/ElektroustnovohneIzdely/Voltum');
   const isWerkel = pathname?.startsWith('/ElektroustnovohneIzdely/Werkel');
-  const headerText = (isVoltum || isWerkel) ? 'text-black' : 'text-white';
+  // Определяем страницы цветов Werkel (имеют путь /ElektroustnovohneIzdely/Werkel/<color>)
+  const isWerkelColorPage = pathname?.startsWith('/ElektroustnovohneIzdely/') && pathname !== '/ElektroustnovohneIzdely/';
+  // Для страниц цветов Werkel текст заголовка должен быть чёрным, во всех остальных случаях — по умолчанию белый при наличии баннера, иначе чёрный
+  const headerText = isWerkelColorPage ? 'text-black' : (bannerPath ? 'text-white' : 'text-black');
   const catalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const stickyCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
+  const catalogHoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mobileNavRef = useRef<HTMLDivElement | null>(null);
   const [catalogTopOffset, setCatalogTopOffset] = useState<number>(64);
   const [isStickyHeaderVisible, setIsStickyHeaderVisible] = useState<boolean>(false);
   const [cartCount, setCartCount] = useState<number>(0);
@@ -447,19 +452,29 @@ const Header = () => {
     }, 20);
   };
 
-  const updateBrandsMenuTop = (buttonEl: HTMLElement | null) => {
-    if (buttonEl) {
-      const rect = buttonEl.getBoundingClientRect();
-      setBrandsTopOffset(Math.max(rect.bottom + 8, 56));
-    } else {
-      setBrandsTopOffset(64);
+  const startCatalogHoverTimer = () => {
+    if (isCatalogMenuOpen) return;
+    if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
+    catalogHoverTimerRef.current = setTimeout(() => {
+      openCatalogDrawer();
+      catalogHoverTimerRef.current = null;
+    }, 1000);
+  };
+
+  const clearCatalogHoverTimer = () => {
+    if (catalogHoverTimerRef.current) {
+      clearTimeout(catalogHoverTimerRef.current);
+      catalogHoverTimerRef.current = null;
     }
   };
 
-  const openBrandsMenuFromButton = (buttonEl: HTMLElement | null) => {
-    updateBrandsMenuTop(buttonEl);
-    setIsBrandsMenuOpen(true);
-  };
+  useEffect(() => {
+    return () => {
+      clearCatalogHoverTimer();
+    };
+  }, []);
+
+  // Brands menu handlers removed
 
   const handleCatalogClick = () => {
     if (isCatalogMenuOpen) setIsCatalogMenuOpen(false);
@@ -471,10 +486,7 @@ const Header = () => {
     else openCatalogMenuFromButton(stickyCatalogButtonRef.current);
   };
 
-  const handleBrandsClick = () => {
-    if (isBrandsMenuOpen) setIsBrandsMenuOpen(false);
-    else openBrandsMenuFromButton(brandsButtonRef.current);
-  };
+  // handleBrandsClick removed
 
   const handleMobileCatalogClick = () => {
     if (isCatalogMenuOpen) setIsCatalogMenuOpen(false);
@@ -530,23 +542,7 @@ const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Закрытие брендов по клику вне его области
-  useEffect(() => {
-    const handleClickOutsideBrands = (event: MouseEvent) => {
-      const brandsMenu = document.getElementById('brands-menu');
-      const brandsButton = brandsButtonRef.current;
-      if (brandsMenu && brandsButton && !brandsMenu.contains(event.target as Node) && !brandsButton.contains(event.target as Node)) {
-        setIsBrandsMenuOpen(false);
-      }
-    };
-
-    if (isBrandsMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutsideBrands);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideBrands);
-    };
-  }, [isBrandsMenuOpen]);
+  // Brands click-outside handler removed
 
   // Alphabet (Latin A-Z then Cyrillic А-Я)
   const ALPHABET: string[] = [
@@ -554,16 +550,7 @@ const Header = () => {
     'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'
   ];
 
-  // Brands list (derived from files in public/images/brands)
-  const BRANDS_LIST: string[] = [
-    'artelamplogo','denkirslogo1','elektrostandartlogo','favouritelogo','kinklightlogo','lightstarlogo','lumionlogo','maytonilogo','novotechlogo','odeonlightlogo','sonexlogo1','stlucelogo','voltumlogo','werkellogo'
-  ];
-
-  const prettifyBrandName = (fileName: string) => {
-    const raw = fileName.replace(/\d+/g, '').replace(/logo/ig, '').replace(/[_-]/g, ' ').trim();
-    if (!raw) return fileName;
-    return raw.charAt(0).toUpperCase() + raw.slice(1);
-  };
+  // Brands list and helpers removed
 
   // При смене видимости шторки/скролле/ресайзе — адаптируем позицию меню каталога
   useEffect(() => {
@@ -737,41 +724,49 @@ const Header = () => {
         {bannerPath && (
           <div className="absolute inset-0 -z-10">
             <img src={bannerPath} alt="banner" className="w-full h-56 object-cover" />
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-white"></div>
           </div>
         )}
         <header
           className={clsx(
             'fixed top-0 left-0 right-0 z-[9998] w-full pointer-events-auto transform transition-transform duration-300',
-            bannerPath ? 'bg-transparent' : 'bg-black',
+            bannerPath ? 'bg-transparent' : 'bg-white',
             isStickyHeaderVisible ? '-translate-y-full' : 'translate-y-0'
           )}
         >
           {/* Верхняя тонкая панель */}
-          <div className={clsx('hidden md:block', headerText + '/80', bannerPath ? 'bg-transparent' : 'bg-black/90')}>
+          <div className={clsx('hidden md:block', headerText + '/80', bannerPath ? 'bg-transparent' : 'bg-white')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <div className="flex h-8 items-center text-[13px] gap-4">
-                <a href="tel:+79265522173" className="hover:text-white">8 (926) 552-21-73</a>
-                <a href="#call" className="hover:text-white">заказать звонок</a>
+                <a href="tel:+79265522173" className="hover:text-black text-[20px] font-bold"> 8(926) 552-21-73</a>
+                <a href="#call" className="hover:text-black">Заказать звонок</a>
                 <div className="ml-auto flex items-center gap-6">
                   <span className="hidden lg:inline">г. Москва, 25 километр, ТК Конструктор</span>
-                  <a href="/auth/login" className="hover:text-white">Для дизайнеров</a>
+                  <a href="/auth/login" className="hover:text-black text-[20px] font-bold">Для дизайнеров</a>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Ряд с логотипом, поиском и иконками */}
-          <div className={clsx(headerText, bannerPath ? 'bg-transparent' : 'bg-black/90 ')}>
+          <div className={clsx(headerText, bannerPath ? 'bg-transparent' : 'bg-white ')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <div className="flex items-center h-14 md:h-14 gap-3">
-                {/* Бургер для мобилы */}
-                <button className="hidden">
-                  <MenuIcon className="w-5 h-5" />
+                {/* Бургер для мобилы - левый угол */}
+                <button
+                  onClick={() => openCatalogDrawer()}
+                  onMouseEnter={startCatalogHoverTimer}
+                  onMouseLeave={clearCatalogHoverTimer}
+                  onFocus={startCatalogHoverTimer}
+                  onBlur={clearCatalogHoverTimer}
+                  className="md:hidden mr-3"
+                  aria-label="Открыть каталог"
+                >
+                  <MenuIcon className="w-6 h-6" />
                 </button>
 
                 {/* Логотип */}
-                <a href="/" className={clsx(headerText, 'text-2xl font-semibold tracking-widest uppercase flex-none')}>
+                <a href="/" style={{ letterSpacing: '0.2em' }} className={clsx(headerText, 'text-2xl font-bold tracking-widest uppercase flex-none')}>
                   MORELEKTRIKI
                 </a>
                 {/* Мобильный поиск между логотипом и иконками */}
@@ -782,7 +777,7 @@ const Header = () => {
                 {/* Поиск */}
                 <div className="flex-1 hidden md:flex items-center">
                   <div className="relative w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70" />
+                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70" />
                     <input
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -798,19 +793,25 @@ const Header = () => {
 
                 {/* Иконки */}
                 <div className="flex items-center gap-4 ml-auto">
-                  <a href="#stats" className={clsx('relative', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')}>
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="5" width="3" height="13"/></svg>
-                  </a>
+                  
                   <a href="/liked" className={clsx('relative', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')}>
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <svg 
+  className="w-6 h-6 " 
+  viewBox="0 0 24 24" 
+  fill="currentColor" 
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M12 21s-6.2-4.3-9.3-8.1C-0.1 8.5 2.3 3 7 3c2.1 0 3.6 1.2 5 2.7C13.4 4.2 14.9 3 17 3c4.7 0 7.1 5.5 4.3 9.9C18.2 16.7 12 21 12 21z"/>
+</svg>
+
                     {likedCount > 0 && (
-                      <span className="absolute -top-2 -right-2 text-[10px] bg-white text-black rounded-full px-1">{likedCount}</span>
+                      <span className="absolute -top-[26%] -right-2 w-5 h-5 backdrop-blur-sm bg-white/10 rounded-full flex items-center justify-center text-[10px] leading-none">{likedCount}</span>
                     )}
                   </a>
                   <a href="/cart" className={clsx('relative', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')}>
-                    <ShoppingCart className="w-5 h-5" />
+                  <ShoppingBasket className="w-5 h-5" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-2 -right-2 text-[10px] bg-white text-black rounded-full px-1">{cartCount}</span>
+                      <span className="absolute -top-2 -right-2 w-5 h-5 backdrop-blur-sm bg-white/10 rounded-full flex items-center justify-center text-[10px] leading-none">{cartCount}</span>
                     )}
                   </a>
                 </div>
@@ -819,39 +820,61 @@ const Header = () => {
           </div>
 
           {/* Навигация */}
-          <div className={clsx('hidden md:block', headerText, bannerPath ? 'bg-transparent' : 'bg-black/90')}>
+          <div className={clsx('hidden md:block', headerText, bannerPath ? 'bg-transparent' : 'bg-white')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
-              <nav className="flex h-10 items-center justify-between text-[13px] md:text-[15px] tracking-widest uppercase flex-wrap gap-2">
-                <button onClick={openCatalogDrawer} className="hover:text-white/90 py-1 px-2 text-sm">МЕНЮ</button>
+              <nav className="flex h-10 items-center justify-between  text-[13px] md:text-[15px] tracking-widest uppercase flex-wrap gap-2">
+             
+                <button onClick={openCatalogDrawer} className="hover:text-white/90 font-bold   z-10 flex py-2 px-2 text-sm"> МЕНЮ</button>
                 {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
-                <a href="/sales" className="hover:text-white/90 py-1 px-2 text-sm">Акции</a>
-                <button
-                  ref={brandsButtonRef}
-                  onClick={handleBrandsClick}
-                  onMouseEnter={() => openBrandsMenuFromButton(brandsButtonRef.current)}
-                  onFocus={() => openBrandsMenuFromButton(brandsButtonRef.current)}
-                  className="hover:text-white/90 inline-flex items-center py-1 px-2 text-sm"
-                >
-                  БРЕНДЫ
-                </button>
-                <a href="/projects" className="hover:text-white/90 py-1 px-2 text-sm">Проекты</a>
-                <a href="/blog" className="hover:text-white/90 py-1 px-2 text-sm">Блог</a>
-                <a href="/how-to-buy" className="hover:text-white/90 py-1 px-2 text-sm">Как купить</a>
-                <a href="/contacts" className="hover:text-white/90 py-1 px-2 text-sm">Контакты</a>
+                <a href="/sales" className="hover:text-white/90  font-bold  py-1 px-2 text-sm">Акции</a>
+                {/* БРЕНДЫ removed */}
+                <a href="/projects" className="hover:text-white/90 font-bold py-1 px-2 text-sm">Проекты</a>
+                <a href="/blog" className="hover:text-white/90 font-bold py-1 px-2 text-sm">Блог</a>
+                <a href="/how-to-buy" className="hover:text-white/90  font-bold py-1 px-2 text-sm">Как купить</a>
+                <a href="/contacts" className="hover:text-white/90  font-bold py-1 px-2 text-sm">Контакты</a>
               </nav>
 
-              {/* Мобильная адаптивная полоса меню (горизонтальный скролл) */}
-              <div className="md:hidden text-white bg-black/40">
-                <div className="px-3 py-2 overflow-x-auto hide-scrollbar">
-                  <div className={clsx('flex items-center gap-5 text-[13px] tracking-widest uppercase whitespace-nowrap', headerText)}>
-                    <button onClick={openCatalogDrawer} className="hover:text-white/90">Меню</button>
-                    <a href="/sales" className="hover:text-white/90">Акции</a>
-                    <a href="/brands" className="hover:text-white/90">Бренды</a>
-                    <a href="/projects" className="hover:text-white/90">Проекты</a>
-                    <a href="/blog" className="hover:text-white/90">Блог</a>
-                    <a href="/how-to-buy" className="hover:text-white/90">Как купить</a>
-                    <a href="/contacts" className="hover:text-white/90">Контакты</a>
+              {/* Мобильная адаптивная полоса меню (горизонтальный скролл) с кнопками-стрелками */}
+              <div className={clsx('md:hidden', bannerPath ? 'text-white bg-black/40' : 'text-black bg-white/40')}>
+                <div className="relative">
+                  <div ref={mobileNavRef} className="px-3 py-2 overflow-x-auto hide-scrollbar">
+                    <div className={clsx('flex items-center gap-5 text-[13px]  tracking-widest uppercase whitespace-nowrap', headerText)}>
+                      <button onClick={openCatalogDrawer} className="hover:text-white/90 ">Меню</button>
+                      <a href="/sales" className="hover:text-white/90">Акции</a>
+                      <a href="/brands" className="hover:text-white/90">Бренды</a>
+                      <a href="/projects" className="hover:text-white/90">Проекты</a>
+                      <a href="/blog" className="hover:text-white/90">Блог</a>
+                      <a href="/how-to-buy" className="hover:text-white/90">Как купить</a>
+                      <a href="/contacts" className="hover:text-white/90">Контакты</a>
+                    </div>
                   </div>
+
+                  {/* Стрелки для прокрутки меню на мобилке */}
+                  <button
+                    onClick={() => {
+                      const el = mobileNavRef.current;
+                      if (!el) return;
+                      const amount = Math.max(el.clientWidth * 0.6, 160);
+                      el.scrollBy({ left: -amount, behavior: 'smooth' });
+                    }}
+                    aria-label="Левый"
+                    className="absolute left-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const el = mobileNavRef.current;
+                      if (!el) return;
+                      const amount = Math.max(el.clientWidth * 0.6, 160);
+                      el.scrollBy({ left: amount, behavior: 'smooth' });
+                    }}
+                    aria-label="Правый"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -863,7 +886,7 @@ const Header = () => {
             <div className="max-w-8xl mx-auto px-4 py-4">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
               <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                <a href="/" className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
+                <a href="/" style={{ letterSpacing: '0.4em' }} className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-800"
@@ -957,17 +980,17 @@ const Header = () => {
       >
         <div className="bg-black text-white/95 ">
           <div className="max-w-[1280px] mx-auto px-3 md:px-4">
-            <div className="flex items-center h-12 md:h-14 gap-0">
+            <div className="flex justify-between items-center h-12 md:h-14 gap-0">
               {/* Левая группа: логотип + меню */}
                 <div className="flex items-center gap-3 pr-2 sm:gap-6 sm:pr-4">
-                <a href="/" className="text-white text-lg font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                 <button
                   ref={stickyCatalogButtonRef}
-                  onMouseEnter={() => openCatalogMenuFromButton(stickyCatalogButtonRef.current)}
-                  onFocus={() => openCatalogMenuFromButton(stickyCatalogButtonRef.current)}
                   onClick={handleStickyCatalogClick}
                   className="inline-flex items-center text-white/90 hover:text-white text-[12px] sm:text-[13px] tracking-widest uppercase"
-                >КАТАЛОГ</button>
+                >
+                  <MenuIcon className="w-6 h-6" />
+                </button>
+                 <a href="/" style={{ letterSpacing: '0.3em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
                   <a href="/brands" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
                   <a href="/sales" className="hover:text-white py-1 px-2 text-sm">Акции</a>
@@ -975,15 +998,7 @@ const Header = () => {
                   <a href="/contacts" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
                 </nav>
               </div>
-              {/* Центр: поиск */}
-              <div className="flex-1 flex items-center  px-2 sm:px-4">
-                <button
-                  onClick={() => setIsSearchOpen(true)}
-                  className="group flex items-center justify-between w-full text-white/80 hover:text-white"
-                >
-                  <Search className="w-5 h-5 sm:w-6 sm:h-6 text-white/80 group-hover:text-white"/>
-                </button>
-              </div>
+            
               {/* Правая группа: телефон + дизайнеры + иконки */}
               <div className="flex items-center pl-2 sm:pl-4 gap-3 sm:gap-6">
                 <div className="hidden md:flex flex-col leading-tight mr-2">
@@ -1000,15 +1015,23 @@ const Header = () => {
                  
                 </a>
                 <a href="/liked" className="hidden sm:inline-flex relative text-white/80 hover:text-white">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                <svg 
+  className="w-6 h-6 " 
+  viewBox="0 0 24 24" 
+  fill="currentColor" 
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M12 21s-6.2-4.3-9.3-8.1C-0.1 8.5 2.3 3 7 3c2.1 0 3.6 1.2 5 2.7C13.4 4.2 14.9 3 17 3c4.7 0 7.1 5.5 4.3 9.9C18.2 16.7 12 21 12 21z"/>
+</svg>
+
                   {likedCount > 0 && (
-                    <span className="absolute -top-2 -right-2 text-[10px] bg-white text-black rounded-full px-1">{likedCount}</span>
+                    <span className="absolute -top-[26%] -right-2 w-5 h-5 backdrop-blur-sm bg-white/10 rounded-full flex items-center justify-center text-[10px] leading-none">{likedCount}</span>
                   )}
                 </a>
                 <a href="/cart" className="relative text-white/80 hover:text-white">
-                  <ShoppingCart className="w-5 h-5"/>
+                <ShoppingBasket className="w-5 h-5" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 text-[10px] bg-white text-black rounded-full px-1">{cartCount}</span>
+                    <span className="absolute -top-2 -right-2 w-5 h-5 backdrop-blur-sm bg-white/10 text-white rounded-full flex items-center justify-center text-[10px] leading-none">{cartCount}</span>
                   )}
                 </a>
               </div>
@@ -1074,8 +1097,6 @@ const Header = () => {
       )}
 
       {/* Порталы для выпадающих меню */}
-      {/* Каталог меню: полноширинная панель */}
-      {/* Боковая панель каталога (drawer) */}
       {/* Боковая панель каталога (drawer) с анимацией */}
       {typeof window !== 'undefined' && isCatalogDrawerMounted && createPortal(
         <div className={"fixed inset-0 z-[99999]"} onTransitionEnd={() => {
@@ -1117,58 +1138,7 @@ const Header = () => {
         document.body
       )}
 
-      {/* Brands menu portal - alphabet + vertical brand list */}
-      {typeof window !== 'undefined' && isBrandsMenuOpen && createPortal(
-        <div id="brands-menu" className="fixed left-0 right-0 z-[99999] catalog-3d" style={{ top: brandsTopOffset }}>
-          <div className="border-t border-black/5 bg-white/20 backdrop-blur-xl shadow-2xl catalog-book-enter menu-transition" role="menu" aria-label="Бренды" tabIndex={0}>
-            <div className="max-w-[1280px] mx-auto px-4 py-4">
-              <div className="flex gap-6">
-                <div className="w-3/12">
-             
-                  {/* Alphabet */}
-                  <div className="flex flex-wrap   bg-white/10 rounded-lg p-3">
-                    <button
-                      key="all"
-                      onClick={() => setBrandAlphabet('Все')}
-                      className={clsx('py-0 px-2 text-3xl  text-black/80 text-left w-full', brandAlphabet === 'Все' && 'bg-black/5 font-semibold')}
-                    >
-                      Все
-                    </button>
-                    
-                    {ALPHABET.map((letter) => (
-                      <button
-                        key={letter}
-                        onClick={() => setBrandAlphabet(letter)}
-                        className={clsx('py-1 px-2 text-sm text-black/80 text-left w-full', brandAlphabet === letter && 'bg-black/5 font-semibold')}
-                      >
-                        {letter}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex-1  mt-5">
-                <div className="text-3xl p-2 font-bold text-black">Бренды</div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                    {/* For now pull brands list from public/images/brands folder names (static mapping) */}
-                    {BRANDS_LIST.filter(b => {
-                      const pretty = prettifyBrandName(b);
-                      if (brandAlphabet === 'Все') return true;
-                      return pretty.charAt(0).toUpperCase() === brandAlphabet;
-                    }).map((brand) => (
-                      <a key={brand} href={`/brands?brand=${encodeURIComponent(brand)}`} className="flex items-center gap-3 p-2 bg-white/30 rounded hover:bg-white/40">
-                        <img src={`/images/brands/${brand}.png`} alt={brand} className="w-12 h-12 object-contain" />
-                        <span className="text-sm text-black/90">{prettifyBrandName(brand)}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+      {/* Brands portal removed */}
 
      
 
