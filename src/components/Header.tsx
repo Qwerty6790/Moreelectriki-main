@@ -824,7 +824,13 @@ const Header = () => {
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <nav className="flex h-10 items-center justify-between  text-[13px] md:text-[15px] tracking-widest uppercase flex-wrap gap-2">
              
-                <button onClick={openCatalogDrawer} className="hover:text-white/90 font-bold   z-10 flex py-2 px-2 text-sm"> МЕНЮ</button>
+                <button
+                  ref={catalogButtonRef}
+                  onClick={openCatalogDrawer}
+                  className="hover:text-white/90 font-bold   z-10 flex py-2 px-2 text-sm"
+                >
+                  МЕНЮ
+                </button>
                 {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
                 <a href="/sales" className="hover:text-white/90  font-bold  py-1 px-2 text-sm">Акции</a>
                 {/* БРЕНДЫ removed */}
@@ -1115,27 +1121,46 @@ const Header = () => {
             className={"absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
             onClick={() => setIsCatalogMenuOpen(false)}
           />
-          <aside aria-hidden={!isCatalogMenuOpen} className={"absolute left-0 top-0 bottom-0 w-[360px] bg-white/95 backdrop-blur-lg p-4 overflow-hidden shadow-2xl transform transition-transform duration-300 " + (isCatalogMenuOpen ? 'translate-x-0' : '-translate-x-[100%]') }>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold text-black">Меню</h3>
-              <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-2xl leading-none">×</button>
-            </div>
-            {/* Вертикальный список меню */}
-            <div className="overflow-y-auto hide-scrollbar" style={{ maxHeight: 'calc(110vh - 140px)' }}>
-              <div className="space-y-2">
-                {catalogData.lighting.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <img src={item.image} alt={item.title} className="w-20 h-20 object-contain rounded" />
-                    <div>
-                      <a href={item.link.replace('/osveheny', '/catalog')} className="text-base font-semibold text-black">{item.title}</a>
-                      <div className="mt-2 flex flex-col text-sm text-black/70">
-                        {item.subcategories?.slice(0, 6).map((sub, sidx) => (
-                          <a key={sidx} href={sub.link.replace('/osveheny', '/catalog')} className="py-1">{sub.title}</a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+          <aside
+            aria-hidden={!isCatalogMenuOpen}
+            onMouseEnter={() => clearCatalogHoverTimer()}
+            onMouseLeave={() => {
+              if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
+              catalogHoverTimerRef.current = setTimeout(() => setIsCatalogMenuOpen(false), 280);
+            }}
+            className={"absolute left-0 top-0 right-0 bottom-0 bg-transparent p-0 overflow-hidden shadow-2xl transform transition-transform duration-300 " + (isCatalogMenuOpen ? 'translate-x-0' : '-translate-x-[100%]') }
+          >
+            <div className="flex h-full">
+              {/* Левый узкий столбец */}
+              <nav className="w-72 bg-white/100 border-r overflow-y-auto hide-scrollbar" style={{ maxHeight: '100vh' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <h3 className="text-lg font-semibold text-black">Каталог</h3>
+                  <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-xl leading-none">×</button>
+                </div>
+                <div className="flex flex-col">
+                  {catalogData.lighting.map((item, idx) => (
+                    <a
+                      key={idx}
+                      href={item.link.replace('/osveheny', '/catalog')}
+                      className="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 border-b last:border-b-0"
+                      onClick={() => setIsCatalogMenuOpen(false)}
+                    >
+                      <img src={item.image} alt={item.title} className="w-6 h-6 object-contain" />
+                      <span className="text-sm font-medium text-black">{item.title}</span>
+                    </a>
+                  ))}
+                </div>
+              </nav>
+
+              {/* Правая большая область с изображением - занимает всё оставшееся пространство экрана */}
+              <div className="flex-1 relative h-screen">
+                <img
+                  src="/images/banners/bannersopenspace.jpg"
+                  alt="banner"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+                {/* Можно разместить произвольный контент поверх изображения при необходимости */}
               </div>
             </div>
           </aside>

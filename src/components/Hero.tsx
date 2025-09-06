@@ -196,8 +196,7 @@ export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
     { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
-    { id: 3, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny5.jpeg' },
-    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersopenspace.jpg' },
+    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny5.jpeg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
