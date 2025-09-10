@@ -776,9 +776,7 @@ const Header = () => {
                   MORELEKTRIKI
                 </a>
                 {/* Мобильный поиск между логотипом и иконками */}
-                <button onClick={() => setIsSearchOpen(true)} className={clsx('md:hidden ml-3', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')} aria-label="Открыть поиск">
-                  <Search className="w-5 h-5" />
-                </button>
+                
 
                 {/* Поиск */}
                 <div className="flex-1 hidden md:flex items-center">
@@ -1014,10 +1012,14 @@ const Header = () => {
                   <a href="/projects" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
                   <a href="/contacts" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
                 </nav>
+                
               </div>
-            
+              <button onClick={() => setIsSearchOpen(true)} className={clsx('md:hidden ml-3', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')} aria-label="Открыть поиск">
+                  <Search className="w-5 h-5" />
+                </button>
               {/* Правая группа: телефон + дизайнеры + иконки */}
               <div className="flex items-center pl-2 sm:pl-4 gap-3 sm:gap-6">
+                
                 <div className="hidden md:flex flex-col leading-tight mr-2">
                   <a href="tel:+79265522173" className="text-white text-[18px] font-bold tracking-wide hover:underline">8 (926) 552-21-73</a>
                   <a href="#call" className="text-[11px] text-white/80 uppercase tracking-widest">заказать звонок</a>
