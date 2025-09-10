@@ -658,6 +658,12 @@ const Header = () => {
           transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
 
+        /* Accordion animation for catalog items */
+        .accordion-content {
+          transition: max-height 360ms cubic-bezier(0.2,0.8,0.2,1), opacity 260ms ease;
+          overflow: hidden;
+        }
+
         /* Скрыть полосу прокрутки, но сохранить прокрутку (кросс-браузерно) */
         .hide-scrollbar {
           -ms-overflow-style: none !important; /* IE and Edge */
@@ -738,11 +744,11 @@ const Header = () => {
           <div className={clsx('hidden md:block', headerText + '/80', bannerPath ? 'bg-transparent' : 'bg-white')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <div className="flex h-8 items-center text-[13px] gap-4">
-                <a href="tel:+79265522173" className="hover:text-black text-[20px] font-bold"> 8(926) 552-21-73</a>
-                <a href="#call" className="hover:text-black">Заказать звонок</a>
+                <a href="tel:+79265522173" className="hover:text-neutral-200 text-[20px] font-bold"> 8(926) 552-21-73</a>
+                <a href="#call" className="hover:text-neutral-200 text-[20px]">Заказать звонок</a>
                 <div className="ml-auto flex items-center gap-6">
-                  <span className="hidden lg:inline">г. Москва, 25 километр, ТК Конструктор</span>
-                  <a href="/auth/login" className="hover:text-black text-[20px] font-bold">Для дизайнеров</a>
+                  <span className="hidden lg:inline text-[20px]">г. Москва, 25 километр, ТК Конструктор</span>
+                  <a href="/auth/register" className="hover:text-neutral-200 text-[20px] font-bold">Для дизайнеров</a>
                 </div>
               </div>
             </div>
@@ -990,7 +996,7 @@ const Header = () => {
         )}
       >
         <div className="bg-black text-white/95 ">
-          <div className="max-w-[1280px] mx-auto px-3 md:px-4">
+          <div className="max-w-[1550px] mx-auto px-3 md:px-4">
             <div className="flex justify-between items-center h-12 md:h-14 gap-0">
               {/* Левая группа: логотип + меню */}
                 <div className="flex items-center gap-3 pr-2 sm:gap-6 sm:pr-4">
@@ -1001,7 +1007,7 @@ const Header = () => {
                 >
                   <MenuIcon className="w-6 h-6" />
                 </button>
-                 <a href="/" style={{ letterSpacing: '0.3em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
+                 <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
                   <a href="/brands" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
                   <a href="/sales" className="hover:text-white py-1 px-2 text-sm">Акции</a>
@@ -1021,10 +1027,7 @@ const Header = () => {
                 <a href="/account" className="sm:hidden inline-flex text-white/90 hover:text-white" aria-label="Для дизайнеров">
                   <User className="w-5 h-5" />
                 </a>
-                <a href="#stats" className="hidden sm:inline-flex relative text-white/80 hover:text-white">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="5" width="3" height="13"/></svg>
-                 
-                </a>
+             
                 <a href="/liked" className="hidden sm:inline-flex relative text-white/80 hover:text-white">
                 <svg 
   className="w-6 h-6 " 
@@ -1134,20 +1137,46 @@ const Header = () => {
               {/* Левый узкий столбец */}
               <nav className="w-72 bg-white/100 border-r overflow-y-auto hide-scrollbar" style={{ maxHeight: '100vh' }}>
                 <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-lg font-semibold text-black">Каталог</h3>
-                  <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-xl leading-none">×</button>
+                  <h3 className="text-2xl font-semibold text-black">Каталог</h3>
+                  <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-1xl leading-none">×</button>
                 </div>
                 <div className="flex flex-col">
                   {catalogData.lighting.map((item, idx) => (
-                    <a
-                      key={idx}
-                      href={item.link.replace('/osveheny', '/catalog')}
-                      className="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 border-b last:border-b-0"
-                      onClick={() => setIsCatalogMenuOpen(false)}
-                    >
-                      <img src={item.image} alt={item.title} className="w-6 h-6 object-contain" />
-                      <span className="text-sm font-medium text-black">{item.title}</span>
-                    </a>
+                    <div key={idx} className="border-b last:border-b-0">
+                      <button
+                        onClick={() => toggleAccordionItem(idx)}
+                        aria-expanded={expandedAccordionItems.includes(idx)}
+                        className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
+                      >
+                        <span className="flex items-center gap-3">
+                          <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
+                          <span className="text-1xl font-medium text-black">{item.title}</span>
+                        </span>
+                        <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
+                      </button>
+
+                      <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
+                        <div className="flex flex-col text-sm text-black/80">
+                          {item.subcategories?.map((sub, sidx) => (
+                            <a
+                              key={sidx}
+                              href={sub.link.replace('/osveheny', '/catalog')}
+                              className="py-2 hover:underline"
+                              onClick={() => setIsCatalogMenuOpen(false)}
+                            >
+                              {sub.title}
+                            </a>
+                          ))}
+                        </div>
+                        <a
+                          href={item.link.replace('/osveheny', '/catalog')}
+                          className="mt-2 inline-block text-sm font-semibold text-black py-2"
+                          onClick={() => setIsCatalogMenuOpen(false)}
+                        >
+                          Смотреть все
+                        </a>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </nav>

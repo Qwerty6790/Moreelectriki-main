@@ -14,7 +14,7 @@ const ElektroustnovohneIzdely: React.FC = () => {
 
 	{/* Hero с фоновым изображением под прозрачным хедером */}
 	<section className="relative h-[80vh] md:h-[44vh]">
-		<img src="/images/banners/bannerselektroustnovohneIzdely.png" alt="Электроустановочные изделия" className="absolute inset-0 w-full h-full object-cover" />
+		<img src="/images/banners/bannersdressingroom.jpg" alt="Электроустановочные изделия" className="absolute inset-0 w-full h-full object-cover" />
 		<div className="absolute inset-0 bg-black/40" />
 		<div className="relative z-10 h-full flex items-center justify-center px-4">
 			<h1 className="text-5xl md:text-7xl font-bold text-white text-center">Электроустоновочное изделие</h1>
@@ -27,7 +27,7 @@ const ElektroustnovohneIzdely: React.FC = () => {
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-20 max-w-7xl mx-auto">
 				{/* Werkel */}
 				<Link href="/ElektroustnovohneIzdely/Werkel" className="flex items-center gap-4 p-3 transition-transform duration-300 hover:scale-105 rounded-lg">
-					<div className="w-52 h-52 flex-shrink-0 overflow-hidden rounded-md">
+					<div className="w-96 h-96 flex-shrink-0 overflow-hidden rounded-md">
 						<img 
 							src="/images/series/werkel.webp" 
 							alt="Серия Werkel" 
@@ -42,7 +42,7 @@ const ElektroustnovohneIzdely: React.FC = () => {
 
 				{/* Voltum */}
 				<Link href="/ElektroustnovohneIzdely/Voltum" className="flex items-center gap-4 p-3 transition-transform duration-300 hover:scale-105 rounded-lg">
-					<div className="w-52 h-52 flex-shrink-0 overflow-hidden rounded-md">
+					<div className="w-96 h-96 flex-shrink-0 overflow-hidden rounded-md">
 						<img 
 							src="/images/series/voltum.png" 
 							alt="Серия Voltum" 

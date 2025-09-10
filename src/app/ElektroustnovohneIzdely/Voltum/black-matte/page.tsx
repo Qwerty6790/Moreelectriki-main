@@ -5,6 +5,8 @@ import Link from 'next/link';
 import axios from 'axios';
 import { ProductI } from '@/types/interfaces';
 import CatalogOfProductSearch from '@/components/Catalogofsearch';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import Pagination from '@/components/PaginationComponents';
 import { NEXT_PUBLIC_API_URL } from '@/utils/constants';
 
 export default function VoltumBlackMattePage() {
@@ -124,21 +126,22 @@ export default function VoltumBlackMattePage() {
 
   return (
     <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh', color: 'var(--foreground)' }}>
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 mt-28">
-        <nav className="flex items-center space-x-2 text-sm text-gray-400">
+      
+
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-44">
+        <h2 className="text-5xl font-bold text-black mb-5">Черный матовый</h2>
+        <div className="mb-8">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <nav className="flex items-center space-x-2 text-2xl text-black">
           <Link href="/" className="hover:text-white transition-colors">Главная</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <Link href="/ElektroustnovohneIzdely" className="hover:text-white transition-colors">Электроустановочные изделия</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <Link href="/ElektroustnovohneIzdely/Voltum" className="hover:text-white transition-colors">Voltum</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <span className="text-white">Черный матовый</span>
         </nav>
       </div>
-
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-5xl font-bold text-white mb-5">Черный матовый</h2>
           {totalProducts > 0 ? (
             <p className="text-white">Найдено {totalProducts} {totalProducts === 1 ? 'товар' : totalProducts < 5 ? 'товара' : 'товаров'}</p>
           ) : !loading && (
@@ -146,32 +149,12 @@ export default function VoltumBlackMattePage() {
           )}
         </div>
 
-        <div className="flex justify-end mb-6">
-          <div className="flex gap-1 items-center rounded-lg  p-1">
-            {['grid', 'list', 'table'].map(mode => (
-              <button key={mode} onClick={() => setViewMode(mode as any)} className={`p-2 rounded transition-colors ${viewMode === mode ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}>
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d={mode === 'grid' ? "M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z" : mode === 'list' ? "M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" : "M3 3h18a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v3h16V5H4zm0 5v3h7v-3H4zm9 0v3h7v-3h-7zm-9 5v3h7v-3H4zm9 0v3h7v-3h-7z"}/>
-                </svg>
-              </button>
-            ))}
-          </div>
-        </div>
+      
 
         <div className="mb-8">
           {loading ? (
-            <div className="py-10 w-full">
-              <div className="grid w-full grid-cols-2 gap-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-3 xl:grid-cols-4 xl:gap-3">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="bg-black rounded-lg border border-[#633a3a] flex flex-col h-full">
-                    <div className="relative aspect-square bg-[#633a3a]/20 animate-pulse rounded-t-lg min-h-[150px] sm:min-h-[180px]"></div>
-                    <div className="p-4 flex flex-col flex-grow">
-                      <div className="h-4 bg-[#633a3a]/30 rounded w-3/4 mb-2 animate-pulse"></div>
-                      <div className="h-3 bg-[#633a3a]/20 rounded w-1/2 mb-3 animate-pulse"></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="py-10 w-full flex justify-center">
+              <LoadingSpinner size="lg" text="Загружаем товары..." />
             </div>
           ) : products.length > 0 ? (
             <CatalogOfProductSearch products={products} viewMode={viewMode} isLoading={loading} />
@@ -183,21 +166,8 @@ export default function VoltumBlackMattePage() {
         </div>
 
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
-            {currentPage > 1 && (
-              <button onClick={() => handlePageChange(currentPage - 1)} className="px-4 py-2 bg-[#1a1a1a] text-white rounded hover:bg-[#812626] border border-[#633a3a] transition-colors">← Назад</button>
-            )}
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + 1;
-              return (
-                <button key={page} onClick={() => handlePageChange(page)} className={`px-3 py-2 rounded transition-colors ${page === currentPage ? 'bg-[#812626] text-white' : 'bg-[#1a1a1a] text-white hover:bg-[#812626] border border-[#633a3a]'}`}>
-                  {page}
-                </button>
-              );
-            })}
-            {currentPage < totalPages && (
-              <button onClick={() => handlePageChange(currentPage + 1)} className="px-4 py-2 bg-[#1a1a1a] text-white rounded hover:bg-[#812626] border border-[#633a3a] transition-colors">Вперед →</button>
-            )}
+          <div className="mt-8">
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
           </div>
         )}
       </div>

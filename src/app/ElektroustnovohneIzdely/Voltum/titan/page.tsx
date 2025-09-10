@@ -65,19 +65,20 @@ export default function VoltumTitanPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh', color: 'var(--foreground)' }}>
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 mt-28">
-        <nav className="flex items-center space-x-2 text-sm text-gray-400">
+      
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-44">
+        <h2 className="text-5xl font-bold text-black mb-5">Титан</h2>
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <nav className="flex items-center space-x-2 text-2xl text-black">
           <Link href="/">Главная</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <Link href="/ElektroustnovohneIzdely">Электроустановочные изделия</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <Link href="/ElektroustnovohneIzdely/Voltum">Voltum</Link>
-          <span>/</span>
+          <span className='mb-3'>.</span>
           <span className="text-white">Титан</span>
         </nav>
       </div>
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-5xl font-bold text-white mb-5">Титан</h2>
         {loading ? <LoadingSpinner isLoading={loading} /> : products.length > 0 ? <CatalogOfProductSearch products={products} viewMode={viewMode} isLoading={loading} /> : <div className="text-center py-16"><div className="text-gray-400 text-lg mb-4">Товары не найдены</div></div>}
         {totalPages > 1 && <PaginationComponents totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} isLoading={loading} totalItems={totalProducts} itemsPerPage={itemsPerPage} />}
       </div>

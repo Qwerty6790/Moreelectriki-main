@@ -107,22 +107,22 @@ export default function WhiteGlossPage() {
 
   return (
     <div className="text-black" style={{ backgroundColor: 'var(--background)', minHeight: '100vh', color: 'var(--foreground)' }}>
-      <div className="mx-auto max-w-[1550px] px-4 sm:px-6 lg:px-8 mb-52">
-       
-      </div>
+     
 
-      <div className="mx-auto max-w-[1550px] px-4 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-44">
         <div className="mb-8">
           <h2 className="text-5xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-5">Белый глянцевый</h2>
-          <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-sm sm:text-base text-black">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
+          <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-2xl text-black">
           <Link href="/" className="hover:text-white transition-colors">Главная</Link>
-          <span>/</span>
-                     <Link href="/ElektroustnovohneIzdely" className="hover:text-white transition-colors">Электроустановочные изделия</Link>
-           <span>/</span>
+          <span className='mb-3'>.</span>
+          <Link href="/ElektroustnovohneIzdely" className="hover:text-transition-colors">Электроустановочные изделия</Link>
+          <span className='mb-3'>.</span>
            <Link href="/ElektroustnovohneIzdely/Werkel" className="hover:text-white transition-colors">Werkel</Link>
-          <span>/</span>
+           <span className='mb-3'>.</span>
           <span className="text-white">Белый глянцевый</span>
         </nav>
+        </div>
         </div>
 
       

@@ -40,10 +40,11 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br bg-white  flex items-center justify-center px-6">
-    <div className="flex flex-col md:flex-row w-full max-w-9xl mt-20 bg-white  overflow-hidden">
+    <div className="flex flex-col md:flex-row w-full max-w-9xl mt-36 bg-white  overflow-hidden">
       {/* Левая часть - изображение или декоративный блок */}
-      <div className="hidden md:flex md:w-1/2 b bg-white p-12 text-black items-center justify-center">
-        <div className="text-center md:text-left">
+      <div className="hidden md:flex md:w-1/2 bg-cover bg-center bg-no-repeat min-h-screen p-12 text-white items-center justify-center"
+           style={{ backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 18%), linear-gradient(to left, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 18%), linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 12%), url('/images/banners/bannersregisterationdesigners.jpg')` }}>
+        <div className="text-center md:text-left bg-black/40 p-6 rounded-lg">
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-snug">
             Добро пожаловать в MoreElectriki
           </h2>
