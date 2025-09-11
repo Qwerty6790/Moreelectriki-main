@@ -15,7 +15,7 @@ const ElektroustnovohneIzdely: React.FC = () => {
 
 
 	{/* Контент */}
-	<section className="bg-white  md:py-36">
+	<section className="bg-white py-36 md:py-36">
 	<div className="relative z-10 h-full flex items-start justify-start px-4">
 			<h1 className="text-3xl md:text-5xl lg:text-8xl font-bold text-black text-left">Электроустоновочное изделие</h1>
 		</div>
