@@ -10,106 +10,83 @@ interface PaginationProps {
   itemsPerPage?: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ 
-  currentPage, 
-  totalPages, 
-  onPageChange 
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange
 }) => {
   const renderPageNumbers = (): JSX.Element[] => {
     const buttons: JSX.Element[] = [];
 
-    // Previous button
+    const baseBtn = 'inline-flex items-center justify-center px-3 py-1 rounded-full text-4xl font-medium transition-transform';
+    const inactive = 'bg-white border border-gray-200 text-black hover:shadow-md hover:-translate-y-0.5';
+    const active = 'text-black  shadow-lg transform scale-105';
+
+    // Prev
     buttons.push(
       <button
         key="prev"
         onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`relative inline-flex items-center px-3 py-2 rounded-xl border-2 transition-all duration-300 
-          ${currentPage === 1 
-            ? 'border-gray-100 bg-gray-50 text-gray-300' 
-            : 'border-gray-100 bg-white text-gray-700 hover:border-gray-900 hover:text-gray-900 hover:shadow-sm'
-          }`}
+        className={`${baseBtn} ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : inactive}`}
         aria-label="Previous page"
       >
         <ChevronLeft className="h-4 w-4" />
       </button>
     );
 
-    // First page
+    // First page shortcut
     if (currentPage > 3) {
       buttons.push(
-        <button
-          key={1}
-          onClick={() => onPageChange(1)}
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium border-2 border-gray-100 bg-white text-gray-700 hover:border-gray-900 hover:text-gray-900 transition-all duration-300 rounded-xl hover:shadow-sm"
-        >
+        <button key={1} onClick={() => onPageChange(1)} className={`${baseBtn} ${inactive}`}>
           1
         </button>
       );
+      if (currentPage > 4) {
+        buttons.push(
+          <span key="dots-1" className="px-2 text-sm text-gray-400">…</span>
+        );
+      }
     }
 
-    // Dots after first page
-    if (currentPage > 4) {
-      buttons.push(
-        <span key="dots-1" className="relative inline-flex items-center px-3 py-2 text-sm text-gray-400">
-          •••
-        </span>
-      );
-    }
-
-    // Pages around current page
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+    // Pages around current
+    for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
       buttons.push(
         <button
           key={i}
           onClick={() => onPageChange(i)}
-          className={`relative inline-flex items-center px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl
-            ${currentPage === i
-              ? 'z-10 border-2 border-gray-900 bg-gray-900 text-white shadow-md transform hover:scale-105'
-              : 'border-2 border-gray-100 bg-white text-gray-700 hover:border-gray-900 hover:text-gray-900 hover:shadow-sm'
-            }`}
+          className={`${baseBtn} ${currentPage === i ? active : inactive}`}
+          aria-current={currentPage === i ? 'page' : undefined}
         >
           {i}
         </button>
       );
     }
 
-    // Dots before last page
+    // Dots and last
     if (currentPage < totalPages - 3) {
+      if (currentPage < totalPages - 4) {
+        buttons.push(
+          <span key="dots-2" className="px-2 text-sm text-gray-400">…</span>
+        );
+      }
       buttons.push(
-        <span key="dots-2" className="relative inline-flex items-center px-3 py-2 text-sm text-gray-400">
-          •••
-        </span>
-      );
-    }
-
-    // Last page
-    if (currentPage < totalPages - 2) {
-      buttons.push(
-        <button
-          key={totalPages}
-          onClick={() => onPageChange(totalPages)}
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium border-2 border-gray-100 bg-white text-gray-700 hover:border-gray-900 hover:text-gray-900 transition-all duration-300 rounded-xl hover:shadow-sm"
-        >
+        <button key={totalPages} onClick={() => onPageChange(totalPages)} className={`${baseBtn} ${inactive}`}>
           {totalPages}
         </button>
       );
     }
 
-    // Next button
+    // Next
     buttons.push(
       <button
         key="next"
         onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`relative inline-flex items-center px-3 py-2 rounded-xl border-2 transition-all duration-300
-          ${currentPage === totalPages 
-            ? 'border-gray-100 bg-gray-50 text-gray-300' 
-            : 'border-gray-100 bg-white text-gray-700 hover:border-gray-900 hover:text-gray-900 hover:shadow-sm'
-          }`}
+        className={`${baseBtn} ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : inactive}`}
         aria-label="Next page"
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-6 w-6" />
       </button>
     );
 
@@ -117,12 +94,11 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <nav aria-label="Pagination" className="mt-8">
-      <div className="flex justify-center gap-1.5">
-        {renderPageNumbers()}
-      </div>
-      <div className="mt-4 text-center text-sm font-medium text-gray-500">
-        Страница <span className="text-gray-900">{currentPage}</span> из <span className="text-gray-900">{totalPages}</span>
+    <nav aria-label="Pagination" className="mt-6">
+      <div className="flex flex-col sm:flex-row items-center sm:justify-end gap-3 bg-gray-50 p-3 rounded-lg">
+        <div className="flex items-center gap-2">
+          {renderPageNumbers()}
+        </div>
       </div>
     </nav>
   );

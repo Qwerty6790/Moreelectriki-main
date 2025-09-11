@@ -77,8 +77,8 @@ const Header = () => {
   const bannerPath = (() => {
     if (!pathname) return null;
     if (pathname === '/') return '/images/banners/bannersabout.webp';
-    else if (pathname.startsWith('/osveheny')) return '/images/banners/bannersylihnoeosveheny.jpg';
-    else if (pathname.startsWith('/catalog')) return '/images/banners/bannersyosveheny3.jpg';
+    else if (pathname.startsWith('/osveheny')) return '/images/banners/bannercatalog.jpg';
+    else if (pathname.startsWith('/catalog')) return '/images/banners/bannercatalog.jpg';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Werkel')) return '/images/series/werkel.webp';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Voltum')) return '/images/banners/bannersVoltum.jpg';
     else if (pathname.startsWith('/ElektroustnovohneIzdely')) return '/images/banners/bannerselektroustnovohneIzdely.png';
@@ -89,8 +89,10 @@ const Header = () => {
   const isWerkel = pathname?.startsWith('/ElektroustnovohneIzdely/Werkel');
   // Определяем страницы цветов Werkel (имеют путь /ElektroustnovohneIzdely/Werkel/<color>)
   const isWerkelColorPage = pathname?.startsWith('/ElektroustnovohneIzdely/') && pathname !== '/ElektroustnovohneIzdely/';
-  // Для страниц цветов Werkel текст заголовка должен быть чёрным, во всех остальных случаях — по умолчанию белый при наличии баннера, иначе чёрный
-  const headerText = isWerkelColorPage ? 'text-black' : (bannerPath ? 'text-white' : 'text-black');
+  // Для страниц цветов Werkel и для точного пути /ElektroustnovohneIzdely текст заголовка должен быть чёрным.
+  // Во всех остальных случаях — белый при наличии баннера, иначе чёрный
+  const isExactElektroustnovohneIzdely = pathname === '/ElektroustnovohneIzdely';
+  const headerText = (isWerkelColorPage || isExactElektroustnovohneIzdely) ? 'text-black' : (bannerPath ? 'text-white' : 'text-black');
   const catalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const stickyCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -105,6 +107,7 @@ const Header = () => {
   const miniCartTimerRef = useRef<any>(null);
   const [isMiniLikedOpen, setIsMiniLikedOpen] = useState<boolean>(false);
   const [miniLikedItem, setMiniLikedItem] = useState<{ name?: string; imageUrl?: string } | null>(null);
+  const [spotlightRect, setSpotlightRect] = useState<DOMRect | null>(null);
   
   // Хук для поиска товаров
   const { products, loading } = useSearchProducts(searchQuery);
@@ -453,12 +456,21 @@ const Header = () => {
   };
 
   const startCatalogHoverTimer = () => {
+    // Small hover delay on desktop to avoid instant open (500ms)
     if (isCatalogMenuOpen) return;
-    if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
-    catalogHoverTimerRef.current = setTimeout(() => {
-      openCatalogDrawer();
+    if (catalogHoverTimerRef.current) {
+      clearTimeout(catalogHoverTimerRef.current);
       catalogHoverTimerRef.current = null;
-    }, 1000);
+    }
+    const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
+    if (isDesktop) {
+      catalogHoverTimerRef.current = setTimeout(() => {
+        openCatalogMenuFromButton(catalogButtonRef.current);
+        catalogHoverTimerRef.current = null;
+      }, 500);
+    } else {
+      openCatalogDrawer();
+    }
   };
 
   const clearCatalogHoverTimer = () => {
@@ -473,6 +485,65 @@ const Header = () => {
       clearCatalogHoverTimer();
     };
   }, []);
+
+  // spotlight update: compute menu button rect to render an undimmed area
+  const updateSpotlightRect = () => {
+    try {
+      const btn = catalogButtonRef.current;
+      if (!btn) {
+        setSpotlightRect(null);
+        return;
+      }
+      const rect = btn.getBoundingClientRect();
+      setSpotlightRect(rect);
+    } catch {
+      setSpotlightRect(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!isCatalogMenuOpen) {
+      setSpotlightRect(null);
+      return;
+    }
+    // update immediately and on resize/scroll
+    updateSpotlightRect();
+    const onResize = () => updateSpotlightRect();
+    window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onResize, { passive: true } as any);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onResize as any);
+    };
+  }, [isCatalogMenuOpen]);
+
+  // compute overlay mask style to create a transparent hole around spotlightRect
+  const overlayStyle: React.CSSProperties = {};
+  if (isCatalogMenuOpen && spotlightRect && typeof window !== 'undefined' && window.innerWidth >= 768) {
+    // slightly smaller spotlight: less padding and smaller min radius
+    const radius = Math.max(Math.max(spotlightRect.width, spotlightRect.height) / 2 + 2, 2);
+    const cx = spotlightRect.left + spotlightRect.width / 1.7;
+    const cy = spotlightRect.top + spotlightRect.height / 1;
+    const mask = `radial-gradient(circle ${radius}px at ${cx}px ${cy}px, transparent 0, transparent ${radius}px, black ${radius + 1}px)`;
+    // use mask to cut hole in overlay
+    (overlayStyle as any).WebkitMaskImage = mask;
+    (overlayStyle as any).maskImage = mask;
+    overlayStyle.background = 'rgba(0,0,0,0.4)';
+    overlayStyle.transition = 'opacity 0.25s ease';
+    overlayStyle.pointerEvents = 'none';
+    overlayStyle.zIndex = 10;
+    overlayStyle.position = 'absolute';
+    overlayStyle.inset = '0px';
+    overlayStyle.opacity = 1;
+  } else {
+    overlayStyle.background = 'rgba(0,0,0,0.4)';
+    overlayStyle.transition = 'opacity 0.25s ease';
+    overlayStyle.pointerEvents = 'none';
+    overlayStyle.zIndex = 10;
+    overlayStyle.position = 'absolute';
+    overlayStyle.inset = '0px';
+    overlayStyle.opacity = isCatalogMenuOpen ? 1 : 0;
+  }
 
   // Brands menu handlers removed
 
@@ -723,6 +794,14 @@ const Header = () => {
         .drawer-enter-active { transform: translateX(0); transition: transform 300ms ease-in-out; }
         .drawer-exit { transform: translateX(0); }
         .drawer-exit-active { transform: translateX(-100%); transition: transform 300ms ease-in-out; }
+        /* Smooth dropdown panel animation */
+        .catalog-panel {
+          transform-origin: top center;
+          transition: transform 240ms cubic-bezier(0.2,0.8,0.2,1), opacity 220ms ease;
+          will-change: transform, opacity;
+        }
+        .catalog-panel-closed { transform: translateY(-8px) scaleY(0.98); opacity: 0; }
+        .catalog-panel-open { transform: translateY(0) scaleY(1); opacity: 1; }
       `}</style>
       
       <div className="w-full relative">
@@ -740,14 +819,17 @@ const Header = () => {
             isStickyHeaderVisible ? '-translate-y-full' : 'translate-y-0'
           )}
         >
+          {/* Header dim overlay when catalog dropdown is open on desktop */}
+          {/* overlay with optional spotlight mask */}
+          <div style={overlayStyle as any} />
           {/* Верхняя тонкая панель */}
           <div className={clsx('hidden md:block', headerText + '/80', bannerPath ? 'bg-transparent' : 'bg-white')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
               <div className="flex h-8 items-center text-[13px] gap-4">
                 <a href="tel:+79265522173" className="hover:text-neutral-200 text-[20px] font-bold"> 8(926) 552-21-73</a>
-                <a href="#call" className="hover:text-neutral-200 text-[20px]">Заказать звонок</a>
+                <a href="#call" className="hover:text-neutral-200 font-bold text-[20px]">Заказать звонок</a>
                 <div className="ml-auto flex items-center gap-6">
-                  <span className="hidden lg:inline text-[20px]">г. Москва, 25 километр, ТК Конструктор</span>
+                  <span className="hidden lg:inline font-bold text-[20px]">г. Москва, 25 километр, ТК Конструктор</span>
                   <a href="/auth/register" className="hover:text-neutral-200 text-[20px] font-bold">Для дизайнеров</a>
                 </div>
               </div>
@@ -772,7 +854,7 @@ const Header = () => {
                 </button>
 
                 {/* Логотип */}
-                <a href="/" style={{ letterSpacing: '0.2em' }} className={clsx(headerText, 'text-2xl font-bold tracking-widest uppercase flex-none')}>
+                <a href="/" style={{ letterSpacing: '0.2em' }} className={clsx(headerText, 'sm:text-4xl text-2xl font-bold tracking-widest uppercase flex-none')}>
                   MORELEKTRIKI
                 </a>
                 {/* Мобильный поиск между логотипом и иконками */}
@@ -831,9 +913,15 @@ const Header = () => {
                 <button
                   ref={catalogButtonRef}
                   onClick={openCatalogDrawer}
-                  className="hover:text-white/90 font-bold   z-10 flex py-2 px-2 text-sm"
+                  onPointerEnter={startCatalogHoverTimer}
+                  onPointerLeave={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
+                  onMouseEnter={startCatalogHoverTimer}
+                  onMouseLeave={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
+                  onFocus={startCatalogHoverTimer}
+                  onBlur={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
+                  className={clsx('font-bold cursor-pointer z-10 flex py-2 px-2 text-sm relative', isCatalogMenuOpen ? 'text-white' : 'hover:text-white/90')}
                 >
-                  МЕНЮ
+                  <span className={clsx(isCatalogMenuOpen ? 'z-[10002]' : '')}>МЕНЮ</span>
                 </button>
                 {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
                 <a href="/sales" className="hover:text-white/90  font-bold  py-1 px-2 text-sm">Акции</a>
@@ -1121,80 +1209,162 @@ const Header = () => {
           if (overlay && !isCatalogMenuOpen) overlay.classList.add('pointer-events-none');
           if (overlay && isCatalogMenuOpen) overlay.classList.remove('pointer-events-none');
         }}>
-          <div
-            id="catalog-overlay"
-            className={"absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
-            onClick={() => setIsCatalogMenuOpen(false)}
-          />
-          <aside
-            aria-hidden={!isCatalogMenuOpen}
-            onMouseEnter={() => clearCatalogHoverTimer()}
-            onMouseLeave={() => {
-              if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
-              catalogHoverTimerRef.current = setTimeout(() => setIsCatalogMenuOpen(false), 280);
-            }}
-            className={"absolute left-0 top-0 right-0 bottom-0 bg-transparent p-0 overflow-hidden shadow-2xl transform transition-transform duration-300 " + (isCatalogMenuOpen ? 'translate-x-0' : '-translate-x-[100%]') }
-          >
-            <div className="flex h-full">
-              {/* Левый узкий столбец */}
-              <nav className="w-72 bg-white/100 border-r overflow-y-auto hide-scrollbar" style={{ maxHeight: '100vh' }}>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-2xl font-semibold text-black">Каталог</h3>
-                  <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-1xl leading-none">×</button>
-                </div>
-                <div className="flex flex-col">
-                  {catalogData.lighting.map((item, idx) => (
-                    <div key={idx} className="border-b last:border-b-0">
-                      <button
-                        onClick={() => toggleAccordionItem(idx)}
-                        aria-expanded={expandedAccordionItems.includes(idx)}
-                        className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
-                      >
-                        <span className="flex items-center gap-3">
-                          <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
-                          <span className="text-1xl font-medium text-black">{item.title}</span>
-                        </span>
-                        <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
-                      </button>
+          {/* Render full-screen drawer for mobile, dropdown for desktop */}
+          {(() => {
+            const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
 
-                      <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
-                        <div className="flex flex-col text-sm text-black/80">
-                          {item.subcategories?.map((sub, sidx) => (
-                            <a
-                              key={sidx}
-                              href={sub.link.replace('/osveheny', '/catalog')}
-                              className="py-2 hover:underline"
-                              onClick={() => setIsCatalogMenuOpen(false)}
-                            >
-                              {sub.title}
-                            </a>
+            if (!isDesktop) {
+              return (
+                <>
+                  <div
+                    id="catalog-overlay"
+                    className={"absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+                    onClick={() => setIsCatalogMenuOpen(false)}
+                  />
+                  <aside
+                    aria-hidden={!isCatalogMenuOpen}
+                    onMouseEnter={() => clearCatalogHoverTimer()}
+                    onMouseLeave={() => {
+                      if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
+                      catalogHoverTimerRef.current = setTimeout(() => setIsCatalogMenuOpen(false), 280);
+                    }}
+                    className={"absolute left-0 top-0 right-0 bottom-0 bg-transparent p-0 overflow-hidden shadow-2xl transform transition-transform duration-300 " + (isCatalogMenuOpen ? 'translate-x-0' : '-translate-x-[100%]') }
+                  >
+                    <div className="flex h-full">
+                      {/* Левый узкий столбец */}
+                      <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '100vh' }}>
+                        <div className="flex items-center justify-between px-4 py-3">
+                          <h3 className="text-4xl font-semibold text-black">Каталог</h3>
+                          <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-1xl leading-none">×</button>
+                        </div>
+                        <div className="flex flex-col">
+                          {catalogData.lighting.map((item, idx) => (
+                            <div key={idx} className=" last:border-b-0">
+                              <button
+                                onClick={() => toggleAccordionItem(idx)}
+                                aria-expanded={expandedAccordionItems.includes(idx)}
+                                className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
+                              >
+                                <span className="flex items-center gap-3">
+                                  <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
+                                  <span className="text-[19px] font-bold text-black">{item.title}</span>
+                                </span>
+                                <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
+                              </button>
+
+                              <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
+                                <div className="flex flex-col font-bold text-sm text-black/80">
+                                  {item.subcategories?.map((sub, sidx) => (
+                                    <a
+                                      key={sidx}
+                                      href={sub.link.replace('/osveheny', '/catalog')}
+                                      className="py-2 hover:underline"
+                                      onClick={() => setIsCatalogMenuOpen(false)}
+                                    >
+                                      {sub.title}
+                                    </a>
+                                  ))}
+                                </div>
+                                <a
+                                  href={item.link.replace('/osveheny', '/catalog')}
+                                  className="mt-2 inline-block text-sm font-semibold text-black py-2"
+                                  onClick={() => setIsCatalogMenuOpen(false)}
+                                >
+                                  Смотреть все
+                                </a>
+                              </div>
+                            </div>
                           ))}
                         </div>
-                        <a
-                          href={item.link.replace('/osveheny', '/catalog')}
-                          className="mt-2 inline-block text-sm font-semibold text-black py-2"
-                          onClick={() => setIsCatalogMenuOpen(false)}
-                        >
-                          Смотреть все
-                        </a>
+                      </nav>
+
+                      {/* Правая большая область с изображением - занимает всё оставшееся пространство экрана */}
+                      <div className="flex-1 relative h-screen">
+                        <img
+                          src="/images/banners/bannersopenspace.jpg"
+                          alt="banner"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </nav>
+                  </aside>
+                </>
+              );
+            }
 
-              {/* Правая большая область с изображением - занимает всё оставшееся пространство экрана */}
-              <div className="flex-1 relative h-screen">
-                <img
-                  src="/images/banners/bannersopenspace.jpg"
-                  alt="banner"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
-                {/* Можно разместить произвольный контент поверх изображения при необходимости */}
-              </div>
-            </div>
-          </aside>
+            // Desktop dropdown: span full viewport width under header
+            return (
+              <aside
+                id="catalog-dropdown"
+                aria-hidden={!isCatalogMenuOpen}
+                onMouseEnter={() => clearCatalogHoverTimer()}
+                onMouseLeave={() => {
+                  if (catalogHoverTimerRef.current) clearTimeout(catalogHoverTimerRef.current);
+                  catalogHoverTimerRef.current = setTimeout(() => setIsCatalogMenuOpen(false), 280);
+                }}
+                style={{ top: catalogTopOffset, left: 0, right: 0 }}
+                className={"absolute left-0 right-0 z-[10000] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+              >
+                <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+                  <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '60vh' }}>
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <h3 className="text-4xl font-semibold text-black">Каталог</h3>
+                      <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-1xl leading-none">×</button>
+                    </div>
+                    <div className="flex flex-col">
+                      {catalogData.lighting.map((item, idx) => (
+                        <div key={idx} className=" last:border-b-0">
+                          <button
+                            onClick={() => toggleAccordionItem(idx)}
+                            aria-expanded={expandedAccordionItems.includes(idx)}
+                            className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
+                          >
+                            <span className="flex items-center gap-3">
+                              <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
+                              <span className="text-[19px] font-bold text-black">{item.title}</span>
+                            </span>
+                            <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
+                          </button>
+
+                          <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
+                            <div className="flex flex-col font-bold text-sm text-black/80">
+                              {item.subcategories?.map((sub, sidx) => (
+                                <a
+                                  key={sidx}
+                                  href={sub.link.replace('/osveheny', '/catalog')}
+                                  className="py-2 hover:underline"
+                                  onClick={() => setIsCatalogMenuOpen(false)}
+                                >
+                                  {sub.title}
+                                </a>
+                              ))}
+                            </div>
+                            <a
+                              href={item.link.replace('/osveheny', '/catalog')}
+                              className="mt-2 inline-block text-sm font-semibold text-black py-2"
+                              onClick={() => setIsCatalogMenuOpen(false)}
+                            >
+                              Смотреть все
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </nav>
+
+                  <div className="flex-1 relative block h-full">
+                    <img
+                      src="/images/banners/bannersopenspace.jpg"
+                      alt="banner"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+                  </div>
+                </div>
+              </aside>
+            );
+          })()}
         </div>,
         document.body
       )}

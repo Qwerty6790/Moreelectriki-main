@@ -4548,20 +4548,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                     ) : (
                       // Обычная заглушка для других случаев
                       <div className="text-center">
-                        <div className="flex items-center justify-center space-x-1 mb-6">
-                          {/* Простые точки анимации */}
-                          <div className="w-4 h-4 bg-[#000000] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                          <div className="w-4 h-4 bg-[#000000] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                          <div className="w-4 h-4 bg-[#000000] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                       
+                    
+                        <div className="flex justify-center">
+                          <LoadingSpinner size="lg" text="Обновление каталога..." />
                         </div>
-                        <p className="text-white text-2xl font-bold tracking-wider mb-4">ELEKTROMOS</p>
-                        <p className="text-gray-400 mb-6">Загружаем актуальный каталог товаров...</p>
-                        <button 
-                          onClick={handleResetFilters} 
-                          className="px-6 py-3 bg-[#000000]/80 backdrop-blur-sm border border-[#000000]/30 text-white rounded-xl hover:bg-[#000000]/90 transition-all duration-200 font-medium shadow-lg"
-                        >
-                          Обновить каталог
-                        </button>
                       </div>
                     )}
                   </div>

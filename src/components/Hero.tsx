@@ -196,7 +196,7 @@ export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
     { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
-    { id: 2, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny5.jpeg' },
+    { id: 2, title: 'Ищите, купите, используйте', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny6.jpg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
@@ -287,7 +287,7 @@ export default function Banner() {
     <div className="relative w-full">
       <style jsx>{fadeInAnimation}</style>
       {/* Верхний блок баннера (в пределах секции) */}
-      <section className="relative h-[60vh] md:h-[87vh] bg-black">
+      <section className="relative h-[60vh] md:h-[96vh] bg-black">
         {/* Фото для текущего слайда с плавной сменой */}
         <div className="absolute inset-0 z-0">
           {/* Базовый фон */}
