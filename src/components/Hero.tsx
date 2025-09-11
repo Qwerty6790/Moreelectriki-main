@@ -455,10 +455,10 @@ export default function Banner() {
               el.scrollBy({ left: -amount, behavior: 'smooth' });
             }}
             aria-label="Предыдущая категория"
-            className="md:flex items-center justify-center w-10 h-10 rounded-full  text-white absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
+            className="md:flex items-center justify-center w-10 h-10  text-neutral-300 absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
@@ -470,10 +470,10 @@ export default function Banner() {
               el.scrollBy({ left: amount, behavior: 'smooth' });
             }}
             aria-label="Следующая категория"
-            className="md:flex items-center justify-center w-10 h-10 rounded-full  text-white absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
+            className="md:flex items-center justify-center w-10 h-10   text-neutral-300 absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
