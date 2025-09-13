@@ -67,18 +67,19 @@ export default function VoltumCashmerePage() {
     <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh', color: 'var(--foreground)' }}>
      
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-44">
-        <h2 className="text-5xl font-bold text-black mb-5">Кашемир</h2>
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center space-x-2 text-2xl text-black">
-          <Link href="/">Главная</Link>
+      <div className="mb-8">
+          <h2 className="text-5xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-black mb-5">Кашемир</h2>
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <span className='mb-3'>.</span>
-          <Link href="/ElektroustnovohneIzdely">Электроустановочные изделия</Link>
+          <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-2xl text-black">
+          <Link href="/ElektroustnovohneIzdely" className="hover:text-transition-colors">Электроустановочные изделия</Link>
           <span className='mb-3'>.</span>
-          <Link href="/ElektroustnovohneIzdely/Voltum">Voltum</Link>
-          <span className='mb-3'>.</span>
-          <span className="text-black">Кашемир</span>
+           <Link href="/ElektroustnovohneIzdely/Voltum" className="hover:text-gray-200 transition-colors">Voltum</Link>
+           <span className='mb-3'>.</span>
+          <span className="text-white">Кашемир</span>
         </nav>
-      </div>
+        </div>
+        </div>
         {loading ? <LoadingSpinner isLoading={loading} /> : products.length > 0 ? <CatalogOfProductSearch products={products} viewMode={viewMode} isLoading={loading} /> : <div className="text-center py-16"><div className="text-gray-400 text-lg mb-4">Товары не найдены</div></div>}
         {totalPages > 1 && <PaginationComponents totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} isLoading={loading} totalItems={totalProducts} itemsPerPage={itemsPerPage} />}
       </div>

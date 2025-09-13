@@ -72,17 +72,18 @@ export default function VoltumWhiteMattePage() {
     <div style={{ backgroundColor: 'var(--background)', minHeight: '100vh', color: 'var(--foreground)' }}>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-44" >
         <div>
-          <h2 className="text-5xl px-6 font-bold text-black mb-3">Белый матовый</h2>
-          <div  className="mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center space-x-3 text-2xl text-black">
-            <Link href="/" className="hover:text-white transition-colors">Главная</Link>
-            <span className='mb-3'>.</span>
-            <Link href="/ElektroustnovohneIzdely" className="hover:text-white transition-colors">Электроустановочные изделия</Link>
-            <span className='mb-3'>.</span>
-            <Link href="/ElektroustnovohneIzdely/Voltum" className="hover:text-white transition-colors">Voltum</Link>
-            <span className='mb-3'>.</span>
-            <span className="text-black">Белый матовый</span>
-          </nav>
+        <div className="mb-8">
+          <h2 className="text-5xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-black mb-5">Белый матовый</h2>
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
+          <span className='mb-3'>.</span>
+          <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-2xl text-black">
+          <Link href="/ElektroustnovohneIzdely" className="hover:text-transition-colors">Электроустановочные изделия</Link>
+          <span className='mb-3'>.</span>
+           <Link href="/ElektroustnovohneIzdely/Voltum" className="hover:text-gray-200 transition-colors">Voltum</Link>
+           <span className='mb-3'>.</span>
+          <span className="text-white">Белый матовый</span>
+        </nav>
+        </div>
         </div>
           {totalProducts > 0 ? (
             <p className="text-white">Найдено {totalProducts} {totalProducts === 1 ? 'товар' : totalProducts < 5 ? 'товара' : 'товаров'}</p>
