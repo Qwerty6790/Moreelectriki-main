@@ -247,7 +247,7 @@ const Cart: React.FC = () => {
       <div className="relative mt-12 h-[300px] bg-white overflow-hidden">
         <div className="relative max-w-[1550px] mx-auto px-4 h-full flex items-center">
           <div className="space-y-4">
-            <h1 className="text-7xl font-bold text-white tracking-tight">Корзина</h1>
+            <h1 className="text-6xl font-bold text-black tracking-tight">Корзина</h1>
             <div className="flex items-center text-black/60 text-sm">
               <Link href="/" className="hover:text-black transition-colors">
                 Главная
@@ -372,14 +372,14 @@ const Cart: React.FC = () => {
                               <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
                                 <button
                                   onClick={() => handleDecreaseQuantity(product._id)}
-                                  className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-black"
+                                  className="px-3 py-1 rounded-full bg-white  hover:bg-gray-200 text-black"
                                 >
                                   <FaMinus size={12} />
                                 </button>
                                 <span className="px-4 py-1 text-black font-medium">{product.quantity ?? 0}</span>
                                 <button
                                   onClick={() => handleIncreaseQuantity(product._id)}
-                                  className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-black"
+                                  className="px-3 py-1 rounded-full bg-white hover:bg-gray-200 text-black"
                                 >
                                   <FaPlus size={12} />
                                 </button>
@@ -451,7 +451,7 @@ const Cart: React.FC = () => {
       {/* Модальное окно оформления заказа (гость/аккаунт, оплата/самовывоз) */}
       {isCheckoutModalOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50"
+          className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={() => setIsCheckoutModalOpen(false)}
@@ -495,7 +495,8 @@ const Cart: React.FC = () => {
                 ) : (
                   <div className="p-4 bg-gray-50 rounded-xl">
                     <p className="text-sm text-black/70">Адрес самовывоза:</p>
-                    <p className="text-black font-medium mt-1">Деревня Исаково 103А, Истринский район</p>
+                    <p className="text-black font-medium mt-1">г. Москва, 25 километр, ТК Конструктор
+                    </p>
                   </div>
                 )}
               </div>

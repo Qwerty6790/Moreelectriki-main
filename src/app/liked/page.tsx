@@ -101,7 +101,7 @@ const Liked: React.FC = () => {
       <div className="relative mt-32 h-[300px]  overflow-hidden">
         <div className="relative max-w-[1550px] mx-auto px-4 h-full flex items-center">
           <div className="space-y-4">
-            <h1 className="text-7xl font-bold text-black tracking-tight">Избранное</h1>
+            <h1 className="text-6xl font-bold text-black tracking-tight">Избранное</h1>
             <div className="flex items-center text-black/60 text-sm">
               <Link href="/" className="hover:text-black transition-colors">
                 Главная

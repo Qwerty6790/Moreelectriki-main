@@ -196,7 +196,7 @@ export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
     { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
-    { id: 2, title: 'Ищите, купите, используйте', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny6.jpg' },
+    { id: 2, title: 'Ищите, купите, используйте', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny7.jpg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
@@ -420,21 +420,21 @@ export default function Banner() {
           <div ref={categoriesRef} className="flex gap-6 overflow-hidden flex-nowrap scroll-smooth py-2 md:py-4">
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
               <Link href="/catalog/chandeliers/" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+                <Image src="/images/category/dekoratvinysvetcategory.webp" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Декоративный свет</div>
             </div>
 
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
               <Link href="/osveheny?category=Светильник&page=1" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/funcionaltsvet.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+                <Image src="/images/category/funcionaltsvet.webp" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Функциональный свет</div>
             </div>
 
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
               <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
+                <Image src="/images/category/ylichysvetcategory.webp" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Уличный свет</div>
             </div>
@@ -455,9 +455,9 @@ export default function Banner() {
               el.scrollBy({ left: -amount, behavior: 'smooth' });
             }}
             aria-label="Предыдущая категория"
-            className="md:flex items-center justify-center w-10 h-10  text-neutral-300 absolute left-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
+            className="md:flex items-center justify-center w-10 h-10  text-neutral-300 absolute left-2 top-1/2 transform -translate-y-1/2  z-10 mobile-arrow"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -470,9 +470,9 @@ export default function Banner() {
               el.scrollBy({ left: amount, behavior: 'smooth' });
             }}
             aria-label="Следующая категория"
-            className="md:flex items-center justify-center w-10 h-10   text-neutral-300 absolute right-2 top-1/2 transform -translate-y-1/2 shadow z-10 mobile-arrow"
+            className="md:flex items-center justify-center w-10 h-10   text-neutral-300 absolute right-2 top-1/2 transform -translate-y-1/2  z-10 mobile-arrow"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M9 5l7 7-7 7" />
             </svg>
           </button>

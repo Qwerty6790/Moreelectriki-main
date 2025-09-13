@@ -65,7 +65,15 @@ const Header = () => {
   const [isMobileCatalogOpen, setIsMobileCatalogOpen] = useState(false);
   const [expandedAccordionItems, setExpandedAccordionItems] = useState<number[]>([]);
   const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const brandsButtonRef = useRef<HTMLButtonElement | null>(null);
+  const aboutButtonRef = useRef<HTMLButtonElement | null>(null);
+  const deliveryButtonRef = useRef<HTMLButtonElement | null>(null);
+  const howToBuyButtonRef = useRef<HTMLButtonElement | null>(null);
+  const contactsButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isCatalogDrawerMounted, setIsCatalogDrawerMounted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [isHeaderDimmed, setIsHeaderDimmed] = useState(false);
   // Brands menu removed
   const router = useRouter();
   const pathname = usePathname();
@@ -97,6 +105,8 @@ const Header = () => {
   const stickyCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileCatalogButtonRef = useRef<HTMLButtonElement | null>(null);
   const catalogHoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuHoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const currentMenuButtonRef = useRef<HTMLElement | null>(null);
   const mobileNavRef = useRef<HTMLDivElement | null>(null);
   const [catalogTopOffset, setCatalogTopOffset] = useState<number>(64);
   const [isStickyHeaderVisible, setIsStickyHeaderVisible] = useState<boolean>(false);
@@ -480,6 +490,37 @@ const Header = () => {
     }
   };
 
+  const startMenuHover = (btn: HTMLElement | null, name: string) => {
+    if (menuHoverTimerRef.current) {
+      clearTimeout(menuHoverTimerRef.current);
+      menuHoverTimerRef.current = null;
+    }
+    // small delay to match MENU behavior
+    menuHoverTimerRef.current = setTimeout(() => {
+      currentMenuButtonRef.current = btn;
+      setActiveMenu(name);
+      updateCatalogMenuTop(btn);
+      updateSpotlightRect();
+      setIsHeaderDimmed(true);
+      menuHoverTimerRef.current = null;
+    }, 200);
+  };
+
+  const clearMenuHover = () => {
+    if (menuHoverTimerRef.current) {
+      clearTimeout(menuHoverTimerRef.current);
+      menuHoverTimerRef.current = null;
+    }
+    // small delay before closing to match MENU
+    menuHoverTimerRef.current = setTimeout(() => {
+      setActiveMenu(null);
+      setSpotlightRect(null);
+      currentMenuButtonRef.current = null;
+      setIsHeaderDimmed(false);
+      menuHoverTimerRef.current = null;
+    }, 280);
+  };
+
   useEffect(() => {
     return () => {
       clearCatalogHoverTimer();
@@ -489,7 +530,7 @@ const Header = () => {
   // spotlight update: compute menu button rect to render an undimmed area
   const updateSpotlightRect = () => {
     try {
-      const btn = catalogButtonRef.current;
+      const btn = currentMenuButtonRef.current || catalogButtonRef.current;
       if (!btn) {
         setSpotlightRect(null);
         return;
@@ -519,30 +560,59 @@ const Header = () => {
 
   // compute overlay mask style to create a transparent hole around spotlightRect
   const overlayStyle: React.CSSProperties = {};
-  if (isCatalogMenuOpen && spotlightRect && typeof window !== 'undefined' && window.innerWidth >= 768) {
-    // slightly smaller spotlight: less padding and smaller min radius
-    const radius = Math.max(Math.max(spotlightRect.width, spotlightRect.height) / 2 + 2, 2);
-    const cx = spotlightRect.left + spotlightRect.width / 1.7;
-    const cy = spotlightRect.top + spotlightRect.height / 1;
-    const mask = `radial-gradient(circle ${radius}px at ${cx}px ${cy}px, transparent 0, transparent ${radius}px, black ${radius + 1}px)`;
+  if ((isCatalogMenuOpen || !!activeMenu || isHeaderDimmed) && spotlightRect && isClient && window.innerWidth >= 768) {
+    // slightly larger spotlight so hole covers label + semicircle
+    const radius = Math.max(Math.max(spotlightRect.width, spotlightRect.height) * 0.5 + 8, 40);
+    const cx = spotlightRect.left + spotlightRect.width / 2;
+    const cy = spotlightRect.top + spotlightRect.height / 1.2;
+    const mask = `radial-gradient(circle ${radius}px at ${cx}px ${cy}px, transparent 0, transparent ${radius}px, black ${radius + 2}px)`;
     // use mask to cut hole in overlay
     (overlayStyle as any).WebkitMaskImage = mask;
     (overlayStyle as any).maskImage = mask;
-    overlayStyle.background = 'rgba(0,0,0,0.4)';
-    overlayStyle.transition = 'opacity 0.25s ease';
+    overlayStyle.background = 'rgba(0,0,0,0.45)';
+    overlayStyle.transition = 'opacity 0.22s ease';
     overlayStyle.pointerEvents = 'none';
-    overlayStyle.zIndex = 10;
+    // place overlay above header content but below semicircle (which will have higher z)
+    overlayStyle.zIndex = 10000;
     overlayStyle.position = 'absolute';
     overlayStyle.inset = '0px';
-    overlayStyle.opacity = 1;
+    overlayStyle.opacity = (isCatalogMenuOpen || !!activeMenu || isHeaderDimmed) ? 1 : 0;
   } else {
-    overlayStyle.background = 'rgba(0,0,0,0.4)';
-    overlayStyle.transition = 'opacity 0.25s ease';
+    overlayStyle.background = 'rgba(0,0,0,0.45)';
+    overlayStyle.transition = 'opacity 0.22s ease';
     overlayStyle.pointerEvents = 'none';
-    overlayStyle.zIndex = 10;
+    overlayStyle.zIndex = 10000;
     overlayStyle.position = 'absolute';
     overlayStyle.inset = '0px';
-    overlayStyle.opacity = isCatalogMenuOpen ? 1 : 0;
+    overlayStyle.opacity = (isCatalogMenuOpen || !!activeMenu || isHeaderDimmed) ? 1 : 0;
+  }
+
+  // semicircle (drop) style computed from spotlightRect (like MENU)
+  let semiStyle: React.CSSProperties | null = null;
+  if (spotlightRect && isClient && window.innerWidth >= 768) {
+    const semiWidth = Math.max(38, spotlightRect.width * 1.0);
+    const semiHeight = Math.max(14, semiWidth * 0.46);
+    const left = spotlightRect.left + spotlightRect.width / 2 - semiWidth / 2;
+    // place slightly above the dropdown top so it visually sits under header
+    const top = Math.max(6, catalogTopOffset - Math.round(semiHeight / 2) - 4);
+    semiStyle = {
+      position: 'absolute',
+      left: left,
+      top: top,
+      width: semiWidth,
+      height: semiHeight,
+      pointerEvents: 'none',
+      // bright top center with soft falloff, subtle shadow to match MENU
+      background: '',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
+      borderBottomLeftRadius: semiWidth / 2,
+      borderBottomRightRadius: semiWidth / 2,
+      zIndex: 10005,
+      transition: 'opacity 0.16s ease, transform 0.16s ease',
+      transform: (activeMenu || isHeaderDimmed || isCatalogMenuOpen) ? 'translateY(0)' : 'translateY(-6px)',
+      opacity: (activeMenu || isHeaderDimmed || isCatalogMenuOpen) ? 1 : 0,
+      mixBlendMode: 'screen'
+    };
   }
 
   // Brands menu handlers removed
@@ -550,6 +620,27 @@ const Header = () => {
   const handleCatalogClick = () => {
     if (isCatalogMenuOpen) setIsCatalogMenuOpen(false);
     else openCatalogMenuFromButton(catalogButtonRef.current);
+  };
+
+  const openMenu = (name: string, buttonEl: HTMLElement | null) => {
+    // close catalog if open
+    if (isCatalogMenuOpen) setIsCatalogMenuOpen(false);
+    setActiveMenu(name);
+    // compute top offset similar to catalog
+    updateCatalogMenuTop(buttonEl);
+    // set current button for spotlight
+    currentMenuButtonRef.current = buttonEl;
+    // start small hover effect like menu
+    if (menuHoverTimerRef.current) clearTimeout(menuHoverTimerRef.current);
+    menuHoverTimerRef.current = setTimeout(() => {
+      updateSpotlightRect();
+      menuHoverTimerRef.current = null;
+    }, 80);
+  };
+
+  const closeMenus = () => {
+    setActiveMenu(null);
+    setIsCatalogMenuOpen(false);
   };
 
   const handleStickyCatalogClick = () => {
@@ -563,6 +654,11 @@ const Header = () => {
     if (isCatalogMenuOpen) setIsCatalogMenuOpen(false);
     else openCatalogMenuFromButton(mobileCatalogButtonRef.current);
   };
+
+  // mark client after hydration to avoid SSR/CSR markup mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Закрытие каталога при клике вне его области
   useEffect(() => {
@@ -584,6 +680,40 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isCatalogMenuOpen]);
+
+  // Close other dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutsideAll = (event: MouseEvent) => {
+      const targets: (HTMLElement | null)[] = [
+        catalogButtonRef.current,
+        brandsButtonRef.current,
+        aboutButtonRef.current,
+        howToBuyButtonRef.current,
+        contactsButtonRef.current,
+      ];
+
+      // if click is inside any of the nav buttons, do nothing
+      for (const t of targets) {
+        if (t && t.contains(event.target as Node)) return;
+      }
+
+      // check for any open dropdown panels by id
+      const openPanels = ['catalog-dropdown'];
+      if (activeMenu) openPanels.push(activeMenu + '-panel');
+
+      // if click inside any panel, do nothing
+      for (const id of openPanels) {
+        const el = document.getElementById(id);
+        if (el && el.contains(event.target as Node)) return;
+      }
+
+      // otherwise close
+      closeMenus();
+    };
+
+    document.addEventListener('mousedown', handleClickOutsideAll);
+    return () => document.removeEventListener('mousedown', handleClickOutsideAll);
+  }, [activeMenu]);
 
   // Mount/unmount drawer to allow smooth open/close animation
   useEffect(() => {
@@ -822,6 +952,10 @@ const Header = () => {
           {/* Header dim overlay when catalog dropdown is open on desktop */}
           {/* overlay with optional spotlight mask */}
           <div style={overlayStyle as any} />
+          {/* semicircle drop (bright) - rendered above overlay so it's not dimmed */}
+          {semiStyle && (
+            <div style={semiStyle as any} />
+          )}
           {/* Верхняя тонкая панель */}
           <div className={clsx('hidden md:block', headerText + '/80', bannerPath ? 'bg-transparent' : 'bg-white')}>
             <div className="max-w-[1550px] mx-auto px-3 md:px-4">
@@ -921,15 +1055,45 @@ const Header = () => {
                   onBlur={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
                   className={clsx('font-bold cursor-pointer z-10 flex py-2 px-2 text-sm relative', isCatalogMenuOpen ? 'text-white' : 'hover:text-white/90')}
                 >
-                  <span className={clsx(isCatalogMenuOpen ? 'z-[10002]' : '')}>МЕНЮ</span>
+                  <span className={clsx(isCatalogMenuOpen ? 'z-[10002]' : '')}>Меню</span>
                 </button>
                 {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
-                <a href="/sales" className="hover:text-white/90  font-bold  py-1 px-2 text-sm">Акции</a>
-                {/* БРЕНДЫ removed */}
-                <a href="/projects" className="hover:text-white/90 font-bold py-1 px-2 text-sm">Проекты</a>
-                <a href="/blog" className="hover:text-white/90 font-bold py-1 px-2 text-sm">Блог</a>
-                <a href="/how-to-buy" className="hover:text-white/90  font-bold py-1 px-2 text-sm">Как купить</a>
-                <a href="/contacts" className="hover:text-white/90  font-bold py-1 px-2 text-sm">Контакты</a>
+                <button
+                  ref={brandsButtonRef}
+                  onClick={() => openMenu('brands', brandsButtonRef.current)}
+                  onMouseEnter={() => startMenuHover(brandsButtonRef.current, 'brands')}
+                  onMouseLeave={() => clearMenuHover()}
+                  className={clsx('hover:text-white/90  font-bold  py-1 px-2 text-sm', activeMenu === 'brands' ? 'text-white' : '')}
+                >
+                  Бренды
+                </button>
+                <button
+                  ref={aboutButtonRef}
+                  onClick={() => openMenu('about', aboutButtonRef.current)}
+                  onMouseEnter={() => startMenuHover(aboutButtonRef.current, 'about')}
+                  onMouseLeave={() => clearMenuHover()}
+                  className={clsx('hover:text-white/90 font-bold py-1 px-2 text-sm', activeMenu === 'about' ? 'text-white' : '')}
+                >
+                  О нас
+                </button>
+                <button
+                  ref={howToBuyButtonRef}
+                  onClick={() => openMenu('howtobuy', howToBuyButtonRef.current)}
+                  onMouseEnter={() => startMenuHover(howToBuyButtonRef.current, 'howtobuy')}
+                  onMouseLeave={() => clearMenuHover()}
+                  className={clsx('hover:text-white/90  font-bold py-1 px-2 text-sm', activeMenu === 'howtobuy' ? 'text-white' : '')}
+                >
+                  Как купить
+                </button>
+                <button
+                  ref={contactsButtonRef}
+                  onClick={() => openMenu('contacts', contactsButtonRef.current)}
+                  onMouseEnter={() => startMenuHover(contactsButtonRef.current, 'contacts')}
+                  onMouseLeave={() => clearMenuHover()}
+                  className={clsx('hover:text-white/90  font-bold py-1 px-2 text-sm', activeMenu === 'contacts' ? 'text-white' : '')}
+                >
+                  Контакты
+                </button>
               </nav>
 
               {/* Мобильная адаптивная полоса меню (горизонтальный скролл) с кнопками-стрелками */}
@@ -1307,10 +1471,10 @@ const Header = () => {
                 className={"absolute left-0 right-0 z-[10000] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
               >
                 <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-                  <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '60vh' }}>
+                  <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                     <div className="flex items-center justify-between px-4 py-3">
-                      <h3 className="text-4xl font-semibold text-black">Каталог</h3>
-                      <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-1xl leading-none">×</button>
+                      <h3 className="text-5xl font-semibold text-black">Каталог</h3>
+                      <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-3xl leading-none">×</button>
                     </div>
                     <div className="flex flex-col">
                       {catalogData.lighting.map((item, idx) => (
@@ -1321,10 +1485,10 @@ const Header = () => {
                             className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
                           >
                             <span className="flex items-center gap-3">
-                              <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
+                              <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
                               <span className="text-[19px] font-bold text-black">{item.title}</span>
                             </span>
-                            <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
+                            <ChevronDown className={clsx('w-5 h-5 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
                           </button>
 
                           <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
@@ -1368,6 +1532,89 @@ const Header = () => {
         </div>,
         document.body
       )}
+
+      {/* Dropdowns for other nav items (desktop) */}
+        <div>
+          <aside
+            aria-hidden={activeMenu !== 'brands'}
+            style={{ top: catalogTopOffset, left: 0, right: 0 }}
+            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'brands' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+          >
+            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'brands' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <h3 className="text-5xl font-semibold text-black">Бренды</h3>
+                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
+                </div>
+                <div className="px-4 pb-6 text-sm text-black/80">Здесь краткая информация о брендах, логотипы и ссылки.</div>
+              </nav>
+              <div className="flex-1 relative block h-full">
+                <img src="/images/banners/bannersopenspace.jpg" alt="brands" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+              </div>
+            </div>
+          </aside>
+
+          <aside
+            aria-hidden={activeMenu !== 'about'}
+            style={{ top: catalogTopOffset, left: 0, right: 0 }}
+            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'about' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+          >
+            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'about' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <h3 className="text-5xl font-semibold text-black">О нас</h3>
+                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
+                </div>
+                <div className="px-4 pb-6 text-sm text-black/80">Кратко о компании, миссия и преимущества.</div>
+              </nav>
+              <div className="flex-1 relative block h-full">
+                <img src="/images/banners/banners.jpg" alt="about" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+              </div>
+            </div>
+          </aside>
+
+          <aside
+            aria-hidden={activeMenu !== 'howtobuy'}
+            style={{ top: catalogTopOffset, left: 0, right: 0 }}
+            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'howtobuy' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+          >
+            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'howtobuy' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <h3 className="text-5xl font-semibold text-black">Как купить</h3>
+                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
+                </div>
+                <div className="px-4 pb-6 text-sm text-black/80">Инструкция по заказу, варианты оплаты и доставки.</div>
+              </nav>
+              <div className="flex-1 relative block h-full">
+                <img src="/images/banners/bannersdressingroom.jpg" alt="how to buy" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+              </div>
+            </div>
+          </aside>
+
+          <aside
+            aria-hidden={activeMenu !== 'contacts'}
+            style={{ top: catalogTopOffset, left: 0, right: 0 }}
+            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'contacts' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+          >
+            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'contacts' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+                <div className="flex items-center justify-between px-4 py-3">
+                  <h3 className="text-5xl font-semibold text-black">Контакты</h3>
+                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
+                </div>
+                <div className="px-4 pb-6 text-sm text-black/80">Адреса, телефоны, режим работы и карта.</div>
+              </nav>
+              <div className="flex-1 relative block h-full">
+                <img src="/images/banners/bannersosveheniy.jpg" alt="contacts" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
 
       {/* Brands portal removed */}
 
