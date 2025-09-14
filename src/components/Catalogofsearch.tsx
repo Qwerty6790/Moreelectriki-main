@@ -437,12 +437,8 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
           
           {/* Сообщение "Товары не найдены" */}
           {filteredProducts.length === 0 && (
-            <div className="col-span-full py-8 sm:py-12 text-center bg-black border border-zinc-800 rounded-lg">
-              <svg className="mx-auto h-10 w-10 text-red-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 className="mt-2 text-xs sm:text-sm font-medium text-white">Товары не найдены</h3>
-              <p className="mt-1 text-xs sm:text-sm text-gray-400">Попробуйте изменить параметры поиска</p>
+            <div className="col-span-full py-8 sm:py-12 text-center backdrop-blur-sm border border-zinc-800 rounded-lg">
+              <p className='text-3xl'>Напишите для отображения в предпросмотре товаров</p>
             </div>
           )}
         </div>

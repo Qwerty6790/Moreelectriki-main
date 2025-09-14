@@ -173,7 +173,7 @@ const ProductDetail: React.FC = () => {
             <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
-            <button 
+            <button
               onClick={toggleFavorite}
               className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full"
             >
@@ -382,7 +382,7 @@ const ProductDetail: React.FC = () => {
                       toast.error('Ошибка');
                     }
                   }}
-                  className="px-5 py-3 bg-black text-white rounded-lg hover:bg-gray-900"
+                  className="px-5 py-3 bg-black  text-white rounded-lg hover:bg-gray-900"
                 >
                   В корзину
                 </button>

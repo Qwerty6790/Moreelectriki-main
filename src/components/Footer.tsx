@@ -13,10 +13,10 @@ const Footer = () => {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-black">
-            <Link href="/about" className="hover:text-black">О компании</Link>
-            <Link href="/customers/delivery" className="hover:text-black">Доставка</Link>
-            <Link href="/customers/warranty" className="hover:text-black">Гарантия</Link>
-            <Link href="/designers/club" className="hover:text-black">Дизайнеры</Link>
+            <Link href="/" className="hover:text-black">О компании</Link>
+            <Link href="/" className="hover:text-black">Доставка</Link>
+            <Link href="/" className="hover:text-black">Гарантия</Link>
+            <Link href="/" className="hover:text-black">Дизайнеры</Link>
           </nav>
 
           <div className="flex items-center font-bold gap-4 text-sm">

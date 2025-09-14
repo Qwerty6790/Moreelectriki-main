@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, User, Menu as MenuIcon, X, ShoppingCart, ChevronDown, ShoppingBagIcon, LucideShoppingBag, ShoppingCartIcon, ShoppingBasket, SearchCheckIcon, SearchSlash, SearchCodeIcon, SearchXIcon, SearchX } from 'lucide-react';
@@ -7,6 +8,7 @@ import axios from 'axios';
 import clsx from 'clsx';
 import Image from 'next/image';
 import SearchResults from '@/pages/search/[qwery]';
+import CatalogOfProductSearch from './Catalogofsearch';
 import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import { FaSearch } from 'react-icons/fa';
 
@@ -63,7 +65,7 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMobileCatalogOpen, setIsMobileCatalogOpen] = useState(false);
-  const [expandedAccordionItems, setExpandedAccordionItems] = useState<number[]>([]);
+  
   const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const brandsButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -73,6 +75,7 @@ const Header = () => {
   const contactsButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isCatalogDrawerMounted, setIsCatalogDrawerMounted] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isHeaderDimmed, setIsHeaderDimmed] = useState(false);
   // Brands menu removed
   const router = useRouter();
@@ -85,8 +88,8 @@ const Header = () => {
   const bannerPath = (() => {
     if (!pathname) return null;
     if (pathname === '/') return '/images/banners/bannersabout.webp';
-    else if (pathname.startsWith('/osveheny')) return '/images/banners/bannercatalog.jpg';
-    else if (pathname.startsWith('/catalog')) return '/images/banners/bannercatalog.jpg';
+    else if (pathname.startsWith('/osveheny')) return '/images/banners/bannercatalog.webp';
+    else if (pathname.startsWith('/catalog')) return '/images/banners/bannercatalog.webp';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Werkel')) return '/images/series/werkel.webp';
     else if (pathname.startsWith('/ElektroustnovohneIzdely/Voltum')) return '/images/banners/bannersVoltum.jpg';
     else if (pathname.startsWith('/ElektroustnovohneIzdely')) return '/images/banners/bannerselektroustnovohneIzdely.png';
@@ -265,9 +268,8 @@ const Header = () => {
         link: '/osveheny?category=Светодиодная лента',
         image: '/images/category/stikersvetodionylenta.png',
         subcategories: [
-          { title: 'Одноцветные ленты', link: '/osveheny?category=Светодиодная лента&page=1' },
-          { title: 'RGB ленты', link: '/osveheny?category=Светодиодная лента&page=1' },
-          { title: 'Профили для лент', link: '/osveheny?category=Светодиодная лента&page=1' }
+          { title: 'Гибкий неон', link: '/osveheny?category=Светодиодная лампа&page=1' },
+          { title: 'Светодоидные ленты', link: '/osveheny?category=Светодиодная лампа&page=1' },
         ]
       },
       { 
@@ -275,10 +277,8 @@ const Header = () => {
         link: '/osveheny?category=Светодиодная лампа',
         image: '/images/category/stikerlampaled.png',
         subcategories: [
-          { title: 'Лампы E27', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Лампы E14', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Лампы GU10', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Трубчатые лампы', link: '/osveheny?category=Светодиодная лампа&page=1' }
+          { title: 'Свтоидодные лампы', link: '/osveheny?category=Светодиодная лампа&page=1' },
+
         ]
       },
       { 
@@ -286,10 +286,11 @@ const Header = () => {
         link: '/osveheny?category=Светодиодная лампа',
         image: '/images/category/stikerelektroustnovohneIzdely.png',
         subcategories: [
-          { title: 'Лампы E27', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Лампы E14', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Лампы GU10', link: '/osveheny?category=Светодиодная лампа&page=1' },
-          { title: 'Трубчатые лампы', link: '/osveheny?category=Светодиодная лампа&page=1' }
+          { title: 'Встраиваемые серии', link: '/osveheny?category=Светодиодная лампа&page=1' },
+          { title: 'Накладные серии', link: '/osveheny?category=Светодиодная лампа&page=1' },
+          { title: 'Выдвижные серии', link: '/osveheny?category=Светодиодная лампа&page=1' },
+          { title: 'Серия Vintage', link: '/osveheny?category=Светодиодная лампа&page=1' },
+          { title: 'Серия Retro', link: '/osveheny?category=Светодиодная лампа&page=1' }
         ]
       }
     ],
@@ -299,66 +300,7 @@ const Header = () => {
 
   // (Скрытие верхней панели по скроллу — удалено)
 
-  // Мемоизированный рендер выпадающего списка с товарами (новый дизайн)
-  const searchResultsContent = useMemo(() => {
-    if (loading) {
-      return (
-        <div className="p-4 flex justify-center items-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-gray-500"></div>
-        </div>
-      );
-    }
-    if (products.length > 0) {
-      return (
-        <>
-          {products.map((product, index) => {
-            const images = (() => {
-              if (typeof product.imageAddresses === 'string') {
-                return [product.imageAddresses];
-              } else if (Array.isArray(product.imageAddresses)) {
-                return product.imageAddresses;
-              } else if (typeof product.imageAddress === 'string') {
-                return [product.imageAddress];
-              } else if (Array.isArray(product.imageAddress)) {
-                return product.imageAddress;
-              }
-              return [];
-            })();
-            const fallbackCatalogImage = catalogData.lighting[0]?.image || '';
-            const imageUrl = images.length > 0 ? images[0] : fallbackCatalogImage;
-
-            return (
-              <div 
-                key={product._id} 
-                className={`flex items-center p-3 cursor-pointer hover:backdrop-blur-sm ${index !== products.length - 1 ? 'border-b border-gray-200' : ''}`}
-                onClick={() => handleProductClick(product.name)}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={product.name}
-                    className="w-12 h-12 object-cover mr-4 rounded"
-                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                  />
-                ) : (
-                  <div className="w-12 h-12 mr-4 rounded bg-black/10" />
-                )}
-                <div>
-                  <p className="text-sm font-medium text-white">{product.name}</p>
-                  <p className="text-xs text-white">{product.price} ₽</p>
-                </div>
-              </div>
-            );
-          })}
-        </>
-      );
-    }
-    return (
-      <div className="p-4 text-center text-gray-500">
-        Ничего не найдено
-      </div>
-    );
-  }, [products, loading, searchQuery]);
+  // Предпросмотр результатов поиска будет рендериться через `CatalogOfProductSearch`
 
   // (Hover/keyboard логика старого меню — удалена, теперь меню только по клику)
 
@@ -428,13 +370,7 @@ const Header = () => {
     };
   }, [isSearchOpen]);
 
-  const toggleAccordionItem = (index: number) => {
-    setExpandedAccordionItems(prev => 
-      prev.includes(index) 
-        ? prev.filter(item => item !== index) 
-        : [...prev, index]
-    );
-  };
+  // Подкатегории всегда открыты — аккордеон удалён
 
   // Функции для обработки выпадающих меню
   const updateCatalogMenuTop = (buttonEl: HTMLElement | null) => {
@@ -472,7 +408,7 @@ const Header = () => {
       clearTimeout(catalogHoverTimerRef.current);
       catalogHoverTimerRef.current = null;
     }
-    const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
+    const isDesktop = isClient && windowWidth >= 768;
     if (isDesktop) {
       catalogHoverTimerRef.current = setTimeout(() => {
         openCatalogMenuFromButton(catalogButtonRef.current);
@@ -560,7 +496,7 @@ const Header = () => {
 
   // compute overlay mask style to create a transparent hole around spotlightRect
   const overlayStyle: React.CSSProperties = {};
-  if ((isCatalogMenuOpen || !!activeMenu || isHeaderDimmed) && spotlightRect && isClient && window.innerWidth >= 768) {
+  if ((isCatalogMenuOpen || !!activeMenu || isHeaderDimmed) && spotlightRect && isClient && windowWidth >= 768) {
     // slightly larger spotlight so hole covers label + semicircle
     const radius = Math.max(Math.max(spotlightRect.width, spotlightRect.height) * 0.5 + 8, 40);
     const cx = spotlightRect.left + spotlightRect.width / 2;
@@ -589,7 +525,7 @@ const Header = () => {
 
   // semicircle (drop) style computed from spotlightRect (like MENU)
   let semiStyle: React.CSSProperties | null = null;
-  if (spotlightRect && isClient && window.innerWidth >= 768) {
+  if (spotlightRect && isClient && windowWidth >= 768) {
     const semiWidth = Math.max(38, spotlightRect.width * 1.0);
     const semiHeight = Math.max(14, semiWidth * 0.46);
     const left = spotlightRect.left + spotlightRect.width / 2 - semiWidth / 2;
@@ -658,6 +594,10 @@ const Header = () => {
   // mark client after hydration to avoid SSR/CSR markup mismatch
   useEffect(() => {
     setIsClient(true);
+    const onResize = () => setWindowWidth(window.innerWidth);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   // Закрытие каталога при клике вне его области
@@ -775,7 +715,7 @@ const Header = () => {
   }, [isCatalogMenuOpen, isStickyHeaderVisible]);
 
   return (
-    <>
+    <div suppressHydrationWarning>
       {/* Мини-корзина: всплывающее подтверждение добавления товара */}
       {isMiniCartOpen && (
         <div className="fixed top-16 right-3 z-[10060] bg-white shadow-2xl rounded-xl border border-black/10 p-3 sm:p-4 flex items-center gap-3 animate-[searchModalFadeIn_0.3s_ease-out]">
@@ -893,18 +833,31 @@ const Header = () => {
         }
         
         @keyframes searchModalFadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
+          from { opacity: 0; transform: scale(0.98); }
+          60% { opacity: 1; transform: scale(1.002); }
+          to { opacity: 1; transform: scale(1); }
         }
-        
-        .search-modal-enter {
-          animation: searchModalFadeIn 0.3s ease-out;
+        .search-modal-enter { animation: searchModalFadeIn 420ms cubic-bezier(0.16,0.84,0.24,1) both; }
+
+        @keyframes curtainEnter {
+          0% { opacity: 0; transform: translateY(-14px) scale(0.992); }
+          70% { opacity: 1; transform: translateY(4px) scale(1.004); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .search-curtain-enter { animation: curtainEnter 560ms cubic-bezier(0.16,0.84,0.24,1) both; will-change: transform, opacity; }
+
+        @keyframes inlinePreviewIn {
+          0% { opacity: 0; transform: translateY(-10px) scale(0.992); }
+          80% { opacity: 1; transform: translateY(2px) scale(1.002); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .inline-preview-enter { animation: inlinePreviewIn 480ms cubic-bezier(0.16,0.84,0.24,1) both; will-change: transform, opacity; }
+
+        .search-backdrop {
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          transition: opacity 360ms cubic-bezier(0.16,0.84,0.24,1);
         }
 
         /* Анимация «книжки» при открытии каталога */
@@ -1008,6 +961,13 @@ const Header = () => {
                         bannerPath ? 'bg-black/40 ' : 'bg-black/60 '
                       )}
                     />
+                    {searchQuery && !isSearchOpen && (
+                      <div className="absolute left-0 right-0 mt-2 rounded-xl shadow-lg overflow-auto z-[10005] max-h-[500px]">
+                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 inline-preview-enter search-backdrop">
+                          <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1102,12 +1062,12 @@ const Header = () => {
                   <div ref={mobileNavRef} className="px-3 py-2 overflow-x-auto hide-scrollbar">
                     <div className={clsx('flex items-center gap-5 text-[13px]  tracking-widest uppercase whitespace-nowrap', headerText)}>
                       <button onClick={openCatalogDrawer} className="hover:text-white/90 ">Меню</button>
-                      <a href="/sales" className="hover:text-white/90">Акции</a>
-                      <a href="/brands" className="hover:text-white/90">Бренды</a>
-                      <a href="/projects" className="hover:text-white/90">Проекты</a>
-                      <a href="/blog" className="hover:text-white/90">Блог</a>
-                      <a href="/how-to-buy" className="hover:text-white/90">Как купить</a>
-                      <a href="/contacts" className="hover:text-white/90">Контакты</a>
+                      <a href="/" className="hover:text-white/90">Акции</a>
+                      <a href="/" className="hover:text-white/90">Бренды</a>
+                      <a href="/" className="hover:text-white/90">Проекты</a>
+                      <a href="/" className="hover:text-white/90">Блог</a>
+                      <a href="/" className="hover:text-white/90">Как купить</a>
+                      <a href="/" className="hover:text-white/90">Контакты</a>
                     </div>
                   </div>
 
@@ -1206,13 +1166,13 @@ const Header = () => {
                     )}
                     <a href="/about" className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg">О нас</a>
                     <a 
-                      href="/brands"
+                      href="/"
                       className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg"
                     >
                       <span>Бренды</span>
                     </a>
                     <a 
-                      href="/documentation"
+                      href="/"
                       className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white hover:bg-gray-800 rounded-lg"
                     >
                       <span>Документация</span>
@@ -1259,10 +1219,10 @@ const Header = () => {
                 </button>
                  <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
-                  <a href="/brands" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
-                  <a href="/sales" className="hover:text-white py-1 px-2 text-sm">Акции</a>
-                  <a href="/projects" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
-                  <a href="/contacts" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Акции</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
                 </nav>
                 
               </div>
@@ -1278,7 +1238,7 @@ const Header = () => {
                 </div>
                 <a href="/account" className="hidden sm:inline text-white/90 hover:text-white text-[13px] tracking-widest uppercase">Для дизайнеров</a>
                 {/* Мобильная иконка для дизайнеров */}
-                <a href="/account" className="sm:hidden inline-flex text-white/90 hover:text-white" aria-label="Для дизайнеров">
+                <a href="/auth/register" className="sm:hidden inline-flex text-white/90 hover:text-white" aria-label="Для дизайнеров">
                   <User className="w-5 h-5" />
                 </a>
              
@@ -1313,12 +1273,12 @@ const Header = () => {
         <div className="fixed inset-0 z-[99999] flex items-start md:items-center justify-center p-4">
           {/* Блюр фон */}
           <div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            className="absolute inset-0 search-backdrop"
             onClick={() => setIsSearchOpen(false)}
           />
           
           {/* Модальное окно */}
-          <div className="relative backdrop-blur-2xl bg-black/20 rounded-2xl shadow-2xl w-full max-w-2xl mt-16 md:mt-0 search-modal-enter">
+          <div className="relative backdrop-blur-2xl bg-black/30 rounded-2xl shadow-2xl w-full max-w-4xl h-[80vh] md:h-[70vh] mt-12 md:mt-0 search-curtain-enter overflow-hidden">
             {/* Заголовок */}
             <div className="flex items-center justify-between p-3">
               <h3 className="text-3xl md:text-4xl font-semibold text-white">Поиск товаров</h3>
@@ -1354,10 +1314,10 @@ const Header = () => {
               </div>
             </div>
             
-            {/* Результаты поиска */}
+            {/* Результаты поиска (модал) */}
             {searchQuery && (
-              <div className="max-h-[60vh] md:max-h-96 overflow-y-auto">
-                {searchResultsContent}
+              <div className="flex-1 overflow-auto px-4 pb-6">
+                <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
               </div>
             )}
           </div>
@@ -1404,19 +1364,14 @@ const Header = () => {
                         <div className="flex flex-col">
                           {catalogData.lighting.map((item, idx) => (
                             <div key={idx} className=" last:border-b-0">
-                              <button
-                                onClick={() => toggleAccordionItem(idx)}
-                                aria-expanded={expandedAccordionItems.includes(idx)}
-                                className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
-                              >
+                              <div className={"w-full flex items-center justify-between px-4 py-4"}>
                                 <span className="flex items-center gap-3">
                                   <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
                                   <span className="text-[19px] font-bold text-black">{item.title}</span>
                                 </span>
-                                <ChevronDown className={clsx('w-4 h-4 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
-                              </button>
+                              </div>
 
-                              <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
+                              <div className={'px-4 pb-3 pt-0 bg-white/100'}>
                                 <div className="flex flex-col font-bold text-sm text-black/80">
                                   {item.subcategories?.map((sub, sidx) => (
                                     <a
@@ -1470,7 +1425,7 @@ const Header = () => {
                 style={{ top: catalogTopOffset, left: 0, right: 0 }}
                 className={"absolute left-0 right-0 z-[10000] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
               >
-                <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+                <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
                   <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                     <div className="flex items-center justify-between px-4 py-3">
                       <h3 className="text-5xl font-semibold text-black">Каталог</h3>
@@ -1479,19 +1434,14 @@ const Header = () => {
                     <div className="flex flex-col">
                       {catalogData.lighting.map((item, idx) => (
                         <div key={idx} className=" last:border-b-0">
-                          <button
-                            onClick={() => toggleAccordionItem(idx)}
-                            aria-expanded={expandedAccordionItems.includes(idx)}
-                            className={"w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50"}
-                          >
+                          <div className={"w-full flex items-center justify-between px-4 py-4"}>
                             <span className="flex items-center gap-3">
                               <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
                               <span className="text-[19px] font-bold text-black">{item.title}</span>
                             </span>
-                            <ChevronDown className={clsx('w-5 h-5 text-black/60 transition-transform', expandedAccordionItems.includes(idx) ? 'rotate-180' : '')} />
-                          </button>
+                          </div>
 
-                          <div className={clsx('px-4 pb-3 pt-0 bg-white/100 accordion-content', expandedAccordionItems.includes(idx) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0')}>
+                          <div className={'px-4 pb-3 pt-0 bg-white/100'}>
                             <div className="flex flex-col font-bold text-sm text-black/80">
                               {item.subcategories?.map((sub, sidx) => (
                                 <a
@@ -1540,7 +1490,7 @@ const Header = () => {
             style={{ top: catalogTopOffset, left: 0, right: 0 }}
             className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'brands' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
           >
-            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'brands' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'brands' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
               <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                 <div className="flex items-center justify-between px-4 py-3">
                   <h3 className="text-5xl font-semibold text-black">Бренды</h3>
@@ -1549,7 +1499,7 @@ const Header = () => {
                 <div className="px-4 pb-6 text-sm text-black/80">Здесь краткая информация о брендах, логотипы и ссылки.</div>
               </nav>
               <div className="flex-1 relative block h-full">
-                <img src="/images/banners/bannersopenspace.jpg" alt="brands" className="w-full h-full object-cover" />
+                <img src="/images/banners/bannersmenubrands.jpg" alt="brands" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
               </div>
             </div>
@@ -1560,7 +1510,7 @@ const Header = () => {
             style={{ top: catalogTopOffset, left: 0, right: 0 }}
             className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'about' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
           >
-            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'about' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'about' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
               <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                 <div className="flex items-center justify-between px-4 py-3">
                   <h3 className="text-5xl font-semibold text-black">О нас</h3>
@@ -1568,7 +1518,7 @@ const Header = () => {
                 </div>
                 <div className="px-4 pb-6 text-sm text-black/80">Кратко о компании, миссия и преимущества.</div>
               </nav>
-              <div className="flex-1 relative block h-full">
+              <div className="flex-1 relative block  h-full">
                 <img src="/images/banners/banners.jpg" alt="about" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
               </div>
@@ -1580,7 +1530,7 @@ const Header = () => {
             style={{ top: catalogTopOffset, left: 0, right: 0 }}
             className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'howtobuy' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
           >
-            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'howtobuy' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'howtobuy' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
               <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                 <div className="flex items-center justify-between px-4 py-3">
                   <h3 className="text-5xl font-semibold text-black">Как купить</h3>
@@ -1600,7 +1550,7 @@ const Header = () => {
             style={{ top: catalogTopOffset, left: 0, right: 0 }}
             className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'contacts' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
           >
-            <div className={clsx('bg-white shadow-2xl rounded-b-lg overflow-hidden w-full catalog-panel', activeMenu === 'contacts' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
+            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'contacts' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
               <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
                 <div className="flex items-center justify-between px-4 py-3">
                   <h3 className="text-5xl font-semibold text-black">Контакты</h3>
@@ -1609,7 +1559,7 @@ const Header = () => {
                 <div className="px-4 pb-6 text-sm text-black/80">Адреса, телефоны, режим работы и карта.</div>
               </nav>
               <div className="flex-1 relative block h-full">
-                <img src="/images/banners/bannersosveheniy.jpg" alt="contacts" className="w-full h-full object-cover" />
+                <img src="/images/banners/bannersmenucontacts.png" alt="contacts" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
               </div>
             </div>
@@ -1623,7 +1573,7 @@ const Header = () => {
     
 
      
-    </>
+    </div>
   );
 };
 
