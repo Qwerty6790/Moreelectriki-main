@@ -307,7 +307,7 @@ const Cart: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl shadow-xl p-6">
+              <div className="bg-white rounded-2xl shadow-xl p-5">
                 {/* Хедер с информацией и кнопкой поделиться */}
                 <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
                   <h1 className="text-2xl font-medium text-black">
