@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Toaster, toast } from 'sonner';
 import axios from 'axios';
+import { createPortal } from 'react-dom';
 import { ProductI } from '../../types/interfaces';
 import { ClipLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';
@@ -14,6 +14,15 @@ const Liked: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  // Simple site-styled toasts
+  const [toasts, setToasts] = useState<{ id: number; text: string; type: 'success' | 'error' }[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const showToast = (text: string, type: 'success' | 'error' = 'success') => {
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    setToasts((t) => [...t, { id, text, type }]);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3000);
+  };
 
   useEffect(() => {
     const fetchLikedProducts = async () => {
@@ -48,6 +57,11 @@ const Liked: React.FC = () => {
     fetchLikedProducts();
   }, []);
 
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   const handleRemoveProduct = (id: string) => {
     setLikedProducts((prevProducts) =>
       prevProducts.filter((product) => product._id !== id)
@@ -57,14 +71,14 @@ const Liked: React.FC = () => {
       (productId: string) => productId !== id
     );
     localStorage.setItem('liked', JSON.stringify(updatedLiked));
-    toast.success('Товар удален из Избранного');
+    showToast('Товар удален из Избранного', 'success');
   };
 
   const handleClearLiked = () => {
     setLikedProducts([]);
     localStorage.setItem('liked', JSON.stringify({ products: [] }));
     setError('Ваш список Избранного пуст.');
-    toast.success('Избранное очищено');
+    showToast('Избранное очищено', 'success');
   };
 
   const handleProductClick = (article: string, source: string) => {
@@ -73,18 +87,12 @@ const Liked: React.FC = () => {
   };
 
   const handleShareLiked = () => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: 'Избранное товары',
-          text: 'Посмотрите, какие товары у меня в избранном!',
-          url: window.location.href,
-        })
-        .then(() => console.log('Share successful'))
-        .catch((error) => console.error('Ошибка при шаринге', error));
-    } else {
+    try {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Ссылка скопирована');
+      showToast('Ссылка скопирована в буфер обмена', 'success');
+    } catch (err) {
+      console.error('Ошибка копирования ссылки:', err);
+      showToast('Не удалось скопировать ссылку', 'error');
     }
   };
 
@@ -95,7 +103,7 @@ const Liked: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Toaster position="top-center" richColors />
+      {/* custom site toast container rendered below; remove external Toaster */}
 
       {/* Hero секция */}
       <div className="relative mt-32 h-[300px]  overflow-hidden">
@@ -160,13 +168,26 @@ const Liked: React.FC = () => {
               <h1 className="text-2xl font-medium text-black">
                 В Избранном {likedProducts.length} {likedProducts.length === 1 ? 'товар' : 'товара'}
               </h1>
-              <button
-                onClick={handleShareLiked}
-                className="flex items-center gap-2 text-black hover:underline transition-colors"
-              >
-                <FaShareAlt />
-                Поделиться избранным
-              </button>
+              <div className="relative">
+                <button
+                  onClick={handleShareLiked}
+                  className="flex items-center gap-2 text-black hover:underline transition-colors"
+                >
+                  <FaShareAlt />
+                  Поделиться избранным
+                </button>
+                {/* Toast container (portal to body to avoid stacking context issues) */}
+                {isMounted && typeof document !== 'undefined' && createPortal(
+                  <div className="fixed top-6 right-6 flex flex-col gap-2 z-[20000]">
+                    {toasts.map((t) => (
+                      <div key={t.id} className={"px-4 py-2 rounded-xl shadow-lg text-sm " + (t.type === 'success' ? 'bg-black text-white' : 'bg-red-600 text-white') }>
+                        {t.text}
+                      </div>
+                    ))}
+                  </div>,
+                  document.body
+                )}
+              </div>
             </div>
 
             {/* Сетка товаров */}
@@ -216,7 +237,7 @@ const Liked: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 translate-y-8 group-hover:translate-y-16 transition-all duration-300">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -236,7 +257,7 @@ const Liked: React.FC = () => {
               <div className="flex justify-center mt-10">
                 <button
                   onClick={handleClearLiked}
-                  className="px-8 py-4 border-2 border-black text-black rounded-xl text-lg font-medium hover:bg-black hover:text-white transition-colors"
+                  className="px-8 py-4 border-2 border-black text-black  text-lg font-medium hover:bg-black hover:text-white transition-colors"
                 >
                   Очистить избранное
                 </button>

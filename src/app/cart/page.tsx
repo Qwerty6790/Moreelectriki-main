@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Toaster, toast } from 'sonner';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 import { ProductI } from '../../types/interfaces';
@@ -11,6 +11,15 @@ import { FaMinus, FaPlus, FaTrash, FaShareAlt } from 'react-icons/fa';
 
 const Cart: React.FC = () => {
   const router = useRouter();
+
+  // Simple site-styled toasts (same as liked page)
+  const [toasts, setToasts] = useState<{ id: number; text: string; type: 'success' | 'error' }[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const showToast = (text: string, type: 'success' | 'error' = 'success') => {
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    setToasts((t) => [...t, { id, text, type }]);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3000);
+  };
   const [cartProducts, setCartProducts] = useState<ProductI[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState<number>(0);
@@ -62,6 +71,12 @@ const Cart: React.FC = () => {
     fetchCartProducts();
   }, []);
 
+  // mark mounted so portals are rendered only on client
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   // Функция для обновления корзины в localStorage и состояния
   const handleUpdateCart = (updatedProducts: ProductI[]) => {
     localStorage.setItem('cart', JSON.stringify({ products: updatedProducts }));
@@ -84,7 +99,7 @@ const Cart: React.FC = () => {
       .filter((product) => product !== null) as ProductI[];
 
     handleUpdateCart(updatedProducts);
-    toast.success('Товар удален из корзины');
+    showToast('Товар удален из корзины', 'success');
   };
 
   const handleIncreaseQuantity = (id: string) => {
@@ -110,7 +125,7 @@ const Cart: React.FC = () => {
   const handleClearCart = () => {
     handleUpdateCart([]);
     setError('Корзина пуста.');
-    toast.success('Корзина очищена');
+    showToast('Корзина очищена', 'success');
   };
 
   const handleShareCart = () => {
@@ -125,14 +140,14 @@ const Cart: React.FC = () => {
         .catch((error) => console.error('Ошибка при шаринге', error));
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Ссылка скопирована');
+      showToast('Ссылка скопирована', 'success');
     }
   };
 
   // Логика оформления заказа (гость или авторизованный)
   const confirmOrder = async () => {
     if (!contactName.trim() || !contactPhone.trim()) {
-      toast.error('Укажите имя и телефон');
+      showToast('Укажите имя и телефон', 'error');
       return;
     }
 
@@ -178,7 +193,7 @@ const Cart: React.FC = () => {
         }
       }
 
-      toast.success('Заказ успешно создан!');
+      showToast('Заказ успешно создан!', 'success');
       handleClearCart();
       setIsCheckoutModalOpen(false);
       if (token) {
@@ -207,18 +222,18 @@ const Cart: React.FC = () => {
               }
             }
 
-            toast.success('Заказ успешно создан!');
+            showToast('Заказ успешно создан!', 'success');
             handleClearCart();
             setIsCheckoutModalOpen(false);
             router.push('/');
           } catch (guestErr) {
-            toast.error('Ошибка при создании заказа. Повторите попытку.');
+            showToast('Ошибка при создании заказа. Повторите попытку.', 'error');
           }
         } else {
-          toast.error('Ошибка при создании заказа. Повторите попытку.');
+          showToast('Ошибка при создании заказа. Повторите попытку.', 'error');
         }
       } else {
-        toast.error('Произошла неизвестная ошибка.');
+        showToast('Произошла неизвестная ошибка.', 'error');
       }
     } finally {
       setIsSubmitting(false);
@@ -241,7 +256,17 @@ const Cart: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Toaster position="top-center" richColors />
+      {/* Toast portal (renders to body) */}
+      {isMounted && typeof document !== 'undefined' && createPortal(
+        <div className="fixed top-6 right-6 flex flex-col gap-2 z-[20000]">
+          {toasts.map((t) => (
+            <div key={t.id} className={"px-4 py-2 rounded-xl shadow-lg text-sm " + (t.type === 'success' ? 'bg-black text-white' : 'bg-red-600 text-white') }>
+              {t.text}
+            </div>
+          ))}
+        </div>,
+        document.body
+      )}
 
       {/* Hero секция */}
       <div className="relative mt-12 h-[300px] bg-white overflow-hidden">
@@ -272,35 +297,12 @@ const Cart: React.FC = () => {
             ) : error ? (
               <div className="bg-white rounded-2xl shadow-xl p-12">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-                    <svg
-                      className="w-12 h-12 text-black/40"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M16 6v2h3v12H5V8h3V6H3v16h18V6h-5z" />
-                      <path d="M11 11V3H9v8H6l4 4 4-4h-3z" />
-                    </svg>
-                  </div>
                   <p className="text-2xl font-medium text-black mb-6">{error}</p>
                   <Link
                     href="/catalog"
                     className="inline-flex items-center px-6 py-3 border-2 border-black text-black rounded-xl hover:bg-black hover:text-white transition-colors text-lg font-medium"
                   >
                     Перейти в каталог
-                    <svg
-                      className="w-5 h-5 ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
                   </Link>
                 </div>
               </div>
@@ -457,7 +459,7 @@ const Cart: React.FC = () => {
           onClick={() => setIsCheckoutModalOpen(false)}
         >
           <motion.div
-            className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-lg md:max-w-2xl lg:max-w-3xl"
+            className="bg-white border  rounded-2xl p-4 sm:p-6 w-full max-w-lg md:max-w-2xl lg:max-w-3xl"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'spring', damping: 25 }}
