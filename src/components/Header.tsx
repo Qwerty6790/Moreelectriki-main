@@ -1306,7 +1306,7 @@ const Header = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={handleSearchKeyPress}
-                    placeholder="Введите название товара..."
+                    placeholder="Введите название"
                     className="w-full pl-10 md:pl-12 pr-4 py-3 md:py-4 text-base md:text-lg bg-black/10 backdrop-blur-2xl rounded-xl focus:ring-white focus:border-transparent outline-none transition-all"
                     autoFocus
                   />
