@@ -130,7 +130,7 @@ const Liked: React.FC = () => {
         ) : error ? (
           <div className="bg-white rounded-2xl shadow-xl p-12">
             <div className="flex flex-col items-center text-center">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+              <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6">
                 <svg
                   className="w-12 h-12 text-black/40"
                   fill="currentColor"
@@ -173,7 +173,6 @@ const Liked: React.FC = () => {
                   onClick={handleShareLiked}
                   className="flex items-center gap-2 text-black hover:underline transition-colors"
                 >
-                  <FaShareAlt />
                   Поделиться избранным
                 </button>
                 {/* Toast container (portal to body to avoid stacking context issues) */}
