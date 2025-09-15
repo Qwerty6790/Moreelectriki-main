@@ -4187,11 +4187,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             {/* Left Sidebar - Hidden on mobile unless toggled */}
             <div className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 flex' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0 overflow-hidden`}>
               {/* Backdrop for mobile (click to close) */}
-              {isMobileFilterOpen && <div className="absolute inset-0 bg-black/40 lg:hidden" onClick={toggleMobileFilter} />}
+              {isMobileFilterOpen && <div className="absolute  inset-0 bg-black/40 lg:hidden" onClick={toggleMobileFilter} />}
               {/* Mobile Filter Container - fixed right panel full height with scroll */}
-              <div className={`${isMobileFilterOpen ? 'fixed py-12  right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white text-black p-4 overflow-y-auto shadow-xl pb-20' : ''} lg:p-0`}>
+              <div className={`${isMobileFilterOpen ? 'fixed   right-0 top-0 bottom-0  max-w-[85vw] bg-white text-black p-0 overflow-y-auto shadow-xl pb-24 z-[9999]' : ''} lg:p-0`}>
                 {/* Mobile Filter Header - зафиксированный (mobile only, white bg) */}
-                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-10' : ''} lg:hidden flex justify-between items-center mb-4 p-3 bg-white text-black border-b`}> 
+                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-10' : ''} lg:hidden flex justify-between items-center mb-4 p-7 h-32 bg-white text-black border-b`}> 
                   <div className="flex items-center">
                     <h2 className="font-bold text-lg text-black uppercase tracking-wide">ФИЛЬТРЫ</h2>
                   </div>
