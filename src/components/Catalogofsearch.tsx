@@ -340,7 +340,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
             )}
 
             {/* Индикатор наличия: зелёный круг = в наличии, оранжевый = ожидается */}
-            <div className="absolute top-3 right-3 z-10">
+            <div className="absolute top-0 right-3 z-10">
               <span
                 title={isPurchasable ? 'В наличии' : 'Ожидается'}
                 aria-label={isPurchasable ? 'В наличии' : 'Ожидается'}
@@ -660,7 +660,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       </div>
 
       {/* Основной контент */}
-      <div className="mb-4 w-full flex items-center justify-end">
+      <div className="mb-4 w-80 bg-white/70 rounded-3xl flex items-center justify-end">
         <label className="text-sm text-black mr-3">Сортировка:</label>
         <select
           value={sortOption}
