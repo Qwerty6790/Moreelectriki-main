@@ -376,8 +376,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
             <h3 className={`text-base font-semibold ${isSpecialBrand ? 'text-white' : 'text-black'} mb-2 line-clamp-2`}>{product.name}</h3>
 
             <div className="flex items-baseline gap-2 mb-3">
-              <div className={`text-2xl font-extrabold ${isSpecialBrand ? 'text-white' : 'text-black'}`}>{product.price}</div>
-              <div className={`text-sm font-medium ${isSpecialBrand ? 'text-gray-300' : 'text-gray-600'}`}>₽/шт</div>
+              <div className={`text-1xl font-extrabold ${isSpecialBrand ? 'text-white' : 'text-black'}`}>{product.price} руб</div>
             </div>
           </div>
         </Link>

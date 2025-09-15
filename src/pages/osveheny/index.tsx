@@ -4173,13 +4173,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           <div className="lg:hidden mb-4">
             <button 
               onClick={toggleMobileFilter}
-              className="w-52 py-3 px-4 bg-white border border-black/10 rounded-xl shadow-md flex items-center justify-between"
+              className="w-52 py-3 px-4 bg-white border border-black/30 rounded-xl  flex items-center justify-between"
               aria-label="Открыть фильтры"
             >
-              <span className="font-medium text-black">Фильтры</span>
-              <span className="bg-white px-3 py-1 rounded-full text-[12px] font-medium text-black border border-black/10">
-                {totalProducts} товаров
-              </span>
+              <span className="font-medium  text-black">Фильтры все</span>
             </button>
           </div>
           
