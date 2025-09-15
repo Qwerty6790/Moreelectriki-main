@@ -263,10 +263,10 @@ const Cart: React.FC = () => {
       )}
 
       {/* Hero секция */}
-      <div className="relative mt-12 h-[300px] bg-white overflow-hidden">
+      <div className="relative mt-12 h-[220px] sm:h-[260px] md:h-[300px] bg-white overflow-hidden">
         <div className="relative max-w-[1550px] mx-auto px-4 h-full flex items-center">
           <div className="space-y-4">
-            <h1 className="text-6xl font-bold text-black tracking-tight">Корзина</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black tracking-tight">Корзина</h1>
             <div className="flex items-center text-black/60 text-sm">
               <Link href="/" className="hover:text-black transition-colors">
                 Главная
@@ -359,12 +359,12 @@ const Cart: React.FC = () => {
                     return (
                       <motion.div 
                         key={product._id} 
-                        className="p-6 hover:bg-gray-50 rounded-xl transition-colors my-2"
+                        className="p-4 sm:p-6 hover:bg-gray-50 rounded-xl transition-colors my-2"
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="flex gap-6">
-                          <div className="w-28 h-28 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                        <div className="flex flex-col sm:flex-row gap-6">
+                          <div className="w-20 h-20 sm:w-28 sm:h-28 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
                             <img
                               src={`${imageUrl}?q=75&w=400`}
                               alt={product.name}
@@ -373,7 +373,7 @@ const Cart: React.FC = () => {
                           </div>
 
                           <div className="flex-grow">
-                            <h3 className="text-lg font-medium text-black mb-1">{product.name}</h3>
+                            <h3 className="text-base sm:text-lg font-medium text-black mb-1">{product.name}</h3>
                             <p className="text-sm text-black/60 mb-3">Артикул: {product.article}</p>
                             
                             <div className="flex flex-wrap items-center gap-6 mt-2">
@@ -393,7 +393,7 @@ const Cart: React.FC = () => {
                                 </button>
                               </div>
                               
-                              <div className="text-xl font-bold text-black">
+                              <div className="text-lg sm:text-xl font-bold text-black">
                                 {typeof product.price === 'number' && !isNaN(product.price)
                                   ? `${product.price.toLocaleString()} ₽`
                                   : `${product.price} ₽`}
@@ -459,20 +459,20 @@ const Cart: React.FC = () => {
       {/* Модальное окно оформления заказа (гость/аккаунт, оплата/самовывоз) */}
       {isCheckoutModalOpen && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 z-50"
+          className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 z-50 bg-black/40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={() => setIsCheckoutModalOpen(false)}
         >
           <motion.div
-            className="bg-white border  rounded-2xl p-4 sm:p-6 w-full max-w-lg md:max-w-2xl lg:max-w-3xl"
+            className="bg-white border  rounded-2xl p-4 sm:p-6 w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-4"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'spring', damping: 25 }}
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-xl font-bold mb-3 text-black">Оформление заказа</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
               <div className="grid grid-cols-1 gap-2.5">
                 <div className="grid grid-cols-1 gap-2">
                   <label className="text-sm text-black/70">Имя*</label>
@@ -534,17 +534,17 @@ const Cart: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={confirmOrder}
                 disabled={isSubmitting}
-                className="flex-1 py-2.5 bg-black text-white rounded-xl hover:bg-gray-900 transition-all duration-300 font-medium disabled:opacity-60 text-sm"
+                className="flex-1 py-3 bg-black text-white rounded-xl hover:bg-gray-900 transition-all duration-300 font-medium disabled:opacity-60 text-sm"
               >
                 {isSubmitting ? 'Отправляем...' : paymentMethod === 'online' ? 'Перейти к оплате' : 'Оформить без предоплаты'}
               </button>
               <button
                 onClick={() => setIsCheckoutModalOpen(false)}
-                className="flex-1 py-2.5 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-all duration-300 font-medium text-sm"
+                className="flex-1 py-3 bg-gray-100 text-black rounded-xl hover:bg-gray-200 transition-all duration-300 font-medium text-sm"
               >
                 Отмена
               </button>
