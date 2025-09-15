@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { Toaster, toast } from 'sonner';
+import { createPortal } from 'react-dom';
 import 'tailwindcss/tailwind.css';
 import { Heart, ArrowLeft, Copy } from 'lucide-react';
 import ProductDetailView from '@/components/ProductDetailView';
@@ -14,6 +14,14 @@ const ProductDetailPage: React.FC = () => {
   const { supplier, article: articleParam } = router.query;
   const [product, setProduct] = useState<ProductI | null>(null);
   const [loading, setLoading] = useState(true);
+  const [toasts, setToasts] = useState<{ id: number; text: string; type: 'success' | 'error' }[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const showToast = (text: string, type: 'success' | 'error' = 'success') => {
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    setToasts((t) => [...t, { id, text, type }]);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3000);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -90,7 +98,7 @@ const ProductDetailPage: React.FC = () => {
         setProduct(response.data);
       } catch (error) {
         console.error('Ошибка при клиентской загрузке товара:', error);
-        toast.error('Ошибка при загрузке товара');
+        showToast('Ошибка при загрузке товара', 'error');
       } finally {
         setLoading(false);
       }
@@ -98,24 +106,43 @@ const ProductDetailPage: React.FC = () => {
 
     fetchProduct();
   }, [supplier, articleParam]);
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
+  let content = null;
   if (loading) {
-    return (
+    content = (
       <div className="flex justify-center items-center h-screen bg-white">
         <LoadingSpinner size="xl" />
       </div>
     );
-  }
-
-  if (!product) {
-    return (
+  } else if (!product) {
+    content = (
       <div className="flex justify-center items-center h-screen bg-white">
         <p>Товар не найден</p>
       </div>
     );
+  } else {
+    content = <ProductDetailView product={product as any} />;
   }
 
-  return <ProductDetailView product={product as any} />;
+  return (
+    <>
+      {isMounted && typeof document !== 'undefined' && createPortal(
+        <div className="fixed top-6 right-6 flex flex-col gap-2 z-[20000]">
+          {toasts.map((t) => (
+            <div key={t.id} className={"px-4 py-2 rounded-xl shadow-lg text-sm " + (t.type === 'success' ? 'bg-black text-white' : 'bg-red-600 text-white') }>
+              {t.text}
+            </div>
+          ))}
+        </div>,
+        document.body
+      )}
+      {content}
+    </>
+  );
 };
 
 export default ProductDetailPage;
