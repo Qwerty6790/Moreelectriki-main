@@ -234,7 +234,8 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
       localStorage.setItem('cartCount', totalCount.toString());
       
-      window.dispatchEvent(new CustomEvent('cartUpdated', { 
+      // Inform header and other listeners about cart change
+      window.dispatchEvent(new CustomEvent('cart:updated', { 
         detail: { count: totalCount, animate: true } 
       }));
 
@@ -244,15 +245,15 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) previewImage = normalizeUrl(product.imageAddresses[0]);
       else if (typeof product.imageAddress === 'string') previewImage = normalizeUrl(product.imageAddress);
       else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) previewImage = normalizeUrl(product.imageAddress[0]);
-      // Dispatch preview event so header hover preview opens on add
-      window.dispatchEvent(new CustomEvent('cartPreview', {
+      // Dispatch event with item details so header can show a mini-popup
+      window.dispatchEvent(new CustomEvent('cart:itemAdded', {
         detail: {
           productId: product._id,
           article: product.article,
           source: product.source,
           name: product.name,
           price: product.price,
-          image: previewImage || undefined
+          imageUrl: previewImage || undefined
         }
       }));
       // Removed manual toast/notification: header hover will show preview instead
@@ -307,7 +308,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
           localStorage.setItem('cart', JSON.stringify(cart));
           const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
           localStorage.setItem('cartCount', totalCount.toString());
-          window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: totalCount, animate: true } }));
+          window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count: totalCount, animate: true } }));
           setQuantity((q) => Math.max(1, q - 1));
         } else {
           // remove item completely
@@ -315,7 +316,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
           localStorage.setItem('cart', JSON.stringify(cart));
           const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
           localStorage.setItem('cartCount', totalCount.toString());
-          window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: totalCount, animate: true } }));
+          window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count: totalCount, animate: true } }));
           setQuantity(1);
           setShowQtyControls(false);
         }

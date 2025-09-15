@@ -18,14 +18,18 @@ interface ProductI {
   length?: number;
   width?: number;
   diameter?: number;
+  depth?: number; // sometimes used in product data
   lightStyle?: string;
   lampType?: string;
   color?: string;
   socketType?: string;
   lampsCount?: number;
+  lampCount?: number; // alternate field seen in templates
   lampPower?: number;
   totalPower?: number;
   voltage?: number;
+  shadeColor?: string;
+  frameColor?: string;
   material?: string;
 }
 
