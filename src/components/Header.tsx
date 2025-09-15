@@ -964,7 +964,13 @@ const Header = () => {
                     {searchQuery && !isSearchOpen && (
                       <div className="absolute left-0 right-0 mt-2 rounded-xl shadow-lg overflow-auto z-[10005] max-h-[800px]">
                         <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 inline-preview-enter search-backdrop">
-                          <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                          {loading ? (
+                            <div className="w-full flex items-center justify-center py-8">
+                              <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                            </div>
+                          ) : (
+                            <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                          )}
                         </div>
                       </div>
                     )}
@@ -1278,7 +1284,7 @@ const Header = () => {
           />
           
           {/* Модальное окно */}
-          <div className="relative backdrop-blur-2xl bg-black/30 rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col mt-12 md:mt-0 search-curtain-enter" style={{ height: '86vh', maxHeight: '2vh', overflow: 'hidden' }}>
+          <div className="relative backdrop-blur-2xl bg-black/30 rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col mt-12 md:mt-0 search-curtain-enter" style={{ height: '86vh', maxHeight: '86vh', overflow: 'hidden' }}>
             {/* Заголовок */}
             <div className="flex items-center justify-between p-3">
               <h3 className="text-3xl md:text-4xl font-semibold text-white">Поиск товаров</h3>
@@ -1317,7 +1323,13 @@ const Header = () => {
             {/* Результаты поиска (модал) */}
             {searchQuery && (
               <div className="flex-1 overflow-hidden px-4 pb-6">
-                <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                {loading ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                  </div>
+                ) : (
+                  <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                )}
               </div>
             )}
           </div>

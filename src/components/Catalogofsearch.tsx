@@ -566,37 +566,31 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
   }, [isClient, visibleProducts]);
 
   if (isLoading || !isClient) {
-    if (viewMode === 'grid' && !isLoading) {
-      return (
-        <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-3 lg:gap-6 xl:grid-cols-3 xl:gap-6">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-[#101010] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
-              <div className="relative aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] flex items-center justify-center overflow-hidden product-image">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
-                <div className="relative z-10 text-center">
-                  <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
-                  MORELEKTRIKI
-                  </div>
-                  <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
-                    Загрузка...
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-4 flex flex-col flex-grow border-t border-[#1a1a1a]">
-                <div className="h-3 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/3 mb-2 animate-pulse"></div>
-                <div className="space-y-2 mb-3">
-                  <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-full animate-pulse"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-3/4 animate-pulse"></div>
-                </div>
-                <div className="h-6 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/2 animate-pulse"></div>
+    // show skeleton placeholders while loading or during hydration
+    return (
+      <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-6">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="bg-[#101010] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
+            <div className="relative aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] flex items-center justify-center overflow-hidden product-image">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
+              <div className="relative z-10 text-center">
+                <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">MORELEKTRIKI</div>
+                <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
               </div>
             </div>
-          ))}
-        </div>
-      );
-    }
-    return null;
+
+            <div className="p-4 flex flex-col">
+              <div className="h-3 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/3 mb-2 animate-pulse"></div>
+              <div className="space-y-2 mb-3">
+                <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-full animate-pulse"></div>
+                <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-3/4 animate-pulse"></div>
+              </div>
+              <div className="h-6 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/2 animate-pulse"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (

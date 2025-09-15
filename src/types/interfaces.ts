@@ -16,8 +16,15 @@ export interface ProductI {
   // новые поля для светильников
   socketType?: string; // тип цоколя (E27, GU10 и т.д.)
   lampCount?: number;  // количество ламп
+  lampsCount?: number; // альтернативное имя для количества ламп
   shadeColor?: string; // цвет плафона
   frameColor?: string; // цвет арматуры
+  // размеры
+  diameter?: number; // диаметр (мм)
+  height?: number;   // высота (мм)
+  depth?: number;    // глубина (мм)
+  width?: number;    // ширина (мм)
+  length?: number;   // длина (мм)
   
   // поля для фильтрации
   isNew?: boolean | string; // является ли товар новинкой
