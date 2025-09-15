@@ -4,7 +4,9 @@ import axios from 'axios';
 import 'tailwindcss/tailwind.css';
 import CatalogOfProductSearch from '@/components/Catalogofsearch';
 import Header from '@/components/Header';
+import Pagination from '@/components/PaginationComponents';
 import { ClipLoader } from 'react-spinners';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import Link from 'next/link';
 
 const SearchResults: React.FC = () => {
@@ -68,105 +70,12 @@ const SearchResults: React.FC = () => {
     return 'товаров';
   };
 
-  // Функция для рендера пагинации
-  const renderPagination = () => {
-    if (totalPages <= 1) return null;
-    
-    const pageNumbers: (number | string)[] = [];
-    
-    // Всегда показываем первую страницу
-    pageNumbers.push(1);
-    
-    let startPage = Math.max(2, currentPage - 1);
-    let endPage = Math.min(totalPages - 1, currentPage + 1);
-    
-    // Расширяем диапазон для малых страниц
-    if (currentPage <= 3) {
-      endPage = Math.min(totalPages - 1, 5);
-    }
-    
-    // Расширяем диапазон для больших страниц
-    if (currentPage >= totalPages - 2) {
-      startPage = Math.max(2, totalPages - 4);
-    }
-    
-    // Добавляем эллипсис в начале, если нужно
-    if (startPage > 2) {
-      pageNumbers.push('ellipsis-start');
-    }
-    
-    // Добавляем страницы в диапазоне
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-    
-    // Добавляем эллипсис в конце, если нужно
-    if (endPage < totalPages - 1) {
-      pageNumbers.push('ellipsis-end');
-    }
-    
-    // Всегда показываем последнюю страницу (если она не первая)
-    if (totalPages > 1) {
-      pageNumbers.push(totalPages);
-    }
-    
-    return (
-      <div className="flex justify-center items-center mt-8 space-x-2">
-        {/* Кнопка "Назад" */}
-        <button
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`px-3 py-2 border rounded-md transition-colors ${
-            currentPage === 1
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
-              : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-          }`}
-          aria-label="Предыдущая страница"
-        >
-          ‹
-        </button>
-        
-        {/* Номера страниц */}
-        {pageNumbers.map((page, index) => {
-          if (page === 'ellipsis-start' || page === 'ellipsis-end') {
-            return (
-              <span key={`${page}-${index}`} className="px-3 py-2 text-gray-500">
-                ...
-              </span>
-            );
-          }
-          
-          const pageNum = Number(page);
-          return (
-            <button
-              key={`page-${page}-${index}`}
-              onClick={() => setCurrentPage(pageNum)}
-              className={`min-w-[40px] px-3 py-2 border rounded-md transition-colors ${
-                currentPage === pageNum
-                  ? 'bg-black text-white border-black hover:bg-gray-800'
-                  : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-              }`}
-            >
-              {page}
-            </button>
-          );
-        })}
-        
-        {/* Кнопка "Вперед" */}
-        <button
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`px-3 py-2 border rounded-md transition-colors ${
-            currentPage === totalPages
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
-              : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-          }`}
-          aria-label="Следующая страница"
-        >
-          ›
-        </button>
-      </div>
-    );
+  // Используем вынесенный компонент пагинации
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    // Прокрутка к началу списка результатов
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -196,7 +105,7 @@ const SearchResults: React.FC = () => {
           <div className="bg-white rounded-lg p-4 sm:p-5 shadow-sm border border-gray-100 overflow-hidden">
             {loading ? (
               <div className="flex justify-center items-center h-64">
-                <ClipLoader size={50} color="#000000" />
+                <LoadingSpinner size="lg" text="Ищем товары..." />
               </div>
             ) : products.length === 0 ? (
               <div className="p-12 text-center">
@@ -221,7 +130,7 @@ const SearchResults: React.FC = () => {
                 />
                 
                 {/* Пагинация */}
-                {renderPagination()}
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
               </>
             )}
           </div>

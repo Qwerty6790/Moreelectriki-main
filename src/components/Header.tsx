@@ -122,7 +122,6 @@ const Header = () => {
   const [miniLikedItem, setMiniLikedItem] = useState<{ name?: string; imageUrl?: string } | null>(null);
   const [spotlightRect, setSpotlightRect] = useState<DOMRect | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
-  const searchPreviewRef = useRef<HTMLDivElement | null>(null);
   
   // Хук для поиска товаров
   const { products, loading } = useSearchProducts(searchQuery);
@@ -355,22 +354,31 @@ const Header = () => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        // clear search query to close fullscreen overlay if open
+        if (searchQuery) setSearchQuery('');
         setIsSearchOpen(false);
       }
     };
 
-    if (isSearchOpen) {
+    if (isSearchOpen || searchQuery) {
       document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
     };
   }, [isSearchOpen]);
+
+  // Escape/scroll lock for fullscreen search when typing
+  useEffect(() => {
+    const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') setSearchQuery(''); };
+    if (searchQuery) {
+      document.addEventListener('keydown', onEsc);
+    }
+    return () => {
+      document.removeEventListener('keydown', onEsc);
+    };
+  }, [searchQuery]);
 
   // Подкатегории всегда открыты — аккордеон удалён
 
@@ -701,61 +709,9 @@ const Header = () => {
     updateCatalogMenuTop(isStickyHeaderVisible ? stickyCatalogButtonRef.current : catalogButtonRef.current);
   }, [isStickyHeaderVisible, isCatalogMenuOpen]);
 
-  // Update search preview position on scroll/resize to avoid jumping
-  useEffect(() => {
-    const recalcPreview = () => {
-      if (!searchPreviewRef.current || !headerRef.current) return;
-      try {
-        const top = headerRef.current.getBoundingClientRect().bottom + 8;
-        (searchPreviewRef.current.style as any).top = top + 'px';
-        (searchPreviewRef.current.style as any).width = Math.min(980, window.innerWidth - 48) + 'px';
-      } catch {}
-    };
+  // (Search preview removed)
 
-    window.addEventListener('scroll', recalcPreview, { passive: true });
-    window.addEventListener('resize', recalcPreview);
-    recalcPreview();
-    return () => {
-      window.removeEventListener('scroll', recalcPreview as any);
-      window.removeEventListener('resize', recalcPreview as any);
-    };
-  }, [searchQuery, isSearchOpen, isClient]);
-
-  // Prevent page body scroll while inline search preview is open, but keep preview scrollable
-  useEffect(() => {
-    const previewVisible = !!searchQuery && !isSearchOpen;
-    if (typeof window === 'undefined') return;
-
-    if (previewVisible) {
-      try {
-        document.body.style.overflowY = 'hidden';
-        document.body.style.overflowX = 'hidden';
-        document.documentElement.style.overflowY = 'hidden';
-        document.documentElement.style.overflowX = 'hidden';
-      } catch {}
-    } else {
-      // only unset if nothing else requires body locked (mobile menu or full search modal)
-      if (!isMobileMenuOpen && !isSearchOpen) {
-        try {
-          document.body.style.overflowY = 'unset';
-          document.body.style.overflowX = 'unset';
-          document.documentElement.style.overflowY = 'unset';
-          document.documentElement.style.overflowX = 'unset';
-        } catch {}
-      }
-    }
-
-    return () => {
-      if (!isMobileMenuOpen && !isSearchOpen) {
-        try {
-          document.body.style.overflowY = 'unset';
-          document.body.style.overflowX = 'unset';
-          document.documentElement.style.overflowY = 'unset';
-          document.documentElement.style.overflowX = 'unset';
-        } catch {}
-      }
-    };
-  }, [searchQuery, isSearchOpen, isMobileMenuOpen]);
+  // Inline preview removed — больше не блокируем скролл при вводе в поиск
 
   
 
@@ -1020,33 +976,10 @@ const Header = () => {
                         bannerPath ? 'bg-black/40 ' : 'bg-black/60 '
                       )}
                     />
-                    {searchQuery && !isSearchOpen && typeof window !== 'undefined' && createPortal(
-                      <>
-                        {/* Fullscreen blurred backdrop behind preview */}
-                        <div
-                          className="search-backdrop fixed inset-0 z-[9997] pointer-events-auto"
-                          onClick={() => { /* close preview by clearing query */ setSearchQuery(''); }}
-                          style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
-                        />
-
-                        {/* Centered preview card */}
-                        <div
-                          ref={searchPreviewRef}
-                          className="fixed left-1/2 transform -translate-x-1/2 rounded-xl shadow-lg overflow-y-auto overflow-x-hidden z-[10005] max-h-[80vh]"
-                          style={{ width: Math.min(980, window.innerWidth - 48), top: (headerRef.current ? (headerRef.current.getBoundingClientRect().bottom + 8) : 72) }}
-                        >
-                          <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 inline-preview-enter">
-                            {loading ? (
-                              <div className="w-full flex items-center justify-center py-8">
-                                <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                              </div>
-                            ) : (
-                              <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
-                            )}
-                          </div>
-                        </div>
-                      </>,
-                      document.body
+                    {searchQuery && (
+                      <div className="absolute left-0 mt-2 rounded-xl shadow-lg overflow-y-auto z-[1005] w-full max-h-90">
+                        <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="list" isLoading={loading} showActions={false} />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -1299,7 +1232,11 @@ const Header = () => {
                 </nav>
                 
               </div>
-              <button onClick={() => setIsSearchOpen(true)} className={clsx('md:hidden ml-3', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')} aria-label="Открыть поиск">
+              <button onClick={() => {
+                  // вместо модального окна — фокусируем inline-поле поиска
+                  const input = document.querySelector('input[placeholder="Поиск"]') as HTMLInputElement | null;
+                  if (input) { input.focus(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+                }} className={clsx('md:hidden ml-3', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')} aria-label="Открыть поиск">
                   <Search className="w-5 h-5" />
                 </button>
               {/* Правая группа: телефон + дизайнеры + иконки */}
@@ -1341,66 +1278,37 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Модальное окно поиска */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 z-[99999] flex items-start md:items-center justify-center p-4">
-          {/* Блюр фон */}
-          <div 
-            className="absolute inset-0 search-backdrop"
-            onClick={() => setIsSearchOpen(false)}
-          />
-          
-          {/* Модальное окно */}
-          <div className="relative backdrop-blur-2xl bg-black/30 rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col mt-12 md:mt-0 search-curtain-enter" style={{ height: '86vh', maxHeight: '86vh', overflow: 'hidden' }}>
-            {/* Заголовок */}
-            <div className="flex items-center justify-between p-3">
-              <h3 className="text-3xl md:text-4xl font-semibold text-white">Поиск товаров</h3>
-              <button
-                onClick={() => setIsSearchOpen(false)}
-                className="p-2 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5 text-white" />
-              </button>
-            </div>
-            
-            {/* Поле поиска */}
-            <div className="p-4 md:p-6">
-              <div className="flex items-center space-x-2 md:space-x-3">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-white" />
+      {/* Fullscreen animated white overlay with centered blurred input when typing */}
+      {typeof window !== 'undefined' && searchQuery && createPortal(
+        <div className="absolute inset-0 z-[100000] flex items-center justify-center transition-opacity duration-400 ease-out search-curtain-enter">
+          {/* white backdrop */}
+          <div className="absolute inset-0 bg-white/100" onClick={() => setSearchQuery('')} />
+
+          {/* Centered panel */}
+          <div className="relative w-full max-w-5xl mx-4 px-6 py-6">
+            <div className="mx-auto max-w-5xl">
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 shadow-2xl">
+                <div className="flex items-center gap-3">
+                  <Search className="w-5 h-5 text-black/60" />
                   <input
-                    type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={handleSearchKeyPress}
-                    placeholder="Введите название"
-                    className="w-full pl-10 md:pl-12 pr-4 py-3 md:py-4 text-base md:text-lg bg-black/10 backdrop-blur-2xl rounded-xl focus:ring-white focus:border-transparent outline-none transition-all"
+                    placeholder="Поиск"
+                    className="w-full pl-1 pr-3 py-3 text-black bg-white/30 rounded-xl outline-none text-lg"
                     autoFocus
                   />
+                  <button onClick={() => handleSearch()} className="ml-3 px-4 py-2 rounded-lg bg-black text-white">Найти</button>
                 </div>
-                <button
-                  onClick={handleSearch}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-transparent text-white rounded-xl transition-colors font-medium"
-                >
-                  Найти
-                </button>
+
+                <div className="mt-4">
+                  <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="list" isLoading={loading} showActions={false} />
+                </div>
               </div>
             </div>
-            
-            {/* Результаты поиска (модал) */}
-            {searchQuery && (
-              <div className="flex-1 overflow-hidden px-4 pb-6">
-                {loading ? (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                  </div>
-                ) : (
-                  <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
-                )}
-              </div>
-            )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Порталы для выпадающих меню */}

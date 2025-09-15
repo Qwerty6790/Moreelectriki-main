@@ -109,10 +109,10 @@ const OptimizedImage = React.memo(({
     return (
       <div className={`w-full h-full bg-gradient-to-br flex items-center justify-center product-image ${className}`}>
         <div className="text-center">
-          <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
+          <div className="text-[#ede7e7] font-bold text-lg sm:text-xl tracking-wider">
             MORELEKTRIKI
           </div>
-          <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
+          <div className="text-[#ede7e7] text-xs sm:text-sm mt-1">
             Нет фото
           </div>
         </div>
@@ -125,10 +125,10 @@ const OptimizedImage = React.memo(({
       {!loaded && (
         <div className="absolute inset-0 bg-gradient-to-br animate-pulse flex items-center justify-center">
           <div className="text-center">
-            <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
+            <div className="text-[#ede7e7] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
               MORELEKTRIKI
             </div>
-            <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
+            <div className="text-[#ede7e7] text-xs sm:text-sm mt-1 animate-pulse">
               Загрузка...
             </div>
           </div>
@@ -162,6 +162,8 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
   const [visibleProducts, setVisibleProducts] = useState<ProductI[]>([]);
   const [sortOption, setSortOption] = useState<'desc' | 'asc' | 'popularity' | 'newest'>('newest');
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [sortOpen, setSortOpen] = useState(false);
+  const sortRef = useRef<HTMLDivElement | null>(null);
 
   // Быстрая инициализация клиента
   useLayoutEffect(() => { 
@@ -325,7 +327,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       }
     };
 
-    const isSpecialBrand = ['werkel', 'voltum', 'donel', 'чтк'].includes((product.source || '').toLowerCase());
+    const isSpecialBrand = ['donel', 'чтк'].includes((product.source || '').toLowerCase());
 
     return (
       <div className={`${isSpecialBrand ? 'bg-[#101010] text-white' : 'bg-white'} flex flex-col h-full overflow-hidden product-card rounded-lg border border-transparent`}>
@@ -361,10 +363,10 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
             ) : (
               <div className="w-full h-full bg-gradient-to-br flex items-center justify-center product-image">
                 <div className="text-center">
-                  <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
+                  <div className="text-[#ede7e7] font-bold text-lg sm:text-xl tracking-wider">
                   MORELEKTRIKI
                   </div>
-                  <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
+                  <div className="text-[#ede7e7] text-xs sm:text-sm mt-1">
                     Нет фото
                   </div>
                 </div>
@@ -566,17 +568,38 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
     }
   }, [isClient, visibleProducts]);
 
+  // Закрытие дропдауна при клике вне и на Escape
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+        setSortOpen(false);
+      }
+    };
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSortOpen(false);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, []);
+
   if (isLoading || !isClient) {
     // show skeleton placeholders while loading or during hydration
     return (
       <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-6">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-[#101010] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
-            <div className="relative aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] flex items-center justify-center overflow-hidden product-image">
+          <div key={i} className="bg-[#a1a0a0] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
+            <div className="relative aspect-square bg-gradient-to-br from-[#a7a3a3] to-[#7c7c7c] flex items-center justify-center overflow-hidden product-image">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
               <div className="relative z-10 text-center">
-                <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">MORELEKTRIKI</div>
-                <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
+                <div className="text-[#ede7e7] font-bold text-lg sm:text-xl tracking-wider animate-pulse">MORELEKTRIKI</div>
+                <div className="text-[#ede7e7] text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
               </div>
             </div>
 
@@ -657,16 +680,52 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       {/* Основной контент */}
       <div className="mb-4 w-80 bg-white/70 rounded-3xl flex items-center justify-end">
         <label className="text-sm text-black mr-3">Сортировка:</label>
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value as any)}
-          className="bg-white/5 text-sm text-black rounded px-3 py-2 border border-white/10"
-        >
-          <option value="newest">По новизне</option>
-          <option value="popularity">По популярности</option>
-          <option value="desc">Цена: по убыванию</option>
-          <option value="asc">Цена: по возрастанию</option>
-        </select>
+        {/* Compact animated dropdown */}
+        <div ref={sortRef} className="relative">
+          <button
+            onClick={() => setSortOpen((s) => !s)}
+            className="flex items-center gap-2 bg-white/5 rounded-full px-3 py-1 border border-white/10 text-sm text-black"
+            aria-expanded={sortOpen}
+            aria-haspopup="listbox"
+          >
+            <span>
+              {sortOption === 'newest' ? 'По новизне' : sortOption === 'popularity' ? 'По популярности' : sortOption === 'desc' ? 'Цена: убывание' : 'Цена: возрастание'}
+            </span>
+            <svg className={`w-4 h-4 transform transition-transform ${sortOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 8L10 13L15 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          <AnimatePresence>
+            {sortOpen && (
+              <motion.ul
+                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                role="listbox"
+                aria-label="Сортировка"
+                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-white/10 overflow-hidden z-40"
+              >
+                {[
+                  { key: 'newest', label: 'По новизне' },
+                  { key: 'popularity', label: 'По популярности' },
+                  { key: 'desc', label: 'Цена: по убыванию' },
+                  { key: 'asc', label: 'Цена: по возрастанию' }
+                ].map((opt) => (
+                  <li key={opt.key}
+                    onClick={() => { setSortOption(opt.key as any); setSortOpen(false); }}
+                    role="option"
+                    aria-selected={sortOption === opt.key}
+                    className={`px-4 py-3 cursor-pointer text-sm text-black/90 hover:bg-black/5 transition-colors ${sortOption === opt.key ? ' text-black' : ''}`}
+                  >
+                    {opt.label}
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       {viewMode === 'table' ? (
         <TableView />
