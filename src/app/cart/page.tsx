@@ -34,6 +34,7 @@ const Cart: React.FC = () => {
   const [address, setAddress] = useState('');
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   // Загрузка товаров корзины и проверка авторизации
   useEffect(() => {
@@ -71,10 +72,16 @@ const Cart: React.FC = () => {
     fetchCartProducts();
   }, []);
 
-  // mark mounted so portals are rendered only on client
+  // mark mounted so portals are rendered only on client and track viewport width
   useEffect(() => {
     setIsMounted(true);
-    return () => setIsMounted(false);
+    const onResize = () => setWindowWidth(window.innerWidth);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => {
+      setIsMounted(false);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   // Функция для обновления корзины в localStorage и состояния
@@ -357,13 +364,9 @@ const Cart: React.FC = () => {
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="flex gap-6">
-                          <div className="w-28 h-28 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-                            <img
-                              src={`${imageUrl}?q=75&w=400`}
-                              alt={product.name}
-                              className="w-full h-full object-contain p-2"
-                            />
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <div className="w-28 h-28 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img src={`${imageUrl}?q=75&w=400`} alt={product.name} className="w-full h-full object-contain p-2" />
                           </div>
 
                           <div className="flex-grow">
@@ -393,10 +396,7 @@ const Cart: React.FC = () => {
                                   : `${product.price} ₽`}
                               </div>
                               
-                              <button 
-                                onClick={() => handleRemoveProduct(product._id)} 
-                                className="ml-auto text-red-500 hover:text-red-700 flex items-center gap-2"
-                              >
+                              <button onClick={() => handleRemoveProduct(product._id)} className="ml-auto text-red-500 hover:text-red-700 flex items-center gap-2">
                                 <FaTrash size={16} />
                                 <span className="hidden sm:inline">Удалить</span>
                               </button>
@@ -416,7 +416,7 @@ const Cart: React.FC = () => {
           {/* Сводка заказа */}
           {!error && (
             <div className="lg:col-span-1">
-              <div className="bg-white p-8 rounded-2xl shadow-xl sticky top-24">
+              <div className="hidden lg:block bg-white p-8 rounded-2xl shadow-xl sticky top-24">
                 <h2 className="text-2xl font-bold text-black mb-6 pb-3 border-b border-gray-200">Ваш заказ</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-lg">
@@ -449,6 +449,22 @@ const Cart: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile bottom checkout bar */}
+      {!error && isMounted && windowWidth < 1024 && (
+        <div className="fixed inset-x-0 bottom-0 z-50 bg-white border-t border-gray-200 p-3 lg:hidden">
+          <div className="max-w-[1550px] mx-auto px-4 flex items-center justify-between gap-3">
+            <div>
+              <div className="text-sm text-black/70">Итого</div>
+              <div className="text-lg font-bold text-black">{totalToPay.toLocaleString()} ₽</div>
+            </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <a href="/cart" className="flex-1 inline-flex items-center justify-center py-3 bg-gray-100 text-black rounded-xl">Корзина ({cartProducts.length})</a>
+              <button onClick={() => setIsCheckoutModalOpen(true)} className="flex-1 inline-flex items-center justify-center py-3 bg-black text-white rounded-xl">ОФОРМИТЬ</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Модальное окно оформления заказа (гость/аккаунт, оплата/самовывоз) */}
       {isCheckoutModalOpen && (
