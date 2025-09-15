@@ -96,6 +96,16 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
     }
   };
 
+  const copyArticle = async () => {
+    if (!product || !product.article) return;
+    try {
+      await navigator.clipboard.writeText(String(product.article));
+      // intentionally no toast for article copy
+    } catch (err) {
+      console.error('Ошибка копирования артикула:', err);
+    }
+  };
+
   const addToCart = (p: ProductI) => {
     try {
       const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
@@ -121,7 +131,7 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
         <div className="flex items-center justify-between py-4 md:py-6">
           <div />
           <div className="flex items-center gap-2 sm:gap-4">
-            <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
+            <button onClick={copyArticle} className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
               <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button onClick={toggleFavorite} className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full">
@@ -260,5 +270,4 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
 };
 
 export default ProductDetailView;
-
 
