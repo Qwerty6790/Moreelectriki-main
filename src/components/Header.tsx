@@ -1143,8 +1143,7 @@ const Header = () => {
                           <div key={idx} className="bg-white/10 rounded-lg">
                             <div className="w-full flex items-center py-3 px-3 text-white rounded-lg">
                               <span className="flex items-center">
-                                <img src={item.image} alt={item.title} className="w-8 h-8 object-contain mr-3 rounded" />
-                                <span>{item.title}</span>
+                                <span className="text-[19px] font-bold">{item.title}</span>
                               </span>
                             </div>
                             <div className="px-3 pb-3 space-y-2">
@@ -1378,7 +1377,6 @@ const Header = () => {
                             <div key={idx} className=" last:border-b-0">
                               <div className={"w-full flex items-center justify-between px-4 py-4"}>
                                 <span className="flex items-center gap-3">
-                                  <img src={item.image} alt={item.title} className="w-8 h-8 object-contain" />
                                   <span className="text-[19px] font-bold text-black">{item.title}</span>
                                 </span>
                               </div>
@@ -1448,7 +1446,6 @@ const Header = () => {
                         <div key={idx} className=" last:border-b-0">
                           <div className={"w-full flex items-center justify-between px-4 py-4"}>
                             <span className="flex items-center gap-3">
-                              <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
                               <span className="text-[19px] font-bold text-black">{item.title}</span>
                             </span>
                           </div>
