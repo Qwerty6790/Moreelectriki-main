@@ -1,124 +1,441 @@
-"use client";
-
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ProductI } from '../types/interfaces';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 
 interface CatalogOfProductProps {
   products: ProductI[];
   viewMode: 'grid' | 'list' | 'table';
   isLoading?: boolean;
+  showActions?: boolean; // optional flag to hide action buttons (add to cart, qty)
 }
 
-// Константы для оптимизации изображений
-const IMAGE_FORMATS = {
-  WEBP: 'webp',
-  JPG: 'jpg',
-  PNG: 'png',
-};
+// Кэш для нормализованных URL
+const urlCache = new Map<string, string>();
 
-// Размеры для изображений
-const IMAGE_SIZES = {
-  SMALL_LCP: 50,
-  THUMBNAIL: 40,
-  SMALL: 80,
-  MEDIUM: 100,
-  D_ARTICLE_SIZE: 65,
-};
+// Предзагруженные изображения для LCP
+const preloadedImages = new Set<string>();
 
-// Функция нормализации URL
+// Функция нормализации URL с кэшированием
 const normalizeUrl = (originalUrl: string, isLCPCandidate: boolean = false): string | null => {
   if (!originalUrl) return null;
 
-  // Проверяем и конвертируем HTTP на HTTPS для предотвращения mixed content
+  // Проверяем кэш
+  if (urlCache.has(originalUrl)) {
+    return urlCache.get(originalUrl)!;
+  }
+
   let url = originalUrl;
   if (url.startsWith('http://')) {
     url = url.replace('http://', 'https://');
+  }
+  
+  // Кэшируем результат
+  urlCache.set(originalUrl, url);
+  
+  // Принудительная предзагрузка для LCP
+  if (isLCPCandidate && !preloadedImages.has(url)) {
+    // Создаем link preload
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = url;
+    link.fetchPriority = 'high';
+    document.head.appendChild(link);
+    
+    // Принудительная загрузка изображения
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      console.log('LCP image preloaded:', url);
+    };
+    
+    preloadedImages.add(url);
   }
 
   return url;
 };
 
-// Упрощенный компонент для изображений
-const SafeOptimizedImage: React.FC<{
+// Ультра-оптимизированный компонент изображения
+const OptimizedImage = React.memo(({ 
+  src, 
+  alt, 
+  className, 
+  priority = false,
+  width = 300,
+  height = 300
+}: {
   src: string;
   alt: string;
   className?: string;
   priority?: boolean;
-  isLCP?: boolean;
   width?: number;
   height?: number;
-}> = React.memo(({ src, alt, className, priority = false, isLCP = false, width, height }) => {
+}) => {
+  const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  const handleError = useCallback(() => { setError(true); }, []);
+  // Принудительная загрузка для LCP
+  useEffect(() => {
+    if (priority && src) {
+      const img = new Image();
+      img.onload = () => {
+        setLoaded(true);
+        console.log('Priority image loaded:', src);
+      };
+      img.onerror = () => setError(true);
+      img.src = src;
+      
+      // Принудительная загрузка
+      if (img.complete) {
+        setLoaded(true);
+      }
+    }
+  }, [src, priority]);
 
-  const aspectRatioStyle = width && height ? { aspectRatio: `${width}/${height}` } : undefined;
-  const sizeStyle = width && height ? { width: `${width}px`, height: `${height}px` } : undefined;
+  // Ленивая загрузка для остальных
+  useEffect(() => {
+    if (!priority && src && !loaded && !error) {
+      const img = new Image();
+      img.onload = () => setLoaded(true);
+      img.onerror = () => setError(true);
+      img.src = src;
+    }
+  }, [src, priority, loaded, error]);
 
-  // Placeholder
-  if (!src || error) {
+  if (error || !src) {
     return (
-      <div
-        className={`w-full h-full flex items-center justify-center bg-gray-100 ${className || ''} block`}
-        style={{ ...aspectRatioStyle, ...sizeStyle }}
-      ></div>
+      <div className={`w-full h-full bg-gradient-to-br flex items-center justify-center product-image ${className}`}>
+        <div className="text-center">
+          <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
+            ELEKTROMOS
+          </div>
+          <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
+            Нет фото
+          </div>
+        </div>
+      </div>
     );
   }
 
-  // Основное изображение
   return (
-    <img
+    <div className={`relative w-full h-full product-image ${className}`}>
+      {!loaded && (
+        <div className="absolute inset-0 bg-gradient-to-br animate-pulse flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
+              ELEKTROMOS
+            </div>
+            <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
+              Загрузка...
+            </div>
+          </div>
+        </div>
+      )}
+      <img
+        ref={imgRef}
       src={src}
       alt={alt}
-      className={`w-full h-full object-contain ${className || ''}`}
-      onError={handleError}
-      decoding="async"
-      loading={isLCP || priority ? "eager" : "lazy"}
       width={width}
       height={height}
-      style={aspectRatioStyle}
-    />
+        className={`w-full h-full object-contain transition-opacity duration-200 lcp-image ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        loading={priority ? "eager" : "lazy"}
+        decoding={priority ? "sync" : "async"}
+        fetchPriority={priority ? "high" : "auto"}
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+      />
+    </div>
   );
 });
-SafeOptimizedImage.displayName = 'SafeOptimizedImage';
 
 const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
   products,
   viewMode,
   isLoading = false,
+  showActions = true,
 }) => {
   const [isClient, setIsClient] = useState(false);
-  useEffect(() => { setIsClient(true); }, []);
+  const [notifications, setNotifications] = useState<Array<{id: number, message: string, type: 'success' | 'error' | 'info'}>>([]);
+  const [visibleProducts, setVisibleProducts] = useState<ProductI[]>([]);
+  const [sortOption, setSortOption] = useState<'desc' | 'asc' | 'popularity' | 'newest'>('newest');
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
+  // Быстрая инициализация клиента
+  useLayoutEffect(() => { 
+    setIsClient(true); 
+  }, []);
+
+  // Оптимизированная фильтрация с мемоизацией
   const filteredProducts = useMemo(() => {
-    if (!products || products.length === 0) return [];
-    const validProducts: ProductI[] = [];
-    const uniqueKeys = new Set<string>();
-    
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i];
-      if (!product) continue;
-      const stockValue = Number(product.stock);
-      if (isNaN(stockValue) || stockValue <= 0) continue;
-      if (!product.name || !product.article || !product.source) continue;
-      const key = product._id || product.article;
-      if (!key || uniqueKeys.has(key)) continue;
-      
-      validProducts.push(product);
-      uniqueKeys.add(key);
-    }
-    
-    return validProducts;
+    if (!products?.length) return [];
+    return products.filter(product => product && product.name);
   }, [products]);
 
-  // Компонент для табличного отображения
-  const TableView = useCallback(() => { 
-    if (!filteredProducts || filteredProducts.length === 0) return null;
+  // Устанавливаем видимые продукты и применяем сортировку
+  useEffect(() => {
+    const sorted = [...filteredProducts];
+
+    const getQuantity = (p: ProductI) => (typeof p.quantity === 'number' ? p.quantity : 0);
+    const getDate = (p: ProductI) => (p.createdAt ? new Date(p.createdAt).getTime() : 0);
+    const getPrice = (p: ProductI) => (typeof p.price === 'string' ? parseFloat(p.price) : (p.price || 0));
+
+    if (sortOption === 'newest') {
+      sorted.sort((a, b) => getDate(b) - getDate(a));
+    } else if (sortOption === 'popularity') {
+      sorted.sort((a, b) => getQuantity(b) - getQuantity(a));
+    } else if (sortOption === 'desc') {
+      sorted.sort((a, b) => getPrice(b) - getPrice(a));
+    } else if (sortOption === 'asc') {
+      sorted.sort((a, b) => getPrice(a) - getPrice(b));
+    }
+
+    setVisibleProducts(sorted);
+  }, [filteredProducts, sortOption]);
+
+  // Стильные всплывающие уведомления в стиле сайта
+  const showNotification = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    const id = Date.now();
+    setNotifications(prev => [...prev, { id, message, type }]);
+    
+    // Автоматически убираем уведомление через 2.5 секунды
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== id));
+    }, 2500);
+  }, []);
+
+  // Добавление в корзину
+  const addToCart = useCallback((product: ProductI, quantity: number = 1, isExpected: boolean = false) => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
+      
+      const idx = cart.products.findIndex((item: any) => 
+        item.productId === product._id || 
+        (item.article === product.article && item.source === product.source)
+      );
+      
+      if (idx > -1) {
+        cart.products[idx].quantity += quantity;
+        cart.products[idx].isExpected = isExpected;
+      } else {
+        cart.products.push({ 
+          productId: product._id, 
+          article: product.article, 
+          source: product.source, 
+          quantity,
+          isExpected
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
+      localStorage.setItem('cartCount', totalCount.toString());
+      
+      window.dispatchEvent(new CustomEvent('cartUpdated', { 
+        detail: { count: totalCount, animate: true } 
+      }));
+
+      // Показываем мини-превью под шапкой
+      let previewImage: string | null = null;
+      if (typeof product.imageAddresses === 'string') previewImage = normalizeUrl(product.imageAddresses);
+      else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) previewImage = normalizeUrl(product.imageAddresses[0]);
+      else if (typeof product.imageAddress === 'string') previewImage = normalizeUrl(product.imageAddress);
+      else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) previewImage = normalizeUrl(product.imageAddress[0]);
+      // Dispatch preview event so header hover preview opens on add
+      window.dispatchEvent(new CustomEvent('cartPreview', {
+        detail: {
+          productId: product._id,
+          article: product.article,
+          source: product.source,
+          name: product.name,
+          price: product.price,
+          image: previewImage || undefined
+        }
+      }));
+      // Removed manual toast/notification: header hover will show preview instead
+    } catch (err) {
+      console.error('Ошибка добавления в корзину:', err);
+      showNotification('Ошибка добавления', 'error');
+    }
+  }, [showNotification]);
+
+  // Ультра-оптимизированный компонент карточки товара
+  const ProductCard = useCallback(({ product, index }: { product: ProductI, index: number }) => {
+    const [quantity, setQuantity] = useState(1);
+    const [showQtyControls, setShowQtyControls] = useState(false);
+    const isLCP = index < 6; // Увеличиваем количество приоритетных изображений
+    
+    const imageSrc = useMemo(() => {
+      let url = null;
+      if (typeof product.imageAddresses === 'string') url = product.imageAddresses;
+      else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) url = product.imageAddresses[0];
+      else if (typeof product.imageAddress === 'string') url = product.imageAddress;
+      else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) url = product.imageAddress[0];
+      
+      return url ? normalizeUrl(url, isLCP) : null;
+    }, [product, isLCP]);
+
+    const isPurchasable = Number(product.stock) > 0;
+
+    const handleAddToCart = () => {
+      // When user clicks "Купить" — add one and reveal quantity controls
+      addToCart(product, 1, !isPurchasable);
+      setQuantity((q) => q + 1);
+      setShowQtyControls(true);
+    };
+
+    const addOne = () => {
+      addToCart(product, 1, !isPurchasable);
+      setQuantity((q) => q + 1);
+    };
+
+    const removeOne = () => {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
+        const idx = cart.products.findIndex((item: any) => 
+          item.productId === product._id || 
+          (item.article === product.article && item.source === product.source)
+        );
+
+        if (idx === -1) return;
+
+        if (cart.products[idx].quantity > 1) {
+          cart.products[idx].quantity -= 1;
+          localStorage.setItem('cart', JSON.stringify(cart));
+          const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
+          localStorage.setItem('cartCount', totalCount.toString());
+          window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: totalCount, animate: true } }));
+          setQuantity((q) => Math.max(1, q - 1));
+        } else {
+          // remove item completely
+          cart.products.splice(idx, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          const totalCount = cart.products.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
+          localStorage.setItem('cartCount', totalCount.toString());
+          window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: totalCount, animate: true } }));
+          setQuantity(1);
+          setShowQtyControls(false);
+        }
+      } catch (err) {
+        console.error('Ошибка изменения количества:', err);
+      }
+    };
+
+    const isSpecialBrand = ['werkel', 'voltum', 'donel', 'чтк'].includes((product.source || '').toLowerCase());
 
     return (
-      <div className="w-full overflow-x-auto text-white">
+      <div className={`${isSpecialBrand ? 'bg-[#101010] text-white' : 'bg-white'} flex flex-col h-full overflow-hidden product-card rounded-lg border border-transparent`}>
+        {/* Контент, кликабельная часть */}
+        <Link href={`/products/${product.source}/${product.article}`} className="flex flex-col">
+          <div className="relative aspect-square bg-gradient-to-br flex items-center justify-center overflow-hidden product-image">
+            {product.isNew && (
+              <div className="absolute top-3 left-3 z-10">
+                <div className="bg-gradient-to-r from-gray-300 to-gray-500 text-black text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                  Новинка
+                </div>
+              </div>
+            )}
+
+            {/* Индикатор наличия: зелёный круг = в наличии, оранжевый = ожидается */}
+            <div className="absolute top-3 right-3 z-10">
+              <span
+                title={isPurchasable ? 'В наличии' : 'Ожидается'}
+                aria-label={isPurchasable ? 'В наличии' : 'Ожидается'}
+                className={`${isPurchasable ? 'bg-green-500' : 'bg-orange-500'} w-3 h-3 rounded-full inline-block border border-white/20`}
+              />
+            </div>
+
+            {imageSrc ? (
+              <OptimizedImage
+                src={imageSrc}
+                alt={product.name}
+                priority={isLCP}
+                width={300}
+                height={300}
+                className="w-full h-full"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br flex items-center justify-center product-image">
+                <div className="text-center">
+                  <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
+                    ELEKTROMOS
+                  </div>
+                  <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
+                    Нет фото
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 flex flex-col">
+            <div className={`text-xs ${isSpecialBrand ? 'text-gray-300' : 'text-gray-400'} mb-2`}>Арт. {product.article}</div>
+            <h3 className={`text-base font-semibold ${isSpecialBrand ? 'text-white' : 'text-black'} mb-2 line-clamp-2`}>{product.name}</h3>
+
+            <div className="flex items-baseline gap-2 mb-3">
+              <div className={`text-2xl font-extrabold ${isSpecialBrand ? 'text-white' : 'text-black'}`}>{product.price}</div>
+              <div className={`text-sm font-medium ${isSpecialBrand ? 'text-gray-300' : 'text-gray-600'}`}>₽/шт</div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Нижняя панель с кнопками (вне Link чтобы клики не навигировали) */}
+        {showActions !== false && (
+          <div className="px-4 pb-4 pt-0 mt-auto">
+            <div className="flex items-center gap-3">
+              {/* Показываем либо кнопку Купить, либо контролы количества после клика */}
+              {!showQtyControls ? (
+                <button
+                  onClick={(e) => { e.preventDefault(); handleAddToCart(); }}
+                  className={`flex-1 h-11 rounded-md text-sm font-medium uppercase tracking-wider transition-colors duration-200 ${
+                    isPurchasable
+                      ? 'bg-black text-white hover:bg-gray-800'
+                      : 'bg-gray-200/20 text-gray-400 border border-gray-300/30'
+                  }`}
+                >
+                  {isPurchasable ? 'Купить' : 'Ожидается'}
+                </button>
+              ) : (
+                <div className="flex items-center gap-2 bg-white/5 rounded-full px-1 py-0.5 border border-white/10">
+                  <button
+                    onClick={(e) => { e.preventDefault(); removeOne(); }}
+                    aria-label="decrease"
+                    className="w-7 h-7 flex items-center justify-center text-xs font-semibold rounded-full bg-black text-white hover:opacity-90 transition-opacity"
+                    style={{ boxShadow: 'inset 0 -2px 0 rgba(255,255,255,0.03)' }}
+                  >
+                    −
+                  </button>
+
+                  <div className={`min-w-[34px] flex items-center justify-center px-1 py-0.5 rounded text-xs font-medium ${isSpecialBrand ? 'text-black' : 'text-black'} bg-white/90`}>
+                    {quantity}
+                  </div>
+
+                  <button
+                    onClick={(e) => { e.preventDefault(); addOne(); }}
+                    aria-label="increase"
+                    className="w-7 h-7 flex items-center justify-center text-xs font-semibold rounded-full bg-white text-black hover:opacity-90 transition-opacity"
+                    style={{ boxShadow: 'inset 0 -2px 0 rgba(0,0,0,0.06)' }}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }, [addToCart]);
+
+  // Оптимизированная таблица
+  const TableView = useCallback(() => { 
+    if (!visibleProducts.length) return null;
+
+    return (
+      <div className="w-full overflow-x-auto bg-[#101010] text-white">
         <table className="min-w-full text-white">
           <thead>
             <tr>
@@ -130,264 +447,150 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
             </tr>
           </thead>
           <tbody>
-            {filteredProducts.map((product) => {
-              if (!product) return null;
+            <AnimatePresence>
+              {visibleProducts.map((product, index) => {
+                if (!product) return null;
 
-              let originalUrl: string | null = null;
-              if (typeof product.imageAddresses === 'string') originalUrl = product.imageAddresses;
-              else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) originalUrl = product.imageAddresses[0];
-              else if (typeof product.imageAddress === 'string') originalUrl = product.imageAddress;
-              else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) originalUrl = product.imageAddress[0];
+                const imageSrc = useMemo(() => {
+                  let url = null;
+                  if (typeof product.imageAddresses === 'string') url = product.imageAddresses;
+                  else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) url = product.imageAddresses[0];
+                  else if (typeof product.imageAddress === 'string') url = product.imageAddress;
+                  else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) url = product.imageAddress[0];
+                  
+                  return url ? normalizeUrl(url) : null;
+                }, [product]);
 
-              const mainImage = originalUrl ? normalizeUrl(originalUrl) : null;
-              const isPurchasable = Number(product.stock) > 0;
+                const isPurchasable = Number(product.stock) > 0;
 
-              return (
-                <tr key={`table-${product._id || ''}-${product.article}`} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-2 py-2 whitespace-nowrap">
-                    <div className={`h-10 w-10 sm:h-12 sm:w-12 overflow-hidden rounded-md bg-gray-100 flex items-center justify-center ${product.article?.toString().startsWith('D') ? 'p-1' : ''}`}>
-                      {mainImage ? (
-                        <img 
-                          src={mainImage} 
-                          alt={product.name || 'Товар'} 
-                          className={`h-full w-full ${product.article?.toString().startsWith('D') ? 'object-contain scale-90' : 'object-contain'}`} 
-                          loading="lazy" 
+                return (
+                  <motion.tr 
+                    key={product._id || product.article} 
+                    className="border-b border-[#1a1a1a]"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: {
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 25,
+                        delay: index * 0.05, // Меньшая задержка для таблицы
+                        duration: 0.5
+                      }
+                    }}
+                    exit={{ 
+                      opacity: 0, 
+                      y: -20,
+                      transition: { duration: 0.2 }
+                    }}
+                    whileHover={{ 
+                      backgroundColor: "rgba(255,255,255,0.02)",
+                      transition: { duration: 0.2 }
+                    }}
+                  >
+                    <td className="px-2 py-3">
+                      <div className="w-16 h-16 relative overflow-hidden rounded  product-image">
+                        {imageSrc ? (
+                          <OptimizedImage
+                            src={imageSrc}
+                            alt={product.name}
+                            width={64}
+                            height={64}
+                            className="w-full h-full"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-white text-black text-xs">
+                            Нет фото
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-2 py-3">
+                      <div className="flex items-center gap-2">
+                        <Link href={`/products/${product.source}/${product.article}`} className="text-white hover:text-gray-300">
+                          {product.name}
+                        </Link>
+                        {product.isNew && (
+                          <div className="bg-gradient-to-r from-gray-300 to-gray-500 text-black text-xs font-bold px-2 py-0.5 rounded-full">
+                            Новинка
+                          </div>
+                        )}
+                        {/* Индикатор наличия в таблице */}
+                        <span
+                          title={isPurchasable ? 'В наличии' : 'Ожидается'}
+                          aria-label={isPurchasable ? 'В наличии' : 'Ожидается'}
+                          className={`${isPurchasable ? 'bg-green-500' : 'bg-orange-500'} w-3 h-3 rounded-full inline-block ml-1 border border-white/20`}
                         />
-                      ) : (
-                        <span className="text-white text-[8px] sm:text-xs">Нет фото</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-2 py-2">
-                    <Link href={`/products/${product.source}/${encodeURIComponent(product.article)}`} className="text-xs sm:text-sm font-medium text-black hover:text-red-400 hover:underline truncate block max-w-[120px] sm:max-w-[200px]">
-                      {product.name}
-                    </Link>
-                  </td>
-                  <td className="px-2 py-2 hidden sm:table-cell"><span className="text-xs text-black">{product.article}</span></td>
-                  <td className="px-2 py-2">
-                    {product.price > 0 ? (
-                      <span className="text-xs sm:text-sm font-medium">{product.price} ₽</span>
-                    ) : null}
-                  </td>
-                  <td className="px-2 py-2 whitespace-nowrap">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault(); e.stopPropagation();
-                        if (!isPurchasable) return;
-                        try {
-                          const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
-                          const idx = cart.products.findIndex((item: any) => item.article === product.article);
-                          if (idx > -1) cart.products[idx].quantity += 1;
-                          else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, price: product.price, imageUrl: mainImage });
-                          localStorage.setItem('cart', JSON.stringify(cart));
-                          const count = cart.products.length;
-                          localStorage.setItem('cartCount', String(count));
-                          window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
-                          window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: product.name, price: product.price, imageUrl: mainImage } }));
-                          toast.success('Товар добавлен');
-                        } catch (err) { console.error('Ошибка добавления в корзину (table):', err); toast.error('Ошибка'); }
-                      }}
-                      className={`text-[10px] sm:text-xs py-1 px-1 sm:px-2 rounded ${isPurchasable ? 'bg-black text-black hover:bg-gray-800' : 'bg-gray-300 text-black cursor-not-allowed'}`}
-                      disabled={!isPurchasable}
-                    >
-                      В корзину
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                      </div>
+                    </td>
+                    <td className="px-2 py-3 hidden sm:table-cell text-gray-400">{product.article}</td>
+                    <td className="px-2 py-3 font-bold">{product.price} ₽</td>
+                    <td className="px-2 py-3">
+                      <button
+                        onClick={() => addToCart(product, 1, !isPurchasable)}
+                        className={`px-3 py-1 text-xs rounded transition-colors ${
+                          isPurchasable 
+                            ? 'bg-[#101010] text-white hover:bg-gray-700' 
+                            : 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/40 border border-orange-500/30'
+                        }`}
+                      >
+                        {isPurchasable ? 'Купить' : 'Ожидается'}
+                      </button>
+                    </td>
+                  </motion.tr>
+                );
+              })}
+            </AnimatePresence>
           </tbody>
         </table>
       </div>
     );
-  }, [filteredProducts]);
+  }, [visibleProducts, addToCart]);
 
-  // Компонент карточки товара (Grid View)
-  const ProductCard = useCallback(({ product, index }: { product: ProductI, index: number }) => {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const [shouldLoad, setShouldLoad] = useState(index < 3);
-    const isLCPCandidate = index < 3; 
-    const isFirstProduct = index === 0;
-    const [quantity, setQuantity] = useState(1);
-
-    // Мемоизация URL изображения
-    const targetImageSrc = useMemo(() => {
-      if (!product) return null;
-      let originalUrl: string | null = null;
-      if (typeof product.imageAddresses === 'string') originalUrl = product.imageAddresses;
-      else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) originalUrl = product.imageAddresses[0];
-      else if (typeof product.imageAddress === 'string') originalUrl = product.imageAddress;
-      else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) originalUrl = product.imageAddress[0];
-      
-      if (originalUrl) {
-         return normalizeUrl(originalUrl, isLCPCandidate);
-      }
-      return null;
-    }, [product, isLCPCandidate]);
-
-    const isPurchasable = useMemo(() => product ? Number(product.stock) > 0 : false, [product]);
-
-    // Observer для отложенной загрузки (ТОЛЬКО для НЕ-LCP)
+  // Принудительная предзагрузка первых изображений для LCP
     useEffect(() => {
-      if (isLCPCandidate || shouldLoad || !cardRef.current) return;
-      
-      const observer = new IntersectionObserver(([entry]) => { 
-        if (entry.isIntersecting) { 
-          setShouldLoad(true); 
-          observer.disconnect(); 
+    if (isClient && visibleProducts.length > 0) {
+      const firstProducts = visibleProducts.slice(0, 6);
+      firstProducts.forEach((product, index) => {
+        let url = null;
+        if (typeof product.imageAddresses === 'string') url = product.imageAddresses;
+        else if (Array.isArray(product.imageAddresses) && product.imageAddresses.length > 0) url = product.imageAddresses[0];
+        else if (typeof product.imageAddress === 'string') url = product.imageAddress;
+        else if (Array.isArray(product.imageAddress) && product.imageAddress.length > 0) url = product.imageAddress[0];
+        
+        if (url) {
+          normalizeUrl(url, true);
         }
-      }, { rootMargin: '500px', threshold: 0.01 }); 
-      observer.observe(cardRef.current);
-      return () => observer.disconnect();
-    }, [shouldLoad, isLCPCandidate]); 
+      });
+    }
+  }, [isClient, visibleProducts]);
 
-    const handleAddToCart = useCallback((e: React.MouseEvent) => {
-      e.preventDefault(); e.stopPropagation();
-      if (!isPurchasable || !product) return;
-      try {
-        const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
-        const idx = cart.products.findIndex((item: any) => item.article === product.article);
-        if (idx > -1) cart.products[idx].quantity += 1;
-        else cart.products.push({ article: product.article, source: product.source, name: product.name || 'Товар', quantity: 1, price: product.price, imageUrl: targetImageSrc });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        const count = cart.products.length;
-        localStorage.setItem('cartCount', String(count));
-        window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
-        window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: product.name, price: product.price, imageUrl: targetImageSrc } }));
-        toast.success('Товар добавлен');
-      } catch (err) { console.error('Ошибка добавления в корзину (grid):', err); toast.error('Ошибка'); }
-    }, [product, targetImageSrc, isPurchasable]); 
-
-    if (!product) return null;
-    
-    const finalImageSrc = targetImageSrc;
-    
-    return (
-      <div 
-        ref={!isLCPCandidate ? cardRef : undefined}
-        className="group bg-gray-50 text-black flex flex-col h-full overflow-hidden transition-all duration-300 hover:shadow-md"
-      >
-        <Link href={`/products/${product.source}/${encodeURIComponent(product.article)}`} className="flex flex-col h-full" prefetch={false}>
-          {/* Маркер новинки */}
-          {product.isNew && (
-            <div className="absolute top-0 left-0 bg-black text-white text-xs px-2 py-1 font-medium z-10">
-              NEW
-            </div>
-          )}
-          
-          {/* Контейнер изображения */}
-          <div className="relative w-full aspect-square overflow-hidden flex items-center justify-center bg-white p-3">
-            {isLCPCandidate ? (
-              finalImageSrc ? (
-                <img
-                  src={finalImageSrc}
-                  alt={product.name || 'Товар'}
-                  className="w-full h-full object-contain"
-                  loading="eager"
-                  decoding={isFirstProduct ? "sync" : "async"}
-                  style={{ display: 'block' }}
-                />
-              ) : (
-                <div className="w-full h-full bg-white animate-pulse"></div>
-              )
-            ) : (
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                  backgroundImage: (shouldLoad && finalImageSrc) ? `url('${finalImageSrc.replace(/'/g, "\'")}')` : 'none',
-                  backgroundColor: 'white'
-                }}
-                className={`transition-opacity duration-300 ${!shouldLoad || !finalImageSrc ? 'opacity-0 animate-pulse' : 'opacity-100'}`}
-                role="img"
-                aria-label={product.name || 'Товар'}
-              > 
-                {(!shouldLoad || !finalImageSrc) && <div style={{ aspectRatio: '1 / 1' }} className="w-full h-auto bg-white"></div>}
-              </div>
-            )}
-          </div>
-          
-          {/* Информация о товаре */}
-          <div className="p-4 flex flex-col flex-grow">
-            <div className="text-xs text-gray-500 mb-1">{product.article}</div>
-            
-            <h3 className="text-sm text-black font-medium mb-3 line-clamp-2">
-              {product.name}
-            </h3>
-            
-            {/* Блок с ценой */}
-            {product.price > 0 && (
-              <div className="mt-auto flex items-center justify-between">
-                <p className="text-sm font-medium text-black">{product.price} ₽</p>
-                
-                <div className="flex items-center">
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      // Добавить логику "минус"
-                    }}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-100 text-black"
-                  >
-                    −
-                  </button>
-                  <div className="w-8 h-7 flex items-center justify-center bg-white border-t border-b border-gray-200">
-                    1
-                  </div>
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      // Добавить логику "плюс"
-                    }}
-                    className="w-7 h-7 flex items-center justify-center bg-gray-100 text-black"
-                  >
-                    +
-                  </button>
-                  
-                  <button 
-                    onClick={handleAddToCart} 
-                    className={`ml-2 relative flex items-center justify-center w-9 h-9 rounded-none ${isPurchasable ? ' text-black' : 'bg-black text-gray-400 cursor-not-allowed'}`}
-                    disabled={!isPurchasable}
-                    title="Добавить в корзину"
-                    aria-label="Добавить в корзину"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </Link>
-      </div>
-    );
-  }, []);
-
-  // Теперь условный рендер
   if (isLoading || !isClient) {
     if (viewMode === 'grid' && !isLoading) {
       return (
-        <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-3 xl:grid-cols-4 xl:gap-3">
+        <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-3 lg:gap-6 xl:grid-cols-3 xl:gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-gray-50 flex flex-col h-full">
-              <div className="relative aspect-square bg-white animate-pulse min-h-[150px] sm:min-h-[180px]"></div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="h-3 bg-gray-200 rounded w-1/4 mb-2 animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-3 animate-pulse"></div>
-                <div className="mt-auto flex items-center justify-between">
-                  <div className="h-5 bg-gray-200 rounded w-1/4 animate-pulse"></div>
-                  <div className="flex items-center">
-                    <div className="h-7 w-7 bg-gray-200 animate-pulse"></div>
-                    <div className="h-7 w-8 bg-gray-200 animate-pulse mx-px"></div>
-                    <div className="h-7 w-7 bg-gray-200 animate-pulse"></div>
-                    <div className="h-9 w-9 bg-gray-200 animate-pulse ml-2"></div>
+            <div key={i} className="bg-[#101010] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
+              <div className="relative aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] flex items-center justify-center overflow-hidden product-image">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
+                <div className="relative z-10 text-center">
+                  <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
+                    ELEKTROMOS
+                  </div>
+                  <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
+                    Загрузка...
                   </div>
                 </div>
+              </div>
+              
+              <div className="p-4 flex flex-col flex-grow border-t border-[#1a1a1a]">
+                <div className="h-3 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/3 mb-2 animate-pulse"></div>
+                <div className="space-y-2 mb-3">
+                  <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-full animate-pulse"></div>
+                  <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-3/4 animate-pulse"></div>
+                </div>
+                <div className="h-6 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/2 animate-pulse"></div>
               </div>
             </div>
           ))}
@@ -399,48 +602,121 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
 
   return (
     <>
+      {/* Стильные уведомления в стиле сайта */}
+      <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
+        <AnimatePresence>
+          {notifications.map((notification) => (
+            <motion.div
+              key={notification.id}
+              initial={{ opacity: 0, y: 100, scale: 0.3 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0, 
+                scale: [0.3, 1.1, 1],
+              }}
+              exit={{ 
+                opacity: 0, 
+                y: -100, 
+                scale: 0.3,
+                transition: { duration: 0.3 }
+              }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 400, 
+                damping: 25,
+                duration: 0.6 
+              }}
+              className="mb-4 last:mb-0"
+            >
+              <div className="bg-gradient-to-r from-[#1a1a1a]/95 via-[#171717]/95 to-[#1a1a1a]/95 backdrop-blur-lg border border-red-800/30 shadow-2xl rounded-xl px-6 py-4">
+                <div className="flex items-center justify-center">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      notification.type === 'success' 
+                    ? 'bg-[#1f3d1f]/60 text-[#9FE29F]' 
+                        : notification.type === 'error' 
+                        ? 'bg-red-600/20 text-red-400' 
+                        : 'bg-blue-600/20 text-blue-400'
+                    }`}>
+                      <span className="text-lg">
+                        {notification.type === 'success' ? '✓' : notification.type === 'error' ? '✕' : 'ℹ'}
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-white font-medium text-sm">
+                        {notification.message}
+                      </div>
+                      {notification.type === 'success' && (
+                        <div className="text-gray-400 text-xs mt-1">
+                          Операция выполнена успешно
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
       {/* Основной контент */}
+      <div className="mb-4 w-full flex items-center justify-end">
+        <label className="text-sm text-black mr-3">Сортировка:</label>
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value as any)}
+          className="bg-white/5 text-sm text-black rounded px-3 py-2 border border-white/10"
+        >
+          <option value="newest">По новизне</option>
+          <option value="popularity">По популярности</option>
+          <option value="desc">Цена: по убыванию</option>
+          <option value="asc">Цена: по возрастанию</option>
+        </select>
+      </div>
       {viewMode === 'table' ? (
         <TableView />
       ) : (
-        <div className="grid w-full grid-cols-1 gap-2 xs:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-3 xl:grid-cols-4 xl:gap-3">
-          {filteredProducts.map((product, index) => (
-            <ProductCard
-              key={`grid-${product._id || ''}-${product.article}`}
-              product={product}
-              index={index}
-            />
-          ))}
+        <div className="grid w-full grid-cols-2 gap-4 xs:grid-cols-2 sm:gap-4 md:grid-cols-4 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-9">
+          <AnimatePresence>
+            {visibleProducts.map((product, index) => (
+              <motion.div
+                key={`grid-${product._id || ''}-${product.article}`}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25,
+                    delay: index * 0.1, // Задержка для каждого следующего товара
+                    duration: 0.6
+                  }
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  y: -30, 
+                  scale: 0.9,
+                  transition: { duration: 0.3 }
+                }}
+                whileHover={{ 
+                  y: -5, 
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
+                className="transform-gpu"
+              >
+                <ProductCard
+                  product={product}
+                  index={index}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
           
-          {/* Добавляем пустые div-элементы для заполнения строки, чтобы товары выравнивались по сетке */}
-          {(() => {
-            const columnsCount = (() => {
-              if (typeof window !== 'undefined') {
-                if (window.innerWidth >= 1280) return 4; // xl: 4 колонки
-                if (window.innerWidth >= 1024) return 4; // lg: 4 колонки
-                if (window.innerWidth >= 768) return 3; // md: 3 колонки
-                if (window.innerWidth >= 576) return 2; // sm: 2 колонки
-                return 1; // xs: 1 колонка
-              }
-              return 4; // По умолчанию для SSR
-            })();
-            
-            const remainder = filteredProducts.length % columnsCount;
-            if (remainder === 0) return null; // Строка уже полная
-            
-            const emptySlots = columnsCount - remainder;
-            
-            return Array.from({ length: emptySlots }).map((_, i) => (
-              <div key={`empty-${i}`} className="hidden xs:block"></div>
-            ));
-          })()}
-          
-          {/* Сообщение "Товары не найдены" */}
-          {filteredProducts.length === 0 && (
-            <div className="col-span-full py-8 sm:py-12 text-center backdrop-blur-sm border border-zinc-800 rounded-lg">
-              <p className='text-3xl'>Напишите для отображения в предпросмотре товаров</p>
-            </div>
-          )}
+         
         </div>
       )}
     </>

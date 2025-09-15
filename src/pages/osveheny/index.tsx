@@ -4118,26 +4118,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               </div>
             )}
 
-            {sortOrder && (
-              <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
-                <div className="px-3 py-1.5">
-                  <span>
-                    Сортировка: {
-                      sortOrder === 'newest' ? 'По новизне' :
-                      sortOrder === 'popularity' ? 'По популярности' :
-                      sortOrder === 'asc' ? 'Цена ↑' :
-                      sortOrder === 'desc' ? 'Цена ↓' : 'Не выбрана'
-                    }
-                  </span>
-                </div>
-                <button 
-                  onClick={() => handleSortOrderChange(null)}
-                  className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
-                >
-                  ×
-                </button>
-              </div>
-            )}
+          
             
           
           </div>
@@ -4192,26 +4173,29 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           <div className="lg:hidden mb-4">
             <button 
               onClick={toggleMobileFilter}
-              className="w-full py-3 px-4  bg-[#000000]/80 backdrop-blur-sm border border-[#000000]/30 rounded-xl shadow-lg flex items-center justify-between"
+              className="w-52 py-3 px-4 bg-white border border-black/10 rounded-xl shadow-md flex items-center justify-between"
+              aria-label="Открыть фильтры"
             >
               <span className="font-medium text-black">Фильтры</span>
-              <span className="bg-[#000000]/80 backdrop-blur-sm border border-[#000000]/30 px-4 py-2 rounded-full text-xs font-medium text-black">
+              <span className="bg-white px-3 py-1 rounded-full text-[12px] font-medium text-black border border-black/10">
                 {totalProducts} товаров
               </span>
             </button>
           </div>
           
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 overflow-hidden">
+          <div className="flex flex-col  lg:flex-row gap-6 lg:gap-8 overflow-hidden">
             {/* Left Sidebar - Hidden on mobile unless toggled */}
-            <div className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0 overflow-hidden`}>
-              {/* Mobile Filter Container */}
-              <div className={`${isMobileFilterOpen ? 'min-h-screen p-4 pb-20' : ''} lg:p-0`}>
-                {/* Mobile Filter Header - зафиксированный */}
-                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-10 mt-28' : ''} lg:hidden flex justify-between items-center mb-6 p-4 bg-[#1a1a1a]/90 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg`}>
+            <div className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 flex' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0 overflow-hidden`}>
+              {/* Backdrop for mobile (click to close) */}
+              {isMobileFilterOpen && <div className="absolute inset-0 bg-black/40 lg:hidden" onClick={toggleMobileFilter} />}
+              {/* Mobile Filter Container - fixed right panel full height with scroll */}
+              <div className={`${isMobileFilterOpen ? 'fixed py-12  right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white text-black p-4 overflow-y-auto shadow-xl pb-20' : ''} lg:p-0`}>
+                {/* Mobile Filter Header - зафиксированный (mobile only, white bg) */}
+                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-10' : ''} lg:hidden flex justify-between items-center mb-4 p-3 bg-white text-black border-b`}> 
                   <div className="flex items-center">
-                    <h2 className="font-bold text-lg text-black uppercase tracking-wide">КАТАЛОГ</h2>
+                    <h2 className="font-bold text-lg text-black uppercase tracking-wide">ФИЛЬТРЫ</h2>
                   </div>
-                  <button onClick={toggleMobileFilter} className="p-2 rounded-full bg-[#000000]/80 backdrop-blur-sm border border-[#000000]/30 text-white hover:bg-[#000000]/90 transition-all duration-200 z-20">
+                  <button onClick={toggleMobileFilter} className="p-2 rounded-full bg-black text-white hover:bg-gray-900 transition-all duration-200 z-20">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -4221,7 +4205,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
          
 
               {/* Categories */}
-              <div className="mb-4 " style={{ maxHeight: "calc(100vh - 250px)" }}>
+              <div className="mb-4">
                 {renderCategories()}
                 
                 {/* Добавляем фильтр по мощности для  */}
@@ -4428,22 +4412,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${availabilityFilter === 'all' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'}`}>
                               Все
                             </button>
-                          </div>
-
-                          <div className="mt-2 flex flex-col gap-2">
-                            <button onClick={() => handleSortOrderChange('newest')} className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${sortOrder === 'newest' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#ffffff] text-gray-800 border border-gray-200'}`}>
-                              По новизне
-                            </button>
-                            <button onClick={() => handleSortOrderChange('popularity')} className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${sortOrder === 'popularity' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#ffffff] text-gray-800 border border-gray-200'}`}>
-                              По популярности
-                            </button>
-                            <button onClick={() => handleSortOrderChange('asc')} className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${sortOrder === 'asc' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#ffffff] text-gray-800 border border-gray-200'}`}>
-                              Цена по возрастанию
-                            </button>
-                            <button onClick={() => handleSortOrderChange('desc')} className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${sortOrder === 'desc' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#ffffff] text-gray-800 border border-gray-200'}`}>
-                              Цена по убыванию
-                            </button>
-                          </div>
+                          </div> 
                         </div>
                       )}
                     </div>
