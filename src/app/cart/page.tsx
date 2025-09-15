@@ -304,7 +304,7 @@ const Cart: React.FC = () => {
               <div className="bg-white rounded-2xl shadow-xl p-5">
                 {/* Хедер с информацией и кнопкой поделиться */}
                 <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
-                  <h1 className="text-2xl font-medium text-black">
+                  <h1 className="text-2xl p-2 font-medium text-black">
                     В корзине {cartProducts.length} {cartProducts.length === 1 ? 'товар' : cartProducts.length > 1 && cartProducts.length < 5 ? 'товара' : 'товаров'}
                   </h1>
                   <div className="flex items-center gap-4">
