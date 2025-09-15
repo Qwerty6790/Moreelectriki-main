@@ -121,6 +121,8 @@ const Header = () => {
   const [isMiniLikedOpen, setIsMiniLikedOpen] = useState<boolean>(false);
   const [miniLikedItem, setMiniLikedItem] = useState<{ name?: string; imageUrl?: string } | null>(null);
   const [spotlightRect, setSpotlightRect] = useState<DOMRect | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const searchPreviewRef = useRef<HTMLDivElement | null>(null);
   
   // Хук для поиска товаров
   const { products, loading } = useSearchProducts(searchQuery);
@@ -699,6 +701,62 @@ const Header = () => {
     updateCatalogMenuTop(isStickyHeaderVisible ? stickyCatalogButtonRef.current : catalogButtonRef.current);
   }, [isStickyHeaderVisible, isCatalogMenuOpen]);
 
+  // Update search preview position on scroll/resize to avoid jumping
+  useEffect(() => {
+    const recalcPreview = () => {
+      if (!searchPreviewRef.current || !headerRef.current) return;
+      try {
+        const top = headerRef.current.getBoundingClientRect().bottom + 8;
+        (searchPreviewRef.current.style as any).top = top + 'px';
+        (searchPreviewRef.current.style as any).width = Math.min(980, window.innerWidth - 48) + 'px';
+      } catch {}
+    };
+
+    window.addEventListener('scroll', recalcPreview, { passive: true });
+    window.addEventListener('resize', recalcPreview);
+    recalcPreview();
+    return () => {
+      window.removeEventListener('scroll', recalcPreview as any);
+      window.removeEventListener('resize', recalcPreview as any);
+    };
+  }, [searchQuery, isSearchOpen, isClient]);
+
+  // Prevent page body scroll while inline search preview is open, but keep preview scrollable
+  useEffect(() => {
+    const previewVisible = !!searchQuery && !isSearchOpen;
+    if (typeof window === 'undefined') return;
+
+    if (previewVisible) {
+      try {
+        document.body.style.overflowY = 'hidden';
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowY = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+      } catch {}
+    } else {
+      // only unset if nothing else requires body locked (mobile menu or full search modal)
+      if (!isMobileMenuOpen && !isSearchOpen) {
+        try {
+          document.body.style.overflowY = 'unset';
+          document.body.style.overflowX = 'unset';
+          document.documentElement.style.overflowY = 'unset';
+          document.documentElement.style.overflowX = 'unset';
+        } catch {}
+      }
+    }
+
+    return () => {
+      if (!isMobileMenuOpen && !isSearchOpen) {
+        try {
+          document.body.style.overflowY = 'unset';
+          document.body.style.overflowX = 'unset';
+          document.documentElement.style.overflowY = 'unset';
+          document.documentElement.style.overflowX = 'unset';
+        } catch {}
+      }
+    };
+  }, [searchQuery, isSearchOpen, isMobileMenuOpen]);
+
   
 
   useEffect(() => {
@@ -896,6 +954,7 @@ const Header = () => {
           </div>
         )}
         <header
+          ref={(el) => { headerRef.current = el; }}
           className={clsx(
             'fixed top-0 left-0 right-0 z-[9998] w-full pointer-events-auto transform transition-transform duration-300',
             bannerPath ? 'bg-transparent' : 'bg-white',
@@ -961,18 +1020,33 @@ const Header = () => {
                         bannerPath ? 'bg-black/40 ' : 'bg-black/60 '
                       )}
                     />
-                    {searchQuery && !isSearchOpen && (
-                      <div className="absolute left-0 right-0 mt-2 rounded-xl shadow-lg overflow-auto z-[10005] max-h-[800px]">
-                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 inline-preview-enter search-backdrop">
-                          {loading ? (
-                            <div className="w-full flex items-center justify-center py-8">
-                              <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                            </div>
-                          ) : (
-                            <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
-                          )}
+                    {searchQuery && !isSearchOpen && typeof window !== 'undefined' && createPortal(
+                      <>
+                        {/* Fullscreen blurred backdrop behind preview */}
+                        <div
+                          className="search-backdrop fixed inset-0 z-[9997] pointer-events-auto"
+                          onClick={() => { /* close preview by clearing query */ setSearchQuery(''); }}
+                          style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+                        />
+
+                        {/* Centered preview card */}
+                        <div
+                          ref={searchPreviewRef}
+                          className="fixed left-1/2 transform -translate-x-1/2 rounded-xl shadow-lg overflow-y-auto overflow-x-hidden z-[10005] max-h-[80vh]"
+                          style={{ width: Math.min(980, window.innerWidth - 48), top: (headerRef.current ? (headerRef.current.getBoundingClientRect().bottom + 8) : 72) }}
+                        >
+                          <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 inline-preview-enter">
+                            {loading ? (
+                              <div className="w-full flex items-center justify-center py-8">
+                                <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                              </div>
+                            ) : (
+                              <CatalogOfProductSearch products={(products || []).slice(0,4) as any} viewMode="grid" isLoading={loading} />
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      </>,
+                      document.body
                     )}
                   </div>
                 </div>
@@ -1167,21 +1241,15 @@ const Header = () => {
                             </div>
                           </div>
                         ))}
+                        <div className="mt-2 border-t border-white/10 pt-3 space-y-1">
+                          <a href="/brands" className="block text-base text-white/90 py-2 px-2 rounded">Бренды</a>
+                          <a href="/promotions" className="block text-base text-white/90 py-2 px-2 rounded">Акции</a>
+                          <a href="/project" className="block text-base text-white/90 py-2 px-2 rounded">Проекты</a>
+                          <a href="/contacts" className="block text-base text-white/90 py-2 px-2 rounded">Контакты</a>
+                          <a href="/auth/register" className="block text-base text-white/90 py-2 px-2 rounded">Для дизайнеров</a>
+                        </div>
                       </div>
                     )}
-                    <a href="/about" className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg">О нас</a>
-                    <a 
-                      href="/"
-                      className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white rounded-lg"
-                    >
-                      <span>Бренды</span>
-                    </a>
-                    <a 
-                      href="/"
-                      className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white hover:bg-gray-800 rounded-lg"
-                    >
-                      <span>Документация</span>
-                    </a>
                   </div>
                 </div>
 
