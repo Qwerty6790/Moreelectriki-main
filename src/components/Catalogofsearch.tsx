@@ -110,7 +110,7 @@ const OptimizedImage = React.memo(({
       <div className={`w-full h-full bg-gradient-to-br flex items-center justify-center product-image ${className}`}>
         <div className="text-center">
           <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
-            ELEKTROMOS
+            MORELEKTRIKI
           </div>
           <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
             Нет фото
@@ -126,7 +126,7 @@ const OptimizedImage = React.memo(({
         <div className="absolute inset-0 bg-gradient-to-br animate-pulse flex items-center justify-center">
           <div className="text-center">
             <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
-              ELEKTROMOS
+              MORELEKTRIKI
             </div>
             <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
               Загрузка...
@@ -361,7 +361,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
               <div className="w-full h-full bg-gradient-to-br flex items-center justify-center product-image">
                 <div className="text-center">
                   <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider">
-                    ELEKTROMOS
+                  MORELEKTRIKI
                   </div>
                   <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1">
                     Нет фото
@@ -576,7 +576,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
                 <div className="relative z-10 text-center">
                   <div className="text-[#2a2a2a] font-bold text-lg sm:text-xl tracking-wider animate-pulse">
-                    ELEKTROMOS
+                  MORELEKTRIKI
                   </div>
                   <div className="text-[#1a1a1a] text-xs sm:text-sm mt-1 animate-pulse">
                     Загрузка...

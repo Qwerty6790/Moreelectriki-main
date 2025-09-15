@@ -4187,15 +4187,15 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             {/* Left Sidebar - Hidden on mobile unless toggled */}
             <div className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 flex' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0 overflow-hidden`}>
               {/* Backdrop for mobile (click to close) */}
-              {isMobileFilterOpen && <div className="absolute  inset-0 bg-black/40 lg:hidden" onClick={toggleMobileFilter} />}
+              {isMobileFilterOpen && <div className="absolute inset-0 bg-black/40 z-[10000] lg:hidden" onClick={toggleMobileFilter} />}
               {/* Mobile Filter Container - fixed right panel full height with scroll */}
-              <div className={`${isMobileFilterOpen ? 'fixed   right-0 top-0 bottom-0  max-w-[99vw] bg-white text-black p-0 overflow-y-auto shadow-xl pb-24 z-[9999]' : ''} lg:p-0`}>
+              <div className={`${isMobileFilterOpen ? 'fixed   right-0 top-0 bottom-0  max-w-[99vw] bg-white text-black p-0 overflow-y-auto shadow-xl pb-24 z-[10005]' : ''} lg:p-0`}>
                 {/* Mobile Filter Header - зафиксированный (mobile only, white bg) */}
-                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-10' : ''} lg:hidden flex justify-between items-center mb-4 p-9 h-32 bg-white text-black border-b`}> 
+                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-[10006]' : ''} lg:hidden flex justify-between items-center mb-4 p-9 h-32 bg-white text-black border-b`}> 
                   <div className="flex items-center">
                     <h2 className="font-bold text-lg text-black uppercase tracking-wide">ФИЛЬТРЫ</h2>
                   </div>
-                  <button onClick={toggleMobileFilter} className="p-4 rounded-full bg-black text-white hover:bg-gray-900 transition-all duration-200 z-20">
+                  <button onClick={toggleMobileFilter} className="p-4 rounded-full bg-black text-white hover:bg-gray-900 transition-all duration-200 z-[10007]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
