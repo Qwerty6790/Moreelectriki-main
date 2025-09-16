@@ -592,24 +592,24 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
   if (isLoading || !isClient) {
     // show skeleton placeholders while loading or during hydration
     return (
-      <div className="grid auto-rows-auto w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-6">
+      <div className="grid auto-rows-auto w-full grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-[#a1a0a0] border border-[#101010] flex flex-col h-full overflow-hidden product-card">
-            <div className="relative aspect-square bg-gradient-to-br from-[#a7a3a3] to-[#7c7c7c] flex items-center justify-center overflow-hidden product-image">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1a1a1a]/20 to-transparent animate-pulse"></div>
-              <div className="relative z-10 text-center">
-                <div className="text-[#ede7e7] font-bold text-lg sm:text-xl tracking-wider animate-pulse">MORELEKTRIKI</div>
-                <div className="text-[#ede7e7] text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
+          <div key={i} className="bg-white/60 border border-gray-200/30 flex flex-col h-full overflow-hidden product-card rounded-lg">
+            <div className="relative aspect-square bg-gradient-to-br from-white/80 to-gray-100/80 flex items-center justify-center overflow-hidden product-image">
+              <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
+              <div className="relative z-10 text-center px-2">
+                <div className="text-gray-500 font-bold text-base sm:text-lg tracking-wider animate-pulse">MORELEKTRIKI</div>
+                <div className="text-gray-400 text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
               </div>
             </div>
 
             <div className="p-4 flex flex-col">
-              <div className="h-3 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/3 mb-2 animate-pulse"></div>
+              <div className="h-3 bg-gray-200 rounded w-1/3 mb-2 animate-pulse"></div>
               <div className="space-y-2 mb-3">
-                <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-full animate-pulse"></div>
-                <div className="h-4 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
               </div>
-              <div className="h-6 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] rounded w-1/2 animate-pulse"></div>
+              <div className="h-6 bg-gray-200 rounded w-1/2 animate-pulse"></div>
             </div>
           </div>
         ))}
@@ -645,7 +645,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
               }}
               className="mb-4 last:mb-0"
             >
-              <div className="bg-gradient-to-r from-[#1a1a1a]/95 via-[#171717]/95 to-[#1a1a1a]/95 backdrop-blur-lg border border-red-800/30 shadow-2xl rounded-xl px-6 py-4">
+              <div className="bg-gradient-to-r from-[#a7a3a3]/95 via-[#7c7c7c]/95 to-[#a7a3a3]/95 backdrop-blur-lg border border-red-800/30 shadow-2xl rounded-xl px-6 py-4">
                 <div className="flex items-center justify-center">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${

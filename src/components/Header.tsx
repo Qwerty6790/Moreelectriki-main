@@ -1233,9 +1233,9 @@ const Header = () => {
                 
               </div>
               <button onClick={() => {
-                  // вместо модального окна — фокусируем inline-поле поиска
-                  const input = document.querySelector('input[placeholder="Поиск"]') as HTMLInputElement | null;
-                  if (input) { input.focus(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+                  // Открываем fullscreen поиск на мобильных устройствах
+                  setIsSearchOpen(true);
+                  // фокус поставим в эффекте рендера portal'а (autoFocus на инпуте)
                 }} className={clsx('md:hidden ml-3', headerText + '/90', bannerPath ? 'hover:text-white' : 'hover:text-black')} aria-label="Открыть поиск">
                   <Search className="w-5 h-5" />
                 </button>
@@ -1279,10 +1279,10 @@ const Header = () => {
       </div>
 
       {/* Fullscreen animated white overlay with centered blurred input when typing */}
-      {typeof window !== 'undefined' && searchQuery && createPortal(
+      {typeof window !== 'undefined' && (isSearchOpen || searchQuery) && createPortal(
         <div className="absolute inset-0 z-[100000] flex items-center justify-center transition-opacity duration-400 ease-out search-curtain-enter">
           {/* white backdrop */}
-          <div className="absolute inset-0 bg-white/100" onClick={() => setSearchQuery('')} />
+          <div className="absolute inset-0 bg-white/100" onClick={() => { setSearchQuery(''); setIsSearchOpen(false); }} />
 
           {/* Centered panel */}
           <div className="relative w-full max-w-5xl mx-4 px-6 py-6">
