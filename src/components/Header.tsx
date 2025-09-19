@@ -19,12 +19,16 @@ interface Product {
   price: number;
   imageAddresses: string | string[];
   imageAddress?: string | string[];
+
+  
 }
 
 // Кастомный хук для поиска товаров по API
 const useSearchProducts = (query: string) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -1033,12 +1037,12 @@ const Header = () => {
                 {/* КАТАЛОГ перемещён в боковое меню (открывается кнопкой "Меню") */}
                 <button
                   ref={brandsButtonRef}
-                  onClick={() => openMenu('brands', brandsButtonRef.current)}
-                  onMouseEnter={() => startMenuHover(brandsButtonRef.current, 'brands')}
+                  onClick={() => openMenu('shorooms', brandsButtonRef.current)}
+                  onMouseEnter={() => startMenuHover(brandsButtonRef.current, 'shorooms')}
                   onMouseLeave={() => clearMenuHover()}
-                  className={clsx('hover:text-white/90  font-bold  py-1 px-2 text-sm', activeMenu === 'brands' ? 'text-white' : '')}
+                  className={clsx('hover:text-white/90  font-bold  py-1 px-2 text-sm', activeMenu === 'shorooms' ? 'text-white' : '')}
                 >
-                  Бренды
+                  Шоурум
                 </button>
                 <button
                   ref={aboutButtonRef}
@@ -1076,7 +1080,7 @@ const Header = () => {
                     <div className={clsx('flex items-center gap-5 text-[13px]  tracking-widest uppercase whitespace-nowrap', headerText)}>
                       <button onClick={openCatalogDrawer} className="hover:text-white/90 ">Меню</button>
                       <a href="/" className="hover:text-white/90">Акции</a>
-                      <a href="/" className="hover:text-white/90">Бренды</a>
+                      <a href="/" className="hover:text-white/90">Шоурум</a>
                       <a href="/" className="hover:text-white/90">Проекты</a>
                       <a href="/" className="hover:text-white/90">Блог</a>
                       <a href="/" className="hover:text-white/90">Как купить</a>
@@ -1175,7 +1179,7 @@ const Header = () => {
                           </div>
                         ))}
                         <div className="mt-2 border-t border-white/10 pt-3 space-y-1">
-                          <a href="/brands" className="block text-base text-white/90 py-2 px-2 rounded">Бренды</a>
+                          <a href="/shorooms" className="block text-base text-white/90 py-2 px-2 rounded">Шоурум</a>
                           <a href="/promotions" className="block text-base text-white/90 py-2 px-2 rounded">Акции</a>
                           <a href="/project" className="block text-base text-white/90 py-2 px-2 rounded">Проекты</a>
                           <a href="/contacts" className="block text-base text-white/90 py-2 px-2 rounded">Контакты</a>
@@ -1225,7 +1229,7 @@ const Header = () => {
                 </button>
                  <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
-                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Бренды</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Шоурум</a>
                   <a href="/" className="hover:text-white py-1 px-2 text-sm">Акции</a>
                   <a href="/" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
                   <a href="/" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
@@ -1409,7 +1413,7 @@ const Header = () => {
                   catalogHoverTimerRef.current = setTimeout(() => setIsCatalogMenuOpen(false), 280);
                 }}
                 style={{ top: catalogTopOffset, left: 0, right: 0 }}
-                className={"absolute left-0 right-0 z-[10000] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+                className={"absolute left-0 right-0 z-[10002] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
               >
                 <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
                   <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
@@ -1468,90 +1472,65 @@ const Header = () => {
         document.body
       )}
 
-      {/* Dropdowns for other nav items (desktop) */}
-        <div>
-          <aside
-            aria-hidden={activeMenu !== 'brands'}
-            style={{ top: catalogTopOffset, left: 0, right: 0 }}
-            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'brands' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
-          >
-            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'brands' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-5xl font-semibold text-black">Бренды</h3>
-                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
-                </div>
-                <div className="px-4 pb-6 text-sm text-black/80">Здесь краткая информация о брендах, логотипы и ссылки.</div>
-              </nav>
-              <div className="flex-1 relative block h-full">
-                <img src="/images/banners/bannersmenubrands.jpg" alt="brands" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
-              </div>
-            </div>
-          </aside>
-
-          <aside
-            aria-hidden={activeMenu !== 'about'}
-            style={{ top: catalogTopOffset, left: 0, right: 0 }}
-            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'about' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
-          >
-            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'about' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-5xl font-semibold text-black">О нас</h3>
-                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
-                </div>
-                <div className="px-4 pb-6 text-sm text-black/80">Кратко о компании, миссия и преимущества.</div>
-              </nav>
-              <div className="flex-1 relative block  h-full">
-                <img src="/images/banners/banners.jpg" alt="about" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
-              </div>
-            </div>
-          </aside>
-
-          <aside
-            aria-hidden={activeMenu !== 'howtobuy'}
-            style={{ top: catalogTopOffset, left: 0, right: 0 }}
-            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'howtobuy' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
-          >
-            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'howtobuy' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-5xl font-semibold text-black">Как купить</h3>
-                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
-                </div>
-                <div className="px-4 pb-6 text-sm text-black/80">Инструкция по заказу, варианты оплаты и доставки.</div>
-              </nav>
-              <div className="flex-1 relative block h-full">
-                <img src="/images/banners/bannersdressingroom.jpg" alt="how to buy" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
-              </div>
-            </div>
-          </aside>
-
-          <aside
-            aria-hidden={activeMenu !== 'contacts'}
-            style={{ top: catalogTopOffset, left: 0, right: 0 }}
-            className={"absolute left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " + (activeMenu === 'contacts' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
-          >
-            <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', activeMenu === 'contacts' ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-              <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <h3 className="text-5xl font-semibold text-black">Контакты</h3>
-                  <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
-                </div>
-                <div className="px-4 pb-6 text-sm text-black/80">Адреса, телефоны, режим работы и карта.</div>
-              </nav>
-              <div className="flex-1 relative block h-full">
-                <img src="/images/banners/bannersmenucontacts.png" alt="contacts" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
-              </div>
-            </div>
-          </aside>
+    {/* Dropdowns for other nav items (desktop) */}
+<div>
+  {['shorooms', 'about', 'howtobuy', 'contacts'].map((menu) => (
+    <aside
+      key={menu}
+      aria-hidden={activeMenu !== menu}
+      style={{ top: catalogTopOffset, left: 0, right: 0 }}
+      className={
+        "fixed left-0 right-0 z-[9998] bg-transparent p-0 overflow-visible transition-all duration-200 " +
+        (activeMenu === menu ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')
+      }
+      onMouseEnter={() => setActiveMenu(menu)}   // Меню остаётся открытым при наведении
+      onMouseLeave={() => {
+        if (activeMenu === menu) setActiveMenu(null); // Закрываем только если курсор ушёл
+      }}
+    >
+      <div
+        className={clsx(
+          'bg-white shadow-2xl overflow-hidden w-full catalog-panel',
+          activeMenu === menu ? 'catalog-panel-open' : 'catalog-panel-closed'
+        )}
+        style={{ display: 'flex', height: `calc(100vh - ${catalogTopOffset}px)` }}
+      >
+        <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+          <div className="flex items-center justify-between px-4 py-3">
+            <h3 className="text-5xl font-semibold text-black">
+              {menu === 'shorooms' ? 'Шоурум' :
+               menu === 'about' ? 'О нас' :
+               menu === 'howtobuy' ? 'Как купить' :
+               'Контакты'}
+            </h3>
+            <button onClick={() => closeMenus()} className="p-2 text-black text-3xl leading-none">×</button>
+          </div>
+          <div className="px-4 pb-6 text-sm text-black/80">
+            {menu === 'shorooms' && 'Здесь краткая информация о брендах, логотипы и ссылки.'}
+            {menu === 'about' && 'Кратко о компании, миссия и преимущества.'}
+            {menu === 'howtobuy' && 'Инструкция по заказу, варианты оплаты и доставки.'}
+            {menu === 'contacts' && 'Адреса, телефоны, режим работы и карта.'}
+          </div>
+        </nav>
+        <div className="flex-1 relative block h-full">
+          <img
+            src={
+              menu === 'shorooms' ? '/images/banners/bannersmenubrands.jpg' :
+              menu === 'about' ? '/images/banners/banners.jpg' :
+              menu === 'howtobuy' ? '/images/banners/bannersdressingroom.jpg' :
+              '/images/banners/bannersmenucontacts.png'
+            }
+            alt={menu}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
         </div>
+      </div>
+    </aside>
+  ))}
+</div>
 
-      {/* Brands portal removed */}
+
 
      
 

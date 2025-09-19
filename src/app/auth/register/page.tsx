@@ -126,12 +126,6 @@ const Register: React.FC = () => {
   
           <div className="flex flex-wrap justify-between items-center mt-6 text-center">
             <a
-              href="/auth/reset-password"
-              className="text-black hover:underline text-sm md:text-base font-medium"
-            >
-              Забыли пароль?
-            </a>
-            <a
               href="/auth/login"
               className="text-black hover:underline text-sm md:text-base font-medium"
             >

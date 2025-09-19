@@ -102,12 +102,6 @@ const Login: React.FC = () => {
   
           <div className="flex items-center justify-between mb-6">
             <a
-              href="/auth/reset-password"
-              className="text-sm text-black font-bold hover:underline"
-            >
-              Восстановить пароль
-            </a>
-            <a
               className="text-sm text-black font-bold hover:underline"
               href="/auth/register"
             >

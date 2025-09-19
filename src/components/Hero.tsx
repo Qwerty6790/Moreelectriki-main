@@ -195,9 +195,10 @@ interface VideoBanner {
 export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
-    { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
+    { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny9.jpg' },
     { id: 2, title: 'Трековые системы', subtitle: 'Новая эра трековых светильников', textColor: 'white', bgImage: '/images/banners/bannersyosveheny8.jpg' },
     { id: 3, title: 'Ищите, купите, используйте', subtitle: 'Горзионт света с горизонтом тепла', textColor: 'white', bgImage: '/images/banners/bannersyosveheny7.jpg' },
+    { id: 4, title: 'Ищите, купите, используйте', subtitle: 'Горзионт света с горизонтом тепла', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения

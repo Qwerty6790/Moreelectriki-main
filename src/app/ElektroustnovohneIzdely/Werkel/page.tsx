@@ -201,7 +201,7 @@ const WerkelPage: React.FC = () => {
 
       <div className="min-h-screen bg-white py-56">
         <div className="container mx-auto px-4">
-        <h2 className='text-black  text-6xl font-bold mb-10'>Werkel</h2>
+        <h2 className='text-black  text-7xl font-bold mb-10'>Werkel</h2>
           {!selectedSeries ? (  
             <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-7xl mx-auto">
               {werkelSeriesData.map((series) => {
@@ -238,7 +238,7 @@ const WerkelPage: React.FC = () => {
                             <img
                               src={series.image}
                               alt={`Серия ${series.name}`}
-                              className="w-[190px] h-[190px] object-contain mx-auto"
+                              className="w-[290px] h-[290px] object-contain mx-auto"
                             />
                           </div>
                         </>

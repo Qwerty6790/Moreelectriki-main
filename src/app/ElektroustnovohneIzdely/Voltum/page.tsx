@@ -64,7 +64,7 @@ export default function VoltumPage() {
 
       <div className="min-h-screen bg-white py-56">
         <div className="container mx-auto px-4">
-          <h2 className="text-black text-6xl font-bold mb-10">Voltum</h2>
+          <h2 className="text-black text-7xl font-bold mb-10">Voltum</h2>
 
           {!selectedSeries ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-7xl mx-auto">
@@ -87,7 +87,7 @@ export default function VoltumPage() {
                     </div>
 
                     <div className="relative z-10">
-                      <img src={series.image} alt={`Серия ${series.name}`} className="w-[190px] h-[190px] object-contain mx-auto" />
+                      <img src={series.image} alt={`Серия ${series.name}`} className="w-[290px] h-[290px] object-contain mx-auto" />
                     </div>
                   </div>
                   <div className="space-y-4">
