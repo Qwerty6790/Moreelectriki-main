@@ -255,7 +255,7 @@ const Header = () => {
       },
       { 
         title: 'Уличные светильники', 
-        link: '/osveheny?category=Уличный светильник',
+        link: '/catalog/outdoor-lights',
         image: '/images/category/stikerylihnoeosveheny.png',
         subcategories: [
           { title: 'Настенные уличные светильники', link: '/osveheny?category=Уличный светильник&page=1' },
@@ -1280,7 +1280,7 @@ const Header = () => {
 
       {/* Fullscreen animated white overlay with centered blurred input when typing */}
       {typeof window !== 'undefined' && (isSearchOpen || searchQuery) && createPortal(
-        <div className="absolute inset-0 z-[100000] flex items-center justify-center transition-opacity duration-400 ease-out search-curtain-enter">
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center transition-opacity duration-400 ease-out search-curtain-enter">
           {/* white backdrop */}
           <div className="absolute inset-0 bg-white/100" onClick={() => { setSearchQuery(''); setIsSearchOpen(false); }} />
 

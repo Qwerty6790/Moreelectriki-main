@@ -108,13 +108,19 @@ const werkelSeriesData: WerkelSeries[] = [
     colors: [
       { id: 'Черный матовый', name: 'Черный матовый', image: '/images/colors/черныйматовыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-black-matte' },
       { id: 'Мокко матовый хром', name: 'Мокко матовый хром', image: '/images/colors/моккоматоыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-mokko-chrome' },
-      { id: 'Слоновая кость', name: 'Слоновая кость', image: '/images/colors/слоноваякостьWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-ivory' },
-      { id: 'Серебряный хром', name: 'Серебряный хром', image: '/images/colors/сереброматовыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-silver-chrome' },
-      { id: 'Белый матовый хром', name: 'Белый матовый хром', image: '/images/colors/белыйматовыйхромWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/vintage-white-chrome' },
     ],
     frames: [
       { id: 'Runda', name: 'Runda', image: '/images/rundretroрамкаWerkel.webp', url: '/' },
     ]
+  },
+  {
+    id: 'Выдвижной блок',
+    name: 'Выдвижной блок',
+    image: '/images/series/vidivihnoyblock.png',
+    previewImages: ['/images/series/vidivihnoyblock.png',],
+    colors: [
+      { id: 'Выдвижной блок', name: 'Выдвижной блок', image: '/images/series/vidivihnoyblock.png', url: '/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockWerkel' },
+    ],
   },
 ];
 
@@ -198,39 +204,53 @@ const WerkelPage: React.FC = () => {
         <h2 className='text-black  text-6xl font-bold mb-10'>Werkel</h2>
           {!selectedSeries ? (  
             <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-7xl mx-auto">
-              {werkelSeriesData.map((series) => (
-                <div
-                  key={series.id}
-                  onClick={() => handleSeriesClick(series)}
-                  className="space-y-4 block transition-transform duration-300 hover:scale-105 cursor-pointer"
-                >
-                  <div className="relative overflow-visible rounded-lg pl-6">{/* allow overflow for preview images */}
-                    {/* three overlapping preview images behind the main image */}
-                    <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 flex items-center pointer-events-none">
-                      {(series.previewImages && series.previewImages.length ? series.previewImages.slice(0, 3) : [series.image, series.image, series.image]).map((img, i) => (
+              {werkelSeriesData.map((series) => {
+                const isSinglePreview = !!(series.previewImages && series.previewImages.length === 1);
+                return (
+                  <div
+                    key={series.id}
+                    onClick={() => handleSeriesClick(series)}
+                    className="space-y-4 block transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  >
+                    <div className="relative overflow-visible rounded-lg pl-6">{/* allow overflow for preview images */}
+                      {isSinglePreview ? (
+                        // Если только одна картинка — делаем её большой и заполняющей блок
                         <img
-                          key={i}
-                          src={img}
-                          alt={`preview-${i}`}
-                          className={`w-32 h-32 object-contain scale-125 rounded -ml-12 ${i === 0 ? 'opacity-60 translate-x-0' : i === 1 ? 'opacity-50 translate-x-4' : 'opacity-40 translate-x-8'}`}
+                          src={series.previewImages?.[0] || series.image}
+                          alt={`Серия ${series.name}`}
+                          className="w-full h-64 sm:h-72 md:h-80 object-cover rounded-lg mx-auto"
                         />
-                      ))}
-                    </div>
+                      ) : (
+                        <>
+                          {/* three overlapping preview images behind the main image */}
+                          <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 flex items-center pointer-events-none">
+                            {(series.previewImages && series.previewImages.length ? series.previewImages.slice(0, 3) : [series.image, series.image, series.image]).map((img, i) => (
+                              <img
+                                key={i}
+                                src={img}
+                                alt={`preview-${i}`}
+                                className={`w-32 h-32 object-contain scale-125 rounded -ml-12 ${i === 0 ? 'opacity-60 translate-x-0' : i === 1 ? 'opacity-50 translate-x-4' : 'opacity-40 translate-x-8'}`}
+                              />
+                            ))}
+                          </div>
 
-                    <div className="relative z-10">
-                      <img
-                        src={series.image}
-                        alt={`Серия ${series.name}`}
-                        className="w-[190px] h-[190px] object-contain mx-auto"
-                      />
+                          <div className="relative z-10">
+                            <img
+                              src={series.image}
+                              alt={`Серия ${series.name}`}
+                              className="w-[190px] h-[190px] object-contain mx-auto"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className="space-y-4">
+                      <h2 className="text-5xl font-bold text-black">{series.name}</h2>
+                      <p className="text-lg text-gray-700 leading-relaxed">Перейти к цветам</p>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <h2 className="text-5xl font-bold text-black">{series.name}</h2>
-                    <p className="text-lg text-gray-700 leading-relaxed">Перейти к цветам</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="max-w-7xl mx-auto">    

@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import plugin from 'tailwindcss/plugin';
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -16,30 +16,34 @@ const config: Config = {
     },
   },
   plugins: [
-    plugin(({ addBase }) => {
+    plugin(function ({ addBase }) {
       addBase({
-        // Custom site scrollbar styling (webkit + firefox)
-        '::-webkit-scrollbar': {
-          width: '12px',
-          height: '12px'
+        /* Firefox */
+        "*": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(000000,000000,000000,0.2) transparent",
         },
-        '::-webkit-scrollbar-thumb': {
-          background: 'rgba(16,16,16,0.6)',
-          borderRadius: '9999px',
-          border: '3px solid rgba(255,255,255,0.04)'
+
+        /* WebKit (Chrome, Edge, Safari) */
+        "*::-webkit-scrollbar": {
+          width: "8px",
+          height: "8px",
         },
-        '::-webkit-scrollbar-thumb:hover': {
-          background: 'rgba(16,16,16,0.8)'
+        "*::-webkit-scrollbar-track": {
+          background: "transparent",
+          backdropFilter: "blur(8px)",
         },
-        '::-webkit-scrollbar-track': {
-          background: 'transparent'
+        "*::-webkit-scrollbar-thumb": {
+          background: "rgba(000000,000000,000000,0.2)",
+          backdropFilter: "blur(8px)",
+          borderRadius: "9999px",
         },
-        'html, body, #__next': {
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(16,16,16,0.6) transparent'
-        }
+        "*::-webkit-scrollbar-thumb:hover": {
+          background: "rgba(000000,000000,000000,0.35)",
+        },
       });
-    })
+    }),
   ],
 };
+
 export default config;

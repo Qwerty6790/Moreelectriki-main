@@ -95,7 +95,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav aria-label="Pagination" className="mt-6">
-      <div className="flex flex-col sm:flex-row items-center sm:justify-end gap-3 bg-gray-50 p-3 rounded-lg">
+      <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-3 bg-gray-50 p-3 rounded-lg">
         <div className="flex items-center gap-2">
           {renderPageNumbers()}
         </div>

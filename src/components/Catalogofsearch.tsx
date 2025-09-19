@@ -678,7 +678,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
       </div>
 
       {/* Основной контент */}
-      <div className="mb-4 w-80 bg-white/70 rounded-3xl flex items-center justify-end">
+      <div className="mb-4 w-full bg-white/70 rounded-3xl flex items-center justify-end">
         <label className="text-sm text-black mr-3">Сортировка:</label>
         {/* Compact animated dropdown */}
         <div ref={sortRef} className="relative">

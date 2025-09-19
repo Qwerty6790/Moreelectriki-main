@@ -35,15 +35,7 @@ const werkelSeriesData: WerkelSeries[] = [
  
    
  
-  {
-    id: 'Выдвижной блок',
-    name: 'Выдвижной блок',
-    image: '/images/seris/vidihonyblokDonel.png',
-    description: 'Винтажный стиль для ценителей классической элегантности',
-    colors: [
-      { id: 'Алюминий', name: 'Donel', image: '/images/seris/vidihonyblokDonel.png', logo: '/images/brands/donellogo.svg', url: '/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockDonel' },
-    ],
-  },
+
   {
     id: 'Выдвижной блок',
     name: 'Выдвижной блок',

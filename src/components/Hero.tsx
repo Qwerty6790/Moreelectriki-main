@@ -196,7 +196,8 @@ export default function Banner() {
   // Слайды главного баннера (текст + цвет)
   const videoBanners: VideoBanner[] = [
     { id: 1, title: 'Свет, который вдохновляет', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny4.jpeg' },
-    { id: 2, title: 'Ищите, купите, используйте', subtitle: 'Люстры и светильники для любого интерьера', textColor: 'white', bgImage: '/images/banners/bannersyosveheny7.jpg' },
+    { id: 2, title: 'Трековые системы', subtitle: 'Новая эра трековых светильников', textColor: 'white', bgImage: '/images/banners/bannersyosveheny8.jpg' },
+    { id: 3, title: 'Ищите, купите, используйте', subtitle: 'Горзионт света с горизонтом тепла', textColor: 'white', bgImage: '/images/banners/bannersyosveheny7.jpg' },
   ];
 
   // Инициализируем базовый фон из первого слайда, чтобы не показывать устаревшие/удалённые изображения
@@ -287,7 +288,7 @@ export default function Banner() {
     <div className="relative w-full">
       <style jsx>{fadeInAnimation}</style>
       {/* Верхний блок баннера (в пределах секции) */}
-      <section className="relative h-[60vh] md:h-[96vh] bg-black">
+      <section className="relative h-[60vh] md:h-[105vh] bg-black">
         {/* Фото для текущего слайда с плавной сменой */}
         <div className="absolute inset-0 z-0">
           {/* Базовый фон */}
@@ -391,7 +392,7 @@ export default function Banner() {
               style={{ left: '14px' }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={7} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
@@ -400,7 +401,7 @@ export default function Banner() {
               style={{ right: '14px' }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={7} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </>
@@ -419,21 +420,21 @@ export default function Banner() {
           {/* Горизонтальный контейнер для карточек категорий */}
           <div ref={categoriesRef} className="flex gap-6 overflow-hidden flex-nowrap scroll-smooth py-2 md:py-4">
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
-              <Link href="/catalog/chandeliers/" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+              <Link href="/catalog/chandeliers" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
                 <Image src="/images/category/dekoratvinysvetcategory.webp" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Декоративный свет</div>
             </div>
 
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
-              <Link href="/osveheny?category=Светильник&page=1" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+              <Link href="/catalog/lights/pendant-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
                 <Image src="/images/category/funcionaltsvet.webp" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Функциональный свет</div>
             </div>
 
             <div className="flex-shrink-0 w-[85%] md:w-1/3">
-              <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
+              <Link href="/catalog/outdoor-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
                 <Image src="/images/category/ylichysvetcategory.webp" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width:768px) 100vw, 33vw" />
               </Link>
               <div className="mt-4 text-lg md:text-xl font-semibold text-black">Уличный свет</div>

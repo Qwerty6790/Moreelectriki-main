@@ -1002,7 +1002,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const [isRangesOpen, setIsRangesOpen] = useState(true);
 
   // Унифицированные классы для аккордеонов (шапка и контент)
-  const accordionHeaderClass = "flex items-center justify-between cursor-pointer py-2 px-3 bg-[#1a1a1a]/30 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-[#2a2a2a]/40 transition-all duration-200 relative z-10";
+  const accordionHeaderClass = "flex items-center justify-between cursor-pointer py-2 px-3 backdrop-blur-sm rounded-lg border border-white/10  transition-all duration-200 relative z-10";
   const accordionContentClass = "relative z-0 mt-3 space-y-2 overflow-visible bg-transparent p-0";
 
   // Функция для капитализации первой буквы
@@ -2631,7 +2631,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         return (
           <div>
             <div className="mb-4">
-              <h2 className="text-5xl text-black">{selectedCategory?.label || (router.query.category ? decodeURIComponent(router.query.category as string) : '')}</h2>
+              <h2 className="text-4xl text-black">{selectedCategory?.label || (router.query.category ? decodeURIComponent(router.query.category as string) : '')}</h2>
             </div>
             <div 
               className="flex items-center justify-between py-3 px-4 text-1xl rounded-xl cursor-pointer transition-all duration-200 mb-4 backdrop-blur-sm border border-white/20 text-black hover:bg-[#3a3a3a]/20 shadow-sm"
@@ -2758,39 +2758,47 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             // Подкатегории всегда видны — убираем логику аккордеона
             
             return (
-              <div key={category.label}>
-                <div 
-                  className={`flex items-center justify-between py-0 px-3 text-sm rounded-md cursor-pointer transition-all duration-150 ${
-                    isActive 
-                      ? 'bg-transparent  text-black font-medium' 
-                      : isHovered
-                        ? 'bg-gray-100  text-black' 
-                        : (isChildActive ? 'text-black bg-gray-50 ' : 'text-black hover:bg-gray-50 hover:border-gray-200  ')
-                  }`}
-                  onClick={handleClick}
-                  onMouseEnter={() => setHoveredCategoryId(category.label)}
-                  onMouseLeave={() => setHoveredCategoryId(null)}
-                >
+              <div key={category.label} className="group">
+              <button 
+                onClick={handleClick}
+                onMouseEnter={() => setHoveredCategoryId(category.label)}
+                onMouseLeave={() => setHoveredCategoryId(null)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 border ${
+                  isActive 
+                    ? 'border-gray-900 bg-white text-gray-900 font-medium shadow-sm' 
+                    : isHovered || isChildActive
+                      ? 'border-gray-300 bg-gray-50 text-gray-800' 
+                      : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
                   <span className="truncate">{category.label}</span>
-                  
+                  {hasSubcategories && (
+                    <svg className="w-3 h-3 text-gray-400 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  )}
                 </div>
-                {/* Подкатегории всегда отображаются */}
-                {hasSubcategories && (
-                  <div className="pl-3 mt-1 ml-3 border-l-2 border-gray-200/30">
-                    {generateCategoryHtml(category.subcategories || [], depth + 1)}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+              </button>
+              
+              {/* Подкатегории всегда отображаются */}
+              {hasSubcategories && (
+                <div className="mt-1 ml-3 border-l border-gray-200 pl-3">
+                  {generateCategoryHtml(category.subcategories || [], depth + 1)}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+       
       );
     };
 
     return (
       <div className="mb-4 overflow-hidden">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-5xl font-medium text-black">
+          <h2 className="text-4xl font-medium text-black">
             {!showAllCategories && activeMainCategory ? `` : 'Каталог'}
           </h2>
         </div>
@@ -3952,7 +3960,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
          
           <div className="flex flex-wrap gap-2">
             {selectedBrand && selectedBrand.name !== 'Все товары' && (
-              <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
+              <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5 flex items-center">
                   <span>{selectedBrand.name}</span>
                 </div>
@@ -3960,7 +3968,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             )}
             
             {selectedCategory && (
-              <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
+              <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
                   <span>{selectedCategory.label}</span>
                 </div>
@@ -3968,7 +3976,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             )}
             
             {selectedColor && (
-              <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
+              <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5 flex items-center">
                   <div 
                     className="w-3 h-3 rounded-full mr-2 border border-black/20" 
@@ -3978,7 +3986,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </div>
                 <button 
                   onClick={() => handleColorChange(null)}
-                  className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
+                  className="h-full px-2  hover:bg-gray-300/90 transition-all duration-200"
                 >
                   ×
                 </button>
@@ -3992,7 +4000,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </div>
                 <button 
                   onClick={() => handleMaterialChange(null)}
-                  className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
+                  className="h-full px-2  hover:bg-gray-300/90 transition-all duration-200"
                 >
                   ×
                 </button>
@@ -4000,7 +4008,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             )}
             
             {(minPrice !== 10 || maxPrice !== 1000000) && (
-              <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
+              <div className="flex items-center  backdrop-blur-sm  text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
                   <span>Цена: {formatPrice(minPrice)}₽ - {formatPrice(maxPrice)}₽</span>
                 </div>
@@ -4010,7 +4018,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                     setMaxPrice(1000000);
                     handlePriceRangeChange(10, 1000000);
                   }}
-                  className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
+                  className="h-full px-2  hover:bg-gray-300/90 transition-all duration-200"
                 >
                   ×
                 </button>
@@ -4201,256 +4209,173 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
          
 
-              {/* Categories */}
-              <div className="mb-4 p-3">
-                {renderCategories()}
-                
-                {/* Добавляем фильтр по мощности для  */}
-                {selectedBrand && selectedBrand.name === 'heating' && <PowerFilter />}
-                
-                {/* Фильтрация по цене (аккордеон) */}
-                <div className="mt-6 px-4">
-                  <div className="mb-2">
-                    <div className={accordionHeaderClass} onClick={() => setIsPriceOpen(!isPriceOpen)}>
-                      <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Цена</h3>
-                      <svg className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isPriceOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                    </div>
-                  </div>
+             {/* Categories */}
+<div className="mb-4 p-3">
+  {renderCategories()}
 
-                  {isPriceOpen && (
-                    <div className={accordionContentClass}>
-                      {/* Двойной инпут-диапазон (стиль как на картинке) */}
-                      <div className="grid grid-cols-2 gap-3 mb-3">
-                        <div>
-                          <input
-                            type="number"
-                            value={minPrice}
-                            onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
-                            placeholder="от"
-                            className="w-full px-4 py-3 bg-white text-black placeholder-gray-400 rounded-lg border border-gray-200 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <input
-                            type="number"
-                            value={maxPrice}
-                            onChange={(e) => setMaxPrice(Number(e.target.value) || 0)}
-                            placeholder="до"
-                            className="w-full px-4 py-3 bg-white text-black placeholder-gray-400 rounded-lg border border-gray-200 text-sm"
-                          />
-                        </div>
-                      </div>
+  {selectedBrand?.name === 'heating' && <PowerFilter />}
 
-                      {/* Стилизация ползунка: мини-диапазон с фоном заполнения */}
-                      <div className="mb-3">
-                        <div className="relative w-full h-2 bg-gray-200 rounded-full">
-                          <div className="absolute h-2 bg-black rounded-full" style={{ left: '0%', width: `${Math.min(100, ((maxPrice - minPrice) / Math.max(1, 1000000 - 10)) * 100)}%` }}></div>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-600 mt-2">
-                          <span>{formatPrice(minPrice)}</span>
-                          <span>{formatPrice(maxPrice)}</span>
-                        </div>
-                      </div>
+  {/* ---- ЦЕНА ---- */}
+  <div className="mt-6 px-4">
+    <div className="mb-2">
+      <button
+        onClick={() => setIsPriceOpen(!isPriceOpen)}
+        className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
+      >
+        <h3 className="text-black text-sm font-semibold tracking-wide">Цена</h3>
+        <svg
+          className={`w-4 h-4 text-black transition-transform ${isPriceOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
 
-                      <div className="flex gap-2">
-                        <button onClick={() => handlePriceRangeChange(minPrice, maxPrice)} className="flex-1 px-3 py-2 bg-[#000000]/80 text-white rounded-lg text-sm">Применить</button>
-                        <button onClick={() => { setMinPrice(10); setMaxPrice(1000000); }} className="flex-1 px-3 py-2 bg-[#1a1a1a]/40 text-white rounded-lg text-sm border border-white/10">Сброс</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                
+    {isPriceOpen && (
+      <div className="mt-3 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <input
+            type="number"
+            value={minPrice}
+            onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+            placeholder="от"
+            className="w-full px-4 py-3 bg-white text-black placeholder-gray-500 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+          />
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(Number(e.target.value) || 0)}
+            placeholder="до"
+            className="w-full px-4 py-3 bg-white text-black placeholder-gray-500 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+          />
+        </div>
 
+        <div className="relative w-full h-2 bg-gray-100 rounded-full">
+          <div
+            className="absolute h-2 bg-black rounded-full"
+            style={{ left: '0%', width: `${Math.min(100, ((maxPrice - minPrice) / Math.max(1, 1000000 - 10)) * 100)}%` }}
+          />
+        </div>
+        <div className="flex justify-between text-xs text-gray-600">
+          <span>{formatPrice(minPrice)}</span>
+          <span>{formatPrice(maxPrice)}</span>
+        </div>
 
-                
-                
-                {/* Фильтры для светильников - показываем если есть данные */}
-                {(extractedFilters.socketTypes.length > 0 ||
-                  extractedFilters.lampCounts.length > 0 ||
-                  extractedFilters.shadeColors.length > 0 ||
-                  extractedFilters.frameColors.length > 0) && (
-                  <div className="mt-6">
-                    {/* Фильтр по типу цоколя */}
-                    {extractedFilters.socketTypes.length > 0 && (
-                      <div className="mb-4 px-3">
-                        <div className={accordionHeaderClass} onClick={() => setIsSocketTypeOpen(!isSocketTypeOpen)}>
-                          <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Тип цоколя</h3>
-                          <svg
-                            className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isSocketTypeOpen ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                        {isSocketTypeOpen && (
-                          <div className={accordionContentClass}>
-                            {extractedFilters.socketTypes.map((socketType) => (
-                              <button
-                                key={socketType}
-                                onClick={() => handleSocketTypeChange(socketType)}
-                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                                  selectedSocketType === socketType
-                                    ? 'bg-[#000000]/80 text-white border border-[#000000]/50'
-                                    : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'
-                                }`}
-                              >
-                                {socketType.toUpperCase()}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
+        <div className="flex gap-2">
+          <button
+            onClick={() => handlePriceRangeChange(minPrice, maxPrice)}
+            className="flex-1 px-3 py-2 bg-black text-white rounded-lg text-sm hover:bg-gray-800 transition"
+          >
+            Применить
+          </button>
+          <button
+            onClick={() => {
+              setMinPrice(10);
+              setMaxPrice(1000000);
+            }}
+            className="flex-1 px-3 py-2 border border-gray-200 text-black rounded-lg text-sm hover:bg-gray-50 transition"
+          >
+            Сброс
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
 
-                    {/* Фильтр по количеству ламп */}
-                    {extractedFilters.lampCounts.length > 0 && (
-                      <div className="mb-4 px-3">
-                        <div className={accordionHeaderClass} onClick={() => setIsLampCountOpen(!isLampCountOpen)}>
-                          <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Количество ламп</h3>
-                          <svg
-                            className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isLampCountOpen ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                        {isLampCountOpen && (
-                          <div className={accordionContentClass}>
-                            {extractedFilters.lampCounts.map((lampCount) => (
-                              <button
-                                key={lampCount}
-                                onClick={() => handleLampCountChange(lampCount)}
-                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                                  selectedLampCount === lampCount
-                                    ? 'bg-[#000000]/80 text-white border border-[#000000]/50'
-                                    : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'
-                                }`}
-                              >
-                                {lampCount} {lampCount === 1 ? 'лампа' : lampCount >= 2 && lampCount <= 4 ? 'лампы' : 'ламп'}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
+  {/* ---- ФИЛЬТРЫ СВЕТИЛЬНИКОВ ---- */}
+  {(extractedFilters.socketTypes.length > 0 ||
+    extractedFilters.lampCounts.length > 0 ||
+    extractedFilters.shadeColors.length > 0 ||
+    extractedFilters.frameColors.length > 0) && (
+    <div className="mt-6 space-y-4 px-3">
+      {[
+        { key: 'socket', title: 'Тип цоколя', items: extractedFilters.socketTypes, open: isSocketTypeOpen, setOpen: setIsSocketTypeOpen, selected: selectedSocketType, handler: handleSocketTypeChange },
+        { key: 'lamp', title: 'Количество ламп', items: extractedFilters.lampCounts, open: isLampCountOpen, setOpen: setIsLampCountOpen, selected: selectedLampCount, handler: handleLampCountChange },
+        { key: 'shade', title: 'Цвет плафона', items: extractedFilters.shadeColors, open: isShadeColorOpen, setOpen: setIsShadeColorOpen, selected: selectedShadeColor, handler: handleShadeColorChange },
+        { key: 'frame', title: 'Цвет арматуры', items: extractedFilters.frameColors, open: isFrameColorOpen, setOpen: setIsFrameColorOpen, selected: selectedFrameColor, handler: handleFrameColorChange }
+      ].map((filter) => (
+        <div key={filter.key}>
+          <button
+            onClick={() => filter.setOpen(!filter.open)}
+            className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
+          >
+            <h3 className="text-black text-sm font-semibold tracking-wide">{filter.title}</h3>
+            <svg className={`w-4 h-4 text-black transition-transform ${filter.open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
 
-                    {/* Фильтр по цвету плафона */}
-                    {extractedFilters.shadeColors.length > 0 && (
-                      <div className="mb-4 px-3">
-                        <div className={accordionHeaderClass} onClick={() => setIsShadeColorOpen(!isShadeColorOpen)}>
-                          <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Цвет плафона</h3>
-                          <svg
-                            className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isShadeColorOpen ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                        {isShadeColorOpen && (
-                          <div className={accordionContentClass}>
-                            {extractedFilters.shadeColors.map((shadeColor) => (
-                              <button
-                                key={shadeColor}
-                                onClick={() => handleShadeColorChange(shadeColor)}
-                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                                  selectedShadeColor === shadeColor
-                                    ? 'bg-[#000000]/80 text-white border border-[#000000]/50'
-                                    : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'
-                                }`}
-                              >
-                                {capitalizeFirst(shadeColor)}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-   {/* Общий аккордеон фильтров (наличие, новинки, сортировка) */}
-   <div className="mt-0 px-3 w-full">
-                      <div className="mb-3">
-                        <div
-                          className="flex items-center justify-between cursor-pointer py-2 px-3 bg-[#1a1a1a]/30 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-[#2a2a2a]/40 transition-all duration-200"
-                          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                        >
-                          <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Сортировка</h3>
-                          <svg className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isFiltersOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                      </div>
+          {filter.open && (
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+             {filter.items.map((item) => (
+  <button
+    key={item}
+    onClick={() => (filter.handler as any)(item)}
+    className={`px-3 py-2 rounded-lg text-sm border transition ${
+      (filter.selected as any) === item
+        ? 'border-black bg-white text-black'
+        : 'border-gray-200 text-black hover:border-gray-400'
+    }`}
+  >
+    {filter.key === 'lamp'
+      ? `${item} ${item === 1 ? 'лампа' : (item as number) >= 2 && (item as number) <= 4 ? 'лампы' : 'ламп'}`
+      : filter.key === 'socket'
+      ? (item as string).toUpperCase()
+      : capitalizeFirst(String(item))}
+  </button>
+))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
 
-                      {isFiltersOpen && (
-                        <div className="mt-3 p-3 bg-transparent space-y-3">
-                          <div className="flex flex-col gap-2">
-                            <button
-                              onClick={() => handleAvailabilityFilter('inStock')}
-                              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${availabilityFilter === 'inStock' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'}`}>
-                              В наличии
-                            </button>
+  {/* ---- СОРТИРОВКА / НАЛИЧИЕ ---- */}
+  <div className="mt-6 px-3">
+    <button
+      onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+      className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
+    >
+      <h3 className="text-black text-sm font-semibold tracking-wide">Сортировка и наличие</h3>
+      <svg className={`w-4 h-4 text-black transition-transform ${isFiltersOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
 
-                            <button
-                              onClick={() => handleNewItemsFilter(!showOnlyNewItems)}
-                              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${showOnlyNewItems ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'}`}>
-                              Новинки
-                            </button>
-
-                            <button
-                              onClick={() => handleAvailabilityFilter('outOfStock')}
-                              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${availabilityFilter === 'outOfStock' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'}`}>
-                              Под заказ
-                            </button>
-
-                            <button
-                              onClick={() => handleAvailabilityFilter('all')}
-                              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${availabilityFilter === 'all' ? 'bg-[#000000]/80 text-white border border-[#000000]/50' : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-[#000000]/30'}`}>
-                              Все
-                            </button>
-                          </div> 
-                        </div>
-                      )}
-                    </div>
-                    {/* Фильтр по цвету арматуры */}
-                    {extractedFilters.frameColors.length > 0 && (
-                      <div className="mb-4 px-3">
-                        <div className={accordionHeaderClass} onClick={() => setIsFrameColorOpen(!isFrameColorOpen)}>
-                          <h3 className="font-bold text-white/90 text-sm uppercase tracking-wide">Цвет арматуры</h3>
-                          <svg
-                            className={`w-4 h-4 text-white/70 transition-transform duration-200 ${isFrameColorOpen ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                        {isFrameColorOpen && (
-                          <div className={accordionContentClass}>
-                            {extractedFilters.frameColors.map((frameColor) => (
-                              <button
-                                key={frameColor}
-                                onClick={() => handleFrameColorChange(frameColor)}
-                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                                  selectedFrameColor === frameColor
-                                    ? 'bg-black/80 text-white border border-black/50'
-                                    : 'bg-[#1a1a1a]/40 text-white/90 border border-white/10 hover:bg-[#2a2a2a]/60 hover:border-black/30'
-                                }`}
-                              >
-                                {capitalizeFirst(frameColor)}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  
-                )}
-              </div>
-      
+    {isFiltersOpen && (
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <button
+          onClick={() => handleAvailabilityFilter('inStock')}
+          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'inStock' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
+        >
+          В наличии
+        </button>
+        <button
+          onClick={() => handleNewItemsFilter(!showOnlyNewItems)}
+          className={`px-3 py-2 rounded-lg text-sm border transition ${showOnlyNewItems ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
+        >
+          Новинки
+        </button>
+        <button
+          onClick={() => handleAvailabilityFilter('outOfStock')}
+          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'outOfStock' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
+        >
+          Под заказ
+        </button>
+        <button
+          onClick={() => handleAvailabilityFilter('all')}
+          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'all' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
+        >
+          Все
+        </button>
+      </div>
+    )}
+  </div>
+</div>
               </div>           
             </div>
             {/* Right Content Area */}
