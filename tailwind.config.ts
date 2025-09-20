@@ -21,7 +21,7 @@ const config: Config = {
         /* Firefox */
         "*": {
           scrollbarWidth: "thin",
-          scrollbarColor: "rgba(000000,000000,000000,0.2) transparent",
+          scrollbarColor: "rgba(000000,000000,000000,0.2) ",
         },
 
         /* WebKit (Chrome, Edge, Safari) */

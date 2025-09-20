@@ -96,8 +96,8 @@ const werkelSeriesData: WerkelSeries[] = [
     image: '/images/series/retro.png',
     previewImages: ['/images/series/seriesretro3.png','/images/series/seriesretro4.png','/images/series/seriesretro2.png',],
     colors: [
-      { id: 'Металлическое', name: 'Металлическое', image: '/images/colors/ретрометалическоеWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/retro-metallic' },
-      { id: 'Керамическое', name: 'Керамическое', image: '/images/colors/ретрокерамическоеWerkel.png', url: '/ElektroustnovohneIzdely/Werkel/retro-ceramic' },
+      { id: 'Металлическое', name: 'Металлическое', image: '/images/colors/ретробелыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/retro-white' },
+      { id: 'Керамическое', name: 'Керамическое', image: '/images/colors/ретрокоричневыйWerkel.webp', url: '/ElektroustnovohneIzdely/Werkel/retro-ceramic' },
     ],
   },
   {

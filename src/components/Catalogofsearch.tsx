@@ -593,7 +593,7 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
     // show skeleton placeholders while loading or during hydration
     return (
       <div className="grid auto-rows-auto w-full grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length:4 }).map((_, i) => (
           <div key={i} className="bg-white/60 border border-gray-200/30 flex flex-col h-full overflow-hidden product-card rounded-lg">
             <div className="relative aspect-square bg-gradient-to-br from-white/80 to-gray-100/80 flex items-center justify-center overflow-hidden product-image">
               <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
@@ -601,15 +601,6 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
                 <div className="text-gray-500 font-bold text-base sm:text-lg tracking-wider animate-pulse">MORELEKTRIKI</div>
                 <div className="text-gray-400 text-xs sm:text-sm mt-1 animate-pulse">Загрузка...</div>
               </div>
-            </div>
-
-            <div className="p-4 flex flex-col">
-              <div className="h-3 bg-gray-200 rounded w-1/3 mb-2 animate-pulse"></div>
-              <div className="space-y-2 mb-3">
-                <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-              </div>
-              <div className="h-6 bg-gray-200 rounded w-1/2 animate-pulse"></div>
             </div>
           </div>
         ))}

@@ -422,7 +422,7 @@ const Cart: React.FC = () => {
           {/* Сводка заказа */}
           {!error && (
             <div className="lg:col-span-1">
-              <div className="bg-white p-8 rounded-2xl shadow-xl sticky top-24">
+              <div className="bg-white p-8 rounded-2xl  sticky top-24">
                 <h2 className="text-2xl font-bold text-black mb-6 pb-3 border-b border-gray-200">Ваш заказ</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-lg">
@@ -431,7 +431,7 @@ const Cart: React.FC = () => {
                   </div>
                   <div className="flex justify-between items-center text-lg">
                     <span className="text-black/70">Доставка</span>
-                    <span className="text-green-600 font-medium">Бесплатно</span>
+                    <span className="text-black font-medium">Уточняйте у менеджера</span>
                   </div>
                   <div className="pt-4 mt-4 border-t border-gray-200">
                     <div className="flex justify-between items-center mb-6">

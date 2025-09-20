@@ -1394,7 +1394,7 @@ const Header = () => {
                           alt="banner"
                           className="absolute inset-0 w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+                        <div className="absolute inset-0"></div>
                       </div>
                     </div>
                   </aside>
@@ -1462,7 +1462,7 @@ const Header = () => {
                       alt="banner"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+                   
                   </div>
                 </div>
               </aside>
@@ -1490,12 +1490,12 @@ const Header = () => {
     >
       <div
         className={clsx(
-          'bg-white shadow-2xl overflow-hidden w-full catalog-panel',
+          'bg-white  overflow-hidden w-full catalog-panel',
           activeMenu === menu ? 'catalog-panel-open' : 'catalog-panel-closed'
         )}
         style={{ display: 'flex', height: `calc(100vh - ${catalogTopOffset}px)` }}
       >
-        <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+        <nav className="w-96 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
           <div className="flex items-center justify-between px-4 py-3">
             <h3 className="text-5xl font-semibold text-black">
               {menu === 'shorooms' ? 'Шоурум' :
@@ -1516,14 +1516,14 @@ const Header = () => {
           <img
             src={
               menu === 'shorooms' ? '/images/banners/bannersmenubrands.jpg' :
-              menu === 'about' ? '/images/banners/banners.jpg' :
+              menu === 'about' ? '/images/banners/bannersaboutscontacts.jpg' :
               menu === 'howtobuy' ? '/images/banners/bannersdressingroom.jpg' :
               '/images/banners/bannersmenucontacts.png'
             }
             alt={menu}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/70"></div>
+          <div className="absolute inset-0 "></div>
         </div>
       </div>
     </aside>
