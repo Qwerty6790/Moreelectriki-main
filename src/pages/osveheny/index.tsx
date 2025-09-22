@@ -3547,31 +3547,31 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const getPageTitle = (): string => {
     if (selectedBrand && selectedBrand.name !== 'All Products') {
       if (selectedCategory && selectedCategory.label !== 'All Products') {
-        return `${selectedCategory.label} ${selectedBrand.name} - купить в интернет-магазине Elektromos`;
+        return `${selectedCategory.label} ${selectedBrand.name} - купить в интернет-магазине MoreElektriki`;
       }
-      return `${selectedBrand.name} - купить товары от производителя в интернет-магазине Elektromos`;
+      return `${selectedBrand.name} - купить товары от производителя в интернет-магазине MoreElektriki`;
     }
     
     if (selectedCategory && selectedCategory.label !== 'All Products') {
-      return `${selectedCategory.label} - купить по выгодной цене в интернет-магазине Elektromos`;
+      return `${selectedCategory.label} - купить по выгодной цене в интернет-магазине MoreElektriki`;
     }
     
-    return 'Каталог товаров - Elektromos: освещение и электротовары';
+    return 'Каталог товаров - MoreElektriki: освещение и электротовары';
   };
   
   const getPageDescription = (): string => {
     if (selectedBrand && selectedBrand.name !== 'All Products') {
       if (selectedCategory && selectedCategory.label !== 'All Products') {
-        return `${selectedCategory.label} ${selectedBrand.name} по выгодным ценам. Быстрая доставка ✓ Гарантия от производителя ✓ Большой выбор моделей. Заказывайте на сайте Elektromos!`;
+        return `${selectedCategory.label} ${selectedBrand.name} по выгодным ценам. Быстрая доставка ✓ Гарантия от производителя ✓ Большой выбор моделей. Заказывайте на сайте MoreElektriki!`;
       }
-      return `Товары ${selectedBrand.name} в официальном интернет-магазине Elektromos. Большой выбор моделей, выгодные цены, быстрая доставка, гарантия производителя.`;
+      return `Товары ${selectedBrand.name} в официальном интернет-магазине MoreElektrikis. Большой выбор моделей, выгодные цены, быстрая доставка, гарантия производителя.`;
     }
     
     if (selectedCategory && selectedCategory.label !== 'All Products') {
-      return `${selectedCategory.label} в интернет-магазине Elektromos. Широкий ассортимент, качественные товары, выгодные цены, быстрая доставка, гарантия.`;
+      return `${selectedCategory.label} в интернет-магазине MoreElektriki. Широкий ассортимент, качественные товары, выгодные цены, быстрая доставка, гарантия.`;
     }
     
-    return 'Каталог интернет-магазина Elektromos: светильники, люстры, бра, розетки, выключатели и другие товары для освещения и электрики. Выгодные цены, большой выбор, быстрая доставка по всей России.';
+    return 'Каталог интернет-магазина MoreElektriki: светильники, люстры, бра, розетки, выключатели и другие товары для освещения и электрики. Выгодные цены, большой выбор, быстрая доставка по всей России.';
   };
 
   // Компонент для отображения списка брендов и категорий
@@ -3587,10 +3587,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
       // Проверяем, является ли текущий URL одним из указанных путей с 
       const isHeatingSpecialPage = urlSource === 'heating' && 
-        (decodedCategory === 'МНФ|МНД' || 
-         decodedCategory === 'Инфакрасная нагревательная панель' || 
-         decodedCategory === 'Инфракрасная нагревательная панель' || // Добавляем обе возможные версии написания
-         decodedCategory === 'Нагревательные кабели' || 
+        (decodedCategory === '' || 
+         decodedCategory === '' || 
+         decodedCategory === '' || // Добавляем обе возможные версии написания
+         decodedCategory === '' || 
          decodedCategory === 'Терморегулятор');
 
       // Устанавливаем обычные категории
@@ -4417,7 +4417,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                       <div className="text-center max-w-md mx-auto">
                         <div className="mb-8">
                           <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br   flex items-center justify-center">
-                           <p className='text-5xl'>ELEKTROMOS</p>
+                           <p className='text-5xl'>MOREELEKTRIKI</p>
                           </div>
                           <h2 className="text-3xl font-bold text-white mb-4">
                             Скоро здесь будут новинки!
