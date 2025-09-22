@@ -193,7 +193,7 @@ const WerkelPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Werkel - Коллекции электроустановочных изделий | Elektromos</title>
+        <title>Werkel - Коллекции электроустановочных изделий | MoreElektriki</title>
         <meta name="description" content="Изучите коллекции Werkel - от классического винтажа до современных матовых серий. Качественные электроустановочные изделия для вашего интерьера." />
       </Head>
 

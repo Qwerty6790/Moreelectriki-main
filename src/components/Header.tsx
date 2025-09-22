@@ -1390,7 +1390,7 @@ const Header = () => {
                       {/* Правая большая область с изображением - занимает всё оставшееся пространство экрана */}
                       <div className="flex-1 relative h-screen">
                         <img
-                          src="/images/banners/bannersopenspace.jpg"
+                          src="/images/banners/bannersmenu.jpg"
                           alt="banner"
                           className="absolute inset-0 w-full h-full object-cover"
                         />
@@ -1458,7 +1458,7 @@ const Header = () => {
 
                   <div className="flex-1 relative block h-full">
                     <img
-                      src="/images/banners/bannersopenspace.jpg"
+                      src="/images/banners/bannersmenu.jpg"
                       alt="banner"
                       className="w-full h-full object-cover"
                     />
@@ -1515,8 +1515,8 @@ const Header = () => {
         <div className="flex-1 relative block h-full">
           <img
             src={
-              menu === 'shorooms' ? '/images/banners/bannersmenubrands.jpg' :
-              menu === 'about' ? '/images/banners/bannersaboutscontacts.jpg' :
+              menu === 'shorooms' ? '/images/banners/bannersmenubrands.jpeg' :
+              menu === 'about' ? '/images/banners/bannersopenspace.jpg' :
               menu === 'howtobuy' ? '/images/banners/bannersdressingroom.jpg' :
               '/images/banners/bannersmenucontacts.png'
             }

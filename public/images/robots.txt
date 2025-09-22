@@ -1,0 +1,44 @@
+User-agent: *
+Allow: /
+
+# Основные страницы для индексации
+Allow: /catalog
+Allow: /Osveheny
+Allow: /ElektroustnovohneIzdely  
+Allow: /Teplypolzdely
+Allow: /Teplypolzdely/Mat-nagrevatelny
+
+# Запрет на служебные страницы
+Disallow: /auth/
+Disallow: /cart
+Disallow: /liked
+Disallow: /payment-success
+Disallow: /payment-cancel
+Disallow: /admin
+Disallow: /_next/
+Disallow: /api/
+
+# Карта сайта
+Sitemap: https://moreelektriki.ru/sitemap.xml
+
+# Специальные указания для поисковых роботов
+User-agent: Googlebot
+Allow: /catalog
+Allow: /Osveheny
+Allow: /ElektroustnovohneIzdely
+Allow: /Teplypolzdely
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /catalog
+Allow: /Osveheny  
+Allow: /ElektroustnovohneIzdely
+Allow: /Teplypolzdely
+Crawl-delay: 1
+
+User-agent: bingbot
+Allow: /catalog
+Allow: /Osveheny
+Allow: /ElektroustnovohneIzdely
+Allow: /Teplypolzdely
+Crawl-delay: 2

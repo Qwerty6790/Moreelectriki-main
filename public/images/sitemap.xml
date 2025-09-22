@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+<!-- Главная страница -->
+<url>
+  <loc>https://moreelectriki.ru/</loc>
+  <lastmod>2025-09-03</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/logo.webp</image:loc>
+    <image:title>Elektromos - Интернет-магазин электрики в Москве</image:title>
+    <image:caption>Логотип магазина светильников и электроустановочных изделий</image:caption>
+  </image:image>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/headerRetro.png</image:loc>
+    <image:title>Ретро светильники и люстры</image:title>
+    <image:caption>Коллекция ретро светильников и люстр</image:caption>
+  </image:image>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/headerVintage.png</image:loc>
+    <image:title>Винтажные светильники</image:title>
+    <image:caption>Элегантные винтажные светильники для интерьера</image:caption>
+  </image:image>
+</url>
+
+<!-- Каталог -->
+<url>
+  <loc>https://moreelectriki.ru/catalog</loc>
+  <lastmod>2025-01-27</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.9</priority>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/catalogofsearch.png</image:loc>
+    <image:title>Каталог светильников и люстр</image:title>
+    <image:caption>Широкий выбор светильников, люстр и электроустановочных изделий</image:caption>
+  </image:image>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/lightstarlogo.png</image:loc>
+    <image:title>LightStar - современные светильники</image:title>
+    <image:caption>Бренд LightStar - качественное освещение</image:caption>
+  </image:image>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/maytonilogo.png</image:loc>
+    <image:title>Maytoni - элегантные люстры</image:title>
+    <image:caption>Бренд Maytoni - изысканные люстры и светильники</image:caption>
+  </image:image>
+</url>
+
+<!-- Электроустановочные изделия -->
+<url>
+  <loc>https://moreelectriki.ru/ElektroustnovohneIzdely</loc>
+  <lastmod>2025-01-27</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.95</priority>
+  <image:image>
+    <image:loc>https://moreelectriki.ru/images/categories/vstarivaevyseriycategory.png</image:loc>
+    <image:title>Купить розетки и выключатели в Москве - Werkel, Voltum</image:title>
+    <image:caption>Широкий выбор электроустановочных изделий: розетки и выключатели встраиваемые и накладные</image:caption>
+  </image:image>
+</url>
+
+<!-- Теплые полы -->
+<url>
+  <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Teplypolzdely</loc>
+  <lastmod>2025-01-27</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.9</priority>
+</url>
+
+<!-- Страницы для дизайнеров и регистрации -->
+<url>
+  <loc>https://moreelectriki.ru/auth/designers</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/auth/register</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/auth/login</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/auth/request-invite</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+
+<!-- Категории светильников -->
+<url>
+  <loc>https://moreelectriki.ru/catalog/chandeliers</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/catalog/lights</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.9</priority>
+</url>
+
+<!-- Прочие страницы, бренды и категории (сокращённо для примера) -->
+<url>
+  <loc>https://moreelectriki.ru/catalog/lightstar/lights/track-lights</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel</loc>
+  <lastmod>2025-09-06</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum</loc>
+  <lastmod>2025-09-06</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/Retro</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<!-- Дополнительные страницы -->
+<url>
+  <loc>https://moreelectriki.ru/delivery-payment</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://moreelectriki.ru/privacy-policy</loc>
+  <lastmod>2025-08-04</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+</urlset>
