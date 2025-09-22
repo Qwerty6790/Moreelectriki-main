@@ -18,7 +18,12 @@ export default function RootLayout({
       <Head>
         <title>moreelecktiki</title>
         <meta name="description" content="Люстры и прочая электрика" />
-        <meta name="keywords" content="люстра потолочная, люстра подвесная купить, учильные светильники moreelecktiki, moreelecktiki" />
+        <meta
+          name="keywords"
+          content="люстра потолочная, люстра подвесная купить, учильные светильники moreelecktiki, moreelecktiki"
+        />
+        {/* Метатег для Яндекс.Верификации */}
+        <meta name="yandex-verification" content="0747f13ec82aa5" />
       </Head>
 
       {/* Yandex.Metrika counter */}

@@ -4140,9 +4140,9 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       <SEO 
         title={getPageTitle()}
         description={getPageDescription()}
-        keywords={`купить ${selectedCategory?.label?.toLowerCase() || 'светильники'} elektromos, ${selectedCategory?.label?.toLowerCase() || 'светильники'}, ${selectedBrand?.name || ''}, электроустановочные изделия, теплые полы, люстры потолочные, люстры подвесные, настенные светильники, торшеры, настольные лампы, розетки, выключатели, LightStar, Maytoni, Novotech, Artelamp, Lumion`}
+        keywords={`купить ${selectedCategory?.label?.toLowerCase() || 'светильники'} moreelektriki, ${selectedCategory?.label?.toLowerCase() || 'светильники'}, ${selectedBrand?.name || ''}, электроустановочные изделия, теплые полы, люстры потолочные, люстры подвесные, настенные светильники, торшеры, настольные лампы, розетки, выключатели, LightStar, Maytoni, Novotech, Artelamp, Lumion`}
         url={`/catalog${router.asPath.includes('?') ? router.asPath : ''}`}
-        ogImage="/images/logo.webp"
+        image="/images/logo.webp"
       />
       <Header />
       
