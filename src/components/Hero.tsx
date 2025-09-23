@@ -62,35 +62,46 @@ export default function Banner() {
         .video-transition { transition: opacity 0.5s ease-in-out; }
       `}</style>
 
-      <Link href="/ElektroustnovohneIzdely/Voltum" className="block">
-        <section className="relative h-[60vh] md:h-[105vh] bg-black overflow-hidden cursor-pointer">
-          <div className="absolute inset-0 z-0">
-            {!videoError && (
-              <video
-                ref={videoRef}
-                key={currentVideoIndex}
-                className={`w-full h-full object-cover video-transition ${
-                  isVideoLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                muted
-                playsInline
-                preload="metadata"
-                onLoadedMetadata={handleLoadedMetadata}
-                onCanPlay={handleCanPlay}
-                onError={handleError}
-              >
-                <source src={videoSources[currentVideoIndex]} type="video/mp4" />
-              </video>
-            )}
-            <div className="absolute inset-0 bg-black/20 z-10" />
-            {videoError && (
-              <div className="absolute top-4 left-4 bg-red-500/80 text-white px-3 py-1 rounded text-sm z-30">
-                Видео не загружается, попробуем позже
-              </div>
-            )}
-          </div>
-        </section>
-      </Link>
+<Link href="/ElektroustnovohneIzdely/Voltum" className="block">
+  <section className="relative h-[60vh] md:h-[105vh] bg-black overflow-hidden cursor-pointer">
+    <div className="absolute inset-0 z-0">
+      {!videoError && (
+        <video
+          ref={videoRef}
+          key={currentVideoIndex}
+          className={`w-full h-full object-cover video-transition ${
+            isVideoLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          muted
+          playsInline
+          preload="metadata"
+          onLoadedMetadata={handleLoadedMetadata}
+          onCanPlay={handleCanPlay}
+          onError={handleError}
+        >
+          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
+        </video>
+      )}
+      <div className="absolute inset-0 bg-black/20 z-10" />
+      {videoError && (
+        <div className="absolute top-4 left-4 bg-red-500/80 text-white px-3 py-1 rounded text-sm z-30">
+          Видео не загружается, попробуем позже
+        </div>
+      )}
+    </div>
+
+    {/* Текст на баннере */}
+    <div className="absolute left-16 top-1/2 -translate-y-1/2 z-20">
+      <h2 className="text-white text-3xl md:text-6xl font-bold drop-shadow-lg">
+        Voltum серии S70
+      </h2>
+      <p className="text-white/90 text-lg md:text-2xl mt-2">
+        Современные решения в светотехнике
+      </p>
+    </div>
+  </section>
+</Link>
+
 
       {/* ---------- категории ---------- */}
       <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">
