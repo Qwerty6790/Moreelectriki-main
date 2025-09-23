@@ -49,7 +49,7 @@ export default function AllPage() {
 
       <div className="min-h-screen bg-white py-56">
         <div className="container mx-auto px-4">
-          <h2 className="text-black text-7xl font-bold mb-10">Терморегуляторы</h2>
+          <h2 className="text-black max-lg:text-4xl text-7xl  font-bold mb-10">Терморегуляторы</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-7xl mx-auto">
             {allSeriesData.map((series) => (

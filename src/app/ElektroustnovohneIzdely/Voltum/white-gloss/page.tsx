@@ -140,17 +140,7 @@ export default function VoltumWhiteGlossPage() {
         </div>
         </div>
 
-        <div className="flex justify-end mb-6">
-          <div className="flex gap-1 items-center rounded-lg  p-1">
-            {['grid', 'list', 'table'].map(mode => (
-              <button key={mode} onClick={() => setViewMode(mode as any)} className={`p-2 rounded transition-colors ${viewMode === mode ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}>
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d={mode === 'grid' ? "M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z" : mode === 'list' ? "M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" : "M3 3h18a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v3h16V5H4zm0 5v3h7v-3H4zm9 0v3h7v-3h-7zm-9 5v3h7v-3H4zm9 0v3h7v-3h-7z"}/>
-                </svg>
-              </button>
-            ))}
-          </div>
-        </div>
+      
 
         <div className="mb-8">
           {loading ? (

@@ -936,7 +936,14 @@ const Header = () => {
                 <a href="#call" className="hover:text-neutral-200 font-bold text-[20px]">Заказать звонок</a>
                 <div className="ml-auto flex items-center gap-6">
                   <span className="hidden lg:inline font-bold text-[20px]">г. Москва, 25 километр, ТК Конструктор</span>
-                  <a href="/auth/register" className="hover:text-neutral-200 text-[20px] font-bold">Для дизайнеров</a>
+                  <a
+  href="#"
+  className="pointer-events-none cursor-not-allowed text-gray-400 text-[20px] font-bold hover:text-gray-500"
+  title="Недоступно"
+>
+  Для дизайнеров
+</a>
+
                 </div>
               </div>
             </div>
@@ -961,7 +968,7 @@ const Header = () => {
 
                 {/* Логотип */}
                 <a href="/" style={{ letterSpacing: '0.2em' }} className={clsx(headerText, 'sm:text-4xl text-2xl font-bold tracking-widest uppercase flex-none')}>
-                  MORELEKTRIKI
+                  MOREELEKTRIKI
                 </a>
                 {/* Мобильный поиск между логотипом и иконками */}
                 
@@ -1129,7 +1136,7 @@ const Header = () => {
               <div className="max-w-8xl mx-auto px-4 py-4 min-h-full">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
                 <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                  <a href="/" style={{ letterSpacing: '0.4em' }} className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
+                  <a href="/" style={{ letterSpacing: '0.4em' }} className="flex-shrink-0 text-white text-2xl font-semibold tracking-widest uppercase">MOREELEKTRIKI</a>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-800"
@@ -1183,7 +1190,14 @@ const Header = () => {
                           <a href="/promotions" className="block text-base text-white/90 py-2 px-2 rounded">Акции</a>
                           <a href="/project" className="block text-base text-white/90 py-2 px-2 rounded">Проекты</a>
                           <a href="/contacts" className="block text-base text-white/90 py-2 px-2 rounded">Контакты</a>
-                          <a href="/auth/register" className="block text-base text-white/90 py-2 px-2 rounded">Для дизайнеров</a>
+                          <a
+                         href="#"
+                         className="block text-base text-gray-400 py-2 px-2 rounded cursor-not-allowed pointer-events-none  hover:text-gray-500"
+                         title="Недоступно"
+                       >
+                         Для дизайнеров
+                       </a>
+
                         </div>
                       </div>
                     )}
@@ -1197,7 +1211,7 @@ const Header = () => {
                       8-800-550-90-84
                     </a>
                     <a href="mailto:info@donel.su" className="flex items-center text-white text-base md:text-lg">
-                      MORELECKTRIKI@gmail.com
+                    MOREELEKTRIKI@gmail.com
                     </a>
                   </div>
                 </div>
@@ -1227,7 +1241,7 @@ const Header = () => {
                 >
                   <MenuIcon className="w-6 h-6" />
                 </button>
-                 <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MORELEKTRIKI</a>
+                 <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MOREELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
                   <a href="/" className="hover:text-white py-1 px-2 text-sm">Шоурум</a>
                   <a href="/" className="hover:text-white py-1 px-2 text-sm">Акции</a>
@@ -1250,7 +1264,14 @@ const Header = () => {
                   <a href="tel:+79265522173" className="text-white text-[18px] font-bold tracking-wide hover:underline">8 (926) 552-21-73</a>
                   <a href="#call" className="text-[11px] text-white/80 uppercase tracking-widest">заказать звонок</a>
                 </div>
-                <a href="/account" className="hidden sm:inline text-white/90 hover:text-white text-[13px] tracking-widest uppercase">Для дизайнеров</a>
+                <a
+  href="#"
+  className="hidden sm:inline text-gray-400 hover:text-gray-500 text-[13px] tracking-widest uppercase cursor-not-allowed pointer-events-none"
+  title="Недоступно"
+>
+  Для дизайнеров
+</a>
+
                 {/* Мобильная иконка для дизайнеров */}
                 <a href="/auth/register" className="sm:hidden inline-flex text-white/90 hover:text-white" aria-label="Для дизайнеров">
                   <User className="w-5 h-5" />
