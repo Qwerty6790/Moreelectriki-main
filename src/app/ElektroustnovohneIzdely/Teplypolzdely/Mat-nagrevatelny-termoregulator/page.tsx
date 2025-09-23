@@ -29,7 +29,7 @@ const allSeriesData: AllSeries[] = [
   },
   {
     id: 'Мат нагревательный',
-    name: 'Мат нагревательный Voltum',
+    name: 'Теплый пол Voltum',
     image: '/images/series/matnagrevatelnyVoltum.png',
     url: '/ElektroustnovohneIzdely/Teplypolzdely/Voltum/Matnagrevatelny',
     // у этой карточки превью НЕ будет
