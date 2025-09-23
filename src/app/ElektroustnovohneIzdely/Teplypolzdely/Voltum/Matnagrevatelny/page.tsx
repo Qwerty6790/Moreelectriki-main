@@ -85,7 +85,7 @@ export default function MatnagrevatelnyPage() {
 
 <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 py-44" >
       <div className="mb-8">
-          <h2 className="text-5xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-black mb-5">Мат нагревательный</h2>
+          <h2 className="text-5xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-black mb-5">Теплый пол</h2>
           <div className="max-w-8xl mx-auto px-2 ">
           <span className='mb-3'>.</span>
           <nav className="flex flex-wrap items-center gap-1 sm:gap-2 text-2xl text-black">
@@ -93,7 +93,7 @@ export default function MatnagrevatelnyPage() {
           <span className='mb-3'>.</span>
            <Link href="/ElektroustnovohneIzdely/Voltum" className="hover:text-gray-200 transition-colors">Voltum</Link>
            <span className='mb-3'>.</span>
-          <span className="text-white">Мат нагревательный</span>
+          <span className="text-white">Теплый пол</span>
         </nav>
         </div>
         </div>
