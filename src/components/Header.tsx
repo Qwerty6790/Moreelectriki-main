@@ -1139,7 +1139,7 @@ const Header = () => {
                   
                   {/* CHANGE: Added menu-content-enter for animation */}
                   <div className={clsx("relative z-10 p-4 h-full flex flex-col text-white", isMobileMenuOpen && "menu-content-enter")}>
-                    <div className="flex items-center justify-between pb-3 border-b border-gray-600">
+                    <div className="flex items-center justify-between pb-3 border-b border-white/20 ">
                       <a href="/" style={{ letterSpacing: '0.4em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">
                         MOREELEKTRIKI
                       </a>
