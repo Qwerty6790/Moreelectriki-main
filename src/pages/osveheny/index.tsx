@@ -2639,7 +2639,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               <h2 className="text-4xl text-black">{selectedCategory?.label || (router.query.category ? decodeURIComponent(router.query.category as string) : '')}</h2>
             </div>
             <div 
-              className="flex items-center justify-between py-3 px-4 text-1xl rounded-xl cursor-pointer transition-all duration-200 mb-4 backdrop-blur-sm border border-white/20 text-black hover:bg-[#3a3a3a]/20 shadow-sm"
+              className="flex items-center justify-between py-3 px-4 text-1xl rounded-xl cursor-pointer transition-all duration-200 mb-4 backdrop-blur-sm border border-white/20 text-black hover:bg-[#f7f7f7] shadow-sm"
               onClick={() => {
                 // Сбрасываем только фильтрацию категорий, сохраняя бренд
                 setShowAllCategories(true);

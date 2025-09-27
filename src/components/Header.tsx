@@ -1449,7 +1449,7 @@ const Header = () => {
                 className={"absolute left-0 right-0 z-[10002] bg-transparent p-0 overflow-visible transition-all duration-200 " + (isCatalogMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
               >
                 <div className={clsx('bg-white shadow-2xl  overflow-hidden w-full catalog-panel', isCatalogMenuOpen ? 'catalog-panel-open' : 'catalog-panel-closed')} style={{ display: 'flex', height: 'calc(100vh - ' + catalogTopOffset + 'px)' }}>
-                  <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '85vh' }}>
+                  <nav className="w-96 bg-white/100 overflow-y-auto hide-scrollbar" style={{ maxHeight: '90vh' }}>
                     <div className="flex items-center justify-between px-4 py-3">
                       <h3 className="text-5xl font-semibold text-black">Каталог</h3>
                       <button onClick={() => setIsCatalogMenuOpen(false)} className="p-2 text-black text-3xl leading-none">×</button>

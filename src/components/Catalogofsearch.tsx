@@ -469,21 +469,18 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
                   <motion.tr 
                     key={product._id || product.article} 
                     className="border-b border-[#1a1a1a]"
-                    initial={{ opacity: 0, y: 30 }}
+                    // ИЗМЕНЕНИЕ ЗДЕСЬ: Плавное появление на месте для таблицы
+                    initial={{ opacity: 0 }}
                     animate={{ 
-                      opacity: 1, 
-                      y: 0,
+                      opacity: 1,
                       transition: {
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 25,
-                        delay: index * 0.05, // Меньшая задержка для таблицы
-                        duration: 0.5
+                        ease: "easeInOut",
+                        delay: index * 0.05,
+                        duration: 0.4
                       }
                     }}
                     exit={{ 
                       opacity: 0, 
-                      y: -20,
                       transition: { duration: 0.2 }
                     }}
                     whileHover={{ 
@@ -726,23 +723,18 @@ const CatalogOfProductSearch: React.FC<CatalogOfProductProps> = ({
             {visibleProducts.map((product, index) => (
               <motion.div
                 key={`grid-${product._id || ''}-${product.article}`}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                // ИЗМЕНЕНИЕ ЗДЕСЬ: Плавное появление на месте для сетки
+                initial={{ opacity: 0 }}
                 animate={{ 
-                  opacity: 1, 
-                  y: 0, 
-                  scale: 1,
+                  opacity: 1,
                   transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 25,
-                    delay: index * 0.1, // Задержка для каждого следующего товара
-                    duration: 0.6
+                    ease: "easeInOut",
+                    delay: index * 0.1,
+                    duration: 0.5
                   }
                 }}
                 exit={{ 
-                  opacity: 0, 
-                  y: -30, 
-                  scale: 0.9,
+                  opacity: 0,
                   transition: { duration: 0.3 }
                 }}
                 whileHover={{ 
