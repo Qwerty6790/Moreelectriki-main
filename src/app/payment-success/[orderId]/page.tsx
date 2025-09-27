@@ -119,7 +119,6 @@ const PaymentSuccess: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <CheckCircle className="mx-auto h-16 w-16 text-green-600" />
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-gray-900">Заказ успешно оформлен!</h1>
           <p className="mt-2 text-lg text-gray-600 max-w-xl mx-auto">
             Спасибо за покупку! Мы получили ваш заказ и скоро начнем его обработку.
@@ -182,14 +181,6 @@ const PaymentSuccess: React.FC = () => {
             </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/orders"
-              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-black text-white rounded-md font-semibold hover:bg-gray-800 transition-colors"
-            >
-              <FileText className="mr-2" size={16} />
-              Мои заказы
-            </Link>
-            
             <Link
               href="/catalog"
               className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-white text-gray-800 border border-gray-300 rounded-md font-semibold hover:bg-gray-100 transition-colors"
