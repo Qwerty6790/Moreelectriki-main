@@ -1007,7 +1007,7 @@ const Cart: React.FC = () => {
                               </div>
                               <div className="flex items-center gap-2 sm:gap-4">
                                 <div className="flex items-center rounded-lg ">
-                                  <button onClick={() => handleDecreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600   transition-colors rounded-l-md disabled:opacity-50" disabled={(product.quantity || 1) <= 1}>
+                                  <button onClick={() => handleDecreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600  hover:bg-gray-200 transition-colors rounded-l-md disabled:opacity-50" disabled={(product.quantity || 1) <= 1}>
                                     <Minus size={16} />
                                   </button>
                                   <input type="number" min="1" max="999" value={product.quantity || 1} onChange={(e) => handleUpdateQuantity(product._id, parseInt(e.target.value) || 1)} className="w-12 h-10 text-center font-semibold text-gray-900 bg-white  outline-none focus:ring-1 focus:ring-gray-800 focus:z-10" />

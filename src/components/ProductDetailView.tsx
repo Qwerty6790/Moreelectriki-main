@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Toaster, toast } from 'sonner';
 import { Heart, Copy } from 'lucide-react';
 import Header from '@/components/Header';
 
@@ -84,7 +83,6 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
       setIsFavorite(false);
       const count = likedData.products.length;
       window.dispatchEvent(new CustomEvent('liked:updated', { detail: { count } }));
-      toast.success('Товар удалён из избранного');
     } else {
       likedData.products.push(product);
       localStorage.setItem('liked', JSON.stringify(likedData));
@@ -92,7 +90,6 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
       const count = likedData.products.length;
       window.dispatchEvent(new CustomEvent('liked:updated', { detail: { count } }));
       window.dispatchEvent(new CustomEvent('liked:itemAdded', { detail: { name: product.name, imageUrl: mainImage } }));
-      toast.success('Товар добавлен в избранное');
     }
   };
 
@@ -117,10 +114,8 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
       localStorage.setItem('cartCount', String(count));
       window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count } }));
       window.dispatchEvent(new CustomEvent('cart:itemAdded', { detail: { name: p.name, price: p.price, imageUrl: mainImage } }));
-      toast.success('Товар добавлен в корзину');
     } catch (err) {
       console.error('Ошибка добавления в корзину со компонента', err);
-      toast.error('Ошибка');
     }
   };
 
@@ -264,10 +259,8 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
           </div>
         </div>
       </div>
-      <Toaster position="top-center" richColors />
     </div>
   );
 };
 
 export default ProductDetailView;
-
