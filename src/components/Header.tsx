@@ -81,9 +81,6 @@ const Header = () => {
   const [isClient, setIsClient] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isHeaderDimmed, setIsHeaderDimmed] = useState(false);
-  // Новое состояние для высоты мобильного меню
-  const [mobileMenuHeight, setMobileMenuHeight] = useState('100dvh');
-
   // Brands menu removed
   const router = useRouter();
   const pathname = usePathname();
@@ -617,28 +614,6 @@ const Header = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Новый useEffect для вычисления высоты мобильного экрана (решение для Safari)
-  useEffect(() => {
-    const updateMobileHeight = () => {
-      if (typeof window !== 'undefined') {
-        // window.innerHeight корректно учитывает динамические панели Safari
-        setMobileMenuHeight(`${window.innerHeight}px`);
-      }
-    };
-
-    // Инициализируем при монтировании
-    updateMobileHeight();
-
-    // Обновляем при ресайзе и смене ориентации
-    window.addEventListener('resize', updateMobileHeight);
-    window.addEventListener('orientationchange', updateMobileHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateMobileHeight);
-      window.removeEventListener('orientationchange', updateMobileHeight);
-    };
-  }, []);
-
   // Закрытие каталога при клике вне его области
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -1148,17 +1123,13 @@ const Header = () => {
             </div>
           </div>
 
+          {/* --- НАЧАЛО ИЗМЕНЕНИЙ --- */}
           {/* Мобильное меню (портал) */}
-          {typeof window !== 'undefined' && isMobileMenuOpen && createPortal(
+                 {/* Мобильное меню (портал) - ИСПРАВЛЕННАЯ ВЕРСИЯ */}
+                 {typeof window !== 'undefined' && isMobileMenuOpen && createPortal(
             <div
               id="mobile-menu"
-              // Оставляем h-[100dvh] в классах как фолбэк
-              className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto h-[100dvh] pb-[env(safe-area-inset-bottom)]"
-              // Используем вычисленную высоту в style для Safari, сохраняя padding-bottom
-              style={{ 
-                height: mobileMenuHeight,
-                paddingBottom: 'env(safe-area-inset-bottom)' 
-              }}
+              className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto pb-[env(safe-area-inset-bottom)] mobile-menu-full-height"
             >
               <div className="max-w-8xl mx-auto px-4 py-4 min-h-full">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
@@ -1246,6 +1217,7 @@ const Header = () => {
             </div>,
             document.body
           )}
+          {/* --- КОНЕЦ ИЗМЕНЕНИЙ --- */}
         </header>
       </div>
 
