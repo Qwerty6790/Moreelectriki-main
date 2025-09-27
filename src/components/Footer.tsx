@@ -19,7 +19,7 @@ const Footer = () => {
             <Link href="/" className="hover:text-black">Дизайнеры</Link>
           </nav>
 
-          <div className="md:flex text-[8px] flex items-center font-bold gap-4 md:text-sm">
+          <div className="md:flex text-[6px] flex items-center font-bold gap-4 md:text-sm">
            <span>ИНН: 503227257585</span>
             <span>ИП: Садыгов Рамиль Тофик Оглы</span>
             <span> ОГРИНП: 317502400058732</span>
