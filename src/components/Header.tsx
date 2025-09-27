@@ -1129,7 +1129,7 @@ const Header = () => {
                 )}
               >
                 {/* CHANGE: Increased height to 90vh */}
-                <div className="relative w-full h-[90vh] bg-gray-900 shadow-lg">
+                <div className="relative w-full h-[100vh] bg-gray-900 shadow-lg">
                   <img
                     src="/images/banners/bannersmenu.jpg"
                     alt="Меню"
@@ -1167,7 +1167,7 @@ const Header = () => {
                         {/* CHANGE: Animated accordion content */}
                         <div className={clsx(
                           "pl-2 pr-1 space-y-1 overflow-hidden transition-all duration-500 ease-in-out",
-                          isMobileCatalogOpen ? 'max-h-[1000px] opacity-100 mt-2' : 'max-h-0 opacity-0'
+                          isMobileCatalogOpen ? 'max-h-[1500px] opacity-100 mt-2' : 'max-h-0 opacity-0'
                         )}>
                             {catalogData.lighting.map((item, idx) => (
                               <div key={idx} className="bg-black/20 backdrop-blur-sm rounded-lg p-2">
@@ -1180,7 +1180,7 @@ const Header = () => {
                                     <a
                                       key={sidx}
                                       href={sub.link}
-                                      className="block text-sm text-white/90 py-2 px-3 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out"
+                                      className="block text-sm text-white/90 py-2 px-3 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out"
                                       onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                       {sub.title}
@@ -1200,10 +1200,10 @@ const Header = () => {
                         
                         <div className="border-t border-white/10 pt-3 space-y-2">
                             {/* CHANGE: Added border and hover styles */}
-                            <a href="/shorooms" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Шоурум</a>
-                            <a href="/promotions" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Акции</a>
-                            <a href="/project" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Проекты</a>
-                            <a href="/contacts" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Контакты</a>
+                            <a href="/" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out">Шоурум</a>
+                            <a href="/" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out">Акции</a>
+                            <a href="/" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out">Проекты</a>
+                            <a href="/" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out">Контакты</a>
                             <a
                               href="#"
                               className="block text-base opacity-40 py-3 px-4 rounded-lg border border-white/20 cursor-not-allowed pointer-events-none"
