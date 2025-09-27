@@ -779,6 +779,21 @@ const Header = () => {
             transform: translateY(0);
           }
         }
+
+        /* NEW: Animation for mobile menu content */
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-15px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .menu-content-enter {
+          animation: fadeInDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
         
         @keyframes slideFromLeft {
           from {
@@ -1095,14 +1110,13 @@ const Header = () => {
           </div>
 
           {/* Мобильное меню (портал) - НОВЫЙ ДИЗАЙН */}
-          {/* FIX: Use isClient state to prevent hydration error */}
           {isClient && createPortal(
             <>
               {/* Overlay */}
               <div
                 className={clsx(
-                  "fixed inset-0 z-[9998] bg-black/50 backdrop-blur-sm transition-opacity duration-300",
-                  isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                  "fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm transition-opacity duration-300",
+                  isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               />
@@ -1110,11 +1124,12 @@ const Header = () => {
               <div
                 id="mobile-menu"
                 className={clsx(
-                  "fixed top-0 left-0 right-0 z-[9999] transform transition-transform duration-300 ease-in-out",
+                  "fixed top-0 left-0 right-0 z-[9999] transform transition-transform duration-500 ease-in-out",
                   isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
                 )}
               >
-                <div className="relative w-full h-[65vh] bg-gray-900 shadow-lg">
+                {/* CHANGE: Increased height to 90vh */}
+                <div className="relative w-full h-[90vh] bg-gray-900 shadow-lg">
                   <img
                     src="/images/banners/bannersmenu.jpg"
                     alt="Меню"
@@ -1122,7 +1137,8 @@ const Header = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                   
-                  <div className="relative z-10 p-4 h-full flex flex-col text-white">
+                  {/* CHANGE: Added menu-content-enter for animation */}
+                  <div className={clsx("relative z-10 p-4 h-full flex flex-col text-white", isMobileMenuOpen && "menu-content-enter")}>
                     <div className="flex items-center justify-between pb-3 border-b border-gray-600">
                       <a href="/" style={{ letterSpacing: '0.4em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">
                         MOREELEKTRIKI
@@ -1136,74 +1152,77 @@ const Header = () => {
                     </div>
 
                     <div className="mt-4 flex-grow overflow-y-auto hide-scrollbar">
-                       {/* Навигация из старого меню */}
-                       <div className="mt-2">
-                        <div className="flex flex-col space-y-0">
-                          <button
-                            onClick={() => setIsMobileCatalogOpen((v) => !v)}
-                            className="flex items-center justify-between py-3 px-2 text-base md:text-lg font-medium text-white hover:bg-white/10 rounded-lg"
-                          >
-                            <span>КАТАЛОГ</span>
-                            <span className="text-white/60 text-sm">{isMobileCatalogOpen ? '−' : '+'}</span>
-                          </button>
-                          {isMobileCatalogOpen && (
-                            <div className="pl-2 pr-1 py-2 space-y-1">
-                              {catalogData.lighting.map((item, idx) => (
-                                <div key={idx} className="bg-black/20 backdrop-blur-sm rounded-lg">
-                                  <div className="w-full flex items-center py-3 px-3 text-white rounded-lg">
-                                    <span className="flex items-center">
-                                      <span className="text-[19px] font-bold">{item.title}</span>
-                                    </span>
-                                  </div>
-                                  <div className="px-3 pb-3 space-y-2">
-                                    {item.subcategories?.slice(0, 8).map((sub, sidx) => (
-                                      <a
-                                        key={sidx}
-                                        href={sub.link}
-                                        className="block text-sm text-white/90 py-2 px-2 rounded hover:bg-white/20"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                      >
-                                        {sub.title}
-                                      </a>
-                                    ))}
+                       <div className="flex flex-col space-y-2">
+                        {/* CHANGE: Added border and hover styles to button */}
+                        <button
+                          onClick={() => setIsMobileCatalogOpen((v) => !v)}
+                          className="flex items-center justify-between py-3 px-4 text-base md:text-lg font-medium text-white rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out"
+                        >
+                          <span>КАТАЛОГ</span>
+                          <span className={clsx("text-white/60 text-sm transition-transform duration-300", isMobileCatalogOpen && "rotate-180")}>
+                            <ChevronDown size={20} />
+                          </span>
+                        </button>
+
+                        {/* CHANGE: Animated accordion content */}
+                        <div className={clsx(
+                          "pl-2 pr-1 space-y-1 overflow-hidden transition-all duration-500 ease-in-out",
+                          isMobileCatalogOpen ? 'max-h-[1000px] opacity-100 mt-2' : 'max-h-0 opacity-0'
+                        )}>
+                            {catalogData.lighting.map((item, idx) => (
+                              <div key={idx} className="bg-black/20 backdrop-blur-sm rounded-lg p-2">
+                                <div className="w-full flex items-center py-2 px-2 text-white">
+                                  <span className="text-[19px] font-bold">{item.title}</span>
+                                </div>
+                                <div className="px-2 pb-2 space-y-2">
+                                  {item.subcategories?.slice(0, 8).map((sub, sidx) => (
+                                    // CHANGE: Added border and hover styles
                                     <a
-                                      href={item.link}
-                                      className="block text-sm font-semibold text-white py-2 px-2 rounded bg-white/15 hover:bg-white/25"
+                                      key={sidx}
+                                      href={sub.link}
+                                      className="block text-sm text-white/90 py-2 px-3 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out"
                                       onClick={() => setIsMobileMenuOpen(false)}
                                     >
-                                      Смотреть все
+                                      {sub.title}
                                     </a>
-                                  </div>
+                                  ))}
+                                  <a
+                                    href={item.link}
+                                    className="block text-sm font-semibold text-white py-2 px-3 rounded-lg bg-white/10 border border-white/30 hover:bg-white/20 hover:border-white/50 transform hover:scale-[1.02] transition-all duration-200 ease-out"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                  >
+                                    Смотреть все
+                                  </a>
                                 </div>
-                              ))}
-                              <div className="mt-2 border-t border-white/10 pt-3 space-y-1">
-                                <a href="/shorooms" className="block text-base text-white/90 py-2 px-2 rounded hover:bg-white/10">Шоурум</a>
-                                <a href="/promotions" className="block text-base text-white/90 py-2 px-2 rounded hover:bg-white/10">Акции</a>
-                                <a href="/project" className="block text-base text-white/90 py-2 px-2 rounded hover:bg-white/10">Проекты</a>
-                                <a href="/contacts" className="block text-base text-white/90 py-2 px-2 rounded hover:bg-white/10">Контакты</a>
-                                <a
-                                  href="#"
-                                  className="block text-base opacity-40 py-2 px-2 rounded cursor-not-allowed pointer-events-none"
-                                  title="Недоступно"
-                                >
-                                  Для дизайнеров
-                                </a>
                               </div>
-                            </div>
-                          )}
+                            ))}
+                        </div>
+                        
+                        <div className="border-t border-white/10 pt-3 space-y-2">
+                            {/* CHANGE: Added border and hover styles */}
+                            <a href="/shorooms" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Шоурум</a>
+                            <a href="/promotions" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Акции</a>
+                            <a href="/project" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Проекты</a>
+                            <a href="/contacts" className="block text-base text-white/90 py-3 px-4 rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out">Контакты</a>
+                            <a
+                              href="#"
+                              className="block text-base opacity-40 py-3 px-4 rounded-lg border border-white/20 cursor-not-allowed pointer-events-none"
+                              title="Недоступно"
+                            >
+                              Для дизайнеров
+                            </a>
                         </div>
                       </div>
+                    </div>
 
-                      {/* Контактная информация */}
-                      <div className="mt-auto border-t border-gray-700 pt-4">
-                        <div className="flex flex-col space-y-3">
-                          <a href="tel:88005509084" className="flex items-center text-white text-base">                   
-                            8-800-550-90-84
-                          </a>
-                          <a href="mailto:info@donel.su" className="flex items-center text-white text-base">
-                            MOREELEKTRIKI@gmail.com
-                          </a>
-                        </div>
+                    <div className="mt-auto border-t border-gray-700 pt-4">
+                      <div className="flex flex-col space-y-3">
+                        <a href="tel:88005509084" className="flex items-center text-white text-base">                   
+                          8-800-550-90-84
+                        </a>
+                        <a href="mailto:info@donel.su" className="flex items-center text-white text-base">
+                          MOREELEKTRIKI@gmail.com
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -1297,7 +1316,6 @@ const Header = () => {
       </div>
 
       {/* Fullscreen animated white overlay with centered blurred input when typing */}
-      {/* FIX: Use isClient state to prevent hydration error */}
       {isClient && (isSearchOpen || searchQuery) && createPortal(
         <div className="fixed inset-0 z-[100000] flex items-center justify-center transition-opacity duration-400 ease-out search-curtain-enter">
           {/* white backdrop */}
@@ -1332,7 +1350,6 @@ const Header = () => {
 
       {/* Порталы для выпадающих меню */}
       {/* Боковая панель каталога (drawer) с анимацией */}
-      {/* FIX: Use isClient state to prevent hydration error */}
       {isClient && isCatalogDrawerMounted && createPortal(
         <div className={"fixed inset-0 z-[99999]"} onTransitionEnd={() => {
           // Ensure overlay pointer-events are disabled when closed
@@ -1342,7 +1359,7 @@ const Header = () => {
         }}>
           {/* Render full-screen drawer for mobile, dropdown for desktop */}
           {(() => {
-            const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
+            const isDesktop = isClient && window.innerWidth >= 768;
 
             if (!isDesktop) {
               return (
