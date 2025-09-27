@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, User, Menu as MenuIcon, X, ShoppingCart, ChevronDown, ShoppingBagIcon, LucideShoppingBag, ShoppingCartIcon, ShoppingBasket, SearchCheckIcon, SearchSlash, SearchCodeIcon, SearchXIcon, SearchX } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-
+import Link from 'next/link';
 import axios from 'axios';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -1051,15 +1051,12 @@ const Header = () => {
                 >
                   Шоурум
                 </button>
-                <button
-                  ref={aboutButtonRef}
-                  onClick={() => openMenu('about', aboutButtonRef.current)}
-                  onMouseEnter={() => startMenuHover(aboutButtonRef.current, 'about')}
-                  onMouseLeave={() => clearMenuHover()}
-                  className={clsx('hover:text-white/90 font-bold py-1 px-2 text-sm', activeMenu === 'about' ? 'text-white' : '')}
+                <a href='/about'> 
+                <button className='font-bold' 
                 >
-                  О нас
+                 О нас
                 </button>
+                </a>
                 <button
                   ref={howToBuyButtonRef}
                   onClick={() => openMenu('howtobuy', howToBuyButtonRef.current)}
@@ -1520,7 +1517,6 @@ const Header = () => {
           <div className="flex items-center justify-between px-4 py-3">
             <h3 className="text-5xl font-semibold text-black">
               {menu === 'shorooms' ? 'Шоурум' :
-               menu === 'about' ? 'О нас' :
                menu === 'howtobuy' ? 'Как купить' :
                'Контакты'}
             </h3>

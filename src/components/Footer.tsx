@@ -12,16 +12,17 @@ const Footer = () => {
             <span className="text-black font-bold text-sm">© {new Date().getFullYear()}</span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-black">
+          <nav className="flex  md:flex items-center gap-6 text-sm font-bold text-black">
             <Link href="/" className="hover:text-black">О компании</Link>
             <Link href="/" className="hover:text-black">Доставка</Link>
             <Link href="/" className="hover:text-black">Гарантия</Link>
             <Link href="/" className="hover:text-black">Дизайнеры</Link>
           </nav>
 
-          <div className="flex items-center font-bold gap-4 text-sm">
-           <p>Все права конфиденциальны</p>
-            
+          <div className="md:flex text-[8px] flex items-center font-bold gap-4 md:text-sm">
+           <span>ИНН: 503227257585</span>
+            <span>ИП: Садыгов Рамиль Тофик Оглы</span>
+            <span> ОГРИНП: 317502400058732</span>
           </div>
         </div>
       </div>

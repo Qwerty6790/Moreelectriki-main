@@ -96,7 +96,7 @@ export default function Banner() {
         Voltum серии S70
       </h2>
       <p className="text-white/90 text-lg md:text-2xl mt-2">
-        Современные решения в светотехнике
+        Современные решения в электроустановочном изделии
       </p>
     </div>
   </section>
