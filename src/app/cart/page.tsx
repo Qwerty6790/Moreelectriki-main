@@ -451,8 +451,8 @@ const Cart: React.FC = () => {
       const possibleApiUrls = [
         currentOrigin + '/api',
         currentOrigin,
-        'https://api.elektromos.ru', // если есть отдельный API домен
-        'https://elektromos.ru/api'  // если API на том же домене
+        'https://api.moreelektriki.ru', // если есть отдельный API домен
+        'https://moreelektriki.ru/api'  // если API на том же домене
       ];
       
       console.log(' Возможные API URLs: ' + JSON.stringify(possibleApiUrls));
@@ -884,7 +884,7 @@ const Cart: React.FC = () => {
   return (
     <section className="min-h-screen bg-white text-gray-800">
       <Head>
-        <title>Корзина - Ваши товары | Elektromos</title>
+        <title>Корзина - Ваши товары | Moreelektriki</title>
         <meta name="description" content="Оформите заказ из корзины: светильники, люстры, розетки, выключатели. Быстрое оформление, доставка по России, скидки дизайнерам 25%." />
         <meta name="robots" content="noindex, follow" />
       </Head>
@@ -904,7 +904,7 @@ const Cart: React.FC = () => {
             >
               <div className="bg-white/80 backdrop-blur-lg border border-gray-200 shadow-xl rounded-lg p-4 flex items-center space-x-3">
                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-sm ${
-                      n.type === 'success' ? 'bg-green-500' : n.type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+                      n.type === 'success' ? 'bg-green-500' : n.type === 'error' ? 'bg-gray-800' : 'bg-blue-500'
                     }`}>
                    {n.type === 'success' ? '✓' : n.type === 'error' ? '✕' : 'ℹ'}
                  </div>
@@ -945,7 +945,7 @@ const Cart: React.FC = () => {
               <button onClick={handleExportToExcel} className="px-4 py-2 text-gray-600 hover:text-green-600 transition-colors flex items-center gap-2">
                 <Download size={16} /> <span className="hidden sm:inline">Excel</span>
               </button>
-              <button onClick={handleClearCart} className="px-4 py-2 text-gray-600 hover:text-[#b30000] transition-colors flex items-center gap-2">
+              <button onClick={handleClearCart} className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2">
                 <Trash2 size={16} /> <span className="hidden sm:inline">Очистить</span>
               </button>
             </div>
@@ -956,7 +956,7 @@ const Cart: React.FC = () => {
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center items-center py-20">
-              <ClipLoader color="#b30000" size={40} />
+              <ClipLoader color="#333" size={40} />
             </motion.div>
           ) : error || cartProducts.length === 0 ? (
             <motion.div key="error" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-gray-50 rounded-xl p-12 text-center border border-gray-200">
@@ -985,11 +985,11 @@ const Cart: React.FC = () => {
                             </Link>
                           </div>
                           <div className="sm:flex-1 p-4 relative min-w-0">
-                            <button onClick={() => handleRemoveProduct(product._id)} className="absolute top-3 right-3 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-[#b30000] hover:text-white transition-colors">
+                            <button onClick={() => handleRemoveProduct(product._id)} className="absolute top-3 right-3 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-800 hover:text-white transition-colors">
                               <X size={16} />
                             </button>
                             <Link href={`/products/${product.source}/${product.article}`} className="block">
-                              <h3 className="text-gray-800 font-semibold mb-2 pr-10 hover:text-[#b30000] transition-colors truncate">
+                              <h3 className="text-gray-800 font-semibold mb-2 pr-10 hover:text-gray-900 transition-colors truncate">
                                 {product.name as string || 'Без названия'}
                               </h3>
                             </Link>
@@ -997,7 +997,7 @@ const Cart: React.FC = () => {
                               <div>Артикул: {product.article}</div>
                               <div className="text-right">
                                 {typeof product.stock !== 'undefined' ? (
-                                  Number(product.stock) > 0 ? ( <div className="text-sm text-green-600">Есть</div> ) : ( <div className="text-sm text-orange-500">Под заказ</div> )
+                                  Number(product.stock) > 0 ? ( <div className="text-sm  w-2 h-2  bg-green-600 rounded-full"></div> ) : ( <div className="text-sm  w-2 h-2  rounded-full bg-orange-500 "></div> )
                                 ) : ( <div className="text-sm text-gray-400">Остаток: —</div> )}
                               </div>
                             </div>
@@ -1006,12 +1006,12 @@ const Cart: React.FC = () => {
                                 {product.price ? `${((product.price || 0) * (product.quantity || 1)).toLocaleString('ru-RU')} ₽` : 'По запросу'}
                               </div>
                               <div className="flex items-center gap-2 sm:gap-4">
-                                <div className="flex items-center rounded-lg border border-gray-200">
-                                  <button onClick={() => handleDecreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-50 hover:bg-gray-200 transition-colors rounded-l-md disabled:opacity-50" disabled={(product.quantity || 1) <= 1}>
+                                <div className="flex items-center rounded-lg ">
+                                  <button onClick={() => handleDecreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600   transition-colors rounded-l-md disabled:opacity-50" disabled={(product.quantity || 1) <= 1}>
                                     <Minus size={16} />
                                   </button>
-                                  <input type="number" min="1" max="999" value={product.quantity || 1} onChange={(e) => handleUpdateQuantity(product._id, parseInt(e.target.value) || 1)} className="w-12 h-10 text-center font-semibold text-gray-900 bg-white border-l border-r border-gray-200 outline-none focus:ring-1 focus:ring-[#b30000] focus:z-10" />
-                                  <button onClick={() => handleIncreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-50 hover:bg-gray-200 transition-colors rounded-r-md">
+                                  <input type="number" min="1" max="999" value={product.quantity || 1} onChange={(e) => handleUpdateQuantity(product._id, parseInt(e.target.value) || 1)} className="w-12 h-10 text-center font-semibold text-gray-900 bg-white  outline-none focus:ring-1 focus:ring-gray-800 focus:z-10" />
+                                  <button onClick={() => handleIncreaseQuantity(product._id)} className="w-10 h-10 flex items-center justify-center text-gray-600   transition-colors rounded-r-md">
                                     <Plus size={16} />
                                   </button>
                                 </div>
@@ -1022,11 +1022,6 @@ const Cart: React.FC = () => {
                       </motion.div>
                     ))}
                   </AnimatePresence>
-                </div>
-                <div className="mt-6">
-                  <Link href="/catalog" className="inline-flex items-center text-[#b30000] hover:text-red-700 transition-colors font-medium">
-                    <ChevronRight size={16} className="mr-1 rotate-180" />Продолжить покупки
-                  </Link>
                 </div>
               </div>
 
@@ -1055,7 +1050,7 @@ const Cart: React.FC = () => {
                     <div className="pt-4 mt-4 border-t border-gray-200">
                       <div className="flex justify-between items-center">
                         <span className="text-xl font-bold text-gray-900">Итого:</span>
-                        <span className="text-2xl font-bold text-[#b30000]">{totalAmount.toLocaleString('ru-RU')} ₽</span>
+                        <span className="text-2xl font-bold text-[#101010]">{totalAmount.toLocaleString('ru-RU')} ₽</span>
                       </div>
                     </div>
                   </div>
@@ -1066,7 +1061,7 @@ const Cart: React.FC = () => {
                        <motion.button 
                          layout
                          onClick={() => setCheckoutFormVisible(true)}
-                         className="w-full py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-red-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transform hover:scale-105"
+                         className="w-full py-3 bg-[#080808] text-white rounded-lg font-semibold hover:bg-neutral-300 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-300 transform hover:scale-105"
                        >
                          Оформить заказ
                        </motion.button>
@@ -1088,11 +1083,11 @@ const Cart: React.FC = () => {
                           <div>
                             <h3 className="text-lg font-semibold mb-3 text-gray-900">Способ оплаты</h3>
                             <div className="grid grid-cols-1 gap-3">
-                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.paymentMethod === 'cash' ? 'border-[#b30000] bg-red-50' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
+                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.paymentMethod === 'cash' ? 'border-gray-800 bg-gray-100' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
                                 <input type="radio" name="paymentMethod" value="cash" checked={orderData.paymentMethod === 'cash'} onChange={(e) => handleOrderDataChange('paymentMethod', e.target.value)} className="sr-only" />
                                 <span className="text-gray-800 font-medium">Наличными</span>
                               </label>
-                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.paymentMethod === 'card' ? 'border-[#b30000] bg-red-50' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
+                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.paymentMethod === 'card' ? 'border-gray-800 bg-gray-100' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
                                 <input type="radio" name="paymentMethod" value="card" checked={orderData.paymentMethod === 'card'} onChange={(e) => handleOrderDataChange('paymentMethod', e.target.value)} className="sr-only" />
                                 <span className="text-gray-800 font-medium">Банковской картой</span>
                               </label>
@@ -1103,12 +1098,12 @@ const Cart: React.FC = () => {
                           <div>
                             <h3 className="text-lg font-semibold mb-3 text-gray-900">Способ получения</h3>
                             <div className="grid grid-cols-1 gap-3">
-                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.deliveryMethod === 'pickup' ? 'border-[#b30000] bg-red-50' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
+                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.deliveryMethod === 'pickup' ? 'border-gray-800 bg-gray-100' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
                                   <input type="radio" name="deliveryMethod" value="pickup" checked={orderData.deliveryMethod === 'pickup'} onChange={(e) => handleOrderDataChange('deliveryMethod', e.target.value)} className="sr-only" />
                                   <span className="font-medium text-gray-800 block">Самовывоз</span>
                                   <span className="text-gray-500 text-sm">Заберу сам из магазина</span>
                               </label>
-                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.deliveryMethod === 'delivery' ? 'border-[#b30000] bg-red-50' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
+                              <label className={`relative cursor-pointer block p-3 rounded-lg border-2 transition-all ${orderData.deliveryMethod === 'delivery' ? 'border-gray-800 bg-gray-100' : 'border-gray-300 bg-white hover:border-gray-400'}`}>
                                   <input type="radio" name="deliveryMethod" value="delivery" checked={orderData.deliveryMethod === 'delivery'} onChange={(e) => handleOrderDataChange('deliveryMethod', e.target.value)} className="sr-only" />
                                   <span className="font-medium text-gray-800 block">Доставка</span>
                                   <span className="text-gray-500 text-sm">Доставим по вашему адресу</span>
@@ -1121,22 +1116,22 @@ const Cart: React.FC = () => {
                             <h3 className="text-lg font-semibold mb-1 text-gray-900">Контактные данные</h3>
                             <p className="text-sm text-gray-500 mb-4">Укажите ваши данные для связи.</p>
                             <div className="space-y-4">
-                              <input type="text" placeholder="Имя" value={orderData.firstName} onChange={(e) => handleOrderDataChange('firstName', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#b30000] focus:border-[#b30000] transition-all" />
-                              <input type="text" placeholder="Фамилия" value={orderData.lastName} onChange={(e) => handleOrderDataChange('lastName', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#b30000] focus:border-[#b30000] transition-all" />
-                              <input type="tel" placeholder="Телефон" value={orderData.phone} onChange={(e) => handleOrderDataChange('phone', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#b30000] focus:border-[#b30000] transition-all" />
-                              <input type="email" placeholder="Электронная почта" value={orderData.email} onChange={(e) => handleOrderDataChange('email', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#b30000] focus:border-[#b30000] transition-all" />
-                              <textarea placeholder="Комментарий к заказу" rows={3} value={orderData.comment} onChange={(e) => handleOrderDataChange('comment', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-[#b30000] focus:border-[#b30000] transition-all" />
+                              <input type="text" placeholder="Имя" value={orderData.firstName} onChange={(e) => handleOrderDataChange('firstName', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-800 focus:border-gray-800 transition-all" />
+                              <input type="text" placeholder="Фамилия" value={orderData.lastName} onChange={(e) => handleOrderDataChange('lastName', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-800 focus:border-gray-800 transition-all" />
+                              <input type="tel" placeholder="Телефон" value={orderData.phone} onChange={(e) => handleOrderDataChange('phone', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-800 focus:border-gray-800 transition-all" />
+                              <input type="email" placeholder="Электронная почта" value={orderData.email} onChange={(e) => handleOrderDataChange('email', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-800 focus:border-gray-800 transition-all" />
+                              <textarea placeholder="Комментарий к заказу" rows={3} value={orderData.comment} onChange={(e) => handleOrderDataChange('comment', e.target.value)} className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-gray-800 focus:border-gray-800 transition-all" />
                             </div>
                           </div>
                           
                           {/* Кнопки действий */}
                           <div className="space-y-3 pt-4">
                             {orderData.paymentMethod === 'card' ? (
-                              <button onClick={() => confirmOrder('online')} disabled={isSubmitting} className={`w-full py-3 text-white rounded-lg transition-colors font-semibold flex items-center justify-center gap-2 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#b30000] hover:bg-red-700'}`}>
+                              <button onClick={() => confirmOrder('online')} disabled={isSubmitting} className={`w-full py-3 text-white rounded-lg transition-colors font-semibold flex items-center justify-center gap-2 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-800 hover:bg-black'}`}>
                                 {isSubmitting ? <><ClipLoader color="#ffffff" size={20} /> Обработка...</> : 'Оплатить картой онлайн'}
                               </button>
                             ) : (
-                              <button onClick={() => confirmOrder('offline')} disabled={isSubmitting} className={`w-full py-3 text-white rounded-lg transition-colors font-semibold flex items-center justify-center gap-2 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#b30000] hover:bg-red-700'}`}>
+                              <button onClick={() => confirmOrder('offline')} disabled={isSubmitting} className={`w-full py-3 text-white rounded-lg transition-colors font-semibold flex items-center justify-center gap-2 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-800 hover:bg-black'}`}>
                                 {isSubmitting ? <><ClipLoader color="#ffffff" size={20} /> Обработка...</> : 'Подтвердить заказ'}
                               </button>
                             )}

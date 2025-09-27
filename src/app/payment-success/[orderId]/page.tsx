@@ -1,14 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Toaster, toast } from 'sonner';
 import { useRouter, useParams } from 'next/navigation';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
 import Link from 'next/link';
 import { CheckCircle, XCircle, FileText, Home, ShoppingCart } from 'lucide-react';
 
-// Define a type for order details for better type safety
+// Тип для деталей заказа для лучшей безопасности типов
 interface OrderDetails {
   _id: string;
   createdAt: string;
@@ -29,14 +28,14 @@ const PaymentSuccess: React.FC = () => {
       try {
         setIsLoading(true);
         
-        // Clear cart from local storage
+        // Очищаем корзину из локального хранилища
         if (typeof window !== 'undefined') {
           localStorage.removeItem('cart');
           localStorage.setItem('cartCount', '0');
           localStorage.removeItem('pendingOrderId');
         }
         
-        // Fetch order details from the server
+        // Загружаем детали заказа с сервера
         const token = localStorage.getItem('token');
         if (token && orderId) {
           try {
@@ -50,15 +49,13 @@ const PaymentSuccess: React.FC = () => {
             );
             setOrderDetails(response.data);
           } catch (err) {
-            console.warn('Could not fetch order details, but payment was successful:', err);
-            // Don't show an error to the user, as the primary goal (payment) was successful.
+            console.warn('Не удалось загрузить детали заказа, но оплата прошла успешно:', err);
+            // Не показываем ошибку пользователю, так как основная цель (оплата) была успешной.
           }
         }
         
-        toast.success('Оплата прошла успешно! Ваш заказ оформлен.');
-        
       } catch (e) {
-        console.error('Error processing payment success:', e);
+        console.error('Ошибка при обработке успешной оплаты:', e);
         setError('Произошла ошибка при обработке вашего платежа. Пожалуйста, свяжитесь с поддержкой.');
       } finally {
         setIsLoading(false);
@@ -76,7 +73,6 @@ const PaymentSuccess: React.FC = () => {
   if (isLoading) {
     return (
       <section className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-4">
-        <Toaster position="top-center" richColors />
         <ClipLoader color="#111827" size={40} />
         <p className="mt-4 text-gray-600">Обрабатываем ваш платеж...</p>
       </section>
@@ -86,13 +82,11 @@ const PaymentSuccess: React.FC = () => {
   if (error) {
     return (
       <section className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-4">
-        <Toaster position="top-center" richColors />
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md mx-auto"
         >
-          <XCircle className="mx-auto h-16 w-16 text-red-500" />
           <h1 className="mt-4 text-2xl font-bold text-gray-900">Произошла ошибка</h1>
           <p className="mt-2 text-gray-600">{error}</p>
           <div className="mt-8">
@@ -111,8 +105,6 @@ const PaymentSuccess: React.FC = () => {
 
   return (
     <section className="min-h-screen bg-gray-50 text-gray-800">
-      <Toaster position="top-center" richColors />
-      
       <div className="flex flex-col items-center justify-center pt-32 pb-16 px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -175,12 +167,19 @@ const PaymentSuccess: React.FC = () => {
               <h3 className="font-semibold mb-2">Что дальше?</h3>
               <ul className="list-disc list-inside space-y-1">
                 <li>Мы отправили подтверждение вашего заказа на email.</li>
-                <li>Наш менеджер свяжется с вами в ближайшее время для уточнения деталей.</li>
+                <li>Наш менеджер свяжется с вами в ближайшее time для уточнения деталей.</li>
                 <li>Вы можете отслеживать статус заказа в личном кабинете.</li>
               </ul>
             </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/orders"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-black text-white rounded-md font-semibold hover:bg-gray-800 transition-colors"
+            >
+              <FileText className="mr-2" size={16} />
+              Перейти к моим заказам
+            </Link>
             <Link
               href="/catalog"
               className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 bg-white text-gray-800 border border-gray-300 rounded-md font-semibold hover:bg-gray-100 transition-colors"
