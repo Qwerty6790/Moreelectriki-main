@@ -1036,7 +1036,7 @@ const Header = () => {
 
           {/* Навигация */}
           <div className={clsx('hidden md:block', headerText, bannerPath ? 'bg-transparent' : 'bg-white')}>
-            <div className="max-w-[1550px] mx-auto px-3 md:px-4">
+            <div className="max-w-[1550px] mx-auto px-7 md:px-4">
               <nav className="flex h-10 items-center justify-between  text-[13px] md:text-[15px] tracking-widest uppercase flex-wrap gap-2">
              
                 <button
@@ -1048,7 +1048,7 @@ const Header = () => {
                   onMouseLeave={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
                   onFocus={startCatalogHoverTimer}
                   onBlur={() => { clearCatalogHoverTimer(); setIsCatalogMenuOpen(false); setSpotlightRect(null); }}
-                  className={clsx('font-bold cursor-pointer z-10 flex py-2 px-2 text-sm relative', isCatalogMenuOpen ? 'text-black' : 'hover:text-black')}
+                  className={clsx('font-bold cursor-pointer z-10 flex py-2 px-2 text-sm relative', isCatalogMenuOpen ? '' : '')}
                 >
                   <span className={clsx(isCatalogMenuOpen ? 'z-[10002]' : '')}>Меню</span>
                 </button>
@@ -1058,7 +1058,7 @@ const Header = () => {
                   onClick={() => openMenu('shorooms', brandsButtonRef.current)}
                   onMouseEnter={() => startMenuHover(brandsButtonRef.current, 'shorooms')}
                   onMouseLeave={() => clearMenuHover()}
-                  className={clsx('hover:text-black text-black  font-bold  py-1 px-2 text-sm', activeMenu === 'shorooms' ? 'text-black' : '')}
+                  className={clsx('  font-bold  py-1 px-2 text-sm', activeMenu === 'shorooms' ? '' : '')}
                 >
                   Шоурум
                 </button>
@@ -1073,7 +1073,7 @@ const Header = () => {
                   onClick={() => openMenu('howtobuy', howToBuyButtonRef.current)}
                   onMouseEnter={() => startMenuHover(howToBuyButtonRef.current, 'howtobuy')}
                   onMouseLeave={() => clearMenuHover()}
-                  className={clsx('hover:text-black text-black font-bold py-1 px-2 text-sm', activeMenu === 'howtobuy' ? 'text-black' : '')}
+                  className={clsx(' font-bold py-1 px-2 text-sm', activeMenu === 'howtobuy' ? '' : '')}
                 >
                   Как купить
                 </button>
@@ -1082,7 +1082,7 @@ const Header = () => {
                   onClick={() => openMenu('contacts', contactsButtonRef.current)}
                   onMouseEnter={() => startMenuHover(contactsButtonRef.current, 'contacts')}
                   onMouseLeave={() => clearMenuHover()}
-                  className={clsx('hover:text-black text-black  font-bold py-1 px-2 text-sm', activeMenu === 'contacts' ? 'text-black' : '')}
+                  className={clsx('  font-bold py-1 px-2 text-sm', activeMenu === 'contacts' ? '' : '')}
                 >
                   Контакты
                 </button>
@@ -1094,12 +1094,12 @@ const Header = () => {
                   <div ref={mobileNavRef} className="px-3 py-2 overflow-x-auto hide-scrollbar">
                     <div className={clsx('flex items-center gap-5 text-[13px]  tracking-widest uppercase whitespace-nowrap', headerText)}>
                       <button onClick={openCatalogDrawer} className="hover:text-white/90 ">Меню</button>
-                      <a href="/" className="hover:text-white/20">Акции</a>
-                      <a href="/" className="hover:text-white/20">Шоурум</a>
-                      <a href="/" className="hover:text-white/20">Проекты</a>
-                      <a href="/" className="hover:text-white/20">Блог</a>
-                      <a href="/" className="hover:text-white/20">Как купить</a>
-                      <a href="/" className="hover:text-white/20">Контакты</a>
+                      <a href="/" className="hover:text-white/90">Акции</a>
+                      <a href="/" className="hover:text-white/90">Шоурум</a>
+                      <a href="/" className="hover:text-white/90">Проекты</a>
+                      <a href="/" className="hover:text-white/90">Блог</a>
+                      <a href="/" className="hover:text-white/90">Как купить</a>
+                      <a href="/" className="hover:text-white/90">Контакты</a>
                     </div>
                   </div>
 
@@ -1258,10 +1258,10 @@ const Header = () => {
                 </button>
                  <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MOREELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[12px] sm:text-[13px] tracking-widest uppercase flex-wrap">
-                  <a href="/" className="hover:text-white/20 py-1 px-2 text-sm">Шоурум</a>
-                  <a href="/" className="hover:text-white/20 py-1 px-2 text-sm">Акции</a>
-                  <a href="/" className="hover:text-white/20 py-1 px-2 text-sm">Проекты</a>
-                  <a href="/" className="hover:text-white/20 py-1 px-2 text-sm">Контакты</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Шоурум</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Акции</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Проекты</a>
+                  <a href="/" className="hover:text-white py-1 px-2 text-sm">Контакты</a>
                 </nav>
                 
               </div>
