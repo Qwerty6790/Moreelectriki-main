@@ -13,7 +13,7 @@ const Footer = () => {
           </div>
 
           <nav className="flex  md:flex items-center gap-6 text-sm font-bold text-black">
-            <Link href="/" className="hover:text-black">О компании</Link>
+            <Link href="/" className="hover:text-black">О нас</Link>
             <Link href="/" className="hover:text-black">Доставка</Link>
             <Link href="/" className="hover:text-black">Гарантия</Link>
             <Link href="/" className="hover:text-black">Дизайнеры</Link>

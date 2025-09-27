@@ -81,6 +81,9 @@ const Header = () => {
   const [isClient, setIsClient] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isHeaderDimmed, setIsHeaderDimmed] = useState(false);
+  // Новое состояние для высоты мобильного меню
+  const [mobileMenuHeight, setMobileMenuHeight] = useState('100dvh');
+
   // Brands menu removed
   const router = useRouter();
   const pathname = usePathname();
@@ -614,6 +617,28 @@ const Header = () => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  // Новый useEffect для вычисления высоты мобильного экрана (решение для Safari)
+  useEffect(() => {
+    const updateMobileHeight = () => {
+      if (typeof window !== 'undefined') {
+        // window.innerHeight корректно учитывает динамические панели Safari
+        setMobileMenuHeight(`${window.innerHeight}px`);
+      }
+    };
+
+    // Инициализируем при монтировании
+    updateMobileHeight();
+
+    // Обновляем при ресайзе и смене ориентации
+    window.addEventListener('resize', updateMobileHeight);
+    window.addEventListener('orientationchange', updateMobileHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateMobileHeight);
+      window.removeEventListener('orientationchange', updateMobileHeight);
+    };
+  }, []);
+
   // Закрытие каталога при клике вне его области
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -938,7 +963,7 @@ const Header = () => {
                   <span className="hidden lg:inline font-bold text-[20px]">г. Москва, 25 километр, ТК Конструктор</span>
                   <a
   href="#"
-  className="pointer-events-none cursor-not-allowed text-gray-400 text-[20px] font-bold hover:text-gray-500"
+  className="pointer-events-none cursor-not-allowed opacity-40 text-[20px] font-bold hover:text-gray-500"
   title="Недоступно"
 >
   Для дизайнеров
@@ -1127,8 +1152,13 @@ const Header = () => {
           {typeof window !== 'undefined' && isMobileMenuOpen && createPortal(
             <div
               id="mobile-menu"
+              // Оставляем h-[100dvh] в классах как фолбэк
               className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md overflow-y-auto h-[100dvh] pb-[env(safe-area-inset-bottom)]"
-              style={{ height: '100dvh', paddingBottom: 'env(safe-area-inset-bottom)' }}
+              // Используем вычисленную высоту в style для Safari, сохраняя padding-bottom
+              style={{ 
+                height: mobileMenuHeight,
+                paddingBottom: 'env(safe-area-inset-bottom)' 
+              }}
             >
               <div className="max-w-8xl mx-auto px-4 py-4 min-h-full">
                 {/* Верхняя панель с логотипом и кнопкой закрытия */}
@@ -1189,7 +1219,7 @@ const Header = () => {
                           <a href="/contacts" className="block text-base text-white/90 py-2 px-2 rounded">Контакты</a>
                           <a
                          href="#"
-                         className="block text-base text-gray-400 py-2 px-2 rounded cursor-not-allowed pointer-events-none  hover:text-gray-500"
+                         className="block text-base opacity-40 py-2 px-2 rounded cursor-not-allowed pointer-events-none"
                          title="Недоступно"
                        >
                          Для дизайнеров
@@ -1263,14 +1293,14 @@ const Header = () => {
                 </div>
                 <a
   href="#"
-  className="hidden sm:inline text-gray-400 hover:text-gray-500 text-[13px] tracking-widest uppercase cursor-not-allowed pointer-events-none"
+  className="hidden sm:inline opacity-40 text-[13px] tracking-widest uppercase cursor-not-allowed pointer-events-none"
   title="Недоступно"
 >
   Для дизайнеров
 </a>
 
                 {/* Мобильная иконка для дизайнеров */}
-                <a href="/auth/register" className="sm:hidden inline-flex text-white/90 hover:text-white" aria-label="Для дизайнеров">
+                <a href="/auth/register" className="sm:hidden tracking-widest uppercase cursor-not-allowed pointer-events-none inline-flex opacity-40" aria-label="Для дизайнеров">
                   <User className="w-5 h-5" />
                 </a>
              
