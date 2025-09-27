@@ -1134,7 +1134,6 @@ const Header = () => {
   src="/images/banners/titan.mp4"
   className="absolute inset-0 w-full h-full object-cover opacity-80"
   autoPlay
-  loop
   muted
   playsInline
 />
