@@ -1156,7 +1156,7 @@ const Header = () => {
                         {/* CHANGE: Added border and hover styles to button */}
                         <button
                           onClick={() => setIsMobileCatalogOpen((v) => !v)}
-                          className="flex items-center justify-between py-3 px-4 text-base md:text-lg font-medium text-white rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform hover:scale-[1.02] transition-all duration-200 ease-out"
+                          className="flex items-center justify-between py-3 px-4 text-base md:text-lg font-medium text-white rounded-lg border border-white/20 hover:bg-white/10 hover:border-white/40 transform  transition-all duration-200 ease-out"
                         >
                           <span>КАТАЛОГ</span>
                           <span className={clsx("text-white/60 text-sm transition-transform duration-300", isMobileCatalogOpen && "rotate-180")}>
@@ -1215,10 +1215,11 @@ const Header = () => {
                       </div>
                     </div>
 
-                    <div className="mt-auto border-t border-gray-700 pt-4">
+                    <div className="mt-auto border-t border-white/20 pt-4">
                       <div className="flex flex-col space-y-3">
-                        <a href="tel:88005509084" className="flex items-center text-white text-base">                   
-                          8-800-550-90-84
+                        <a href="tel:89265522173" className="flex items-center text-white text-base">                   
+                        8(926) 552-21-73
+
                         </a>
                         <a href="mailto:info@donel.su" className="flex items-center text-white text-base">
                           MOREELEKTRIKI@gmail.com
