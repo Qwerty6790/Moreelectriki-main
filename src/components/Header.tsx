@@ -1130,10 +1130,14 @@ const Header = () => {
               >
                 {/* CHANGE: Increased height to 90vh */}
                 <div className="relative w-full h-[100vh] bg-gray-900 shadow-lg">
-                  <video
-                    src="/images/banners/titan.mp4"
-                    className="absolute inset-0 w-full h-full object-cover opacity-80"
-                  />
+                <video
+  src="/images/banners/titan.mp4"
+  className="absolute inset-0 w-full h-full object-cover opacity-80"
+  autoPlay
+  loop
+  muted
+  playsInline
+/>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                   
                   {/* CHANGE: Added menu-content-enter for animation */}
