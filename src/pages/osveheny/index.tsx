@@ -14,8 +14,6 @@ import SEO from '@/components/SEO';
 import CatalogOfProductSearch from '@/components/Catalogofsearch';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-
-
 // Импортируем типы для категорий и брендов
 export type Category = {
   label: string;
@@ -43,131 +41,130 @@ export type PopularSearch = {
 
 // Добавляем категории из ProductCategory.tsx
 const productCategories = [
-  { 
-    id: 'lyustra', 
-    label: 'Люстра', 
+  {
+    id: 'lyustra',
+    label: 'Люстра',
     searchName: 'Люстра',
     subcategories: [
-      { 
-        label: 'Люстра подвесная', 
+      {
+        label: 'Люстра подвесная',
         searchName: 'Подвесная люстра',
         aliases: ['Люстра подвесная', 'Подвесная люстра', 'Подвесной светильник', 'Светильник подвесной']
       },
-      { 
-        label: 'Люстра потолочная', 
+      {
+        label: 'Люстра потолочная',
         searchName: 'Потолочная люстра',
         aliases: ['Люстра потолочная', 'Потолочная люстра', 'Потолочный светильник']
       },
-      { 
-        label: 'Люстра на штанге', 
+      {
+        label: 'Люстра на штанге',
         searchName: 'Люстра на штанге',
         aliases: ['Люстра на штанге', 'Светильник на штанге']
       },
-      { 
-        label: 'Люстра каскадная', 
+      {
+        label: 'Люстра каскадная',
         searchName: 'Люстра каскадная',
         aliases: ['Люстра каскадная', 'Каскадная люстра', 'Каскадный светильник']
       },
-      { 
-        label: 'Люстра хрустальная', 
+      {
+        label: 'Люстра хрустальная',
         searchName: 'хрусталь Люстра',
         aliases: ['Люстра хрустальная', 'Хрустальная люстра', 'Хрустальный светильник']
       },
-      { 
-        label: 'Люстра с латунью', 
+      {
+        label: 'Люстра с латунью',
         searchName: 'латунь Люстра',
         aliases: ['латунь Люстра', 'латунь Люстра', 'латунь Люстра']
       },
     ],
     isOpen: false
   },
-  { 
-    id: 'svetilnik', 
-    label: 'Светильники', 
+  {
+    id: 'svetilnik',
+    label: 'Светильники',
     searchName: 'Светильники',
     aliases: ['Светильники', 'Светильник', 'Светильники для дома', 'Осветительные приборы'],
     subcategories: [
-      { 
-        label: 'Потолочный светильник', 
+      {
+        label: 'Потолочный светильник',
         searchName: 'Потолочный светильник',
         aliases: ['Потолочный светильник', 'Светильник потолочный', 'Накладной потолочный', 'Потолочное освещение']
       },
-      { 
-        label: 'Подвесной светильник', 
+      {
+        label: 'Подвесной светильник',
         searchName: 'Подвесной светильник',
         aliases: ['Подвесной светильник', 'Светильник подвесной', 'Подвесной', 'Подвес']
       },
-      { 
-        label: 'Настенный светильник', 
+      {
+        label: 'Настенный светильник',
         searchName: 'Настенный светильник',
         aliases: ['Настенный светильник', 'Светильник настенный', 'Настенный', 'Настенный светильник']
       },
-      { 
-        label: 'Встраиваемый светильник', 
+      {
+        label: 'Встраиваемый светильник',
         searchName: 'Светильник встраиваемый',
         aliases: ['Встраиваемый светильник', 'Светильник встраиваемый', 'Встроенный светильник', 'Точечный встраиваемый']
       },
-      { 
-        label: 'Накладной светильник', 
+      {
+        label: 'Накладной светильник',
         searchName: 'Светильник накладной',
         aliases: ['Накладной светильник', 'Светильник накладной', 'Накладной', 'Светильник наружный']
       },
-      { 
-        label: 'Трековый светильник', 
+      {
+        label: 'Трековый светильник',
         searchName: 'Трековый светильник',
         aliases: ['Трековый светильник', 'трековый светильник', 'светильник трековый', 'Трек светильник', 'Светильник для шинопровода']
       },
-      { 
-        label: 'Точечный светильник', 
+      {
+        label: 'Точечный светильник',
         searchName: 'Точечный светильник',
-        aliases: ['Точечный светильник', 'Спот',  'Светильник точечный', 'Даунлайты']
+        aliases: ['Точечный светильник', 'Спот', 'Светильник точечный', 'Даунлайты']
       },
     ],
     isOpen: false
   },
-  
-  { 
-    id: 'bra', 
-    label: 'Бра', 
+
+  {
+    id: 'bra',
+    label: 'Бра',
     searchName: 'Настенный светильник',
     aliases: ['Настенный светильник', "7"],
     isOpen: false
   },
-  { 
-    id: 'torsher', 
-    label: 'Торшер', 
+  {
+    id: 'torsher',
+    label: 'Торшер',
     searchName: 'Торшер',
     aliases: ['Торшер', 'Напольный светильник', 'Светильник напольный', 'Напольная лампа', 'Торшерный светильник'],
     isOpen: false
   },
-  { 
-    id: 'nastolnaya', 
-    label: 'Настольная лампа', 
+  {
+    id: 'nastolnaya',
+    label: 'Настольная лампа',
     searchName: 'Настольная лампа',
     aliases: ['Настольная лампа', 'Лампа настольная', 'Настольный светильник', 'Светильник настольный', 'Лампа для стола'],
     isOpen: false
   },
- 
-  { 
-    id: 'profil', 
-    label: 'Профиль для ленты', 
+
+  {
+    id: 'profil',
+    label: 'Профиль для ленты',
     searchName: 'Профиль для ленты',
     aliases: ['Профиль для ленты', 'Алюминиевый профиль', 'Профиль для светодиодной ленты', 'LED профиль'],
     isOpen: false
   },
-  { 
-    id: 'lenta', 
-    label: 'Светодиодная лента', 
+  {
+    id: 'lenta',
+    label: 'Светодиодная лента',
     searchName: 'Светодиодная лента',
     aliases: ['Светодиодная лента', 'LED лента', 'Лента светодиодная', 'LED подсветка', 'Светодиодная подсветка'],
     isOpen: false
   },
-  { 
-    id: 'ulichni', 
-    label: 'Уличный светильник', 
+  {
+    id: 'ulichni',
+    label: 'Уличный светильник',
     searchName: 'Уличный светильник',
     subcategories: [
-      { label: 'Уличный светильник', searchName: 'Уличный светильник' },
       { label: 'Настенный уличный светильник', searchName: 'Настенный уличный светильник' },
       { label: 'Грунтовый светильник', searchName: 'Грунтовый светильник' },
       { label: 'Ландшафтный светильник', searchName: 'Ландшафтный светильник' },
@@ -175,49 +172,49 @@ const productCategories = [
     ],
     isOpen: false
   },
-  { 
-    id: 'komplektuyushie', 
-    label: 'Комплектующие', 
+  {
+    id: 'komplektuyushie',
+    label: 'Комплектующие',
     searchName: 'Комплектующие',
     aliases: ['Комплектующие', 'Комплектующие для светильников', 'Комплектующие для освещения', 'Запчасти для светильников'],
     subcategories: [
-      { 
-        label: 'Коннекторы', 
+      {
+        label: 'Коннекторы',
         searchName: 'Коннектор',
         aliases: ['Коннектор', 'Коннекторы для светильников', 'Коннекторы для освещения', 'Соединители']
       },
-      { 
-        label: 'Шнуры', 
+      {
+        label: 'Шнуры',
         searchName: 'Шнур',
         aliases: ['Шнур', 'Шнуры для светильников', 'Провода для светильников', 'Кабели питания']
       },
-      { 
-        label: 'Блок питания', 
+      {
+        label: 'Блок питания',
         searchName: 'Блок питания',
         aliases: ['Блок питания', 'Трансформатор', 'Драйвер', 'Источник питания для светильников']
       },
-      { 
-        label: 'Патроны', 
+      {
+        label: 'Патроны',
         searchName: 'Патрон',
         aliases: ['Патрон', 'Патроны для ламп', 'Цоколи', 'Держатели ламп']
       },
-      { 
-        label: 'Крепления', 
+      {
+        label: 'Крепления',
         searchName: 'Крепление для светильников',
         aliases: ['Крепление для светильников', 'Монтажные элементы', 'Фурнитура для светильников', 'Планки крепежные']
       },
-      { 
-        label: 'Плафоны', 
+      {
+        label: 'Плафоны',
         searchName: 'Плафон',
         aliases: ['Плафон', 'Абажур', 'Стеклянный плафон', 'Рассеиватель света']
       },
-      { 
-        label: 'Профили для ленты', 
+      {
+        label: 'Профили для ленты',
         searchName: 'Профиль для ленты',
         aliases: ['Профиль для ленты', 'Профиль для светодиодной ленты', 'Алюминиевый профиль', 'LED профиль']
       },
-      { 
-        label: 'Контроллеры', 
+      {
+        label: 'Контроллеры',
         searchName: 'Контроллер для светодиодной ленты',
         aliases: ['Контроллер для светодиодной ленты', 'LED контроллер', 'RGB контроллер', 'Диммер']
       }
@@ -225,8 +222,6 @@ const productCategories = [
     isOpen: false
   },
 ];
-
-
 
 // Функция проверки, является ли текущий контекст каталогом освещения
 const isLightingContext = (selectedCategory: Category | null, source: string | undefined): boolean => {
@@ -238,13 +233,13 @@ const isLightingContext = (selectedCategory: Category | null, source: string | u
       'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
       'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
     ];
-    
-    return lightingCategories.some(lightingCategory => 
-      selectedCategory.label.includes(lightingCategory) || 
+
+    return lightingCategories.some(lightingCategory =>
+      selectedCategory.label.includes(lightingCategory) ||
       selectedCategory.searchName?.includes(lightingCategory)
     );
   }
-  
+
   // Проверяем по source (если это не heating)
   return source !== 'heating';
 };
@@ -252,7 +247,7 @@ const isLightingContext = (selectedCategory: Category | null, source: string | u
 // Функция фильтрации брендов для каталога освещения
 const filterBrandsForLighting = (brands: Brand[], isLighting: boolean): Brand[] => {
   if (!isLighting) return brands;
-  
+
   // В каталоге освещения скрываем эти бренды
   const hiddenBrands = ['Donel', 'Werkel', 'Voltum'];
   return brands.filter(brand => !hiddenBrands.includes(brand.name));
@@ -351,7 +346,7 @@ const brands: Brand[] = [
       { label: 'Бра STREGARO', searchName: 'Бра STREGARO' },
       { label: 'Бра RAGNO', searchName: 'Бра RAGNO' },
       { label: 'Бра CILINO', searchName: 'Бра CILINO' },
-      { label: 'Бра ZETA', searchName: 'Бра ZETA' },            
+      { label: 'Бра ZETA', searchName: 'Бра ZETA' },
       { label: 'Бра TUBO', searchName: 'Бра TUBO' },
       { label: 'Бра FAVO', searchName: 'Бра FAVO' },
       { label: 'Бра EXTRA', searchName: 'Бра EXTRA' },
@@ -421,14 +416,14 @@ const brands: Brand[] = [
       },
       { label: 'Все товары', searchName: 'Все товары' },
       { label: 'Подвесное крепление', searchName: 'Подвесное крепление' },
-      { label: 'Светильники MERTO', searchName: 'MERTO' }, 
+      { label: 'Светильники MERTO', searchName: 'MERTO' },
       { label: 'Светильники LASSA', searchName: 'LASSA' },
       { label: 'Светильники PIN', searchName: 'PIN' },
       { label: 'Светильники MITRA', searchName: 'MITRA' },
       { label: 'Светильники PALE', searchName: 'PALE' },
       { label: 'Светильники VAKA', searchName: 'VAKA' },
       { label: 'Светильники MINI', searchName: 'MINI' },
-      { label: 'Светильники COLOR', searchName: 'COLOR' },   
+      { label: 'Светильники COLOR', searchName: 'COLOR' },
       { label: 'Светильники SNOK', searchName: 'SNOK' },
       { label: 'Светильники BASICA', searchName: 'BASICA' },
       { label: 'Светильники MARON', searchName: 'MARON' },
@@ -549,7 +544,7 @@ const fetchProductsWithSorting = async (
   try {
     // Добавляем проверку для категорий освещения
     let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/products/${encodeURIComponent(brandStr)}`;
-    
+
     // Защитная проверка для категорий освещения
     if (params.name && typeof params.name === 'string') {
       const lightingCategories = [
@@ -558,14 +553,14 @@ const fetchProductsWithSorting = async (
         'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
         'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
       ];
-      
-      const isLightingCategory = lightingCategories.some(lightingCategory => 
+
+      const isLightingCategory = lightingCategories.some(lightingCategory =>
         params.name.includes(lightingCategory)
       );
-      
-          // Если это категория освещения и бренд, используем обычный API без бренда
-    if (isLightingCategory && brandStr === 'heating') {
-      console.log('Обнаружена категория освещения с брендом, исправляем запрос');
+
+      // Если это категория освещения и бренд, используем обычный API без бренда
+      if (isLightingCategory && brandStr === 'heating') {
+        console.log('Обнаружена категория освещения с брендом, исправляем запрос');
         apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/products/Все товары`;
       }
     }
@@ -597,17 +592,17 @@ const fetchProductsWithSorting = async (
     // Логирование полученных данных для отладки сортировки
     if (data && data.products && data.products.length > 0) {
       console.log('📋 Получено товаров:', data.products.length);
-      
-      // Проверяем общую статистику товаров  
+
+      // Проверяем общую статистику товаров
       const stockStats = data.products.reduce((acc: any, product: any) => {
         const stock = Number(product.stock) || 0;
         if (stock > 0) acc.inStock++;
         else acc.outOfStock++;
         return acc;
       }, { inStock: 0, outOfStock: 0 });
-      
+
       console.log(`📊 СТАТИСТИКА товаров в категории "${params.name || 'все товары'}": В наличии: ${stockStats.inStock}, Под заказ: ${stockStats.outOfStock}`);
-      
+
       if (stockStats.outOfStock > 0) {
         // Выводим первые 3 товара для проверки сортировки
         console.log('🏆 Первые 3 товара (цены):');
@@ -615,17 +610,17 @@ const fetchProductsWithSorting = async (
           console.log(`  ${index + 1}. ${product.name} - ${product.price} руб.`);
         });
       }
-      
+
       // Проверяем сортировку
       if (params.sortBy === 'price') {
-        const sortedPrices = [...data.products].sort((a: any, b: any) => 
+        const sortedPrices = [...data.products].sort((a: any, b: any) =>
           params.sortOrder === 'asc' ? a.price - b.price : b.price - a.price
         );
-        
+
         console.log('🔄 Проверка сортировки:');
         console.log('  Первая цена в полученных данных:', data.products[0].price);
         console.log('  Первая цена после ручной сортировки:', sortedPrices[0].price);
-        
+
         // Если сортировка не соответствует ожидаемой, применяем её вручную
         if (data.products[0].price !== sortedPrices[0].price) {
           console.warn('⚠️ Сортировка на сервере работает некорректно, применяем ручную сортировку');
@@ -633,7 +628,7 @@ const fetchProductsWithSorting = async (
         }
       }
     }
-    
+
     return data;
   } catch (error: any) {
     // Проверяем, является ли ошибка таймаутом
@@ -642,17 +637,17 @@ const fetchProductsWithSorting = async (
       // Создаем более информативное сообщение об ошибке
       throw new Error(`Превышено время ожидания запроса (таймаут). Попробуйте позже или уточните параметры поиска.`);
     }
-    
+
     // Проверяем, был ли запрос отменен
     if (axios.isCancel(error)) {
       console.log('Запрос был отменен пользователем');
       throw error; // Пробрасываем ошибку отмены дальше
     }
-    
+
     // Обрабатываем ошибку 500 для категорий освещения
     if (axios.isAxiosError(error) && error.response?.status === 500) {
       console.error('Ошибка 500 при запросе продуктов:', error.message);
-      
+
       // Проверяем, связана ли ошибка с категорией освещения
       if (params.name && typeof params.name === 'string') {
         const lightingCategories = [
@@ -661,11 +656,11 @@ const fetchProductsWithSorting = async (
           'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
           'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
         ];
-        
-        const isLightingCategory = lightingCategories.some(lightingCategory => 
+
+        const isLightingCategory = lightingCategories.some(lightingCategory =>
           params.name.includes(lightingCategory)
         );
-        
+
         if (isLightingCategory) {
           // Для категорий освещения возвращаем пустой результат вместо ошибки
           console.log('Обнаружена ошибка 500 для категории освещения, возвращаем пустой результат');
@@ -676,16 +671,16 @@ const fetchProductsWithSorting = async (
           };
         }
       }
-      
+
       throw new Error(`Ошибка загрузки данных: ${error.message}`);
     }
-    
+
     // Обрабатываем другие ошибки axios
     if (axios.isAxiosError(error)) {
       console.error('Ошибка сетевого запроса:', error.message);
       throw new Error(`Ошибка загрузки данных: ${error.message}`);
     }
-    
+
     // Обрабатываем все остальные ошибки
     console.error('Непредвиденная ошибка при запросе продуктов:', error);
     throw error;
@@ -694,8 +689,8 @@ const fetchProductsWithSorting = async (
 
 // Функция для объединения товаров с нескольких страниц
 const combineProductsFromMultiplePages = async (
-  sourceName: string, 
-  initialPage: number = 1, 
+  sourceName: string,
+  initialPage: number = 1,
   limit: number = 40,
   params: Record<string, any> = {},
   signal?: AbortSignal
@@ -711,96 +706,96 @@ const combineProductsFromMultiplePages = async (
     source: sourceName || '',
     // Фильтры наличия теперь контролируются через availabilityFilter в основном коде
   };
-  
+
   // Массив для всех загруженных товаров
   let allProducts: ProductI[] = [];
-  
+
   // Текущая страница запроса
   let currentPage = initialPage;
   let originalTotalPages = 0;
   let originalTotalProducts = 0;
-  
+
   // Максимальное количество страниц для загрузки (защита от бесконечного цикла)
   const MAX_PAGES_TO_LOAD = 3; // Уменьшаем для предотвращения таймаутов
-  
+
   // Количество попыток для повторного запроса при ошибке
   const MAX_RETRY_ATTEMPTS = 2;
-  
+
   // Минимальное количество товаров, которое мы хотим получить
-  const MIN_PRODUCTS_COUNT = limit; 
-  
+  const MIN_PRODUCTS_COUNT = limit;
+
   console.log('Начинаем загрузку товаров для страницы', initialPage);
-  
+
   // Преобразуем sourceName в строку для fetchProductsWithSorting
   const brand = sourceName || 'Все товары';
   const brandStr = typeof brand === 'string' ? brand : Array.isArray(brand) ? brand[0] : 'Все товары';
-  
+
   // Вспомогательная функция для выполнения запроса с повторными попытками
   const fetchWithRetry = async (fetchFn: Function, retryCount = 0): Promise<any> => {
     try {
       return await fetchFn();
     } catch (error: any) { // Указываем тип 'any' для error
       // Если запрос был отменен, не выполняем повторные попытки
-      if (signal?.aborted || 
-          error instanceof DOMException && error.name === 'AbortError' ||
-          axios.isCancel(error)) {
+      if (signal?.aborted ||
+        error instanceof DOMException && error.name === 'AbortError' ||
+        axios.isCancel(error)) {
         throw error;
       }
-      
+
       // Если это ошибка таймаута и у нас остались попытки, пробуем еще раз
-      if (retryCount < MAX_RETRY_ATTEMPTS && 
-          ((axios.isAxiosError(error) && error.code === 'ECONNABORTED') || 
-           error.message?.includes('timeout'))) {
+      if (retryCount < MAX_RETRY_ATTEMPTS &&
+        ((axios.isAxiosError(error) && error.code === 'ECONNABORTED') ||
+          error.message?.includes('timeout'))) {
         console.log(`Таймаут запроса, повторная попытка ${retryCount + 1}/${MAX_RETRY_ATTEMPTS}`);
         // Добавляем небольшую задержку перед повторной попыткой
         await new Promise(resolve => setTimeout(resolve, 1000));
         return fetchWithRetry(fetchFn, retryCount + 1);
       }
-      
+
       // Для других ошибок не выполняем повторные попытки
       throw error;
     }
   };
-  
+
   try {
     // Проверяем, не отменен ли запрос
     if (signal?.aborted) {
       throw new DOMException('Запрос был отменен', 'AbortError');
     }
-    
+
     // Получаем данные для первой страницы, чтобы узнать общее количество товаров и страниц
     const firstPageParams = { ...baseParams, page: initialPage };
     console.log(`Загружаем первую страницу для получения мета-информации`);
-    
+
     // Получаем данные для текущей страницы с повторными попытками
-    const initialData = await fetchWithRetry(() => 
+    const initialData = await fetchWithRetry(() =>
       fetchProductsWithSorting(brandStr, firstPageParams, signal)
     );
-    
+
     // Проверяем, не отменен ли запрос после запроса первой страницы
     if (signal?.aborted) {
       throw new DOMException('Запрос был отменен', 'AbortError');
     }
-    
+
     // Сохраняем оригинальную информацию о количестве страниц и товаров
     originalTotalPages = initialData.totalPages || 0;
     originalTotalProducts = initialData.totalProducts || 0;
-    
+
     console.log(`Оригинальная информация: всего товаров - ${originalTotalProducts}, всего страниц - ${originalTotalPages}`);
-    
+
     // Добавляем товары первой страницы без дополнительной клиентской фильтрации по наличию
     const pageProductsRaw = Array.isArray(initialData.products) ? initialData.products : [];
     console.log(`Страница ${initialPage}: получено ${pageProductsRaw.length} товаров`);
     allProducts = [...allProducts, ...pageProductsRaw];
   } catch (error) {
     // Если запрос был отменен, пробрасываем ошибку дальше
-    if (error instanceof DOMException && error.name === 'AbortError' || 
-        axios.isCancel(error) ||
-        signal?.aborted) {
+    if (error instanceof DOMException && error.name === 'AbortError' ||
+      axios.isCancel(error) ||
+      signal?.aborted) {
       console.log('Запрос первой страницы был отменен');
       throw new DOMException('Запрос был отменен', 'AbortError');
     }
-    
+
     // Выводим ошибку и возвращаем пустой результат вместо прерывания
     console.error('Ошибка при загрузке первой страницы:', error);
     return {
@@ -809,60 +804,60 @@ const combineProductsFromMultiplePages = async (
       totalProducts: 0
     };
   }
-  
+
   // Загружаем дополнительные страницы при необходимости
   // Отключаем добор с соседних страниц для стабильной пагинации
   if (false && allProducts.length < MIN_PRODUCTS_COUNT && currentPage < originalTotalPages) {
     currentPage++; // Начинаем со следующей страницы
-    
+
     // Загружаем страницы до тех пор, пока не соберем нужное количество товаров или не достигнем ограничения
     for (let i = 0; i < MAX_PAGES_TO_LOAD - 1 && currentPage <= originalTotalPages; i++) {
       // Проверяем, не отменен ли запрос перед загрузкой следующей страницы
       if (signal?.aborted) {
         throw new DOMException('Запрос был отменен', 'AbortError');
       }
-      
+
       const pageParams = { ...baseParams, page: currentPage };
       console.log(`Загружаем дополнительную страницу ${currentPage} из ${originalTotalPages}`);
-      
+
       try {
         // Получаем данные для текущей страницы с повторными попытками
-        const data = await fetchWithRetry(() => 
+        const data = await fetchWithRetry(() =>
           fetchProductsWithSorting(brandStr, pageParams, signal)
         );
-        
+
         // Проверяем, не отменен ли запрос после загрузки страницы
         if (signal?.aborted) {
           throw new DOMException('Запрос был отменен', 'AbortError');
         }
-        
+
         // Проверяем, есть ли товары в ответе
         if (!data.products || data.products.length === 0) {
           console.log(`Страница ${currentPage} не содержит товаров, прекращаем загрузку`);
           break;
         }
-        
+
         // Добавляем товары текущей страницы как есть (без доп. фильтрации)
         console.log(`Страница ${currentPage}: получено ${data.products.length} товаров`);
         allProducts = [...allProducts, ...data.products];
-        
+
         // Если собрали достаточное количество товаров, выходим
         if (allProducts.length >= MIN_PRODUCTS_COUNT) {
           console.log(`Достигнуто нужное количество товаров (${allProducts.length}), завершаем загрузку`);
           break;
         }
-        
+
         // Переходим к следующей странице
         currentPage++;
       } catch (error: any) {
         // Если запрос был отменен, пробрасываем ошибку дальше
-        if (error instanceof DOMException && error.name === 'AbortError' || 
-            axios.isCancel(error) ||
-            signal?.aborted) {
+        if (error instanceof DOMException && error.name === 'AbortError' ||
+          axios.isCancel(error) ||
+          signal?.aborted) {
           console.log(`Запрос страницы ${currentPage} был отменен`);
           throw new DOMException('Запрос был отменен', 'AbortError');
         }
-        
+
         // Выводим ошибку и продолжаем с тем, что уже есть, вместо полного прерывания
         console.error(`Ошибка при загрузке страницы ${currentPage}:`, error);
         // Прекращаем загрузку дополнительных страниц, но используем уже загруженные товары
@@ -870,12 +865,12 @@ const combineProductsFromMultiplePages = async (
       }
     }
   }
-  
+
   // Если запрос был отменен в процессе, прерываем дальнейшую обработку
   if (signal?.aborted) {
     throw new DOMException('Запрос был отменен', 'AbortError');
   }
-  
+
   // Даже если у нас нет товаров (из-за ошибок), возвращаем пустой массив вместо ошибки
   if (allProducts.length === 0) {
     console.log('Не удалось загрузить товары, возвращаем пустой результат');
@@ -885,16 +880,16 @@ const combineProductsFromMultiplePages = async (
       totalProducts: originalTotalProducts
     };
   }
-  
+
   // Выбираем товары для запрошенной страницы
   const startIndex = 0; // Всегда начинаем с первого элемента текущей страницы
   const endIndex = Math.min(limit, allProducts.length);
   const pageProducts = allProducts.slice(startIndex, endIndex);
-  
+
   console.log(`Итоговый результат: возвращаем ${pageProducts.length} товаров`);
   console.log(`Оригинальное количество страниц: ${originalTotalPages}, товаров: ${originalTotalProducts}`);
   console.log(`Собрано товаров в наличии: ${allProducts.length}`);
-  
+
   // Возвращаем результаты с оригинальным количеством страниц и общего числа товаров
   return {
     products: pageProducts,
@@ -908,13 +903,13 @@ const combineProductsFromMultiplePages = async (
  */
 const isProductNew = (product: ProductI): boolean => {
   if (!product.createdAt) return false;
-  
+
   const createDate = new Date(product.createdAt as string);
   const currentDate = new Date();
   // Продукт считается новым, если он создан не более 30 дней назад
   const diffTime = Math.abs(currentDate.getTime() - createDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
+
   return diffDays <= 30;
 };
 
@@ -928,13 +923,13 @@ const formatPrice = (price: number): string => {
 // Функция для форматирования артикула, показывая первые 5-6 слов
 const formatArticle = (article: string): string => {
   if (!article) return '';
-  
+
   // Разделяем строку на слова по пробелам и специальным символам
   const words = article.split(/[\s\-_.,\/\\]/);
   // Берем первые 5-6 слов в зависимости от длины
   const wordCount = words.length <= 5 ? words.length : 6;
   const result = words.slice(0, wordCount).join(' ');
-  
+
   return result.length < article.length ? result + '...' : result;
 };
 
@@ -952,9 +947,9 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const [totalProducts, setTotalProducts] = useState<number>(initialTotalProducts);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const limit = 40;
-  
-  
-  
+
+
+
   // Безопасный путь для router.push, чтобы избежать /catalog/[...slug] без slug
   const getSafePathname = useCallback(() => {
     try {
@@ -981,7 +976,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
   const [openCategories, setOpenCategories] = useState<string[]>([]);
-  
+
   // Новые состояния для фильтров
   const [availabilityFilter, setAvailabilityFilter] = useState<'all' | 'inStock' | 'outOfStock'>('all');
   const [showOnlyNewItems, setShowOnlyNewItems] = useState<boolean>(false);
@@ -989,7 +984,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
   const spinnerTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Для хранения таймера спиннера
   const [selectedPower, setSelectedPower] = useState<string | null>(null);
-  
+
   // Состояния для новых фильтров светильников
   const [selectedSocketType, setSelectedSocketType] = useState<string | null>(null);
   const [selectedLampCount, setSelectedLampCount] = useState<number | null>(null);
@@ -1050,7 +1045,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
     }
   }, [router.isReady, router.query.socketType, router.query.lampCount, router.query.shadeColor, router.query.frameColor, router.query.availability, router.query.newItems]);
-  
+
   // Состояние для категорий с аккордеоном
   const [productCategoriesState, setProductCategoriesState] = useState(() => {
     // Проверяем URL при инициализации
@@ -1058,16 +1053,16 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       const urlParams = new URLSearchParams(window.location.search);
       const source = urlParams.get('source');
       const category = urlParams.get('category');
-      
+
       // Декодируем параметр category, если он существует
       const decodedCategory = category ? decodeURIComponent(category) : '';
-      
+
       return productCategories;
     }
-    
+
     return productCategories;
   });
-  
+
   // Состояние для извлеченных фильтров
   const [extractedFilters, setExtractedFilters] = useState<{
     colors: string[];
@@ -1100,11 +1095,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     if ((router.query as any).slug) return;
     // Проверяем, есть ли параметр category в URL
     const hasCategory = router.isReady && router.query.category;
-    
+
     // Если есть категория, проверяем, не является ли она категорией освещения
     if (hasCategory && router.query.category) {
       const categoryName = router.query.category as string;
-      
+
       // Список категорий освещения
       const lightingCategories = [
         'Люстра', 'Светильник', 'Бра', 'Торшер', 'Спот', 'Подвесной',
@@ -1112,30 +1107,30 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
         'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
       ];
-      
+
       // Проверяем, содержит ли название категории ключевые слова освещения
-      const isLightingCategory = lightingCategories.some(lightingWord => 
+      const isLightingCategory = lightingCategories.some(lightingWord =>
         categoryName.includes(lightingWord)
       );
-      
+
       // Если это категория освещения и установлен source=, удаляем его
       if (isLightingCategory && router.query.source === 'heating') {
         console.log('Обнаружена категория освещения с source=, удаляем source');
-        
+
         const { source, ...queryWithoutSource } = router.query;
-        
+
         router.push({ pathname: getSafePathname(), query: queryWithoutSource }, undefined, { shallow: true });
-        
+
         return;
       }
     }
-    
 
-    
+
+
     // Если есть параметр source но нет category, показываем все товары бренда
     if (router.isReady && router.query.source && !hasCategory) {
       const sourceName = router.query.source as string;
-      
+
       // Специальная обработка для OdeonLight
       let brandToSearch = sourceName;
       if (sourceName.toLowerCase() === 'odeonlight') {
@@ -1145,30 +1140,30 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       const isLighting = isLightingContext(selectedCategory, source);
       const filteredBrands = filterBrandsForLighting(brands, isLighting);
       const foundBrand = filteredBrands.find(b => b.name.toLowerCase() === sourceName.toLowerCase());
-      
+
       if (foundBrand) {
         setSelectedBrand(foundBrand);
-        
+
         // Ищем категорию "Все товары" в списке категорий бренда
         const allProductsCategory = foundBrand.categories.find(cat => cat.label === 'Все товары');
-        
+
         if (allProductsCategory) {
           // Если есть категория "Все товары", используем её
           setSelectedCategory(allProductsCategory);
-          
+
           // Обновляем URL с добавлением категории "Все товары"
-      router.push({ pathname: getSafePathname(), query: { ...router.query, category: allProductsCategory.searchName || allProductsCategory.label, page: 1 } }, undefined, { shallow: true });
-          
+          router.push({ pathname: getSafePathname(), query: { ...router.query, category: allProductsCategory.searchName || allProductsCategory.label, page: 1 } }, undefined, { shallow: true });
+
           // Запускаем загрузку всех товаров бренда
           fetchProducts(sourceName, 1);
         } else if (foundBrand.categories.length > 0) {
           // Если нет категории "Все товары", используем первую категорию
           const firstCategory = foundBrand.categories[0];
           setSelectedCategory(firstCategory);
-          
+
           // Обновляем URL с добавлением категории
           router.push({ pathname: getSafePathname(), query: { ...router.query, category: firstCategory.searchName || firstCategory.label, page: 1 } }, undefined, { shallow: true });
-          
+
           // Запускаем загрузку с выбранной категорией
           fetchProducts(sourceName, 1);
         }
@@ -1194,20 +1189,17 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       const categoryName = category ? (Array.isArray(category) ? category[0] : category) : '';
       const productName = name ? (Array.isArray(name) ? name[0] : name as string) : '';
       const sortValue = sort ? (Array.isArray(sort) ? sort[0] : sort) : 'newest';
-      
-      // Проверяем, является ли категория категорией освещения
-    
 
-     
-          
-        
-    
-      
+      // Проверяем, является ли категория категорией освещения
+
+
+
+
       // Устанавливаем параметры сортировки
       if (sortValue === 'asc' || sortValue === 'desc' || sortValue === 'popularity' || sortValue === 'newest' || sortValue === 'random') {
         setSortOrder(sortValue);
       }
-      
+
       // Запускаем загрузку товаров
       fetchProducts(sourceName as string, pageNumber);
     }
@@ -1233,14 +1225,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
     }
     if (categoryName) {
-      
-   
-      
 
-      const matchedMainCategory = mainCategories.find(mc => 
-        categoryName.toLowerCase().includes(mc.toLowerCase())
+
+
+      const matchedMainCategory = mainCategories.find(mc =>
+        categoryName!.toLowerCase().includes(mc.toLowerCase())
       );
-      
+
       if (matchedMainCategory) {
         // Если это главная категория, устанавливаем её как активную
         setActiveMainCategory(matchedMainCategory);
@@ -1253,11 +1244,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             label: categoryName,
             searchName: categoryName
           };
-          
+
           // Устанавливаем временно активную категорию для проверки
           const prevActiveCategory = activeMainCategory;
           setActiveMainCategory(mainCat);
-          
+
           // Проверяем, связана ли категория с текущей главной категорией
           if (isRelatedToMainCategory(tempCategory)) {
             setShowAllCategories(false);
@@ -1272,7 +1263,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       // Если нет параметра category, сбрасываем фильтрацию
       setActiveMainCategory(null);
       setShowAllCategories(true);
-      
+
       // Проверяем, являемся ли мы в контексте
       const isHeatingPage = router.query.source === 'heating';
       setIsHeatingContext(isHeatingPage);
@@ -1282,10 +1273,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   // Вспомогательная функция для поиска категории по имени
   const findCategoryByName = (name: string): Category | null => {
     if (!name) return null;
-    
+
     // Преобразуем имя к нижнему регистру для сравнения
     const lowerName = name.toLowerCase();
-    
+
     // Ищем во всех категориях всех брендов
     for (const brand of brands) {
       for (const category of brand.categories) {
@@ -1301,7 +1292,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             searchName: category.searchName || category.label
           };
         }
-        
+
         // Также ищем в подкатегориях, если они есть
         if (category.subcategories) {
           for (const subcategory of category.subcategories) {
@@ -1321,19 +1312,19 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         }
       }
     }
-    
+
     // Если категория не найдена по точному совпадению, пробуем найти частичное совпадение по алиасам
     for (const brand of brands) {
       for (const category of brand.categories) {
         if (category.aliases && category.aliases.some(alias => alias.toLowerCase().includes(lowerName) || lowerName.includes(alias.toLowerCase()))) {
-          // Возвращаем найденную категорию с оригинальным label и searchName 
+          // Возвращаем найденную категорию с оригинальным label и searchName
           return {
             ...category,
             label: category.label,
             searchName: category.searchName || category.label
           };
         }
-        
+
         // Проверяем в подкатегориях по частичному совпадению
         if (category.subcategories) {
           for (const subcategory of category.subcategories) {
@@ -1349,7 +1340,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         }
       }
     }
-    
+
     return null;
   };
 
@@ -1365,7 +1356,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     // Сначала создаем мапинг для английских названий брендов
     const brandMap: Record<string, string> = {
       'LightStar': 'lightstar',
-      'Maytoni': 'maytoni', 
+      'Maytoni': 'maytoni',
       'Novotech': 'novotech',
       'Lumion': 'lumion',
       'Artelamp': 'artelamp',
@@ -1391,10 +1382,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       'Люстра каскадная': '/chandeliers/cascade-chandeliers',
       'хрусталь Люстра': '/chandeliers/crystal-chandeliers',
       'Люстра хрустальная': '/chandeliers/crystal-chandeliers',
-      
+
       // Люстры-вентиляторы
       'Люстра вентилятор': '/ceiling-fans',
-      
+
       // Светильники
       'Светильники': '/lights',
       'Потолочный светильник': '/lights/ceiling-lights',
@@ -1408,27 +1399,27 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       'Трековый светильник': '/lights/track-lights',
       'Точечный светильник': '/lights/spot-lights',
       'Спот': '/lights/spot-lights',
-      
+
       // Бра
       'Бра': '/wall-sconces',
-      
+
       // Торшеры
       'Торшер': '/floor-lamps',
-      
+
       // Настольные лампы
       'Настольная лампа': '/table-lamps',
-      
+
       // LED
       'Профиль для ленты': '/led-strip-profiles',
       'Светодиодная лента': '/led-strips',
-      
+
       // Уличные светильники
       'Уличный светильник': '/outdoor-lights',
       'Настенный уличный светильник': '/outdoor-lights/outdoor-wall-lights',
       'Грунтовый светильник': '/outdoor-lights/ground-lights',
       'Ландшафтный светильник': '/outdoor-lights/landscape-lights',
       'Парковый светильник': '/outdoor-lights/park-lights',
-      
+
       // Комплектующие
       'Комплектующие': '/accessories',
       'Коннектор': '/accessories/connectors',
@@ -1448,7 +1439,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
     // Ищем по основному названию
     const searchName = category.searchName || category.label;
-    
+
     // Создаем базовый URL для категории
     let categoryUrl = '';
     if (categoryMap[searchName]) {
@@ -1589,19 +1580,19 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     // Проверяем, является ли выбранная категория одной из главных категорий
     const isHeatingPage = router.query.source === 'heating';
     setIsHeatingContext(isHeatingPage);
-    
+
     if (isHeatingPage) {
-      // Проверяем, является ли это одной из главных категорий 
-      const isMainHeatingCategory = mainHeatingCategories.some(mc => 
+      // Проверяем, является ли это одной из главных категорий
+      const isMainHeatingCategory = mainHeatingCategories.some(mc =>
         category.label.toLowerCase().includes(mc.toLowerCase())
       );
-      
+
       if (isMainHeatingCategory) {
         // Если это главная категория , устанавливаем её как активную и включаем фильтрацию
-        const mainHeatingCategory = mainHeatingCategories.find(mc => 
+        const mainHeatingCategory = mainHeatingCategories.find(mc =>
           category.label.toLowerCase().includes(mc.toLowerCase())
         );
-        
+
         if (mainHeatingCategory) {
           setActiveMainCategory(mainHeatingCategory);
           setShowAllCategories(false);
@@ -1609,31 +1600,31 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
     } else {
       // Стандартная логика для категорий освещения
-      const isMainLightingCategory = mainCategories.some(mc => 
+      const isMainLightingCategory = mainCategories.some(mc =>
         category.label.toLowerCase().includes(mc.toLowerCase())
       );
-      
+
       // Если это главная категория, устанавливаем её как активную и включаем фильтрацию
       if (isMainLightingCategory) {
         // Определяем, какая именно главная категория
-        const mainCategory = mainCategories.find(mc => 
+        const mainCategory = mainCategories.find(mc =>
           category.label.toLowerCase().includes(mc.toLowerCase())
         );
-        
+
         if (mainCategory) {
           setActiveMainCategory(mainCategory);
           setShowAllCategories(false);
         }
       }
     }
-    
+
     // Продолжаем существующую логику обработчика
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     // Защищаемся от undefined
     const categoryAliases = category.aliases || [];
-    
+
     // Проверяем, является ли категория категорией освещения
     const lightingCategories = [
       'Люстра', 'Светильник', 'Бра', 'Торшер', 'Спот', 'Подвесной',
@@ -1641,27 +1632,27 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
       'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
     ];
-    
-    const isLightingCategory = lightingCategories.some(lightingCategory => 
-      category.label.includes(lightingCategory) || 
+
+    const isLightingCategory = lightingCategories.some(lightingCategory =>
+      category.label.includes(lightingCategory) ||
       (category.searchName && category.searchName.includes(lightingCategory))
     );
-    
+
     // Если выбран бренд и это не категория освещения, применяем фильтр по категории и бренду
     if (selectedBrand && selectedBrand.name !== 'Все товары' && !isLightingCategory) {
       return handleBrandCategoryChange(category);
     }
-    
-    // Если это категория освещения, всегда обрабатываем ее как НЕ отопительную 
+
+    // Если это категория освещения, всегда обрабатываем ее как НЕ отопительную
     if (isLightingCategory) {
       console.log(`Категория "${category.label}" определена как категория освещения`);
-      
+
       setSelectedCategory(category);
       setCurrentPage(1);
-      
+
       // Генерируем красивый URL
       const prettyUrl = generatePrettyUrl(category, selectedBrand && selectedBrand.name !== 'Все товары' ? selectedBrand.name : undefined);
-      
+
       if (prettyUrl.startsWith('/catalog/') && !prettyUrl.includes('?')) {
         // Если это красивый URL, добавляем остальные параметры как query
         const url = new URLSearchParams();
@@ -1670,12 +1661,12 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             url.set(key, router.query[key] as string);
           }
         });
-        
+
         url.set('page', '1');
-        
+
         const finalUrl = url.toString() ? `${prettyUrl}?${url.toString()}` : prettyUrl;
         router.push(finalUrl, undefined, { shallow: true });
-        
+
         // Вызываем fetchProducts
         fetchProducts(selectedBrand && selectedBrand.name !== 'Все товары' ? selectedBrand.name : '', 1);
       } else {
@@ -1683,33 +1674,33 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         if (selectedBrand && selectedBrand.name !== 'Все товары') {
           // Если есть бренд, сохраняем его в URL
           router.push({ pathname: getSafePathname(), query: { ...router.query, source: selectedBrand.name, category: category.searchName || category.label, page: '1' } }, undefined, { shallow: true });
-          
+
           fetchProducts(selectedBrand.name, 1);
         } else {
           // Если бренд не выбран, удаляем source из URL
           const { source, ...queryWithoutSource } = router.query;
-          
+
           router.push({ pathname: getSafePathname(), query: { ...queryWithoutSource, category: category.searchName || category.label, page: '1' } }, undefined, { shallow: true });
-          
+
           fetchProducts('', 1);
         }
       }
       return;
     }
-    
 
-    
+
+
     // Стандартное поведение для обычных категорий
     if (!selectedCategory || selectedCategory.label !== category.label) {
       setSelectedCategory(category);
       setCurrentPage(1);
-      
+
       // Формируем запрос без source
       const { source, ...queryWithoutSource } = router.query;
-      
+
       // Генерируем красивый URL
       const prettyUrl = generatePrettyUrl(category);
-      
+
       if (prettyUrl.startsWith('/catalog/') && !prettyUrl.includes('?')) {
         // Если это красивый URL, добавляем остальные параметры как query
         const url = new URLSearchParams();
@@ -1719,22 +1710,22 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           }
         });
         url.set('page', '1');
-        
+
         const finalUrl = url.toString() ? `${prettyUrl}?${url.toString()}` : prettyUrl;
         router.push(finalUrl, undefined, { shallow: true });
       } else {
         // Fallback на старый URL
         router.push({
           pathname: router.pathname,
-          query: { 
-            ...queryWithoutSource, 
+          query: {
+            ...queryWithoutSource,
             category: category.searchName || category.label,
             page: '1'
           },
         }, undefined, { shallow: true });
       }
     }
-    
+
     // Вызываем fetchProducts без source
     fetchProducts('', 1);
   };
@@ -1743,40 +1734,40 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handleBrandCategoryChange = (category: Category) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     // Проверяем, есть ли выбранный бренд
     const sourceName = selectedBrand?.name || '';
-    
+
     // Проверяем, является ли выбранная категория одной из главных категорий
-    const isSelectedMainCategory = mainCategories.some(mc => 
+    const isSelectedMainCategory = mainCategories.some(mc =>
       category.label.toLowerCase().includes(mc.toLowerCase())
     );
-    
+
     // Если выбрана главная категория, устанавливаем её как активную и включаем фильтрацию
     if (isSelectedMainCategory) {
       // Определяем, какая именно главная категория
-      const mainCategory = mainCategories.find(mc => 
+      const mainCategory = mainCategories.find(mc =>
         category.label.toLowerCase().includes(mc.toLowerCase())
       );
-      
+
       if (mainCategory) {
         setActiveMainCategory(mainCategory);
         setShowAllCategories(false);
       }
     }
-    
+
     // Если выбрана категория "Все товары", не добавляем параметр category в URL
     if (category.label === 'Все товары' || category.searchName === 'all') {
       setSelectedCategory(null);
-      
+
       // Обновляем URL с новой категорией и сохраняем бренд
-        router.push({ pathname: getSafePathname(), query: { ...router.query, source: sourceName || undefined, category: undefined, page: 1 } }, undefined, { shallow: true });
+      router.push({ pathname: getSafePathname(), query: { ...router.query, source: sourceName || undefined, category: undefined, page: 1 } }, undefined, { shallow: true });
     } else {
       setSelectedCategory(category);
-      
+
       // Генерируем красивый URL
       const prettyUrl = generatePrettyUrl(category, sourceName);
-      
+
       if (prettyUrl.startsWith('/catalog/') && !prettyUrl.includes('?')) {
         // Если это красивый URL, добавляем остальные параметры как query
         const url = new URLSearchParams();
@@ -1786,7 +1777,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           }
         });
         url.set('page', '1');
-        
+
         const finalUrl = url.toString() ? `${prettyUrl}?${url.toString()}` : prettyUrl;
         router.push(finalUrl, undefined, { shallow: true });
       } else {
@@ -1794,7 +1785,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         router.push({ pathname: getSafePathname(), query: { ...router.query, category: category.searchName || category.label, source: sourceName || undefined, page: 1 } }, undefined, { shallow: true });
       }
     }
-    
+
     // Обновляем товары с учетом бренда и категории
     fetchProducts(sourceName, 1);
   };
@@ -1803,7 +1794,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handleBrandDeselect = () => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     setSelectedBrand(null);
     // Категорию не сбрасываем — оставляем выбранную категорию, убираем только бренд
 
@@ -1821,13 +1812,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     // Не используем Date.now() для предотвращения ошибок гидратации
     const effectiveSourceName = sourceName || (selectedBrand?.name || '');
     const requestId = `req_${page}_${effectiveSourceName}_${selectedCategory?.searchName || 'none'}`;
-    
+
     // Сохраняем текущий requestId как последний активный
     const currentRequestId = requestId;
-    
+
     // Сохраняем идентификатор текущего запроса
     (fetchProducts as any).lastRequestId = currentRequestId;
-    
+
     // Отменяем предыдущий запрос через AbortController, если возможно
     if (fetchAbortController.current) {
       try {
@@ -1852,7 +1843,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         console.log('Ошибка при отмене предыдущего запроса:', error);
       }
     }
-    
+
     // Пытаемся создать новый AbortController, но не критично если не получится
     try {
       fetchAbortController.current = new AbortController();
@@ -1860,20 +1851,20 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       console.log('Ошибка при создании AbortController:', error);
       fetchAbortController.current = null;
     }
-    
+
     // Безопасно получаем сигнал или undefined, если контроллер не создан
     const signal = fetchAbortController.current?.signal;
-    
-    console.log('🚀 fetchProducts запущен с параметрами:', { 
+
+    console.log('🚀 fetchProducts запущен с параметрами:', {
       requestId,
-      sourceName: effectiveSourceName, 
-      page, 
+      sourceName: effectiveSourceName,
+      page,
       selectedCategory: selectedCategory?.label || 'не выбрана',
       selectedCategorySearchName: selectedCategory?.searchName || 'не указано',
       availabilityFilter,
       routerQuery: router.query
     });
-    
+
     setIsLoading(true);
     try {
       // Параметры для запроса
@@ -1882,10 +1873,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       const usingSlugRouting = Boolean((router.query as any)?.slug);
       // И красивый путь без query
       const usingPrettyUrl = typeof router.asPath === 'string' && router.asPath.startsWith('/catalog/') && !router.asPath.includes('?');
-      
+
       // Добавляем категорию, используя параметр name для API
       if (selectedCategory && selectedCategory.label !== 'Все товары') {
-        // Безопасно получаем алиасы 
+        // Безопасно получаем алиасы
         const aliases = selectedCategory.aliases || [];
         // Используем точное имя категории
         params.name = selectedCategory.searchName || selectedCategory.label;
@@ -1907,16 +1898,16 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           console.log('❌ Ошибка при восстановлении категории из localStorage:', error);
         }
       }
-      
+
       // Проверяем URL-параметры, чтобы приоритезировать их над состоянием
       const categoryFromURL = router.query.category;
-      if (categoryFromURL && typeof categoryFromURL === 'string' 
-          && categoryFromURL.toLowerCase() !== 'все товары'
-          && categoryFromURL.toLowerCase() !== 'все-товары'
-          && categoryFromURL.toLowerCase() !== 'all products') {
+      if (categoryFromURL && typeof categoryFromURL === 'string'
+        && categoryFromURL.toLowerCase() !== 'все товары'
+        && categoryFromURL.toLowerCase() !== 'все-товары'
+        && categoryFromURL.toLowerCase() !== 'all products') {
         // Приоритет у параметра из URL
         const decodedCategory = decodeURIComponent(categoryFromURL);
-        
+
         // Ищем категорию по URL-параметру для получения aliases
         const categoryFromDB = findCategoryByName(decodedCategory);
         if (categoryFromDB) {
@@ -1931,7 +1922,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           params.name = decodedCategory;
           console.log(`📂 Используем категорию из URL напрямую: "${params.name}"`);
         }
-        
+
 
       }
 
@@ -1954,7 +1945,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           }
         }
       }
-      
+
       // Добавляем остальные фильтры
       if (selectedColor) params.color = selectedColor;
       if (selectedMaterial) params.material = selectedMaterial;
@@ -1963,29 +1954,29 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       if (searchQuery) params.search = searchQuery;
       // Добавляем фильтр по мощности, если он выбран
       if (selectedPower) params.power = selectedPower;
-      
+
       // Новые фильтры для светильников - передаем в API для серверной фильтрации
       if (selectedSocketType) params.socketType = selectedSocketType;
       if (selectedLampCount) params.lampCount = selectedLampCount;
       if (selectedShadeColor) params.shadeColor = selectedShadeColor;
       if (selectedFrameColor) params.frameColor = selectedFrameColor;
-      
+
       // Добавляем фильтр по включению части имени (например, для поиска товаров по коду/артикулу)
       const includeNameFromURL = router.query.includeName;
       if (includeNameFromURL && typeof includeNameFromURL === 'string') {
         params.includeName = decodeURIComponent(includeNameFromURL);
       }
-      
+
       // Проверяем наличие параметра коллекции в URL
       const collectionFromURL = router.query.collection;
       if (collectionFromURL && typeof collectionFromURL === 'string') {
         params.collection = decodeURIComponent(collectionFromURL);
       }
-      
+
       // Добавляем фильтры наличия для сервера
       const availabilityFromURL = router.query.availability;
       const currentAvailability = availabilityFromURL || availabilityFilter;
-      
+
       // Фильтр "В наличии" отправляем на сервер
       if (currentAvailability === 'inStock') {
         params.inStock = true;
@@ -2000,11 +1991,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       else {
         console.log('🔄 Загружаем все товары (в наличии и под заказ) для категории:', params.name || 'все товары');
       }
-      
+
       // Исключаем скрытые бренды из результатов
       params.excludeBrands = ['Voltum', 'Werkel', 'Donel'];
       console.log('🚫 Исключаем бренды:', params.excludeBrands);
-      
+
       // Финальное логирование всех параметров запроса
       console.log('📋 ФИНАЛЬНЫЕ ПАРАМЕТРЫ ЗАПРОСА:', {
         name: params.name || 'НЕ УКАЗАНА',
@@ -2014,23 +2005,23 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         sourceName: effectiveSourceName || 'НЕ УКАЗАН',
         allParams: params
       });
-      
+
       const newItemsFromURL = router.query.newItems;
       if (newItemsFromURL === 'true' || showOnlyNewItems) {
         params.newItems = 'true';
       }
-      
+
       // Получаем параметр сортировки из URL
       const sortFromURL = router.query.sort;
       let currentSortOrder = sortOrder;
-      
+
       // Если в URL есть параметр сортировки, используем его
       if (sortFromURL && typeof sortFromURL === 'string') {
         // Приводим к типу сортировки
         const validSort = sortFromURL as 'asc' | 'desc' | 'popularity' | 'newest' | 'random';
         currentSortOrder = validSort;
       }
-      
+
       // Установка параметров сортировки на основе текущего состояния или URL
       if (currentSortOrder) {
         if (currentSortOrder === 'asc') {
@@ -2055,43 +2046,43 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         params.sortBy = 'date';
         params.sortOrder = 'desc';
       }
-      
+
       console.log('Применяемая сортировка:', {
         sortOrder: currentSortOrder,
         sortBy: params.sortBy,
         sortDirection: params.sortOrder
       });
-      
+
       // Важный параметр - принудительное применение сортировки
       params.forceSort = 'true';
-      
+
       // Добавляем обработку ошибок и таймаут для запроса
-      const timeoutPromise = new Promise<{products: ProductI[], totalPages: number, totalProducts: number}>((_, reject) => {
+      const timeoutPromise = new Promise<{ products: ProductI[], totalPages: number, totalProducts: number }>((_, reject) => {
         setTimeout(() => {
           reject(new Error('Превышено время ожидания запроса'));
         }, 30000); // Увеличиваем до 30 секунд для соответствия таймауту в fetchProductsWithSorting
       });
-      
+
       try {
         // Для фильтра "под заказ" загружаем ВСЕ товары категории для правильной клиентской фильтрации
         let adjustedPage = page;
         let adjustedLimit = limit;
-        
+
         if (currentAvailability === 'outOfStock') {
           console.log('🔄 Фильтр "под заказ" - загружаем ВСЕ товары категории для клиентской фильтрации');
           adjustedPage = 1; // Начинаем с первой страницы
           adjustedLimit = 2000; // Увеличиваем лимит чтобы получить все товары
         }
-        
+
         // Используем нашу новую функцию для получения товаров
-         const resultPromise = combineProductsFromMultiplePages(
-          effectiveSourceName, 
-          adjustedPage, 
-          adjustedLimit, 
+        const resultPromise = combineProductsFromMultiplePages(
+          effectiveSourceName,
+          adjustedPage,
+          adjustedLimit,
           params,
           signal
         );
-        
+
         // Запускаем запрос с таймаутом
         const result = await Promise.race([resultPromise, timeoutPromise]).catch(error => {
           console.error('Ошибка при выполнении Promise.race:', error);
@@ -2099,7 +2090,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           hideSpinner();
           return { products: [], totalPages: 1, totalProducts: 0 };
         });
-        
+
         // Если результат получен успешно, присваиваем его переменным состояния
         if (result) {
           // Проверяем необходимость ручной сортировки по цене
@@ -2110,7 +2101,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               const priceB = typeof b.price === 'string' ? parseFloat(b.price) : b.price;
               return params.sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
             });
-            
+
             // Проверяем, отличается ли после сортировки
             if (sortedProducts[0]._id !== result.products[0]._id) {
               console.warn('⚠️ Применена ручная сортировка по цене, так как серверная не сработала');
@@ -2120,10 +2111,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
           if ((fetchProducts as any).lastRequestId === currentRequestId || !signal?.aborted) {
             hideSpinner();
-            
+
             // Дополнительная клиентская фильтрация
             let filteredProducts = result.products;
-            
+
             // Исключаем скрытые бренды (дополнительная защита)
             const hiddenBrands = ['Voltum', 'Werkel', 'Donel'];
             const beforeBrandFilter = filteredProducts.length;
@@ -2133,26 +2124,26 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             if (beforeBrandFilter !== filteredProducts.length) {
               console.log(`🚫 Клиентская фильтрация брендов: ${beforeBrandFilter} → ${filteredProducts.length} товаров`);
             }
-            
+
             // КЛИЕНТСКАЯ фильтрация по наличию
             const beforeAvailabilityFilter = filteredProducts.length;
-            
+
             if (availabilityFilter === 'outOfStock') {
               // Фильтруем товары под заказ ТОЛЬКО на клиенте
               filteredProducts = filteredProducts.filter((product: ProductI) => {
                 const stock = Number(product.stock) || 0;
                 return stock <= 0; // Показываем только товары под заказ
               });
-              
+
               console.log(`🎯 КЛИЕНТСКАЯ фильтрация "под заказ" для категории: "${params.name || selectedCategory?.searchName || selectedCategory?.label}"`);
               console.log(`📦 Результат фильтрации: ${beforeAvailabilityFilter} → ${filteredProducts.length} товаров`);
-              
+
               // Показываем примеры для отладки
               if (filteredProducts.length > 0) {
-                console.log('🏆 Товары "под заказ" в категории:', 
+                console.log('🏆 Товары "под заказ" в категории:',
                   filteredProducts.slice(0, 3).map(p => ({
-                    name: p.name, 
-                    category: p.category, 
+                    name: p.name,
+                    category: p.category,
                     stock: p.stock,
                     source: p.source
                   }))
@@ -2166,26 +2157,26 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 const stock = Number(product.stock) || 0;
                 return stock > 0; // Показываем только товары в наличии
               });
-              
+
               console.log(`🟢 КЛИЕНТСКАЯ проверка "в наличии" для категории: "${params.name || selectedCategory?.searchName || selectedCategory?.label}"`);
               console.log(`📦 Результат проверки: ${beforeAvailabilityFilter} → ${filteredProducts.length} товаров`);
             } else {
               console.log(`🔄 Показываем ВСЕ товары для категории: "${params.name || selectedCategory?.searchName || selectedCategory?.label}"`);
               console.log(`📦 Общее количество товаров: ${filteredProducts.length}`);
             }
-            
+
             // Для фильтра "под заказ" пересчитываем пагинацию для отфильтрованных товаров
             if (currentAvailability === 'outOfStock') {
               // Применяем клиентскую пагинацию к отфильтрованным товарам
               const startIndex = (page - 1) * limit;
               const endIndex = startIndex + limit;
               const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-              
+
               // Пересчитываем общее количество страниц
               const newTotalPages = Math.ceil(filteredProducts.length / limit);
-              
+
               console.log(`📄 КЛИЕНТСКАЯ ПАГИНАЦИЯ: Показываем ${paginatedProducts.length} из ${filteredProducts.length} товаров (страница ${page}/${newTotalPages})`);
-              
+
               setProducts(paginatedProducts);
               setTotalPages(newTotalPages);
               setTotalProducts(filteredProducts.length);
@@ -2195,9 +2186,9 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               setTotalPages(result.totalPages);
               setTotalProducts(filteredProducts.length);
             }
-            
+
             setIsLoading(false);
-            
+
             // Обновляем информацию о доступных фильтрах
             extractFiltersFromProducts(result.products);
           } else {
@@ -2205,7 +2196,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             console.log(`Запрос #${currentRequestId} был заменен новым запросом или отменен`);
           }
         }
-        
+
         // Проверяем, не был ли запрос отменен
         if (signal?.aborted) {
           console.log(`Запрос #${currentRequestId} был отменен`, signal.reason);
@@ -2220,62 +2211,75 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       console.error('Ошибка при получении товаров:', error);
       hideSpinner(); // Скрываем спиннер при ошибке
     } finally {
-      // В finally уже не нужно отключать загрузку, так как это делают функции 
+      // В finally уже не нужно отключать загрузку, так как это делают функции
       // hideSpinner в try, catch и обработчиках ошибок
     }
   };
-  
+
   // Добавляем статическое свойство для отслеживания последнего requestId
   fetchProducts.lastRequestId = '';
 
-  // Функция нормализации для объединения похожих значений
+  // =================================================================================
+  // ====================== УЛУЧШЕННАЯ ФУНКЦИЯ НОРМАЛИЗАЦИИ =========================
+  // =================================================================================
   const normalizeFilterValue = (value: string): string => {
-    const lowerValue = value.toLowerCase().trim();
-    
-    // Объединяем золотые цвета
-    if (lowerValue.includes('золот') || lowerValue.includes('gold')) {
-      if (lowerValue.includes('матов') || lowerValue.includes('matte')) {
-        return 'Золото матовое';
-      }
-      if (lowerValue.includes('глянц') || lowerValue.includes('gloss')) {
-        return 'Золото глянцевое';
-      }
-      if (lowerValue.includes('алюмин')) {
-        return 'Золотистый алюминий';
-      }
+    if (typeof value !== 'string' || !value) {
+      return '';
+    }
+
+    // 1. Начальная очистка: нижний регистр, удаление пробелов и всей пунктуации.
+    let cleanValue = value.toLowerCase().trim().replace(/[;,.]/g, '');
+
+    // 2. Карта для исправления и дополнения терминов ("дописать").
+    // Ключи - это то, что мы ищем (часто неполные слова). Значения - на что меняем.
+    const termFixes: Record<string, string> = {
+      'мат': 'матовый',
+      'глянец': 'глянцевый',
+      'глян': 'глянцевый',
+      'прозр': 'прозрачный',
+      'дымч': 'дымчатый',
+      'бронз': 'бронза',
+    };
+
+    // 3. Разделяем строку на слова, чтобы применить исправления к каждому слову.
+    // Это более надежно, чем простая замена. "черный мат" -> ["черный", "мат"] -> ["черный", "матовый"]
+    const words = cleanValue.split(' ').filter(Boolean); // filter(Boolean) удаляет пустые строки
+    const fixedWords = words.map(word => termFixes[word] || word);
+    cleanValue = fixedWords.join(' ');
+
+
+    // 4. Логика для объединения основных цветов (как и было, но работает с уже очищенной строкой).
+    if (cleanValue.includes('золот') || cleanValue.includes('gold')) {
+      if (cleanValue.includes('матов')) return 'Золото матовое';
+      if (cleanValue.includes('глянц')) return 'Золото глянцевое';
       return 'Золото';
     }
-    
-    // Объединяем серебряные/стальные цвета
-    if (lowerValue.includes('сереб') || lowerValue.includes('silver')) {
-      return 'Серебро';
+    if (cleanValue.includes('серебр') || cleanValue.includes('silver') || cleanValue.includes('хром')) {
+      if (cleanValue.includes('матов')) return 'Хром матовый';
+      if (cleanValue.includes('глянц')) return 'Хром глянцевый';
+      return 'Хром / Серебро'; // Объединяем похожие
     }
-    
-    // Объединяем белые цвета
-    if (lowerValue.includes('белый') || lowerValue.includes('белая') || lowerValue.includes('white')) {
-      if (lowerValue.includes('матов') || lowerValue.includes('matte')) {
-        return 'Белый матовый';
-      }
-      if (lowerValue.includes('глянц') || lowerValue.includes('gloss')) {
-        return 'Белый глянцевый';
-      }
+    if (cleanValue.includes('бел')) {
+      if (cleanValue.includes('матов')) return 'Белый матовый';
+      if (cleanValue.includes('глянц')) return 'Белый глянцевый';
       return 'Белый';
     }
-    
-    // Объединяем черные цвета
-    if (lowerValue.includes('черный') || lowerValue.includes('черная') || lowerValue.includes('black')) {
-      if (lowerValue.includes('матов') || lowerValue.includes('matte')) {
-        return 'Черный матовый';
-      }
-      if (lowerValue.includes('глянц') || lowerValue.includes('gloss')) {
-        return 'Черный глянцевый';
-      }
+    if (cleanValue.includes('черн')) {
+      if (cleanValue.includes('матов')) return 'Черный матовый';
+      if (cleanValue.includes('глянц')) return 'Черный глянцевый';
       return 'Черный';
     }
-    
-    // Возвращаем исходное значение с большой буквы
-    return value.charAt(0).toUpperCase() + value.slice(1);
+    if (cleanValue.includes('бронза')) { // Проверяем уже исправленное слово "бронза"
+      return 'Бронза';
+    }
+
+    // 5. Финальная капитализация для всех остальных значений, которые не попали под правила выше.
+    return cleanValue.charAt(0).toUpperCase() + cleanValue.slice(1);
   };
+  // =================================================================================
+  // =================== КОНЕЦ УЛУЧШЕННОЙ ФУНКЦИИ НОРМАЛИЗАЦИИ =====================
+  // =================================================================================
+
 
   // Извлечение фильтров из полученных товаров
   const extractFiltersFromProducts = (products: ProductI[]) => {
@@ -2293,18 +2297,19 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       // Извлекаем и нормализуем цвета
       if (product.color) {
         const normalizedColor = normalizeFilterValue(String(product.color));
-        colorsMap.set(normalizedColor, normalizedColor);
+        if (normalizedColor) colorsMap.set(normalizedColor, normalizedColor);
       }
-      
+
       // Извлекаем и нормализуем материалы
       if (product.material) {
         const normalizedMaterial = normalizeFilterValue(String(product.material));
-        materialsMap.set(normalizedMaterial, normalizedMaterial);
+        if (normalizedMaterial) materialsMap.set(normalizedMaterial, normalizedMaterial);
       }
 
       // Извлекаем новые поля для светильников
       if (product.socketType) {
-        socketTypes.add(String(product.socketType));
+        const normalizedSocket = normalizeFilterValue(String(product.socketType));
+        if (normalizedSocket) socketTypes.add(normalizedSocket);
       }
 
       if (product.lampCount && typeof product.lampCount === 'number') {
@@ -2313,14 +2318,14 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
       if (product.shadeColor) {
         const normalizedShadeColor = normalizeFilterValue(String(product.shadeColor));
-        shadeColorsMap.set(normalizedShadeColor, normalizedShadeColor);
+        if (normalizedShadeColor) shadeColorsMap.set(normalizedShadeColor, normalizedShadeColor);
       }
 
       if (product.frameColor) {
         const normalizedFrameColor = normalizeFilterValue(String(product.frameColor));
-        frameColorsMap.set(normalizedFrameColor, normalizedFrameColor);
+        if (normalizedFrameColor) frameColorsMap.set(normalizedFrameColor, normalizedFrameColor);
       }
-      
+
       // Можно добавить извлечение других параметров, если они есть
     });
 
@@ -2358,7 +2363,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         query: { ...router.query, socketType, page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2379,7 +2384,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         query: { ...router.query, lampCount: lampCount?.toString(), page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2402,7 +2407,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         query: { ...router.query, shadeColor: normalizedShadeColor, page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2425,12 +2430,12 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         query: { ...router.query, frameColor: normalizedFrameColor, page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
   };
-  
+
   // Функция для поиска связанных категорий
   const findRelatedCategories = (currentCategory: Category): Category[] => {
     // Словарь связанных терминов для категорий
@@ -2446,26 +2451,26 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       'настольн': ['лампа', 'светильник', 'ночник', 'рабочий'],
       'подсветка': ['светодиодная', 'лента', 'профиль', 'свет', 'споты'],
     };
-    
+
     // Популярные категории для показа, если не найдем связанных
     const popularCategories = ['Люстры', 'Светильники', 'Бра', 'Торшеры', 'Лампы'];
-    
+
     if (currentCategory.label === 'Все товары' || !selectedBrand) {
       return [];
     }
-    
+
     const relatedCategories: Category[] = [];
     const categoryName = currentCategory.label.toLowerCase();
-    
+
     // Ищем ключевые слова в текущей категории, которые могут быть связаны с другими категориями
     const matchingTerms: string[] = [];
-    
+
     Object.keys(relatedTerms).forEach(term => {
       if (categoryName.includes(term)) {
         matchingTerms.push(term);
       }
     });
-    
+
     // Если не нашли ни одного ключевого слова, пробуем разбить название категории на слова
     // и искать соответствие для каждого слова
     if (matchingTerms.length === 0) {
@@ -2478,10 +2483,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         });
       });
     }
-    
+
     // Собираем потенциально связанные термины
     const potentiallyRelatedTerms: string[] = [];
-    
+
     matchingTerms.forEach(term => {
       if (relatedTerms[term]) {
         relatedTerms[term].forEach(relatedTerm => {
@@ -2491,67 +2496,67 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         });
       }
     });
-    
+
     // Проходим по всем категориям бренда и находим те, которые могут быть связаны
     selectedBrand.categories.forEach(category => {
       // Пропускаем текущую категорию и "Все товары"
       if (category.label === currentCategory.label || category.label === 'Все товары') {
         return;
       }
-      
+
       const catName = category.label.toLowerCase();
-      
+
       // Проверяем, есть ли в названии категории связанные термины
       const isRelated = potentiallyRelatedTerms.some(term => {
         // Проверяем как точное вхождение, так и наличие корней слов
-        return catName.includes(term) || 
-               term.includes(catName) || 
-               catName.split(/\s+/).some(word => term.includes(word) || word.includes(term));
+        return catName.includes(term) ||
+          term.includes(catName) ||
+          catName.split(/\s+/).some(word => term.includes(word) || word.includes(term));
       });
-      
+
       if (isRelated) {
         relatedCategories.push(category);
       }
     });
-    
+
     // Если нашли слишком мало связанных категорий, добавляем несколько популярных
     if (relatedCategories.length < 3) {
       selectedBrand.categories.forEach(category => {
         if (category.label === currentCategory.label || category.label === 'Все товары' ||
-            relatedCategories.some(c => c.label === category.label)) {
+          relatedCategories.some(c => c.label === category.label)) {
           return;
         }
-        
-        const isPopular = popularCategories.some(popular => 
+
+        const isPopular = popularCategories.some(popular =>
           category.label.toLowerCase().includes(popular.toLowerCase())
         );
-        
+
         if (isPopular && relatedCategories.length < 5) {
           relatedCategories.push(category);
         }
       });
     }
-    
+
     // Если все еще недостаточно категорий, добавляем случайные категории
     if (relatedCategories.length < 3) {
-      const availableCategories = selectedBrand.categories.filter(category => 
-        category.label !== currentCategory.label && 
-        category.label !== 'Все товары' && 
+      const availableCategories = selectedBrand.categories.filter(category =>
+        category.label !== currentCategory.label &&
+        category.label !== 'Все товары' &&
         !relatedCategories.some(c => c.label === category.label)
       );
-      
+
       // Используем стабильную сортировку вместо случайной
-      const sortedCategories = [...availableCategories].sort((a, b) => 
+      const sortedCategories = [...availableCategories].sort((a, b) =>
         a.label.localeCompare(b.label)
       );
-      
+
       // Добавляем отсортированные категории до достижения минимального количества
       for (const category of sortedCategories) {
         if (relatedCategories.length >= 5) break;
         relatedCategories.push(category);
       }
     }
-    
+
     // Ограничиваем количество связанных категорий
     return relatedCategories.slice(0, 5);
   };
@@ -2565,16 +2570,16 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     if (selectedCategory && selectedCategory.label !== 'Все товары' && selectedBrand) {
       // Найдем связанные категории на основе текущей категории
       relatedCategories = findRelatedCategories(selectedCategory);
-      
+
       // Если есть связанные категории, показываем блок
       shouldRender = relatedCategories.length > 0;
     }
-    
+
     // Вместо раннего возврата null, рендерим пустой фрагмент, если не нужно отображать
     if (!shouldRender) {
       return <></>; // Пустой фрагмент вместо null
     }
-    
+
     return (
       <div className="mb-6 bg-white rounded-lg p-5 border border-gray-100 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
@@ -2583,7 +2588,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         </div>
         <div className="flex flex-wrap gap-2">
           {relatedCategories.map((category, index) => (
-            <button 
+            <button
               key={`${category.label}-${index}`}
               onClick={() => handleCategoryChange(category)}
               className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-sm rounded-full transition-colors border border-gray-200 hover:border-gray-300 flex items-center space-x-1"
@@ -2596,10 +2601,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       </div>
     );
   };
-  
+
   // Функция для переключения состояния аккордеона категории
   const toggleCategoryAccordion = (categoryId: string) => {
-    setOpenCategories(prev => 
+    setOpenCategories(prev =>
       prev.includes(categoryId)
         ? prev.filter(id => id !== categoryId)
         : [...prev, categoryId]
@@ -2612,24 +2617,24 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const renderCategories = () => {
     // Определяем, какие категории показывать в зависимости от текущего URL
     const isHeatingPage = router.query.source === 'heating';
-    
+
     // Выбираем категории для отображения
     // Если находимся на странице , показываем категории , иначе обычные
     const categoriesToShow = productCategoriesState;
-    
+
     // Фильтруем категории для боковой панели
     let filteredCategories;
-    
+
     if (showAllCategories) {
       // Если показываем все категории, фильтруем только "Все товары"
       filteredCategories = categoriesToShow.filter(c => c.label !== 'Все товары');
     } else {
       // Если выбрана главная категория, фильтруем по ней
-      filteredCategories = categoriesToShow.filter(c => 
+      filteredCategories = categoriesToShow.filter(c =>
         c.label !== 'Все товары' && isRelatedToMainCategory(c)
       );
     }
-    
+
     // Кнопка "Вернуться ко всем категориям"
     const renderBackButton = () => {
       if (!showAllCategories) {
@@ -2638,82 +2643,61 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             <div className="mb-4">
               <h2 className="text-4xl text-black">{selectedCategory?.label || (router.query.category ? decodeURIComponent(router.query.category as string) : '')}</h2>
             </div>
-            <div 
+            <div
               className="flex items-center justify-between py-3 px-4 text-1xl rounded-xl cursor-pointer transition-all duration-200 mb-4 backdrop-blur-sm border border-white/20 text-black hover:bg-[#f7f7f7] shadow-sm"
               onClick={() => {
-                // Сбрасываем только фильтрацию категорий, сохраняя бренд
+                // 1. Reset category-related state
                 setShowAllCategories(true);
                 setActiveMainCategory(null);
                 setSelectedCategory(null);
-                
-                // Проверяем, используем ли красивые URL
-                const currentlyUsingPrettyUrls = router.asPath.startsWith('/catalog/') && !router.asPath.includes('?category=');
-                
-                // Если есть выбранный бренд, обновляем URL с брендом но без категории
-                if (selectedBrand && selectedBrand.name !== 'Все товары') {
-                  if (currentlyUsingPrettyUrls) {
-                    // Для красивых URL генерируем URL только с брендом (без категории)
-                    const brandMap: Record<string, string> = {
-                      'LightStar': 'lightstar',
-                      'Maytoni': 'maytoni', 
-                      'Novotech': 'novotech',
-                      'Lumion': 'lumion',
-                      'Favourite': 'favourite',
-                      'Artelamp': 'artelamp',
-                      'OdeonLight': 'odeonlight',
-                      'ElektroStandard': 'elektrostandard',
-                      'Denkirs': 'denkirs',
-                      'KinkLight': 'kinklight',
-                      'StLuce': 'stluce',
-                      'Sonex': 'sonex'
-                    };
-                    
-                    const brandUrl = brandMap[selectedBrand.name];
-                    if (brandUrl) {
-                      // Сохраняем остальные параметры из query
-                      const url = new URLSearchParams();
-                      Object.keys(router.query).forEach(key => {
-                        if (key !== 'category' && key !== 'page' && key !== 'source' && key !== 'slug') {
-                          url.set(key, router.query[key] as string);
-                        }
-                      });
-                      url.set('page', '1');
-                      
-                      const finalUrl = url.toString() ? `/catalog/${brandUrl}?${url.toString()}` : `/catalog/${brandUrl}`;
-                      router.push(finalUrl, undefined, { shallow: true });
-                    }
-                  } else {
-                    // Обычные URL с query параметрами
-                    router.push({
-                      pathname: getSafePathname(),
-                      query: { 
-                        ...router.query, 
-                        source: selectedBrand.name, 
-                        category: undefined, 
-                        page: 1 
-                      }
-                    }, undefined, { shallow: true });
-                  }
-                  
-                  // Загружаем товары бренда без фильтра категории
-                  fetchProducts(selectedBrand.name, 1);
+
+                // 2. Prepare the next URL query, preserving existing filters but removing category
+                const { category, slug, ...restQuery } = router.query;
+                const newQuery: Record<string, any> = { ...restQuery, page: 1 };
+
+                const brandName = selectedBrand?.name;
+                const isBrandSelected = brandName && brandName !== 'Все товары';
+
+                if (isBrandSelected) {
+                    // If a brand is selected, ensure its 'source' is in the query
+                    newQuery.source = brandName;
                 } else {
-                  // Если нет бренда, просто убираем категорию
-                  if (currentlyUsingPrettyUrls) {
-                    router.push('/catalog', undefined, { shallow: true });
-                  } else {
-                    router.push({
-                      pathname: getSafePathname(),
-                      query: { 
-                        ...router.query, 
-                        category: undefined, 
-                        page: 1 
-                      }
-                    }, undefined, { shallow: true });
-                  }
-                  
-                  fetchProducts('', 1);
+                    // If no brand is selected, ensure 'source' is removed
+                    delete newQuery.source;
                 }
+                
+                // 3. Determine if we are using "pretty" URLs (e.g., /catalog/brand)
+                const brandMap: Record<string, string> = {
+                    'LightStar': 'lightstar', 'Maytoni': 'maytoni', 'Novotech': 'novotech',
+                    'Lumion': 'lumion', 'Favourite': 'favourite', 'Artelamp': 'artelamp',
+                    'OdeonLight': 'odeonlight', 'ElektroStandard': 'elektrostandard',
+                    'Denkirs': 'denkirs', 'KinkLight': 'kinklight', 'StLuce': 'stluce',
+                    'Sonex': 'sonex'
+                };
+
+                const brandSlug = isBrandSelected ? brandMap[brandName] : null;
+                let targetUrl = '/catalog';
+                let asUrl = '/catalog';
+
+                if (brandSlug) {
+                    // We can form a pretty URL for the brand
+                    targetUrl = `/catalog/[...slug]`;
+                    asUrl = `/catalog/${brandSlug}`;
+                } else if(isBrandSelected) {
+                    // Fallback to query param if brand is not in the slug map
+                    targetUrl = '/catalog';
+                    asUrl = `/catalog?source=${encodeURIComponent(brandName)}`;
+                }
+                
+                // Append remaining query parameters
+                const queryString = new URLSearchParams(newQuery).toString();
+                if (queryString) {
+                    asUrl += `?${queryString}`;
+                }
+
+                // 4. Navigate and fetch products
+                router.push(asUrl, undefined, { shallow: true });
+                fetchProducts(isBrandSelected ? brandName : '', 1);
               }}
             >
               <span className="flex text-[14px] items-center">
@@ -2728,25 +2712,25 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
       return null;
     };
-    
+
     const generateCategoryHtml = (categories: Category[], depth = 0) => {
       return (
-        <div className={`space-y-0.5`}>
+        <div className={`space-y-1`}>
           {categories.map((category) => {
             // Если активна главная категория и текущая категория не связана с ней, пропускаем
             if (!showAllCategories && !isRelatedToMainCategory(category)) {
               return null;
             }
-            
+
             const hasSubcategories = category.subcategories && category.subcategories.length > 0;
             const isActive = selectedCategory?.label === category.label;
             const isHovered = hoveredCategoryId === category.label;
-            
+
             // Проверяем, активна ли какая-либо подкатегория
-            const isChildActive = hasSubcategories && category.subcategories?.some(sub => 
+            const isChildActive = hasSubcategories && category.subcategories?.some(sub =>
               selectedCategory?.label === sub.label
             );
-            
+
             // Определяем обработчик клика
             const handleClick = () => {
               // Проверяем, выбран ли бренд
@@ -2755,61 +2739,51 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 handleBrandCategoryChange(category);
                 return;
               }
-              
+
               // Стандартный обработчик категорий
               handleCategoryChange(category);
             };
 
             // Подкатегории всегда видны — убираем логику аккордеона
-            
+
             return (
               <div key={category.label} className="group">
-              <button 
-                onClick={handleClick}
-                onMouseEnter={() => setHoveredCategoryId(category.label)}
-                onMouseLeave={() => setHoveredCategoryId(null)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 border ${
-                  isActive 
-                    ? 'border-gray-900 bg-white text-gray-900 font-medium shadow-sm' 
-                    : isHovered || isChildActive
-                      ? 'border-gray-300 bg-gray-50 text-gray-800' 
-                      : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="truncate">{category.label}</span>
-                  {hasSubcategories && (
-                    <svg className="w-3 h-3 text-gray-400 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  )}
-                </div>
-              </button>
-              
-              {/* Подкатегории всегда отображаются */}
-              {hasSubcategories && (
-                <div className="mt-1 ml-3 border-l border-gray-200 pl-3">
-                  {generateCategoryHtml(category.subcategories || [], depth + 1)}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-       
+                <button
+                  onClick={handleClick}
+                  onMouseEnter={() => setHoveredCategoryId(category.label)}
+                  onMouseLeave={() => setHoveredCategoryId(null)}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200  ${isActive
+                      ? 'bg-gray-100 text-gray-900 font-semibold'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="truncate">{category.label}</span>
+                    {hasSubcategories && (
+                      <svg className="w-4 h-4 text-gray-400 ml-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+
+                {/* Подкатегории всегда отображаются */}
+                {hasSubcategories && (
+                  <div className="mt-1 ml-4 border-l border-gray-200 pl-3">
+                    {generateCategoryHtml(category.subcategories || [], depth + 1)}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
       );
     };
 
     return (
-      <div className="mb-4 overflow-hidden">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-4xl font-medium text-black">
-            {!showAllCategories && activeMainCategory ? `` : 'Каталог'}
-          </h2>
-        </div>
-        
+      <div className="overflow-hidden">
         {renderBackButton()}
-        
         <div className="space-y-1">
           {generateCategoryHtml(filteredCategories)}
         </div>
@@ -2820,19 +2794,19 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handleBrandChange = (brand: Brand) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     setSelectedBrand(brand);
-    
+
     // Если это не "Все товары" бренд
     if (brand.name !== 'Все товары') {
       // КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Сохраняем текущую выбранную категорию
       const currentCategory = selectedCategory;
       const currentlyUsingPrettyUrls = router.asPath.startsWith('/catalog/') && !router.asPath.includes('?category=');
-      
+
       if (currentCategory && currentlyUsingPrettyUrls) {
         // Если используем красивые URL и есть текущая категория, генерируем красивый URL
         const prettyUrl = generatePrettyUrl(currentCategory, brand.name);
-        
+
         if (prettyUrl.startsWith('/catalog/') && !prettyUrl.includes('?')) {
           // Сохраняем остальные параметры
           const url = new URLSearchParams();
@@ -2842,7 +2816,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             }
           });
           url.set('page', '1');
-          
+
           const finalUrl = url.toString() ? `${prettyUrl}?${url.toString()}` : prettyUrl;
           router.push(finalUrl, undefined, { shallow: true });
         } else {
@@ -2861,18 +2835,18 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         // Обычный URL без категории или не красивый URL
         router.push({ pathname: getSafePathname(), query: { ...router.query, source: brand.name, category: currentCategory ? (currentCategory.searchName || currentCategory.label) : undefined, page: 1 } }, undefined, { shallow: true });
       }
-      
+
       // Загружаем товары с учетом бренда и текущей категории
       fetchProducts(brand.name, 1);
     } else {
       // Для "Все товары" сбрасываем только бренд, но сохраняем категорию
       const currentCategory = selectedCategory;
       const currentlyUsingPrettyUrls = router.asPath.startsWith('/catalog/') && !router.asPath.includes('?category=');
-      
+
       if (currentCategory && currentlyUsingPrettyUrls) {
         // Если используем красивые URL и есть текущая категория, генерируем красивый URL без source
         const prettyUrl = generatePrettyUrl(currentCategory);
-        
+
         if (prettyUrl.startsWith('/catalog/') && !prettyUrl.includes('?')) {
           // Сохраняем остальные параметры кроме source
           const url = new URLSearchParams();
@@ -2882,40 +2856,40 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             }
           });
           url.set('page', '1');
-          
+
           const finalUrl = url.toString() ? `${prettyUrl}?${url.toString()}` : prettyUrl;
           router.push(finalUrl, undefined, { shallow: true });
         } else {
           // Fallback на старый URL
-      router.push({ pathname: getSafePathname(), query: { ...router.query, source: undefined, category: currentCategory.searchName || currentCategory.label, page: 1 } }, undefined, { shallow: true });
+          router.push({ pathname: getSafePathname(), query: { ...router.query, source: undefined, category: currentCategory.searchName || currentCategory.label, page: 1 } }, undefined, { shallow: true });
         }
       } else {
         // Обычный URL
         router.push({ pathname: getSafePathname(), query: { ...router.query, source: undefined, category: currentCategory ? (currentCategory.searchName || currentCategory.label) : undefined, page: 1 } }, undefined, { shallow: true });
       }
-      
+
       fetchProducts('', 1);
     }
   };
-  
+
   const handleColorChange = (color: string | null) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     // Если цвет уже выбран, снимаем выделение
     if (selectedColor === color) {
       setSelectedColor(null);
-      
+
       const { color, ...restQuery } = router.query;
       router.push({ pathname: getSafePathname(), query: { ...restQuery, page: 1 } }, undefined, { shallow: true });
     } else {
       // Нормализуем выбранный цвет перед сохранением
       const normalizedColor = color ? normalizeFilterValue(color) : null;
       setSelectedColor(normalizedColor);
-      
+
       router.push({ pathname: getSafePathname(), query: { ...router.query, color: normalizedColor, page: 1 } }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2924,21 +2898,21 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handleMaterialChange = (material: string | null) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     // Если материал уже выбран, снимаем выделение
     if (selectedMaterial === material) {
       setSelectedMaterial(null);
-      
+
       const { material, ...restQuery } = router.query;
       router.push({ pathname: getSafePathname(), query: { ...restQuery, page: 1 } }, undefined, { shallow: true });
     } else {
       // Нормализуем выбранный материал перед сохранением
       const normalizedMaterial = material ? normalizeFilterValue(material) : null;
       setSelectedMaterial(normalizedMaterial);
-      
+
       router.push({ pathname: getSafePathname(), query: { ...router.query, material: normalizedMaterial, page: 1 } }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2947,12 +2921,12 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handlePriceRangeChange = (min: number, max: number) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     setMinPrice(min);
     setMaxPrice(max);
-    
+
     router.push({ pathname: getSafePathname(), query: { ...router.query, minPrice: min.toString(), maxPrice: max.toString(), page: 1 } }, undefined, { shallow: true });
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
@@ -2961,22 +2935,23 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handleSortOrderChange = (order: 'asc' | 'desc' | 'popularity' | 'newest' | 'random' | null) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     setSortOrder(order);
-    
+
     if (order) {
       router.push({ pathname: getSafePathname(), query: { ...router.query, sort: order, page: 1 } }, undefined, { shallow: true });
     } else {
       const { sort, ...restQuery } = router.query;
       router.push({ pathname: getSafePathname(), query: { ...restQuery, page: 1 } }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
   };
-  
+
   const handleResetFilters = () => {
+    showSpinnerWithMinDuration();
     setSelectedBrand(null);
     setSelectedCategory(null);
     setMinPrice(10);
@@ -2988,18 +2963,24 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     setSortOrder(null);
     setSearchQuery('');
     setCurrentPage(1);
-    
+
     // Сбрасываем новые фильтры
     setAvailabilityFilter('all');
     setShowOnlyNewItems(false);
-    
+
+    // Сбрасываем фильтры светильников
+    setSelectedSocketType(null);
+    setSelectedLampCount(null);
+    setSelectedShadeColor(null);
+    setSelectedFrameColor(null);
+
     // Сбрасываем фильтр по категориям
     setActiveMainCategory(null);
     setShowAllCategories(true);
-    
+
     // Полный сброс URL-параметров: убираем source, category и прочие фильтры
     router.push({ pathname: getSafePathname(), query: { page: 1 } }, undefined, { shallow: true });
-    
+
     fetchProducts('', 1);
   };
 
@@ -3007,11 +2988,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handlePageChange = (page: number) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     if (page < 1 || page > totalPages) return;
-    
+
     setCurrentPage(page);
-    
+
     // Если уже используем ЧПУ — формируем красивый URL и сохраняем остальные фильтры.
     try {
       const usingPrettyUrl = typeof router.asPath === 'string' && router.asPath.startsWith('/catalog/') && !router.asPath.includes('?');
@@ -3048,20 +3029,20 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       const fallbackQuery = { ...router.query, page };
       router.push({ pathname: getSafePathname(), query: fallbackQuery }, undefined, { shallow: true });
     }
-    
+
     // Убираем автоматический скролл вверх при смене страницы
     // window.scrollTo({
     //   top: 0,
     //   behavior: 'smooth'
     // });
-    
+
     // Для фильтра "под заказ" не делаем новый запрос, так как все товары уже загружены
     if (availabilityFilter === 'outOfStock') {
       console.log('🔄 Фильтр "под заказ" активен - применяем клиентскую пагинацию без запроса к серверу');
       // Товары уже загружены и отфильтрованы, просто обновляем отображение
       // fetchProducts сам обработает пагинацию на клиенте
     }
-    
+
     const sourceName = router.query.source || source || '';
     fetchProducts(sourceName as string, page);
   };
@@ -3088,7 +3069,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         </div>
       );
     }
-    
+
     return (
       <div className="flex gap-4 items-center">
         <span>Товары бренда </span>
@@ -3102,13 +3083,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   // Функция для рендера пагинации с эллипсисами
   const renderPagination = () => {
     if (totalPages <= 1) return null;
-    
+
     const currentPage = parseInt(router.query.page as string) || 1;
-    
+
     // Определяем, какие страницы показывать в пагинации
     let pages = [];
     const maxVisiblePages = 5; // Максимальное количество страниц в пагинации
-    
+
     if (totalPages <= maxVisiblePages) {
       // Если всего страниц меньше или равно максимальному количеству, показываем все
       pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -3125,16 +3106,15 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
       }
     }
-    
+
     return (
       <div className="flex items-center justify-center space-x-1">
         {/* Кнопка "Назад" */}
         <button
-          className={`${
-            currentPage === 1 
-              ? 'opacity-50 cursor-not-allowed bg-gray-800 text-gray-500' 
+          className={`${currentPage === 1
+              ? 'opacity-50 cursor-not-allowed bg-gray-800 text-gray-500'
               : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-          } px-3 py-2 rounded-md text-sm font-medium`}
+            } px-3 py-2 rounded-md text-sm font-medium`}
           onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -3142,7 +3122,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        
+
         {/* Номера страниц */}
         {pages.map((page, index) => (
           <React.Fragment key={index}>
@@ -3150,11 +3130,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               <span className="px-3 py-2 text-gray-400">...</span>
             ) : (
               <button
-                className={`${
-                  currentPage === page
+                className={`${currentPage === page
                     ? 'bg-black text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                } px-3 py-2 rounded-md text-sm font-medium min-w-[40px]`}
+                  } px-3 py-2 rounded-md text-sm font-medium min-w-[40px]`}
                 onClick={() => handlePageChange(page as number)}
               >
                 {page}
@@ -3162,14 +3141,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             )}
           </React.Fragment>
         ))}
-        
+
         {/* Кнопка "Вперед" */}
         <button
-          className={`${
-            currentPage === totalPages
+          className={`${currentPage === totalPages
               ? 'opacity-50 cursor-not-allowed bg-gray-800 text-gray-500'
               : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-          } px-3 py-2 rounded-md text-sm font-medium`}
+            } px-3 py-2 rounded-md text-sm font-medium`}
           onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -3187,28 +3165,28 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     if (!products || products.length === 0) {
       return { 'Other Products': [] };
     }
-    
+
     const collectionsTemp: Record<string, ProductI[]> = {};
-    
+
 
     // Создаем набор для поиска похожих частей названий
     const productNameParts: Record<string, number> = {};
-    
+
     // Добавляем набор для хранения префиксов артикулов
     const articlePrefixes: Record<string, number> = {};
-    
+
     // Первый проход - собираем части имен и префиксы артикулов для определения общих шаблонов
     products.forEach(product => {
       // Обработка имени продукта
       if (typeof product.name === 'string' && product.name.trim()) {
         const productName = product.name.trim();
-        
+
         // 1. Разбиваем имя на слова и добавляем в набор
         const words = productName.split(/\s+/).filter(word => word.length > 3);
         words.forEach(word => {
           productNameParts[word] = (productNameParts[word] || 0) + 1;
         });
-        
+
         // 2. Ищем слова в ВЕРХНЕМ РЕГИСТРЕ (часто названия коллекций)
         const uppercaseWords = productName.match(/\b([A-Z]{3,})\b/g);
         if (uppercaseWords) {
@@ -3217,14 +3195,14 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             productNameParts[word] = (productNameParts[word] || 0) + 2;
           });
         }
-        
+
         // 3. Ищем слова после предлогов с англоязычными вариантами
         const collectionMarkers = [
           /collection\s+([A-Za-z0-9]+)/i,
           /series\s+([A-Za-z0-9]+)/i,
           /model\s+([A-Za-z0-9]+)/i
         ];
-        
+
         collectionMarkers.forEach(marker => {
           const match = productName.match(marker);
           if (match && match[1]) {
@@ -3233,11 +3211,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           }
         });
       }
-      
+
       // Обработка артикула продукта для поиска общих префиксов
       if (product.article) {
         const article = String(product.article).trim();
-        
+
         // Ищем префиксы артикулов (буквенно-цифровые комбинации)
         // Например, для артикула "FR5171PL-08BS" будет префикс "FR"
         const prefixMatch = article.match(/^([A-Za-z]+)\d+/);
@@ -3245,7 +3223,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           const prefix = prefixMatch[1].toUpperCase();
           articlePrefixes[prefix] = (articlePrefixes[prefix] || 0) + 1;
         }
-        
+
         // Ищем еще и более сложные префиксы с цифрами, но до первого разделителя
         // Например, для "FR5171PL-08BS" будет префикс "FR5171PL"
         const complexPrefixMatch = article.match(/^([A-Za-z0-9]+)[-_\.]/);
@@ -3253,7 +3231,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           const complexPrefix = complexPrefixMatch[1].toUpperCase();
           articlePrefixes[complexPrefix] = (articlePrefixes[complexPrefix] || 0) + 2; // Даем больший вес
         }
-        
+
         // Также ищем серийные номера - группы цифр в артикуле
         const seriesMatch = article.match(/(\d{2,4})/);
         if (seriesMatch && seriesMatch[1]) {
@@ -3262,43 +3240,43 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         }
       }
     });
-    
+
     // Выбираем наиболее частые слова как коллекции (с порогом минимум 2 товара)
     const commonNameParts = Object.entries(productNameParts)
       .filter(([_, count]) => count >= 2)
       .sort((a, b) => b[1] - a[1])
       .map(([word]) => word);
-    
+
     // Выбираем наиболее частые префиксы артикулов (с порогом минимум 2 товара)
     const commonArticlePrefixes = Object.entries(articlePrefixes)
       .filter(([_, count]) => count >= 2)
       .sort((a, b) => b[1] - a[1])
       .map(([prefix]) => prefix);
-    
 
-    
+
+
     // Второй проход - группируем на основе собранной информации
     products.forEach(product => {
       // Определяем коллекцию по разным полям и алгоритмам с приоритетами
       let collectionName = 'No Collection';
       let foundCollection = false;
-      
+
       // 1. Используем явное поле collection, если оно есть
       if (product.collection) {
         collectionName = String(product.collection);
         foundCollection = true;
-      } 
+      }
       // 2. Ищем коллекцию в названии товара
       else if (typeof product.name === 'string' && product.name.trim() && !foundCollection) {
         const productName = product.name.trim();
-        
+
         // Сначала проверяем явные маркеры коллекций
         const collectionMarkers = [
           /collection\s+([A-Za-z0-9]+)/i,
           /series\s+([A-Za-z0-9]+)/i,
           /model\s+([A-Za-z0-9]+)/i
         ];
-        
+
         for (const marker of collectionMarkers) {
           const match = productName.match(marker);
           if (match && match[1]) {
@@ -3307,7 +3285,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             break;
           }
         }
-        
+
         // Если явных маркеров нет, ищем слова в ВЕРХНЕМ РЕГИСТРЕ
         if (!foundCollection) {
           const uppercaseWords = productName.match(/\b([A-Z]{3,})\b/g);
@@ -3316,38 +3294,38 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             foundCollection = true;
           }
         }
-        
-      
+
+
       }
-      
+
       // 3. Если не нашли коллекцию по имени, пробуем найти по артикулу
       if (!foundCollection && product.article) {
         const article = String(product.article).trim();
-        
+
         // Проверяем наличие префикса артикула в общих префиксах
         for (const prefix of commonArticlePrefixes) {
           // Проверяем, начинается ли артикул с данного префикса
           // или содержит ли "Series NNN", если префикс начинается со слова "Series"
-          if (article.toUpperCase().startsWith(prefix) || 
-              (prefix.startsWith("Series ") && article.includes(prefix.replace("Series ", "")))) {
+          if (article.toUpperCase().startsWith(prefix) ||
+            (prefix.startsWith("Series ") && article.includes(prefix.replace("Series ", "")))) {
             collectionName = prefix;
             foundCollection = true;
             break;
           }
         }
       }
-      
+
       // 4. Используем бренд товара как последний вариант
       if (!foundCollection && product.source && typeof product.source === 'string') {
         collectionName = String(product.source);
         foundCollection = true;
       }
-      
+
       // Проверяем, содержит ли название коллекции кириллические символы
       const containsCyrillic = (text: string): boolean => {
         return /[а-яА-ЯёЁ]/.test(text);
       };
-      
+
       // Проверяем, содержит ли название коллекции слово "Люстра" или другие русские слова
       if (!containsCyrillic(collectionName)) {
         // Добавляем товар в соответствующую коллекцию только если название не содержит кириллицу
@@ -3359,13 +3337,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         // Дополнительная попытка группировки по артикулу
         if (product.article) {
           const article = String(product.article).trim();
-          
+
           // 1. Разделяем артикул на части по разделителям (дефис, подчеркивание, точка)
           const articleParts = article.split(/[-_.]/);
-          
+
           if (articleParts.length >= 2) {
             // Если артикул состоит из нескольких частей, создаем группы по комбинации частей
-            
+
             // 1.1 Группа по первым двум частям
             if (articleParts.length >= 2) {
               const firstTwoParts = articleParts.slice(0, 2).join('-');
@@ -3377,7 +3355,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 collectionsTemp[groupName].push(product);
               }
             }
-            
+
             // 1.2 Группа по первой и последней части
             if (articleParts.length >= 2) {
               const firstAndLastParts = articleParts[0] + '-' + articleParts[articleParts.length - 1];
@@ -3389,7 +3367,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 collectionsTemp[groupName].push(product);
               }
             }
-            
+
             // 1.3 Если есть как минимум 3 части, создаем группу "начало-середина-конец"
             if (articleParts.length >= 3) {
               const middlePartIndex = Math.floor(articleParts.length / 2);
@@ -3398,7 +3376,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 articleParts[middlePartIndex],
                 articleParts[articleParts.length - 1]
               ].join('-');
-              
+
               if (startMiddleEndParts.length >= 3) {
                 const groupName = `Series ${startMiddleEndParts}`;
                 if (!collectionsTemp[groupName]) {
@@ -3409,7 +3387,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             }
           } else {
             // Если артикул не содержит разделителей, используем другую стратегию
-            
+
             // 2.1 Группируем по первым 3-4 символам (обычно серия)
             if (article.length >= 4) {
               const prefix = article.substring(0, Math.min(4, article.length));
@@ -3419,7 +3397,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               }
               collectionsTemp[groupName].push(product);
             }
-            
+
             // 2.2 Если артикул достаточно длинный, группируем по начальным + конечным символам
             if (article.length >= 6) {
               const pattern = article.substring(0, 3) + '...' + article.substring(article.length - 2);
@@ -3430,7 +3408,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               collectionsTemp[groupName].push(product);
             }
           }
-          
+
           // 3. Анализ цифровых последовательностей
           // Ищем числовые группы для определения серии
           const numMatches = article.match(/\d+/g);
@@ -3446,7 +3424,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               }
               collectionsTemp[groupName].push(product);
             }
-            
+
             // 3.2 Если есть несколько чисел, создаем группу по комбинации (первое-последнее)
             if (numMatches.length >= 2) {
               const firstAndLastNum = `${numMatches[0]}-${numMatches[numMatches.length - 1]}`;
@@ -3457,7 +3435,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               collectionsTemp[groupName].push(product);
             }
           }
-          
+
           // 4. Анализ буквенных последовательностей
           const letterMatches = article.match(/[A-Za-z]{2,}/g);
           if (letterMatches && letterMatches.length > 0) {
@@ -3468,7 +3446,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               collectionsTemp[groupName] = [];
             }
             collectionsTemp[groupName].push(product);
-            
+
             // 4.2 Если есть несколько буквенных групп, объединяем их
             if (letterMatches.length >= 2) {
               const allLetters = letterMatches.join('-').toUpperCase();
@@ -3479,7 +3457,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               collectionsTemp[groupName].push(product);
             }
           }
-          
+
           // 5. Анализ смешанных буквенно-цифровых шаблонов
           // Например: для "ABC123DEF456" создадим шаблон "ABC-DEF"
           const fullParsingRegex = /([A-Za-z]+)(\d+)([A-Za-z]+)?(\d+)?/;
@@ -3498,10 +3476,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         }
       }
     });
-    
+
     // Финальные коллекции после обработки
     const collections: Record<string, ProductI[]> = {};
-    
+
     // Обрабатываем временные коллекции
     Object.entries(collectionsTemp)
       // Сортируем коллекции по количеству товаров для лучшей группировки
@@ -3513,25 +3491,25 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           if (a[0] === decodedCollection) return -1;
           if (b[0] === decodedCollection) return 1;
         }
-        
+
         return b[1].length - a[1].length;
       })
       .forEach(([name, items]) => {
         // Пропускаем коллекции Other Products и All Products
         if (name === 'Other Products' || name === 'All Products') return;
-        
+
         // Если в коллекции больше 1 товара, сохраняем её
         if (items.length > 1) {
           collections[name] = items;
         }
       });
-    
+
     // Убедимся, что есть хотя бы одна коллекция
     if (Object.keys(collections).length === 0) {
       // Возвращаем пустой объект вместо All Products
       return {};
     }
-    
+
     return collections;
   };
 
@@ -3539,7 +3517,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   useEffect(() => {
     // Возвращаем функцию очистки
     return () => {
-      // Проверяем существование fetchAbortController 
+      // Проверяем существование fetchAbortController
       if (fetchAbortController && fetchAbortController.current) {
         console.log('Очистка контроллера при размонтировании компонента');
         // Просто обнуляем ссылку без вызова abort
@@ -3556,14 +3534,14 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
       return `${selectedBrand.name} - купить товары от производителя в интернет-магазине MoreElektriki`;
     }
-    
+
     if (selectedCategory && selectedCategory.label !== 'All Products') {
       return `${selectedCategory.label} - купить по выгодной цене в интернет-магазине MoreElektriki`;
     }
-    
+
     return 'Каталог товаров - MoreElektriki: освещение и электротовары';
   };
-  
+
   const getPageDescription = (): string => {
     if (selectedBrand && selectedBrand.name !== 'All Products') {
       if (selectedCategory && selectedCategory.label !== 'All Products') {
@@ -3571,11 +3549,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }
       return `Товары ${selectedBrand.name} в официальном интернет-магазине MoreElektrikis. Большой выбор моделей, выгодные цены, быстрая доставка, гарантия производителя.`;
     }
-    
+
     if (selectedCategory && selectedCategory.label !== 'All Products') {
       return `${selectedCategory.label} в интернет-магазине MoreElektriki. Широкий ассортимент, качественные товары, выгодные цены, быстрая доставка, гарантия.`;
     }
-    
+
     return 'Каталог интернет-магазина MoreElektriki: светильники, люстры, бра, розетки, выключатели и другие товары для освещения и электрики. Выгодные цены, большой выбор, быстрая доставка по всей России.';
   };
 
@@ -3586,17 +3564,17 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   useEffect(() => {
     if (router.isReady) {
       const { source: urlSource, category } = router.query;
-      
+
       // Декодируем category из URL
       const decodedCategory = category ? decodeURIComponent(category as string) : '';
 
-      // Проверяем, является ли текущий URL одним из указанных путей с 
-      const isHeatingSpecialPage = urlSource === 'heating' && 
-        (decodedCategory === '' || 
-         decodedCategory === '' || 
-         decodedCategory === '' || // Добавляем обе возможные версии написания
-         decodedCategory === '' || 
-         decodedCategory === 'Терморегулятор');
+      // Проверяем, является ли текущий URL одним из указанных путей с
+      const isHeatingSpecialPage = urlSource === 'heating' &&
+        (decodedCategory === '' ||
+          decodedCategory === '' ||
+          decodedCategory === '' || // Добавляем обе возможные версии написания
+          decodedCategory === '' ||
+          decodedCategory === 'Терморегулятор');
 
       // Устанавливаем обычные категории
       setProductCategoriesState(productCategories);
@@ -3605,17 +3583,17 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
 
 
-  // Функция для проверки, является ли текущая страница страницей нагревательных товаров 
+  // Функция для проверки, является ли текущая страница страницей нагревательных товаров
   const isHeatingPageCheck = (category: string, source: string): boolean => {
     if (!category || !source) return false;
-    
+
     const heatingCategoriesList = [
-      '', 
-      '', 
-      '', 
+      '',
+      '',
+      '',
       'Т'
     ];
-    
+
     return (
       (source === 'heating' && heatingCategoriesList.includes(category)) ||
       (heatingCategoriesList.some(c => c === category))
@@ -3629,11 +3607,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       clearTimeout(spinnerTimeoutRef.current);
       spinnerTimeoutRef.current = null;
     }
-    
+
     // Сразу показываем спиннер и устанавливаем флаг загрузки
     setIsLoading(true);
     setIsFullscreenLoading(true);
-    
+
     // Устанавливаем минимальное время отображения спиннера (уменьшаем до 1.5 секунд)
     spinnerTimeoutRef.current = setTimeout(() => {
       // Этот код выполнится через 1.5 секунды
@@ -3644,12 +3622,12 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       spinnerTimeoutRef.current = null;
     }, 1500);
   }, [isLoading]);
-  
+
   // Обновляем функцию для безопасного отключения спиннера
   const hideSpinner = useCallback(() => {
     // Отмечаем, что загрузка завершена
     setIsLoading(false);
-    
+
     // Если таймер минимальной длительности еще активен
     if (!spinnerTimeoutRef.current) {
       // Если таймер уже завершился, скрываем спиннер сразу
@@ -3675,10 +3653,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const handlePowerChange = (power: string | null) => {
     // Показываем спиннер с минимальной длительностью
     showSpinnerWithMinDuration();
-    
+
     if (selectedPower === power) {
       setSelectedPower(null);
-      
+
       const { power, ...restQuery } = router.query;
       router.push({
         pathname: router.pathname,
@@ -3686,71 +3664,71 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }, undefined, { shallow: true });
     } else {
       setSelectedPower(power);
-      
+
       router.push({
         pathname: router.pathname,
         query: { ...router.query, power, page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     setCurrentPage(1);
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
   };
 
-    // Обработчик фильтра по наличию
+  // Обработчик фильтра по наличию
   const handleAvailabilityFilter = (filter: 'all' | 'inStock' | 'outOfStock') => {
-      console.log(`🔄 Изменен фильтр доступности на: ${filter} для категории: ${selectedCategory?.label || 'все товары'}`);
-      console.log(`🔍 selectedCategory:`, selectedCategory);
-      console.log(`🔍 router.query.category:`, router.query.category);
-      console.log(`🔍 router.asPath:`, router.asPath);
-      
-      // Определяем категорию для обновления URL
-      let categoryForFilter = selectedCategory;
-      
-      // Если категория не определена, пытаемся восстановить её из URL
-      if (!categoryForFilter || categoryForFilter.label === 'Все товары') {
-        // Проверяем router.query.category (из URL параметров)
-        if (router.query.category && typeof router.query.category === 'string') {
-          const categoryFromQuery = decodeURIComponent(router.query.category);
-          categoryForFilter = {
-            label: categoryFromQuery,
-            searchName: categoryFromQuery
-          };
-          console.log(`🎯 Используем категорию из URL для фильтра: "${categoryForFilter.label}"`);
-        }
-        // Извлекаем из красивого URL
-        else {
-          const pathParts = router.asPath.split('?')[0].split('/').filter(Boolean);
-          if (pathParts.length >= 2 && pathParts[0] === 'catalog') {
-            const categoryPath = pathParts.slice(1).join('/');
-            const categoryFromPath = categoryPathToName[categoryPath];
-            
-            if (categoryFromPath) {
-              categoryForFilter = {
-                label: categoryFromPath,
-                searchName: categoryFromPath
-              };
-              console.log(`🎯 Используем категорию из пути для фильтра: "${categoryForFilter.label}"`);
-            }
+    console.log(`🔄 Изменен фильтр доступности на: ${filter} для категории: ${selectedCategory?.label || 'все товары'}`);
+    console.log(`🔍 selectedCategory:`, selectedCategory);
+    console.log(`🔍 router.query.category:`, router.query.category);
+    console.log(`🔍 router.asPath:`, router.asPath);
+
+    // Определяем категорию для обновления URL
+    let categoryForFilter = selectedCategory;
+
+    // Если категория не определена, пытаемся восстановить её из URL
+    if (!categoryForFilter || categoryForFilter.label === 'Все товары') {
+      // Проверяем router.query.category (из URL параметров)
+      if (router.query.category && typeof router.query.category === 'string') {
+        const categoryFromQuery = decodeURIComponent(router.query.category);
+        categoryForFilter = {
+          label: categoryFromQuery,
+          searchName: categoryFromQuery
+        };
+        console.log(`🎯 Используем категорию из URL для фильтра: "${categoryForFilter.label}"`);
+      }
+      // Извлекаем из красивого URL
+      else {
+        const pathParts = router.asPath.split('?')[0].split('/').filter(Boolean);
+        if (pathParts.length >= 2 && pathParts[0] === 'catalog') {
+          const categoryPath = pathParts.slice(1).join('/');
+          const categoryFromPath = categoryPathToName[categoryPath];
+
+          if (categoryFromPath) {
+            categoryForFilter = {
+              label: categoryFromPath,
+              searchName: categoryFromPath
+            };
+            console.log(`🎯 Используем категорию из пути для фильтра: "${categoryForFilter.label}"`);
           }
         }
       }
-      
-      // Принудительно сохраняем текущую категорию в localStorage
-      if (categoryForFilter && categoryForFilter.label !== 'Все товары') {
-        const categoryToSave = {
-          label: categoryForFilter.label,
-          searchName: categoryForFilter.searchName || categoryForFilter.label
-        };
-        localStorage.setItem('currentCategory', JSON.stringify(categoryToSave));
-        console.log(`💾 Сохранили категорию в localStorage:`, categoryToSave);
-      }
-      
-      showSpinnerWithMinDuration();
-      setAvailabilityFilter(filter);
-      setCurrentPage(1);
-    
+    }
+
+    // Принудительно сохраняем текущую категорию в localStorage
+    if (categoryForFilter && categoryForFilter.label !== 'Все товары') {
+      const categoryToSave = {
+        label: categoryForFilter.label,
+        searchName: categoryForFilter.searchName || categoryForFilter.label
+      };
+      localStorage.setItem('currentCategory', JSON.stringify(categoryToSave));
+      console.log(`💾 Сохранили категорию в localStorage:`, categoryToSave);
+    }
+
+    showSpinnerWithMinDuration();
+    setAvailabilityFilter(filter);
+    setCurrentPage(1);
+
     if (filter === 'all') {
       const { availability, ...restQuery } = router.query;
       // Сохраняем категорию при сбросе фильтра
@@ -3783,10 +3761,10 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
       }, undefined, { shallow: true });
       console.log('📝 Фильтр "Под заказ" применяется ТОЛЬКО на клиенте, НЕ добавляем в URL');
     }
-    
+
     console.log(`📝 URL будет обновлен с категорией: ${categoryForFilter?.label || 'все товары'}`);
     console.log(`📝 Полные параметры URL:`, router.query);
-    
+
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
   };
@@ -3796,7 +3774,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
     showSpinnerWithMinDuration();
     setShowOnlyNewItems(showNew);
     setCurrentPage(1);
-    
+
     if (!showNew) {
       const { newItems, ...restQuery } = router.query;
       router.push({
@@ -3809,22 +3787,22 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         query: { ...router.query, newItems: 'true', page: 1 },
       }, undefined, { shallow: true });
     }
-    
+
     const sourceName = source || '';
     fetchProducts(sourceName, 1);
   };
 
 
   const PowerFilter = () => {
-  
+
     const isHeatingBrand = selectedBrand?.name === 'heating';
 
     if (!isHeatingBrand) return null;
-    
-   
-    
+
+
+
     return (
-     <div></div>
+      <div></div>
     );
   };
 
@@ -3832,101 +3810,101 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const [mainCategories] = useState<string[]>([
     'Люстра', 'Светильник', 'Бра', 'Торшер', 'Уличный светильник', 'Комплектующие'
   ]);
-  
+
   // Добавляем категории , которые нужно считать "главными"
   const [mainHeatingCategories] = useState<string[]>([
     'Мат нагревательный', 'Обогрев кровли и площадок', 'Специальный греющий кабель', 'Терморегулятор'
   ]);
-  
+
   // Новое состояние для отслеживания активной главной категории
   const [activeMainCategory, setActiveMainCategory] = useState<string | null>(null);
-  
+
   // Новый флаг для отображения всех категорий
   const [showAllCategories, setShowAllCategories] = useState<boolean>(true);
-  
-  // Флаг для отслеживания, являемся ли мы в контексте 
+
+  // Флаг для отслеживания, являемся ли мы в контексте
   const [isHeatingContext, setIsHeatingContext] = useState<boolean>(false);
 
   // Новая функция для определения, является ли категория подкатегорией активной главной категории
   const isRelatedToMainCategory = (category: Category): boolean => {
     if (!activeMainCategory) return true;
-    
+
     // Проверяем, содержит ли название категории ключевые слова активной главной категории
     const categoryNameLower = category.label.toLowerCase();
     const mainCategoryLower = activeMainCategory.toLowerCase();
-    
+
     // Проверяем прямое соответствие или содержание подстроки
     if (categoryNameLower.includes(mainCategoryLower)) return true;
-    
-    // Проверяем, являемся ли мы в контексте 
+
+    // Проверяем, являемся ли мы в контексте
     const isHeatingPage = router.query.source === 'heating';
-    
+
     // Если мы в контексте  и активная категория одна из главных -категорий
     if (isHeatingPage && mainHeatingCategories.some(c => c.toLowerCase() === mainCategoryLower)) {
-      // Специальные правила для категорий 
+      // Специальные правила для категорий
       switch (mainCategoryLower) {
         case 'мат нагревательный':
-          return categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('');
+          return categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('');
         case '':
-          return categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('');
+          return categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('');
         case '':
-          return categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') || 
-                 categoryNameLower.includes('');
+          return categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('');
         case '':
-          return categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('');
+          return categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('');
         case '':
-          return categoryNameLower.includes('') || 
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('') ||
-                 categoryNameLower.includes('');
+          return categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('') ||
+            categoryNameLower.includes('');
         default:
           return false;
       }
     }
-    
+
     // Стандартные правила для категорий освещения
     switch (mainCategoryLower) {
       case 'люстра':
-        return categoryNameLower.includes('подвес') || 
-               categoryNameLower.includes('потолочн') ||
-               categoryNameLower.includes('лампа') && categoryNameLower.includes('потолок');
+        return categoryNameLower.includes('подвес') ||
+          categoryNameLower.includes('потолочн') ||
+          categoryNameLower.includes('лампа') && categoryNameLower.includes('потолок');
       case 'светильник':
-        return categoryNameLower.includes('точечн') || 
-               categoryNameLower.includes('встраиваем') || 
-               categoryNameLower.includes('трековый') ||
-               categoryNameLower.includes('спот');
+        return categoryNameLower.includes('точечн') ||
+          categoryNameLower.includes('встраиваем') ||
+          categoryNameLower.includes('трековый') ||
+          categoryNameLower.includes('спот');
       case 'бра':
-        return categoryNameLower.includes('настен') || 
-               categoryNameLower.includes('стен');
+        return categoryNameLower.includes('настен') ||
+          categoryNameLower.includes('стен');
       case 'торшер':
         return categoryNameLower.includes('напольн') ||
-               categoryNameLower.includes('пол') && categoryNameLower.includes('свет');
+          categoryNameLower.includes('пол') && categoryNameLower.includes('свет');
       case 'уличный светильник':
-        return categoryNameLower.includes('улиц') || 
-               categoryNameLower.includes('фасад') ||
-               categoryNameLower.includes('ландшафт') ||
-               categoryNameLower.includes('наруж');
+        return categoryNameLower.includes('улиц') ||
+          categoryNameLower.includes('фасад') ||
+          categoryNameLower.includes('ландшафт') ||
+          categoryNameLower.includes('наруж');
       default:
         return false;
     }
@@ -3935,18 +3913,18 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   // Новая функция для определения, является ли категория одной из главных категорий
   const isMainCategory = (category: Category): boolean => {
     if (!category) return false;
-    
-    // Проверяем, является ли текущая страница страницей 
+
+    // Проверяем, является ли текущая страница страницей
     const isHeatingPage = router.query.source === 'heating';
-    
+
     if (isHeatingPage) {
-      // Если это страница , проверяем по списку главных категорий 
-      return mainHeatingCategories.some(mc => 
+      // Если это страница , проверяем по списку главных категорий
+      return mainHeatingCategories.some(mc =>
         category.label.toLowerCase().includes(mc.toLowerCase())
       );
     } else {
       // В остальных случаях проверяем по основному списку категорий освещения
-      return mainCategories.some(mc => 
+      return mainCategories.some(mc =>
         category.label.toLowerCase().includes(mc.toLowerCase())
       );
     }
@@ -3958,11 +3936,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const ActiveFilters = () => {
     // Only render if there's a selected brand or category
     if (!selectedBrand && !selectedCategory) return null;
-    
+
     return (
       <div className="bg-[#1a1a1a]/40 backdrop-blur-sm  rounded-xl p-4 shadow-lg">
         <div className="flex flex-wrap items-center gap-3">
-         
+
           <div className="flex flex-wrap gap-2">
             {selectedBrand && selectedBrand.name !== 'Все товары' && (
               <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
@@ -3971,7 +3949,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </div>
               </div>
             )}
-            
+
             {selectedCategory && (
               <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
@@ -3979,17 +3957,17 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </div>
               </div>
             )}
-            
+
             {selectedColor && (
               <div className="flex items-center  backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5 flex items-center">
-                  <div 
-                    className="w-3 h-3 rounded-full mr-2 border border-black/20" 
+                  <div
+                    className="w-3 h-3 rounded-full mr-2 border border-black/20"
                     style={{ backgroundColor: selectedColor.toLowerCase() }}
                   ></div>
                   <span>{selectedColor}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleColorChange(null)}
                   className="h-full px-2  hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -3997,13 +3975,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </button>
               </div>
             )}
-            
+
             {selectedMaterial && (
               <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
                   <span>Материал: {selectedMaterial}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleMaterialChange(null)}
                   className="h-full px-2  hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4011,13 +3989,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </button>
               </div>
             )}
-            
+
             {(minPrice !== 10 || maxPrice !== 1000000) && (
               <div className="flex items-center  backdrop-blur-sm  text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
                   <span>Цена: {formatPrice(minPrice)}₽ - {formatPrice(maxPrice)}₽</span>
                 </div>
-                <button 
+                <button
                   onClick={() => {
                     setMinPrice(10);
                     setMaxPrice(1000000);
@@ -4029,13 +4007,13 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 </button>
               </div>
             )}
-            
+
             {selectedPower && (
               <div className="flex items-center bg-gray-200/80 backdrop-blur-sm border border-gray-200/30 text-black text-sm rounded-lg overflow-hidden shadow-sm mb-2">
                 <div className="px-3 py-1.5">
                   <span>Мощность: {selectedPower}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handlePowerChange(null)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4050,7 +4028,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 <div className="px-3 py-1.5">
                   <span>Тип цоколя: {selectedSocketType.toUpperCase()}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleSocketTypeChange(null)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4064,7 +4042,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 <div className="px-3 py-1.5">
                   <span>Количество ламп: {selectedLampCount}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleLampCountChange(null)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4078,7 +4056,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 <div className="px-3 py-1.5">
                   <span>Цвет плафона: {capitalizeFirst(selectedShadeColor)}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleShadeColorChange(null)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4092,7 +4070,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 <div className="px-3 py-1.5">
                   <span>Цвет арматуры: {capitalizeFirst(selectedFrameColor)}</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleFrameColorChange(null)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4108,7 +4086,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                     {availabilityFilter === 'inStock' ? 'В наличии' : 'Под заказ'}
                   </span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleAvailabilityFilter('all')}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4122,7 +4100,7 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                 <div className="px-3 py-1.5">
                   <span>Новинки</span>
                 </div>
-                <button 
+                <button
                   onClick={() => handleNewItemsFilter(false)}
                   className="h-full px-2 bg-gray-300/80 hover:bg-gray-300/90 transition-all duration-200"
                 >
@@ -4131,18 +4109,184 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               </div>
             )}
 
-          
-            
-          
+
+
           </div>
         </div>
       </div>
     );
   };
-  
+
+  // =================================================================================
+  // ============================ NEW SIDEBAR COMPONENT ============================
+  // =================================================================================
+  const FilterSidebar = () => {
+
+    const hasActivePrice = minPrice !== 10 || maxPrice !== 1000000;
+    // !! ИСПРАВЛЕНИЕ ОШИБКИ ТИПИЗАЦИИ !!
+    const hasActiveLightingFilters = !!(selectedSocketType || selectedLampCount || selectedShadeColor || selectedFrameColor);
+    const hasActiveAvailability = availabilityFilter !== 'all' || showOnlyNewItems;
+
+    const Accordion = ({ title, isOpen, setIsOpen, children, hasActiveFilter = false }: { title: string, isOpen: boolean, setIsOpen: (isOpen: boolean) => void, children: React.ReactNode, hasActiveFilter?: boolean }) => (
+      <div className="border-b border-gray-200 py-6">
+        <h3 className="-my-3 flow-root">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
+          >
+            <span className={`font-semibold text-gray-900 flex items-center`}>
+              {title}
+              {hasActiveFilter && <span className="ml-2 w-2 h-2 rounded-full bg-black"></span>}
+            </span>
+            <span className="ml-6 flex items-center">
+              <svg className={`h-5 w-5 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </span>
+          </button>
+        </h3>
+        {isOpen && (
+          <div className="pt-6">
+            <div className="space-y-4">
+              {children}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+
+    return (
+      <div className='relative'>
+        {/* Mobile Header */}
+        <div className="lg:hidden flex justify-between items-center px-4 py-3 border-b border-gray-200 bg-white sticky top-0 z-10">
+          <h2 className="text-lg font-bold text-gray-900">Фильтры</h2>
+          <button onClick={toggleMobileFilter} className="p-2 text-gray-500 hover:text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="p-4 lg:p-0">
+          {/* Categories */}
+          <div className="border-b border-gray-200 py-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Категории</h3>
+            {renderCategories()}
+          </div>
+
+          {selectedBrand?.name === 'heating' && <PowerFilter />}
+
+          {/* Price Filter */}
+          <Accordion title="Цена" isOpen={isPriceOpen} setIsOpen={setIsPriceOpen} hasActiveFilter={hasActivePrice}>
+            <div className="grid grid-cols-2 gap-3 items-center">
+              <input type="number" value={minPrice} onChange={(e) => setMinPrice(Number(e.target.value) || 0)} placeholder="От" className="w-full px-3 py-2 bg-gray-50 text-black placeholder-gray-500 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
+              <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value) || 0)} placeholder="До" className="w-full px-3 py-2 bg-gray-50 text-black placeholder-gray-500 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
+            </div>
+            <button onClick={() => handlePriceRangeChange(minPrice, maxPrice)} className="w-full mt-4 px-3 py-2 bg-black text-white rounded-lg text-sm font-semibold hover:bg-gray-800 transition">
+              Применить
+            </button>
+          </Accordion>
+
+          {/* Lighting Specific Filters */}
+          {(extractedFilters.socketTypes.length > 0 || extractedFilters.lampCounts.length > 0 || extractedFilters.shadeColors.length > 0 || extractedFilters.frameColors.length > 0) && (
+            <Accordion title="Характеристики" isOpen={isSocketTypeOpen} setIsOpen={setIsSocketTypeOpen} hasActiveFilter={hasActiveLightingFilters}>
+              {extractedFilters.socketTypes.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Тип цоколя</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {extractedFilters.socketTypes.map(item => (
+                      <button key={item} onClick={() => handleSocketTypeChange(item)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${selectedSocketType === item ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500'}`}>
+                        {item.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {extractedFilters.lampCounts.length > 0 && (
+                <div className='pt-4'>
+                  <h4 className="font-medium text-gray-900 mb-2">Количество ламп</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {extractedFilters.lampCounts.map(item => (
+                      <button key={item} onClick={() => handleLampCountChange(item)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${selectedLampCount === item ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500'}`}>
+                        {`${item} ${item === 1 ? 'лампа' : item >= 2 && item <= 4 ? 'лампы' : 'ламп'}`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {extractedFilters.shadeColors.length > 0 && (
+                <div className='pt-4'>
+                  <h4 className="font-medium text-gray-900 mb-2">Цвет плафона</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {extractedFilters.shadeColors.map(item => (
+                      <button key={item} onClick={() => handleShadeColorChange(item)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${selectedShadeColor === item ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500'}`}>
+                        {capitalizeFirst(item)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {extractedFilters.frameColors.length > 0 && (
+                <div className='pt-4'>
+                  <h4 className="font-medium text-gray-900 mb-2">Цвет арматуры</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {extractedFilters.frameColors.map(item => (
+                      <button key={item} onClick={() => handleFrameColorChange(item)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${selectedFrameColor === item ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500'}`}>
+                        {capitalizeFirst(item)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </Accordion>
+          )}
+
+          {/* Availability and New Items */}
+          <Accordion title="Наличие" isOpen={isFiltersOpen} setIsOpen={setIsFiltersOpen} hasActiveFilter={hasActiveAvailability}>
+            {/* Segmented control for availability */}
+            <div className="flex w-full bg-gray-100 p-1 rounded-lg">
+              <button onClick={() => handleAvailabilityFilter('all')} className={`w-1/3 text-center text-sm py-1.5 rounded-md transition ${availabilityFilter === 'all' ? 'bg-white text-black shadow' : 'text-gray-600 hover:bg-gray-200'}`}>Все</button>
+              <button onClick={() => handleAvailabilityFilter('inStock')} className={`w-1/3 text-center text-sm py-1.5 rounded-md transition ${availabilityFilter === 'inStock' ? 'bg-white text-black shadow' : 'text-gray-600 hover:bg-gray-200'}`}>В наличии</button>
+              <button onClick={() => handleAvailabilityFilter('outOfStock')} className={`w-1/3 text-center text-sm py-1.5 rounded-md transition ${availabilityFilter === 'outOfStock' ? 'bg-white text-black shadow' : 'text-gray-600 hover:bg-gray-200'}`}>Под заказ</button>
+            </div>
+            {/* Toggle switch for new items */}
+            <div className="flex items-center justify-between mt-4">
+              <span className="text-sm font-medium text-gray-900">Только новинки</span>
+              <button onClick={() => handleNewItemsFilter(!showOnlyNewItems)} className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors ${showOnlyNewItems ? 'bg-black' : 'bg-gray-200'}`}>
+                <span className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${showOnlyNewItems ? 'translate-x-6' : 'translate-x-1'}`} />
+              </button>
+            </div>
+          </Accordion>
+        </div>
+
+        {/* Mobile Footer with actions */}
+        <div className="lg:hidden sticky bottom-0 bg-white border-t border-gray-200 p-4 z-10">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleResetFilters}
+              className="w-1/2 text-center py-3 border border-gray-300 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100"
+            >
+              Сбросить
+            </button>
+            <button
+              onClick={toggleMobileFilter}
+              className="w-1/2 text-center py-3 bg-black text-white rounded-lg text-sm font-semibold hover:bg-gray-800"
+            >
+              Показать товары
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =================================================================================
+  // ======================== END OF NEW SIDEBAR COMPONENT =========================
+  // =================================================================================
+
   return (
     <div className="min-h-screen  flex flex-col text-white overflow-hidden max-w-[100vw]">
-      <SEO 
+      <SEO
         title={getPageTitle()}
         description={getPageDescription()}
         keywords={`купить ${selectedCategory?.label?.toLowerCase() || 'светильники'} moreelektriki, ${selectedCategory?.label?.toLowerCase() || 'светильники'}, ${selectedBrand?.name || ''}, электроустановочные изделия, теплые полы, люстры потолочные, люстры подвесные, настенные светильники, торшеры, настольные лампы, розетки, выключатели, LightStar, Maytoni, Novotech, Artelamp, Lumion`}
@@ -4150,41 +4294,41 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         image="/images/logo.webp"
       />
       <Header />
-      
+
       {/* Слайдер на всю ширину экрана */}
-     
-      
-      
+
+
+
       {/* Полноэкранный спиннер загрузки */}
       {isFullscreenLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-70 z-[9999] flex justify-center items-center transition-opacity duration-300">
           <LoadingSpinner size="xl" text="Загрузка товаров..." />
         </div>
       )}
-      
+
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 mt-40 overflow-hidden">
         {/* Убираем дублирующий спиннер из основного контента */}
-        
+
         <div className="max-w-9xl mx-auto overflow-hidden">
-      
-          
+
+
           {/* Заголовок с переключателем режима просмотра */}
           <div className="flex justify-end items-center mt-10 flex-wrap">
             <h1 className="text-4xl md:text-5xl font-medium text-black flex items-baseline flex-wrap gap-x-4">
-           
+
               {totalProducts > 0 && (
                 <span className="text-sm  text-black">
-                  {totalProducts} {totalProducts === 1 ? 'товар' : 
+                  {totalProducts} {totalProducts === 1 ? 'товар' :
                     (totalProducts >= 2 && totalProducts <= 4) ? 'товара' : 'товаров'}
                 </span>
               )}
             </h1>
-          
+
           </div>
-          
+
           {/* Mobile Filter Button */}
           <div className="lg:hidden mb-4">
-            <button 
+            <button
               onClick={toggleMobileFilter}
               className="w-52 py-3 px-4 bg-white border border-black/30 rounded-xl  flex items-center justify-between"
               aria-label="Открыть фильтры"
@@ -4192,197 +4336,19 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
               <span className="font-medium  text-black">Фильтры все</span>
             </button>
           </div>
-          
+
           <div className="flex flex-col  lg:flex-row gap-6 lg:gap-8 overflow-hidden">
             {/* Left Sidebar - Hidden on mobile unless toggled */}
-            <div className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 flex' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0 overflow-hidden`}>
-              {/* Backdrop for mobile (click to close) */}
-              {isMobileFilterOpen && <div className="absolute inset-0 bg-black/40 z-[10000] lg:hidden" onClick={toggleMobileFilter} />}
-              {/* Mobile Filter Container - fixed right panel full height with scroll */}
-              <div className={`${isMobileFilterOpen ? 'fixed   right-0 top-0 bottom-0  max-w-[99vw] bg-white text-black p-0 overflow-y-auto shadow-xl pb-24 z-[10005]' : ''} lg:p-0`}>
-                {/* Mobile Filter Header - зафиксированный (mobile only, white bg) */}
-                <div className={`${isMobileFilterOpen ? 'sticky top-0 z-[10006]' : ''} lg:hidden flex justify-between items-center mb-4 p-9 h-32 bg-white text-black border-b`}> 
-                  <div className="flex items-center">
-                    <h2 className="font-bold text-lg text-black uppercase tracking-wide">ФИЛЬТРЫ</h2>
-                  </div>
-                  <button onClick={toggleMobileFilter} className="p-4 rounded-full bg-black text-white hover:bg-gray-900 transition-all duration-200 z-[10007]">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
+            <aside className={`${isMobileFilterOpen ? 'fixed inset-0 z-50 flex' : 'hidden'} lg:block lg:relative lg:z-auto lg:w-[270px] lg:flex-shrink-0`}>
+              {/* Backdrop for mobile */}
+              {isMobileFilterOpen && <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={toggleMobileFilter} />}
 
-         
+              {/* Mobile Filter Container */}
+              <div className={`fixed right-0 top-0 bottom-0 w-full max-w-sm bg-white text-black overflow-y-auto shadow-xl z-50 transform transition-transform duration-300 ${isMobileFilterOpen ? 'translate-x-0' : 'translate-x-full'} lg:transform-none lg:static lg:w-full lg:max-w-none lg:shadow-none lg:bg-transparent`}>
+                <FilterSidebar />
+              </div>
+            </aside>
 
-             {/* Categories */}
-<div className="mb-4 p-3">
-  {renderCategories()}
-
-  {selectedBrand?.name === 'heating' && <PowerFilter />}
-
-  {/* ---- ЦЕНА ---- */}
-  <div className="mt-6 px-4">
-    <div className="mb-2">
-      <button
-        onClick={() => setIsPriceOpen(!isPriceOpen)}
-        className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
-      >
-        <h3 className="text-black text-sm font-semibold tracking-wide">Цена</h3>
-        <svg
-          className={`w-4 h-4 text-black transition-transform ${isPriceOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-    </div>
-
-    {isPriceOpen && (
-      <div className="mt-3 space-y-3">
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            type="number"
-            value={minPrice}
-            onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
-            placeholder="от"
-            className="w-full px-4 py-3 bg-white text-black placeholder-gray-500 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-          />
-          <input
-            type="number"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(Number(e.target.value) || 0)}
-            placeholder="до"
-            className="w-full px-4 py-3 bg-white text-black placeholder-gray-500 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-          />
-        </div>
-
-        <div className="relative w-full h-2 bg-gray-100 rounded-full">
-          <div
-            className="absolute h-2 bg-black rounded-full"
-            style={{ left: '0%', width: `${Math.min(100, ((maxPrice - minPrice) / Math.max(1, 1000000 - 10)) * 100)}%` }}
-          />
-        </div>
-        <div className="flex justify-between text-xs text-gray-600">
-          <span>{formatPrice(minPrice)}</span>
-          <span>{formatPrice(maxPrice)}</span>
-        </div>
-
-        <div className="flex gap-2">
-          <button
-            onClick={() => handlePriceRangeChange(minPrice, maxPrice)}
-            className="flex-1 px-3 py-2 bg-black text-white rounded-lg text-sm hover:bg-gray-800 transition"
-          >
-            Применить
-          </button>
-          <button
-            onClick={() => {
-              setMinPrice(10);
-              setMaxPrice(1000000);
-            }}
-            className="flex-1 px-3 py-2 border border-gray-200 text-black rounded-lg text-sm hover:bg-gray-50 transition"
-          >
-            Сброс
-          </button>
-        </div>
-      </div>
-    )}
-  </div>
-
-  {/* ---- ФИЛЬТРЫ СВЕТИЛЬНИКОВ ---- */}
-  {(extractedFilters.socketTypes.length > 0 ||
-    extractedFilters.lampCounts.length > 0 ||
-    extractedFilters.shadeColors.length > 0 ||
-    extractedFilters.frameColors.length > 0) && (
-    <div className="mt-6 space-y-4 px-3">
-      {[
-        { key: 'socket', title: 'Тип цоколя', items: extractedFilters.socketTypes, open: isSocketTypeOpen, setOpen: setIsSocketTypeOpen, selected: selectedSocketType, handler: handleSocketTypeChange },
-        { key: 'lamp', title: 'Количество ламп', items: extractedFilters.lampCounts, open: isLampCountOpen, setOpen: setIsLampCountOpen, selected: selectedLampCount, handler: handleLampCountChange },
-        { key: 'shade', title: 'Цвет плафона', items: extractedFilters.shadeColors, open: isShadeColorOpen, setOpen: setIsShadeColorOpen, selected: selectedShadeColor, handler: handleShadeColorChange },
-        { key: 'frame', title: 'Цвет арматуры', items: extractedFilters.frameColors, open: isFrameColorOpen, setOpen: setIsFrameColorOpen, selected: selectedFrameColor, handler: handleFrameColorChange }
-      ].map((filter) => (
-        <div key={filter.key}>
-          <button
-            onClick={() => filter.setOpen(!filter.open)}
-            className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
-          >
-            <h3 className="text-black text-sm font-semibold tracking-wide">{filter.title}</h3>
-            <svg className={`w-4 h-4 text-black transition-transform ${filter.open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          {filter.open && (
-            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-             {filter.items.map((item) => (
-  <button
-    key={item}
-    onClick={() => (filter.handler as any)(item)}
-    className={`px-3 py-2 rounded-lg text-sm border transition ${
-      (filter.selected as any) === item
-        ? 'border-black bg-white text-black'
-        : 'border-gray-200 text-black hover:border-gray-400'
-    }`}
-  >
-    {filter.key === 'lamp'
-      ? `${item} ${item === 1 ? 'лампа' : (item as number) >= 2 && (item as number) <= 4 ? 'лампы' : 'ламп'}`
-      : filter.key === 'socket'
-      ? (item as string).toUpperCase()
-      : capitalizeFirst(String(item))}
-  </button>
-))}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )}
-
-  {/* ---- СОРТИРОВКА / НАЛИЧИЕ ---- */}
-  <div className="mt-6 px-3">
-    <button
-      onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-      className="w-full flex items-center justify-between py-2 px-3 rounded-lg border border-gray-200 hover:border-gray-300 transition"
-    >
-      <h3 className="text-black text-sm font-semibold tracking-wide">Сортировка и наличие</h3>
-      <svg className={`w-4 h-4 text-black transition-transform ${isFiltersOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-
-    {isFiltersOpen && (
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        <button
-          onClick={() => handleAvailabilityFilter('inStock')}
-          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'inStock' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
-        >
-          В наличии
-        </button>
-        <button
-          onClick={() => handleNewItemsFilter(!showOnlyNewItems)}
-          className={`px-3 py-2 rounded-lg text-sm border transition ${showOnlyNewItems ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
-        >
-          Новинки
-        </button>
-        <button
-          onClick={() => handleAvailabilityFilter('outOfStock')}
-          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'outOfStock' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
-        >
-          Под заказ
-        </button>
-        <button
-          onClick={() => handleAvailabilityFilter('all')}
-          className={`px-3 py-2 rounded-lg text-sm border transition ${availabilityFilter === 'all' ? 'border-black bg-white text-black' : 'border-gray-200 text-black hover:border-gray-400'}`}
-        >
-          Все
-        </button>
-      </div>
-    )}
-  </div>
-</div>
-              </div>           
-            </div>
             {/* Right Content Area */}
             <div className="flex-1 ">    {/* Product List */}
               <div id="products-section" className="overflow-hidden">
@@ -4400,16 +4366,16 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                       </div>
                     )}
                     {products.length > 0 && !isLoading && (
-                <div className="mb-6">
-                  <CatalogOfProductSearch
-                    products={products} 
-                    viewMode={'grid'}  
-                    isLoading={isLoading}                   
-                  />
-                </div>
-              )}
+                      <div className="mb-6">
+                        <CatalogOfProductSearch
+                          products={products}
+                          viewMode={'grid'}
+                          isLoading={isLoading}
+                        />
+                      </div>
+                    )}
                     {/* Пагинация */}
-                    <Pagination 
+                    <Pagination
                       totalPages={totalPages}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
@@ -4422,18 +4388,18 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                       <div className="text-center max-w-md mx-auto">
                         <div className="mb-8">
                           <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br   flex items-center justify-center">
-                           <p className='text-5xl'>MOREELEKTRIKI</p>
+                            <p className='text-5xl'>MOREELEKTRIKI</p>
                           </div>
                           <h2 className="text-3xl font-bold text-white mb-4">
                             Скоро здесь будут новинки!
                           </h2>
                           <p className="text-gray-400 text-lg mb-6">
-                            Мы готовим для вас самые лучшие новые товары. 
+                            Мы готовим для вас самые лучшие новые товары.
                             Совсем скоро они появятся с яркими бейджами "Новинка".
                           </p>
                           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <button 
-                              onClick={() => handleNewItemsFilter(false)} 
+                            <button
+                              onClick={() => handleNewItemsFilter(false)}
                               className="px-6 py-3 bg-[#000000]/80 backdrop-blur-sm border border-[#000000]/30 text-white rounded-xl hover:bg-[#000000]/90 transition-all duration-200 font-medium shadow-lg"
                             >
                               Посмотреть все товары
@@ -4444,8 +4410,8 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                     ) : (
                       // Обычная заглушка для других случаев
                       <div className="text-center">
-                       
-                    
+
+
                         <div className="flex justify-center">
                           <LoadingSpinner size="lg" text="Обновление каталога..." />
                         </div>
@@ -4453,14 +4419,14 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                     )}
                   </div>
                 )}
-                
+
               </div>
             </div>
           </div>
         </div>
       </main>
       <Footer />
-      
+
       {/* Глобальные стили */}
       <style jsx global>{`
         html, body {
@@ -4556,22 +4522,22 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const sourceName = query.source || '';
   const pageNumber = query.page ? parseInt(query.page as string, 10) : 1;
-  
+
   // Создаем таймаут для запроса в 10 секунд
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => {
       reject(new Error('Превышено время запроса данных'));
     }, 10000); // 10 секунд таймаут
   });
-  
+
   try {
     // Собираем все параметры запроса из URL
     const params: Record<string, any> = {};
-    
+
     // Добавляем категорию, если она есть
     if (query.category && query.category !== 'Все товары' && query.category !== 'все-товары') {
       params.name = query.category;
-      
+
       // Проверяем, является ли категория категорией освещения
       if (typeof params.name === 'string') {
         const lightingCategories = [
@@ -4580,19 +4546,19 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
           'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
         ];
-        
-        const isLightingCategory = lightingCategories.some(lightingCategory => 
+
+        const isLightingCategory = lightingCategories.some(lightingCategory =>
           params.name.includes(lightingCategory)
         );
-        
-   
+
+
         // Проверяем скрытые бренды в каталоге освещения
         const hiddenBrands = ['Donel', 'Werkel', 'Voltum'];
         const isHiddenBrand = hiddenBrands.includes(sourceName as string);
-        
+
         if (isLightingCategory && (sourceName === 'heating' || isHiddenBrand)) {
           console.log('Серверная сторона: обнаружена категория освещения со скрытым брендом, исправляем');
- 
+
           const safeSourceName = '';
           return {
             props: {
@@ -4605,7 +4571,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         }
       }
     }
-    
+
     // Добавляем остальные параметры фильтрации
     if (query.minPrice) params.minPrice = query.minPrice;
     if (query.maxPrice) params.maxPrice = query.maxPrice;
@@ -4614,18 +4580,18 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     if (query.search) params.search = query.search;
 
     if (query.power) params.power = query.power;
-    
+
     // Добавляем параметр includeName для точной фильтрации по частям имени
     if (query.includeName) params.includeName = query.includeName;
-    
+
     // Добавляем параметр коллекции, если он указан в URL
     if (query.collection) {
       params.collection = query.collection;
     }
-    
+
     // Исключаем скрытые бренды из результатов (серверная сторона)
     params.excludeBrands = ['Voltum', 'Werkel', 'Donel'];
-    
+
     // Добавляем параметры сортировки
     if (query.sort) {
       const sortOrder = query.sort as string;
@@ -4647,17 +4613,17 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       params.sortBy = 'date';
       params.sortOrder = 'desc';
     }
-    
+
     console.log('Server-side params:', params);
 
     // Используем Promise.race для ограничения времени выполнения запроса
     const dataPromise = combineProductsFromMultiplePages(
-      sourceName as string, 
-      pageNumber, 
+      sourceName as string,
+      pageNumber,
       40, // Лимит товаров на странице
       params
     );
-    
+
     try {
       // Выполняем запрос с таймаутом
       const data = await Promise.race([dataPromise, timeoutPromise]) as {
@@ -4665,7 +4631,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         totalPages: number,
         totalProducts: number
       };
-  
+
       // Возвращаем данные только внутри объекта props
       return {
         props: {
@@ -4677,7 +4643,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       };
     } catch (error) {
       console.error('Ошибка при получении товаров с сервера', error);
-      
+
       // Проверяем, связана ли ошибка с категорией освещения
       if (params.name && typeof params.name === 'string') {
         const lightingCategories = [
@@ -4686,15 +4652,15 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           'Комплектующие', 'Коннектор', 'Шнур', 'Блок питания', 'Патрон',
           'Крепление', 'Плафон', 'Профиль для ленты', 'Контроллер'
         ];
-        
-        const isLightingCategory = lightingCategories.some(lightingCategory => 
+
+        const isLightingCategory = lightingCategories.some(lightingCategory =>
           params.name.includes(lightingCategory)
         );
-        
+
         if (isLightingCategory) {
           // Для категорий освещения с ошибкой меняем source с  на пустую строку
           const safeSourceName = sourceName === 'heating' ? '' : sourceName;
-          
+
           // В случае ошибки в категории освещения возвращаем пустые данные с исправленным source
           return {
             props: {
@@ -4706,7 +4672,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           };
         }
       }
-      
+
       // В случае других ошибок возвращаем пустые данные
       return {
         props: {
