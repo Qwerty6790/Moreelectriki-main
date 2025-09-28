@@ -4123,9 +4123,9 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
   const FilterSidebar = () => {
 
     const hasActivePrice = minPrice !== 10 || maxPrice !== 1000000;
-    // !! ИСПРАВЛЕНИЕ ОШИБКИ ТИПИЗАЦИИ !!
     const hasActiveLightingFilters = !!(selectedSocketType || selectedLampCount || selectedShadeColor || selectedFrameColor);
     const hasActiveAvailability = availabilityFilter !== 'all' || showOnlyNewItems;
+    const [isBrandOpen, setIsBrandOpen] = useState(true);
 
     const Accordion = ({ title, isOpen, setIsOpen, children, hasActiveFilter = false }: { title: string, isOpen: boolean, setIsOpen: (isOpen: boolean) => void, children: React.ReactNode, hasActiveFilter?: boolean }) => (
       <div className="border-b border-gray-200 py-6">
@@ -4175,6 +4175,37 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
           </div>
 
           {selectedBrand?.name === 'heating' && <PowerFilter />}
+
+          {/* Brand Filter */}
+          <Accordion title="Производитель" isOpen={isBrandOpen} setIsOpen={setIsBrandOpen} hasActiveFilter={!!selectedBrand && selectedBrand.name !== 'Все товары'}>
+            <div className="space-y-2">
+              <button
+                key="all-brands"
+                onClick={handleBrandDeselect}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${!selectedBrand || selectedBrand.name === 'Все товары'
+                    ? 'bg-gray-100 text-gray-900 font-semibold'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+              >
+                Все производители
+              </button>
+              {brands
+                .filter(brand => brand.name !== 'Все товары')
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((brand) => (
+                  <button
+                    key={brand.name}
+                    onClick={() => handleBrandChange(brand)}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedBrand?.name === brand.name
+                        ? 'bg-gray-100 text-gray-900 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      }`}
+                  >
+                    {brand.name}
+                  </button>
+                ))}
+            </div>
+          </Accordion>
 
           {/* Price Filter */}
           <Accordion title="Цена" isOpen={isPriceOpen} setIsOpen={setIsPriceOpen} hasActiveFilter={hasActivePrice}>

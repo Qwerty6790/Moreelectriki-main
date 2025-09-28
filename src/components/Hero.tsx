@@ -4,10 +4,101 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+// --- ИЗМЕНЕНИЕ 1: Компонент теперь принимает цену как проп ---
+const DemoProductCard = ({
+  name,
+  article,
+  imageUrl,
+  price, // Добавляем цену в пропсы
+}: {
+  name: string;
+  article: string;
+  imageUrl: string;
+  price: string; // Указываем тип
+}) => {
+  // УДАЛЕНО: useState и useEffect для генерации случайной цены больше не нужны
+  
+  return (
+    <div className="bg-white flex flex-col h-full overflow-hidden product-card rounded-lg border border-gray-200/80 transition-shadow duration-300 hover:shadow-xl">
+      {/* Верхняя часть карточки */}
+      <div className="flex flex-col flex-grow">
+        <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center overflow-hidden product-image">
+          {/* Индикатор наличия */}
+          <div className="absolute top-3 right-3 z-10">
+            <span
+              title="Ожидается"
+              aria-label="Ожидается"
+              className="bg-orange-500 w-3 h-3 rounded-full inline-block border border-white/20"
+            />
+          </div>
+
+          {/* Изображение товара */}
+          <div className="text-center">
+            <div className="text-gray-400 text-xs sm:text-sm mt-1">
+              <img src={imageUrl} alt={name} className="w-full h-full object-contain" />
+            </div>
+          </div>
+        </div>
+
+        {/* Информация о товаре */}
+        <div className="p-4 flex flex-col flex-grow">
+          <div className="text-[10px] text-gray-400 mb-2">Арт. {article}</div>
+          <h3 className="text-base font-light text-black mb-2 line-clamp-2 flex-grow">
+            {name}
+          </h3>
+
+          <div className="flex items-baseline gap-2 mb-3 mt-2">
+            <div className="text-xl font-extrabold text-black">
+              {/* Отображаем цену напрямую из пропсов */}
+              {price}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Нижняя панель с кнопкой */}
+      <div className="px-4 pb-4 pt-0 mt-auto">
+        <button className="w-full h-11 rounded-md text-sm font-medium uppercase tracking-wider transition-colors duration-200 bg-black text-white hover:bg-gray-800">
+          Позвонить менеджеру
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
 export default function Banner() {
+  // Данные для карточек теперь включают фиксированную цену
+  const demoProducts = [
+    {
+      name: 'Кабель силовой ВВГ-Пнг(А) 3х2.5 плоский',
+      article: 'ЦС000038155',
+      imageUrl: '/images/series/ввг-пнг.jpg',
+      price:'85 руб' // Добавил "руб" для наглядности
+    },
+    {
+      name: 'Кабель силовой ВВГ-Пнг(А) 3х1.5 плоский',
+      article: 'ЦС000038156',
+      imageUrl: '/images/series/ввг-пнг.jpg',
+      price:'58 руб'
+    },
+    {
+      name: 'Кабель силовой ВВГ-Пнг(А) 3х6 плоский',
+      article: 'ЦС000038157',
+      imageUrl: '/images/series/ввг-пнг.jpg',
+      price:'250 руб'
+    },
+    {
+      name: 'Кабель силовой ВВГ-Пнг(А) 3х4 плоский',
+      article: 'ЦС000038158',
+      imageUrl: '/images/series/ввг-пнг.jpg',
+      price:'150 руб'
+    },
+  ];
+
   const videoSources = ['/images/banners/titan.mp4'];
 
-  const [currentVideoIndex] = useState(0); // всегда 0, т.к. 1 видео
+  const [currentVideoIndex] = useState(0);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -37,7 +128,7 @@ export default function Banner() {
     const video = videoRef.current;
     if (!video) return;
 
-    video.load(); // грузим метаданные
+    video.load();
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
@@ -273,6 +364,26 @@ export default function Banner() {
           </div>
         </div>
       </div>
+
+       {/* ---------- Популярные под заказ ---------- */}
+       <div className="mb-12 md:mb-24 max-w-8xl mx-auto px-4 md:px-6">
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-black mb-8 md:mb-12">
+          Популярные под заказ силовые кабели
+        </h2>
+        <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-9">
+          {/* --- ИЗМЕНЕНИЕ 2: Передаем цену в каждую карточку --- */}
+          {demoProducts.map((product, index) => (
+             <DemoProductCard 
+                key={index} 
+                name={product.name}
+                article={product.article}
+                imageUrl={product.imageUrl}
+                price={product.price} // Передаем цену из объекта
+             />
+          ))}
+        </div>
+      </div>
+      
     </div>
   );
 }

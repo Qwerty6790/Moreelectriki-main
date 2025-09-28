@@ -82,7 +82,7 @@ const SearchResults: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
-      <main className="flex-grow container mx-auto px-2 sm:px-4 lg:px-8 pt-4 sm:pt-6 pb-12 mt-20 max-w-full overflow-hidden">
+      <main className="flex-grow max-w-[1550px]   container mx-auto px-2 sm:px-4 lg:px-8 pt-4 sm:pt-6 pb-12 mt-20  overflow-hidden">
         <div className="max-w-7xl mx-auto">
           {/* Хлебные крошки */}
           <div className="hidden sm:flex items-center text-sm text-gray-500 mb-4">
@@ -92,7 +92,7 @@ const SearchResults: React.FC = () => {
           </div>
           
           {/* Заголовок */}
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+          <div className="flex flex-col  sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
               Результаты поиска: {qwery}
             </h1>
@@ -102,7 +102,7 @@ const SearchResults: React.FC = () => {
           
 
           {/* Содержимое товаров */}
-          <div className="bg-white rounded-lg p-4 sm:p-5 shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white  rounded-lg p-4 sm:p-5 shadow-sm border border-gray-100 overflow-hidden">
             {loading ? (
               <div className="flex justify-center items-center h-64">
                 <LoadingSpinner size="lg" text="Ищем товары..." />
