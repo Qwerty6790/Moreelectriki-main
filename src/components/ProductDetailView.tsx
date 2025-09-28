@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 interface ProductI {
   _id: string;
   article: string;
-  name: string;
+  name:string;
   price: number;
   imageAddress: string | string[];
   imageAddresses?: string[] | string;
@@ -136,74 +136,102 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
     }
   };
 
-  const parsedDimensions = useMemo(() => {
+  const parsedFromName = useMemo(() => {
     if (!product?.name) return {};
     
     const parse = (regex: RegExp) => {
       const match = product.name.match(regex);
-      return match ? parseInt(match[1], 10) : null;
+      if (!match || !match[1]) return null;
+      const cleanedString = match[1].replace(/[,.;]/g, '');
+      return parseInt(cleanedString, 10);
     };
 
     return {
-      height: parse(/\b[Hh]\s*(\d+)\b/),
-      width: parse(/\b[Ww]\s*(\d+)\b/),
-      diameter: parse(/\b[Dd]\s*(\d+)\b/),
-      length: parse(/\b[Ll]\s*(\d+)\b/),
+      height: parse(/[Hh](\d+)/),
+      width: parse(/[Ww](\d+)/),
+      diameter: parse(/[Dd](\d+)/),
+      length: parse(/[Ll](\d+)/),
+      ipProtection: parse(/[Ii][Pp]\s*(\d{2})/),
+      lampPower: parse(/\b([\d,.]+)\s*W\b/i),
+      voltage: parse(/\b([\d,.]+)\s*V\b/i),
     };
   }, [product?.name]);
 
+  // --- ИЗМЕНЕНИЕ: Добавлена очистка символов ';' и ',' из полей ---
+  const characteristicGroups = useMemo(() => {
+    const p = product; 
+    const pf = parsedFromName;
 
-  const characteristicGroups = [
-    {
-      title: 'Электрика',
-      items: [
-        { label: 'Вид ламп', value: product.lampType },
-        { label: 'Цоколь', value: product.socketType },
-        { label: 'Мощность лампы, W', value: product.lampPower },
-        { label: 'Общая мощность, W', value: product.totalPower },
-        { label: 'Напряжение', value: product.voltage },
-      ]
-    },
-    {
-      title: 'Внешний вид',
-      items: [
-        { label: 'Материал плафона/абажура', value: product.shadeMaterial },
-        { label: 'Цвет плафона/абажура', value: product.shadeColor },
-        { label: 'Материал арматуры', value: product.frameMaterial },
-        { label: 'Цвет арматуры', value: product.frameColor },
-        { label: 'Стиль', value: product.lightStyle },
-        { label: 'Направление абажуров/плафонов', value: product.shadeDirection },
-        { label: 'Количество плафонов/абажуров', value: product.shadesCount },
-        { label: 'Форма плафона', value: product.shadeShape },
-      ]
-    },
-    // --- ИЗМЕНЕНИЕ: ИСПОЛЬЗОВАНИЕ ДАННЫХ ИЗ ОБЪЕКТА ИЛИ ИЗ НАЗВАНИЯ ---
-    // Оператор '??' заменен на '||' для корректной обработки случаев, когда
-    // в product.height (или других полях) приходит 0 или пустая строка.
-    {
-      title: 'Размеры',
-      items: [
-        { label: 'Высота, мм', value: product.height || parsedDimensions.height },
-        { label: 'Диаметр, мм', value: product.diameter || parsedDimensions.diameter },
-        { label: 'Ширина, мм', value: product.width || parsedDimensions.width },
-        { label: 'Длина, мм', value: product.length || parsedDimensions.length },
-        { label: 'Площадь освещения', value: product.area },
-      ]
-    },
-    {
-      title: 'Дополнительные параметры',
-      items: [
-        { label: 'Производитель', value: product.source },
-        { label: 'Коллекция', value: product.collection },
-        { label: 'Место в интерьере', value: product.room },
-        { label: 'Степень защиты (IP)', value: product.ipProtection ? `IP${product.ipProtection}`: null },
-        { label: 'Лампы в комплекте', value: product.lampsIncluded ? 'Да' : 'Нет' },
-        { label: 'Расположение', value: product.position },
-        { label: 'Страна', value: product.country },
-        { label: 'Цветовая температура', value: product.colorTemperature },
-      ]
-    }
-  ];
+    const final = {
+      height: p.height || pf.height,
+      diameter: p.diameter || pf.diameter,
+      width: p.width || pf.width,
+      length: p.length || pf.length,
+      area: p.area,
+      lampPower: p.lampPower || pf.lampPower,
+      totalPower: p.totalPower,
+      voltage: p.voltage || pf.voltage,
+      ipProtection: p.ipProtection || pf.ipProtection,
+    };
+    
+    // Функция для очистки строковых значений
+    const clean = (value: any) => {
+      if (typeof value === 'string') {
+        return value.replace(/[,;]/g, '');
+      }
+      return value;
+    };
+
+    return [
+      {
+        title: 'Электрика',
+        items: [
+          { label: 'Вид ламп', value: clean(p.lampType) },
+          { label: 'Цоколь', value: clean(p.socketType) },
+          { label: 'Мощность лампы, W', value: final.lampPower ? `${final.lampPower} W` : null },
+          { label: 'Общая мощность, W', value: final.totalPower ? `${final.totalPower} W` : null },
+          { label: 'Напряжение, V', value: final.voltage ? `${final.voltage} V` : null },
+        ]
+      },
+      {
+        title: 'Внешний вид',
+        items: [
+          { label: 'Материал плафона/абажура', value: clean(p.shadeMaterial) },
+          { label: 'Цвет плафона/абажура', value: clean(p.shadeColor) },
+          { label: 'Материал арматуры', value: clean(p.frameMaterial) },
+          { label: 'Цвет арматуры', value: clean(p.frameColor) },
+          { label: 'Стиль', value: clean(p.lightStyle) },
+          { label: 'Направление абажуров/плафонов', value: clean(p.shadeDirection) },
+          { label: 'Количество плафонов/абажуров', value: p.shadesCount },
+          { label: 'Форма плафона', value: clean(p.shadeShape) },
+        ]
+      },
+      {
+        title: 'Размеры',
+        items: [
+          { label: 'Высота, мм', value: final.height ? `${final.height} мм` : null },
+          { label: 'Диаметр, мм', value: final.diameter ? `${final.diameter} мм` : null },
+          { label: 'Ширина, мм', value: final.width ? `${final.width} мм` : null },
+          { label: 'Длина, мм', value: final.length ? `${final.length} мм` : null },
+          { label: 'Площадь освещения, м²', value: final.area ? `${final.area} м²` : null },
+        ]
+      },
+      {
+        title: 'Дополнительные параметры',
+        items: [
+          { label: 'Производитель', value: clean(p.source) },
+          { label: 'Коллекция', value: clean(p.collection) },
+          { label: 'Место в интерьере', value: clean(p.room) },
+          { label: 'Степень защиты (IP)', value: final.ipProtection ? `IP${final.ipProtection}` : null },
+          { label: 'Лампы в комплекте', value: p.lampsIncluded ? 'Да' : 'Нет' },
+          { label: 'Расположение', value: clean(p.position) },
+          { label: 'Страна', value: clean(p.country) },
+          { label: 'Цветовая температура', value: clean(p.colorTemperature) },
+        ]
+      }
+    ];
+  }, [product, parsedFromName]);
+
 
   const CharacteristicRow = ({ label, value }: { label: string, value: any }) => (
     <div className="flex justify-between items-baseline text-sm">
@@ -245,7 +273,7 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
                     <div key={group.title}>
                         <h3 className="text-xl font-bold mb-4">{group.title}</h3>
                         <div className="space-y-3">
-                            {group.items.map(item => item.value != null && (
+                            {group.items.filter(item => item.value != null && item.value !== '').map(item => (
                                 <CharacteristicRow key={item.label} label={item.label} value={item.value} />
                             ))}
                         </div>
@@ -257,7 +285,7 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
                     <div key={group.title}>
                         <h3 className="text-xl font-bold mb-4">{group.title}</h3>
                         <div className="space-y-3">
-                            {group.items.map(item => item.value != null && (
+                            {group.items.filter(item => item.value != null && item.value !== '').map(item => (
                                 <CharacteristicRow key={item.label} label={item.label} value={item.value} />
                             ))}
                         </div>
@@ -268,10 +296,16 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
               <div className="mt-6 sm:mt-12">
               <div className="flex items-baseline justify-between mb-4 sm:mb-6">
                         <span className="text-2xl sm:text-3xl md:text-4xl font-bold">{new Intl.NumberFormat('ru-RU').format(product.price)} ₽</span>
-                        <span className="text-xs sm:text-sm text-gray-600">В наличии: {product.stock}</span>
+                        {product.stock > 0 && <span className="text-xs sm:text-sm text-gray-600">В наличии: {product.stock}</span>}
                     </div>
                     <div className="flex items-center gap-3">
-                        <button onClick={() => addToCart(product)} className="px-5 py-3 bg-black text-white rounded-lg hover:bg-gray-900">В корзину</button>
+                        <button 
+                          onClick={() => addToCart(product)} 
+                          className="px-5 py-3 bg-black text-white rounded-lg hover:bg-gray-900 disabled:opacity-40"
+                          disabled={product.stock === 0}
+                        >
+                          В корзину
+                        </button>
                     </div>
             </div>
           </div>
