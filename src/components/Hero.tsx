@@ -58,8 +58,8 @@ const DemoProductCard = ({
 
       {/* Нижняя панель с кнопкой */}
       <div className="px-4 pb-4 pt-0 mt-auto">
-        <button className="w-full h-11 rounded-md text-sm font-medium uppercase tracking-wider transition-colors duration-200 bg-black text-white hover:bg-gray-800">
-          Позвонить менеджеру
+        <button className="w-full h-11 rounded-md text-sm font-medium uppercase tracking-wider transition-colors duration-200  text-black ">
+        8(926) 552-21-73 для уточнение деталей
         </button>
       </div>
     </div>
