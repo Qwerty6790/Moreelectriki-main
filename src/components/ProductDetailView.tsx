@@ -315,7 +315,7 @@ const ProductDetailView: React.FC<{ product: ProductI }> = ({ product }) => {
           <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
             <div className='sticky top-24'>
                 <div className="bg-[#f8f8f8] mb-6">
-                    <div className="aspect-square relative">
+                    <div className=" relative">
                     {!mainImageError && mainImage && (
                         <img src={`${mainImage}?q=75&w=400`} alt="Product" className="w-full h-full object-contain p-6 sm:p-8 lg:p-12 mix-blend-multiply" onError={() => setMainImageError(true)} />
                     )}
