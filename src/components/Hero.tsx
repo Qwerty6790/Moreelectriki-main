@@ -117,27 +117,43 @@ export default function Banner() {
         <div className="absolute inset-0 bg-black/30 z-10" />
       </section>
 
-      {/* ---------- Минималистичные переключатели видео ---------- */}
-      <div className="max-w-8xl mx-auto px-4 md:px-6 -mt-20 md:-mt-24 relative z-20">
-        <div className="flex justify-center items-center gap-6 md:gap-16">
-          <Link href="/catalog" className="group" onMouseEnter={() => setActiveVideo('svet')}>
-            <div className="relative text-center cursor-pointer py-4">
-              <h2 className={`text-white text-base md:text-2xl font-semibold tracking-wide transition-opacity duration-300 ${activeVideo === 'svet' ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
-                Освещение
-              </h2>
-              <div className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ease-out ${activeVideo === 'svet' ? 'w-full' : 'w-0'}`} />
-            </div>
-          </Link>
-          <Link href="/ElektroustnovohneIzdely" className="group" onMouseEnter={() => setActiveVideo('elektro')}>
-            <div className="relative text-center cursor-pointer py-4">
-              <h2 className={`text-white text-base md:text-2xl font-semibold tracking-wide transition-opacity duration-300 ${activeVideo === 'elektro' ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
-                Электроустановочное изделие
-              </h2>
-              <div className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ease-out ${activeVideo === 'elektro' ? 'w-full' : 'w-0'}`} />
-            </div>
-          </Link>
+      {/* ---------- Баннер категорий поверх видео ---------- */}
+      <div className="max-w-8xl mx-auto px-4 md:px-6 -mt-32 md:-mt-40 relative z-20">
+        <div className="relative h-[100px] md:h-[140px] overflow-hidden  ">
+          {/* Контент */}
+          <div className="relative z-10 h-full flex items-center">
+            <Link 
+              href="/catalog" 
+              className="group flex-1 h-full flex items-center justify-center transition-all duration-300"
+              onMouseEnter={() => setActiveVideo('svet')}
+            >
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className={`w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full transition-all duration-300 ${activeVideo === 'svet' ? 'bg-white' : 'bg-white/50'}`} />
+                <h3 className={`text-white text-sm md:text-2xl font-medium tracking-wide transition-all duration-300 ${activeVideo === 'svet' ? 'opacity-100' : 'opacity-70'}`}>
+                  Интерьерный свет
+                </h3>
+              </div>
+            </Link>
+
+          
+
+            <Link 
+              href="/ElektroustnovohneIzdely" 
+              className="group flex-1 h-full flex items-center justify-center  transition-all duration-300"
+              onMouseEnter={() => setActiveVideo('elektro')}
+            >
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className={`w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full transition-all duration-300 ${activeVideo === 'elektro' ? 'bg-white' : 'bg-white/50'}`} />
+                <h3 className={`text-white text-sm md:text-2xl font-medium tracking-wide transition-all duration-300 ${activeVideo === 'elektro' ? 'opacity-100' : 'opacity-70'}`}>
+                  Электроустановочное оборудование
+                </h3>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
+
+
 
       {/* ---------- Категории ---------- */}
       <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">
