@@ -63,6 +63,9 @@ const Header = () => {
   const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
   const [isCatalogDrawerMounted, setIsCatalogDrawerMounted] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  
+  // Новое состояние для управления открытием каталога после прокрутки
+  const [openCatalogAfterScroll, setOpenCatalogAfterScroll] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -326,7 +329,7 @@ const Header = () => {
     }, 20);
   };
 
-  // Переключатель для меню каталога
+  // Переключатель для меню каталога (используется "липким" хедером)
   const handleCatalogToggle = () => {
     const buttonRef = isStickyHeaderVisible ? stickyCatalogButtonRef.current : catalogButtonRef.current;
     if (isCatalogMenuOpen) {
@@ -336,7 +339,32 @@ const Header = () => {
       openCatalogDrawer();
     }
   };
-  
+
+  // НОВЫЙ ОБРАБОТЧИК: для кнопки "Меню" в основном хедере
+  const handleMainMenuClick = () => {
+    if (isCatalogMenuOpen) {
+      setIsCatalogMenuOpen(false);
+      return;
+    }
+    if (!isStickyHeaderVisible) {
+      setOpenCatalogAfterScroll(true);
+      window.scrollTo({
+        top: 141, // Значение чуть больше порога в 140px для появления хедера
+        behavior: 'smooth',
+      });
+    } else {
+      handleCatalogToggle();
+    }
+  };
+
+  // НОВЫЙ ЭФФЕКТ: открывает меню после завершения прокрутки
+  useEffect(() => {
+    if (openCatalogAfterScroll && isStickyHeaderVisible) {
+      handleCatalogToggle();
+      setOpenCatalogAfterScroll(false); // Сбрасываем триггер
+    }
+  }, [isStickyHeaderVisible, openCatalogAfterScroll]);
+
   // Определение, что компонент смонтирован на клиенте
   useEffect(() => {
     setIsClient(true);
@@ -533,7 +561,7 @@ const Header = () => {
               <nav className="flex h-10 items-center justify-between text-[15px] tracking-widest  flex-wrap gap-2">
                 <button
                   ref={catalogButtonRef}
-                  onClick={handleCatalogToggle}
+                  onClick={handleMainMenuClick} // <-- ИЗМЕНЕНО
                   className='font-bold cursor-pointer z-[10000] flex py-2 px-2 text-sm relative'
                 >
                   <span className={clsx(isCatalogMenuOpen ? 'z-[10002]' : '')}>Меню</span>
@@ -589,7 +617,7 @@ const Header = () => {
                       <div className="flex flex-col space-y-2">
                         <button
                           onClick={() => setIsMobileCatalogOpen((v) => !v)}
-                          className="flex items-center justify-between py-3 px-4 text-base font-medium text-black rounded-lg hover:bg-gray-100"
+                          className="flex items-center justify-between py-3 px-4 text-2xl font-medium text-black rounded-lg hover:bg-gray-100"
                         >
                           <span>Каталог</span>
                           <span className={clsx("transition-transform duration-300", isMobileCatalogOpen && "rotate-180")}>
@@ -616,11 +644,11 @@ const Header = () => {
                           ))}
                         </div>
                         <div className="border-t border-gray-200 pt-3 space-y-1">
-                           <a href="/about" className="block text-base text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-100">Шоурум</a>
-                           <a href="/about" className="block text-base text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-100">Акции</a>
-                           <a href="/about" className="block text-base text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-100">Проекты</a>
-                           <a href="/about" className="block text-base text-gray-800 py-3 px-4 rounded-lg hover:bg-gray-100">Контакты</a>
-                           <a href="#" className="block text-base opacity-40 py-3 px-4 rounded-lg cursor-not-allowed">Для дизайнеров</a>
+                           <a href="/about" className="block text-2xl text-black py-3 px-4 rounded-lg hover:bg-gray-100">Шоурум</a>
+                           <a href="/about" className="block text-2xl text-black py-3 px-4 rounded-lg hover:bg-gray-100">Акции</a>
+                           <a href="/about" className="block text-2xl text-black py-3 px-4 rounded-lg hover:bg-gray-100">Проекты</a>
+                           <a href="/about" className="block text-2xl text-black py-3 px-4 rounded-lg hover:bg-gray-100">Контакты</a>
+                           <a href="#" className="block text-2xl opacity-40 py-3 px-4 rounded-lg cursor-not-allowed">Для дизайнеров</a>
                         </div>
                       </div>
                     </div>
@@ -645,8 +673,9 @@ const Header = () => {
           <div className="max-w-[1550px] mx-auto px-3 md:px-4">
             <div className="flex justify-between items-center h-12 md:h-14">
               <div className="flex items-center gap-3 pr-2 sm:gap-6 sm:pr-4">
-                <button ref={stickyCatalogButtonRef} onClick={handleCatalogToggle} className="inline-flex items-center text-white/90 hover:text-white text-[13px] tracking-widest uppercase">
+                <button ref={stickyCatalogButtonRef} onClick={handleCatalogToggle} className="inline-flex items-center gap-2 text-white/90 hover:text-white text-[13px] tracking-widest uppercase">
                   <MenuIcon className="w-6 h-6" />
+                  <span className="hidden sm:inline">Меню</span>
                 </button>
                 <a href="/" style={{ letterSpacing: '0.1em' }} className="text-white text-2xl font-semibold tracking-widest uppercase">MOREELEKTRIKI</a>
                 <nav className="hidden sm:flex items-center gap-2 md:gap-3 text-[13px] tracking-widest uppercase">
