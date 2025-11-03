@@ -1,6 +1,7 @@
+
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -61,33 +62,7 @@ export default function Banner() {
     { name: 'Кабель силовой ВВГ-Пнг(А) 3х4 плоский Калужский кабельный завод (ККЗ) (ГОСТ)', article: 'ЦС000038158', imageUrl: '/images/series/ввг-пнг.jpg', price: '150 руб' },
   ];
 
-  const videoSources = {
-    elektro: '/images/banners/elektrosutanovny.mp4',
-    svet: '/images/banners/trekovysvet.mp4',
-  };
-  
-  const [activeVideo, setActiveVideo] = useState<'elektro' | 'svet'>('elektro');
-
   const videoRefElektro = useRef<HTMLVideoElement | null>(null);
-  const videoRefSvet = useRef<HTMLVideoElement | null>(null);
-  
-  useEffect(() => {
-    const videoElektro = videoRefElektro.current;
-    const videoSvet = videoRefSvet.current;
-
-    if (!videoElektro || !videoSvet) return;
-
-    if (activeVideo === 'elektro') {
-      videoSvet.pause();
-      videoElektro.currentTime = 0;
-      videoElektro.play().catch((err) => console.error('Ошибка воспроизведения elektro:', err));
-    } else {
-      videoElektro.pause();
-      videoSvet.currentTime = 0;
-      videoSvet.play().catch((err) => console.error('Ошибка воспроизведения svet:', err));
-    }
-  }, [activeVideo]);
-
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -103,57 +78,25 @@ export default function Banner() {
         <div className="absolute inset-0 z-0">
           <video
             ref={videoRefElektro}
-            className={`w-full h-full object-cover video-transition absolute inset-0 ${activeVideo === 'elektro' ? 'opacity-100' : 'opacity-0'}`}
-            autoPlay muted playsInline preload="auto" src={videoSources.elektro}
+            className="w-full h-full object-cover"
+            autoPlay  muted playsInline preload="auto" 
+            src='/images/banners/elektrosutanovny.mp4'
             poster="/images/banners/elektro-poster.jpg"
-          />
-          <video
-            ref={videoRefSvet}
-            className={`w-full h-full object-cover video-transition absolute inset-0 ${activeVideo === 'svet' ? 'opacity-100' : 'opacity-0'}`}
-            autoPlay muted playsInline preload="auto" src={videoSources.svet}
-            poster="/images/banners/svet-poster.jpg"
           />
         </div>
         <div className="absolute inset-0 bg-black/30 z-10" />
-      </section>
-
-      {/* ---------- Баннер категорий поверх видео ---------- */}
-      <div className="max-w-8xl mx-auto px-4 md:px-6 -mt-32 md:-mt-40 relative z-20">
-        <div className="relative h-[100px] md:h-[140px] overflow-hidden  ">
-          {/* Контент */}
-          <div className="relative z-10 h-full flex items-center">
-            <Link 
-              href="/catalog" 
-              className="group flex-1 h-full flex items-center justify-center transition-all duration-300"
-              onMouseEnter={() => setActiveVideo('svet')}
-            >
-              <div className="flex items-center gap-2 md:gap-3">
-                <div className={`w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full transition-all duration-300 ${activeVideo === 'svet' ? 'bg-white' : 'bg-white/50'}`} />
-                <h3 className={`text-white text-sm md:text-2xl font-medium tracking-wide transition-all duration-300 ${activeVideo === 'svet' ? 'opacity-100' : 'opacity-70'}`}>
-                  Интерьерный свет
-                </h3>
-              </div>
-            </Link>
-
-          
-
-            <Link 
-              href="/ElektroustnovohneIzdely" 
-              className="group flex-1 h-full flex items-center justify-center  transition-all duration-300"
-              onMouseEnter={() => setActiveVideo('elektro')}
-            >
-              <div className="flex items-center gap-2 md:gap-3">
-                <div className={`w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full transition-all duration-300 ${activeVideo === 'elektro' ? 'bg-white' : 'bg-white/50'}`} />
-                <h3 className={`text-white text-sm md:text-2xl font-medium tracking-wide transition-all duration-300 ${activeVideo === 'elektro' ? 'opacity-100' : 'opacity-70'}`}>
-                  Электроустановочное оборудование
-                </h3>
-              </div>
-            </Link>
-          </div>
+        
+        {/* --- Контент поверх видео --- */}
+        <div className="relative z-20 h-full flex items-center max-w-8xl mx-auto px-4 md:px-16">
+            <div className="flex flex-col items-start text-white max-w-md">
+                <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-wider">Voltum S70 серии</h1>
+                <p className=" text-lg md:text-xl font-light tracking-wider">Эксклюзив в moreelektriki только для вас</p>
+                <Link href="/ElektroustnovohneIzdely/Voltum" className="mt-6 md:mt-8 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                    Подробнее
+                </Link>
+            </div>
         </div>
-      </div>
-
-
+      </section>
 
       {/* ---------- Категории ---------- */}
       <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">

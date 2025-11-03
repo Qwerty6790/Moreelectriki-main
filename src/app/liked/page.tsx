@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Trash2, Heart, Share2 } from 'lucide-react';
 import Head from 'next/head';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const Liked: React.FC = () => {
   const [likedProducts, setLikedProducts] = useState<ProductI[]>([]);
@@ -102,7 +103,7 @@ const Liked: React.FC = () => {
     return (
       <section className="min-h-screen bg-white">
         <div className="flex justify-center items-center h-screen">
-            <ClipLoader color="#333" size={40} />
+           <LoadingSpinner />
         </div>
       </section>
     );
@@ -180,7 +181,7 @@ const Liked: React.FC = () => {
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center items-center py-20">
-              <ClipLoader color="#333" size={40} />
+                      <LoadingSpinner />
             </motion.div>
           ) : error || likedProducts.length === 0 ? (
             <motion.div key="error" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-gray-50 rounded-xl p-12 text-center border border-gray-200">
