@@ -270,7 +270,7 @@ const Header = () => {
             {/* Центральная секция: Логотип */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               {/* --- ИЗМЕНЕНИЕ: Адаптивные классы для текста логотипа --- */}
-              <a href="/" className="text-2xl md:text-4xl font-bold uppercase tracking-widest md:tracking-[0.3em]">
+              <a href="/" className="text-[20px] -ml-16 md:text-4xl font-bold uppercase tracking-widest md:tracking-[0.3em]">
                 MORELEKTRIKI
               </a>
             </div>
