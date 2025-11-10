@@ -136,27 +136,21 @@ const Header = () => {
   const [activeAccordionItem, setActiveAccordionItem] = useState<number | null>(null);
   const [cartCount, setCartCount] = useState<number>(0);
   const [likedCount, setLikedCount] = useState<number>(0);
-  // --- НОВОЕ СОСТОЯНИЕ ДЛЯ ОТСЛЕЖИВАНИЯ СКРОЛЛА ---
   const [isScrolled, setIsScrolled] = useState(false);
 
   const router = useRouter();
   const { products, loading } = useSearchProducts(searchQuery);
 
-  // --- НОВЫЙ EFFECT ДЛЯ ОБРАБОТКИ СКРОЛЛА ---
   useEffect(() => {
     const handleScroll = () => {
-      // Устанавливаем isScrolled в true, если пользователь прокрутил больше 10px
       setIsScrolled(window.scrollY > 10);
     };
 
-    // Добавляем слушатель события при монтировании компонента
     window.addEventListener('scroll', handleScroll);
 
-    // Очищаем слушатель при размонтировании
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Effect to handle cart and liked items count from localStorage
   useEffect(() => {
     const recalcCounters = () => {
       try {
@@ -213,7 +207,6 @@ const Header = () => {
     setIsClient(true);
   }, []);
 
-  // Effect to manage body scroll when catalog is open
   useEffect(() => {
     let timer: any;
     if (isCatalogMenuOpen) {
@@ -233,10 +226,8 @@ const Header = () => {
         .hide-scrollbar::-webkit-scrollbar { display: none !important; }
       `}</style>
       
-      {/* Заполнитель, чтобы контент не уезжал под фиксированный хедер */}
       <div className="h-20" /> 
 
-      {/* --- ИЗМЕНЕНИЕ: Добавлен clsx для динамического изменения фона и плавный переход --- */}
       <header className={clsx(
         "fixed top-0 left-0 right-0 z-50 text-white border-b border-white/20 font-light transition-colors duration-300",
         isScrolled ? "bg-black/60 backdrop-blur-md" : "bg-black/40 backdrop-blur-sm"
@@ -244,7 +235,6 @@ const Header = () => {
         <div className="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-20">
             
-            {/* Левая секция: Меню и Навигация */}
             <div className="flex items-center gap-6">
               <button 
                 onClick={handleCatalogToggle} 
@@ -260,15 +250,12 @@ const Header = () => {
               </nav>
             </div>
 
-            {/* Центральная секция: Логотип */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              {/* --- ИЗМЕНЕНИЕ: Адаптивные классы для текста логотипа --- */}
-              <a href="/" className="text-[20px] -ml-16 md:text-4xl font-bold uppercase tracking-widest md:tracking-[0.3em]">
+              <a href="/" className="text-[20px] -ml-20 md:text-4xl font-bold uppercase tracking-widest md:tracking-[0.3em]">
                 MORELEKTRIKI
               </a>
             </div>
 
-            {/* Правая секция: Иконки действий */}
             <div className="flex items-center gap-4 sm:gap-5">
               <button onClick={() => setIsSearchOpen(true)} className="flex items-center gap-2 hover:text-white/70 transition-colors">
                 <Search size={24} strokeWidth={1.5} />
@@ -291,7 +278,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* ===== МОДАЛЬНОЕ ОКНО ПОИСКА (ПОРТАЛ) ===== */}
       {isClient && isSearchOpen && createPortal(
         <div className="fixed inset-0 z-[100000] flex items-start justify-center pt-24 sm:pt-32 transition-opacity duration-300 ease-out bg-black/50 backdrop-blur-sm" onClick={() => setIsSearchOpen(false)}>
           <div className="relative w-full max-w-2xl mx-4" onClick={(e) => e.stopPropagation()}>
@@ -310,18 +296,12 @@ const Header = () => {
                    Назад
                 </button>
               </div>
-              {/* {searchQuery && (
-                 <div className="mt-4 border-t border-gray-100 pt-4">
-                    <CatalogOfProductSearch products={(products || []).slice(0, 4) as any} viewMode="list" isLoading={loading} showActions={false} />
-                </div>
-              )} */}
             </div>
           </div>
         </div>,
         document.body
       )}
 
-      {/* ===== ВЫЕЗЖАЮЩИЙ КАТАЛОГ (ПОРТАЛ) ===== */}
       {isClient && isCatalogDrawerMounted && createPortal(
         <div className={"fixed inset-0 z-[99999] overflow-hidden"}>
           <div
@@ -336,30 +316,28 @@ const Header = () => {
                     <div className="flex items-center justify-end p-4">
                       <button onClick={() => setIsCatalogMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-black border border-black p-2 hover:text-black">
                         ЗАКРЫТЬ
-                  
                       </button>
                     </div>
                     <nav className="flex-grow overflow-y-auto hide-scrollbar px-2">
                       <div className="flex flex-col gap-1 py-4">
                         {catalogCategories.map((item, idx) => (
                           <div key={idx}>
+                            {/* --- ИЗМЕНЕНИЕ: Убрана стрелка, текст отцентрирован и увеличен --- */}
                             <div
                               onClick={() => item.subcategories?.length && handleAccordionToggle(idx)}
                               className={clsx(
-                                'flex items-center justify-between w-full text-left p-4 rounded-md',
+                                'flex items-center justify-center w-full text-left p-4 rounded-md', // justify-between заменен на justify-center
                                 item.subcategories?.length ? 'cursor-pointer hover:bg-gray-50' : 'opacity-50'
                               )}
                             >
-                              <span className="font-medium">{item.title}</span>
-                              {item.subcategories?.length > 0 && (
-                                <ChevronDown className={clsx('w-5 h-5 transition-transform', activeAccordionItem === idx && 'rotate-180')}/>
-                              )}
+                              <span className="font-medium text-lg">{item.title}</span> {/* Добавлен класс text-lg */}
                             </div>
 
                             {item.subcategories && item.subcategories.length > 0 && (
                               <div className={clsx('overflow-hidden transition-all duration-300 ease-in-out', activeAccordionItem === idx ? 'max-h-[500px]' : 'max-h-0')}>
-                                <div className="pl-8 pr-4 pt-1 pb-2">
-                                  <div className="flex flex-col items-start gap-1 border-l border-gray-200 pl-4">
+                                {/* --- ИЗМЕНЕНИЕ: подкатегории также отцентрированы --- */}
+                                <div className="pt-1 pb-2">
+                                  <div className="flex flex-col items-center gap-1">
                                     {item.subcategories.map((sub, sidx) => (
                                       <a
                                         key={sidx}
@@ -380,10 +358,11 @@ const Header = () => {
                       <hr className="my-4 mx-4" />
                       <div className="flex flex-col gap-1 px-2 pb-4">
                         {staticLinks.map((link, idx) => (
+                          // --- ИЗМЕНЕНИЕ: статичные ссылки отцентрированы и увеличены ---
                           <a
                               key={idx}
                               href={link.link}
-                              className="block p-4 font-medium text-black rounded-md hover:bg-gray-50"
+                              className="block p-4 font-medium text-black rounded-md hover:bg-gray-50 text-center text-lg" // Добавлены text-center и text-lg
                               onClick={() => setIsCatalogMenuOpen(false)}
                             >
                               {link.title}
@@ -394,7 +373,6 @@ const Header = () => {
                   </div>
                 </aside>
                  <div className="flex-grow relative hidden lg:block" onClick={() => setIsCatalogMenuOpen(false)}>
-                    {/* Правая часть может быть пустой или содержать что-то вроде видео/баннера */}
                 </div>
             </div>
           </div>
