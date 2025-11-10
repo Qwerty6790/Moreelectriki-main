@@ -82,8 +82,8 @@ const SearchResults: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
-      <main className="flex-grow max-w-[1550px]   container mx-auto px-2 sm:px-4 lg:px-8 pt-4 sm:pt-6 pb-12 mt-20  overflow-hidden">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-grow   container mx-auto px-2 sm:px-4 lg:px-8 pt-4 sm:pt-6 pb-12 mt-20  overflow-hidden">
+        <div className="max-w-9xl mx-auto">
           {/* Хлебные крошки */}
           <div className="hidden sm:flex items-center text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-gray-900 transition-colors">Главная</Link>

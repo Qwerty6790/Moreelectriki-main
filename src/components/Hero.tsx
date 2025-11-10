@@ -66,7 +66,7 @@ export default function Banner() {
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="relative w-full">
+    <div className="relative  -mt-20 w-full">
       <style jsx>{`
         .video-transition { transition: opacity 0.5s ease-in-out; }
         .scroll-container::-webkit-scrollbar { display: none; }
@@ -87,10 +87,10 @@ export default function Banner() {
         <div className="absolute inset-0 bg-black/30 z-10" />
         
         {/* --- Контент поверх видео --- */}
-        <div className="relative z-20 h-full flex items-center max-w-8xl mx-auto px-4 md:px-16">
-            <div className="flex flex-col items-start text-white max-w-md">
+        <div className="relative z-20 h-full flex items-center mt-10  max-w-8xl mx-auto px-4 md:px-16">
+            <div className="flex flex-col  items-start text-white max-w-md">
                 <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-wider">Voltum S70 серии</h1>
-                <p className=" text-lg md:text-xl font-light tracking-wider">Эксклюзив в moreelektriki только для вас</p>
+                <p className='text-white text-sm '>Воплощение дизайна в каждом доме</p>
                 <Link href="/ElektroustnovohneIzdely/Voltum" className="mt-6 md:mt-8 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
                     Подробнее
                 </Link>
