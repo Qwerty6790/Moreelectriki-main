@@ -116,14 +116,7 @@ const fullCatalogData = [
 ];
 
 const catalogCategories = [
-  { 
-    title: 'Акционные недели', 
-    isPromo: true, 
-    subcategories: [
-        { title: 'Все акционные товары', link: '/catalog/sale' },
-        { title: 'Скидки на люстры', link: '/catalog/sale/chandeliers' },
-    ] 
-  },
+ 
   ...fullCatalogData
 ];
 
@@ -340,10 +333,10 @@ const Header = () => {
             <div className="flex h-full">
                 <aside className="w-full max-w-md bg-white text-black shadow-2xl flex-shrink-0">
                   <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-end p-4 border-b border-gray-200">
-                      <button onClick={() => setIsCatalogMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black">
+                    <div className="flex items-center justify-end p-4">
+                      <button onClick={() => setIsCatalogMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-black border border-black p-2 hover:text-black">
                         ЗАКРЫТЬ
-                        <X className="w-5 h-5" />
+                  
                       </button>
                     </div>
                     <nav className="flex-grow overflow-y-auto hide-scrollbar px-2">
