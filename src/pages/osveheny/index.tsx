@@ -2133,6 +2133,14 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
             params.excludeBrands = ['Voltum', 'Werkel', 'Donel'];
             console.log('🚫 Исключаем бренды:', params.excludeBrands);
 
+            // === NEW: Логика для Maytoni (добавляем Freya и Technical) ===
+            if (effectiveSourceName.toLowerCase() === 'maytoni') {
+                // Передаем параметр для бэкенда, чтобы он включил товары с именами Freya и Technical
+                params.includeNames = 'freya,technical'; 
+                console.log('➕ Maytoni: добавлены доп. условия поиска (freya, technical)');
+            }
+            // =============================================================
+
             // Финальное логирование всех параметров запроса
             console.log('📋 ФИНАЛЬНЫЕ ПАРАМЕТРЫ ЗАПРОСА:', {
                 name: params.name || 'НЕ УКАЗАНА',
@@ -2898,6 +2906,12 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
 
     // Обработчик смены страницы
     const handlePageChange = (page: number) => {
+        // === SCROLL TO TOP START ===
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // === SCROLL TO TOP END ===
+
         // Показываем спиннер с минимальной длительностью
         showSpinnerWithMinDuration();
     
@@ -3918,7 +3932,11 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
         const hasActivePrice = minPrice !== 10 || maxPrice !== 1000000;
         const hasActiveLightingFilters = !!(selectedSocketType || selectedLampCount || selectedShadeColor || selectedFrameColor);
         const hasActiveAvailability = availabilityFilter !== 'all' || showOnlyNewItems;
-        const [isBrandOpen, setIsBrandOpen] = useState(true);
+        
+        // === NEW: Accordion closed by default ===
+        const [isBrandOpen, setIsBrandOpen] = useState(false);
+        // ========================================
+
         const [isBrandCategoriesOpen, setIsBrandCategoriesOpen] = useState(true);
         
         // START OF CHANGE: Memoize the set of available category search names for the selected brand.
@@ -4111,16 +4129,8 @@ const CatalogIndex: React.FunctionComponent<CatalogIndexProps> = ({
                             />
                         </div>
                         <div className="space-y-2 overflow-y-auto pr-2">
-                            <button
-                                onClick={() => handleBrandChange({ name: 'Все товары', categories: [] })}
-                                className={`w-full text-left p-3 rounded-lg text-sm transition-all duration-200 flex items-center justify-between ${!selectedBrand || selectedBrand.name === 'Все товары'
-                                    ? 'bg-gray-100 font-semibold text-gray-900'
-                                    : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
-                            >
-                                <span>Все производители</span>
-                                {(!selectedBrand || selectedBrand.name === 'Все товары') && <CheckIcon />}
-                            </button>
+                            {/* === NEW: Button "Все производители" is removed from here === */}
+                            
                             {filteredBrandsList.map((brand) => (
                                 <button
                                     key={brand.name}

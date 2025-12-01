@@ -46,7 +46,7 @@ const DemoProductCard = ({
       </div>
       <div className="px-4 pb-4 pt-0 mt-auto">
         <button className="w-full h-11 rounded-md text-sm font-medium uppercase tracking-wider transition-colors duration-200 text-black">
-          8(926) 552-21-73 для уточнение деталей
+          8(926) 552-21-73 для уточнения 
         </button>
       </div>
     </div>
@@ -80,8 +80,8 @@ export default function Banner() {
             ref={videoRefElektro}
             className="w-full h-full object-cover"
             autoPlay  muted playsInline preload="auto" 
-            src='/images/banners/elektrosutanovny.mp4'
-            poster="/images/banners/elektro-poster.jpg"
+            // src='/video/banners/.mp4'
+            poster="/images/banners/a0oweag3d2sdmqspttoyxhpe3eqv5dw8.webp"
           />
         </div>
         <div className="absolute inset-0 bg-black/30 z-10" />
@@ -89,9 +89,9 @@ export default function Banner() {
         {/* --- Контент поверх видео --- */}
         <div className="relative z-20 h-full flex items-center mt-10  max-w-8xl mx-auto px-4 md:px-16">
             <div className="flex flex-col  items-start text-white max-w-md">
-                <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-wider">Voltum S70 серии</h1>
-                <p className='text-white text-sm '>Воплощение дизайна в каждом доме</p>
-                <Link href="/ElektroustnovohneIzdely/Voltum" className="mt-6 md:mt-8 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                <h1 className="text-5xl  md:text-7xl font-bold">Добро пожаловать</h1>
+                <p className='text-white font-bold text-1xl p-0 '>Воплощение дизайна в каждом доме</p>
+                <Link href="/catalog/maytoni" className="mt-3 md:mt-4 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
                     Подробнее
                 </Link>
             </div>

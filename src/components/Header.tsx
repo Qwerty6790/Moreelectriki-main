@@ -246,7 +246,7 @@ const Header = () => {
               <nav className="hidden lg:flex items-center gap-8 uppercase tracking-widest text-1xl font-medium">
                 <a href="/about" className="hover:text-white/70 transition-colors">Доставка</a>
                 <a href="/about" className="hover:text-white/70 transition-colors">О бренде</a>
-                <a href="/about" className="hover:text-white/70 transition-colors">Конфидициальность</a>
+                <a href="/about" className="hover:text-white/70 transition-colors">О продукте</a>
               </nav>
             </div>
 
@@ -265,8 +265,8 @@ const Header = () => {
                 <Heart size={24} strokeWidth={1.5} />
                 {likedCount > 0 && <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-white text-black rounded-full flex items-center justify-center text-[10px] font-bold">{likedCount}</span>}
               </a>
-              <a href="/auth" className="hidden sm:inline-block hover:text-white/70 transition-colors">
-                <User size={24} strokeWidth={1.5} />
+              <a href="" className="hidden sm:inline-block  hover:text-white/70 transition-colors">
+                <User className='text-neutral-500' size={24} strokeWidth={1.5} />
               </a>
               <a href="/cart" className="relative flex items-center gap-2 border border-white/40 px-3 py-1.5 hover:bg-white/10 transition-colors">
                  <ShoppingBasket size={24} strokeWidth={1.5} />
@@ -313,9 +313,14 @@ const Header = () => {
             <div className="flex h-full">
                 <aside className="w-full max-w-md bg-white text-black shadow-2xl flex-shrink-0">
                   <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-end p-4">
-                      <button onClick={() => setIsCatalogMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-black border border-black p-2 hover:text-black">
-                        ЗАКРЫТЬ
+                    
+                    <div className="flex gap-6 items-center justify-end p-4">
+                      <button onClick={() => setIsSearchOpen(true)} className="flex font-bold items-center gap-2 hover:text-black/20 transition-colors">
+                <Search size={24} strokeWidth={1.5} />
+                <span className="hidden lg:inline uppercase tracking-widest text-1xl">Поиск</span>
+              </button>
+                      <button onClick={() => setIsCatalogMenuOpen(false)} className="flex items-center gap-2 text-3xl font-medium text-black border border-black px-6 p-4 hover:text-black">
+                        X
                       </button>
                     </div>
                     <nav className="flex-grow overflow-y-auto hide-scrollbar px-2">
