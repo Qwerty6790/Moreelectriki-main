@@ -916,7 +916,7 @@ const Cart: React.FC = () => {
       </div>
 
       {/* Шапка страницы */}
-      <div className="relative bg-white pt-48 px-4">
+      <div className="relative bg-white pt-32 px-4">
         <div className="container max-w-[88rem] mx-auto relative z-10">
           <div className="flex items-center justify-start mb-4">
             <h1 className="text-6xl font-bold text-gray-900">Корзина</h1>
@@ -932,11 +932,11 @@ const Cart: React.FC = () => {
         </div>
       </div>
 
-      <div className="container max-w-[88rem] mx-auto px-4 pb-20">
+      <div className="container max-w-[88rem] mx-auto px-4 pb-10">
         {/* Информационная панель */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
-            <span className="bg-gray-100 text-gray-800 px-4 py-2 rounded-md text-sm border border-gray-200">
+            <span className=" text-gray-800 px-4 py-2 rounded-md text-sm border border-gray-200">
               {cartProducts.length} {cartProducts.length === 1 ? 'товар' : cartProducts.length >= 2 && cartProducts.length <= 4 ? 'товара' : 'товаров'}
             </span>
           </div>
@@ -959,7 +959,7 @@ const Cart: React.FC = () => {
               <ClipLoader color="#333" size={40} />
             </motion.div>
           ) : error || cartProducts.length === 0 ? (
-            <motion.div key="error" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-gray-50 rounded-xl p-12 text-center border border-gray-200">
+            <motion.div key="error" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className=" rounded-xl p-12 text-center border border-gray-200">
               <h2 className="text-2xl font-bold mb-4 text-gray-900">Корзина пуста</h2>
               <p className="text-gray-500 mb-8 max-w-md mx-auto">{error || 'Добавьте товары из каталога.'}</p>
             </motion.div>
@@ -979,7 +979,7 @@ const Cart: React.FC = () => {
                         className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-300"
                       >
                          <div className="flex flex-col sm:flex-row">
-                          <div className="sm:w-1/4 relative flex-shrink-0 bg-gray-50">
+                          <div className="sm:w-1/4 relative flex-shrink-0 ">
                             <Link href={`/products/${product.source}/${product.article}`} className="block relative pt-[100%] sm:pt-0 sm:h-full overflow-hidden">
                               <img src={`${product.imageUrl || '/placeholder.jpg'}?q=75&w=400`} alt={product.name as string} className="absolute inset-0 w-full h-full object-contain p-2" loading="lazy" />
                             </Link>

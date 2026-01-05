@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 max-w-[1550px]">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <h3 className="text-black font-bold text-3xl">MoreElecriki</h3>
+            <h3 className="text-black font-bold text-3xl">MOREELEKTRIKI</h3>
             <span className="text-black font-bold text-sm">© {new Date().getFullYear()}</span>
           </div>
 

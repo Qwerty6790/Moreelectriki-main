@@ -157,7 +157,7 @@ const Liked: React.FC = () => {
         </div>
       </div>
 
-      <div className="container max-w-[88rem] mx-auto px-4 pb-20">
+      <div className="container max-w-[88rem] mx-auto px-4 pb-10">
         {/* Информационная панель */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">

@@ -4,6 +4,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from "next/image";
 
 const ElektroustnovohneIzdely: React.FC = () => (
   <>
@@ -17,33 +18,6 @@ const ElektroustnovohneIzdely: React.FC = () => (
 
     <main className="min-h-screen bg-black/30 -mt-20">
       
-      {/* --- HERO SECTION: ПОЛНЫЙ ЭКРАН, БЕЗ ЗАТЕМНЕНИЯ --- */}
-      <section className="relative w-full h-screen  overflow-hidden">
-        
-        {/* Видео-фон (без фильтров) */}
-        <video
-          className="absolute top-0 left-0  w-full h-full object-cover"
-          src="/videos/banners/elektrosutanovny.mp4" // НЕ ЗАБУДЬТЕ УКАЗАТЬ ПРАВИЛЬНЫЙ ПУТЬ
-          autoPlay
-          muted
- 
-          playsInline
-        />
-
-        {/* Контент поверх видео */}
-        {/* z-10 поднимает текст над видео */}
-        <div className="relative z-10 flex flex-col items-left justify-center h-full px-0">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-semibold text-white text-center drop-shadow-lg">
-            Электроустановочные изделия
-          </h1>
-          <p className="mt-4 text-lg font-bold md:text-xl text-white text-center max-w-2xl drop-shadow-md">
-             Современные решения для вашего интерьера
-          </p>
-        </div>
-
-       
-      </section>
-      {/* -------------------------------------------------- */}
 
 
       {/* Список серий */}

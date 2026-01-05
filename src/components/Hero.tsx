@@ -74,17 +74,17 @@ export default function Banner() {
       `}</style>
       
       {/* ---------- Видео-баннер ---------- */}
-      <section className="relative h-[80vh] sm:h-[90vh] md:h-[105vh] bg-black overflow-hidden">
+      <section className="relative h-[80vh] sm:h-[90vh] md:h-[110vh] bg-black overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             ref={videoRefElektro}
             className="w-full h-full object-cover"
             autoPlay  muted playsInline preload="auto" 
             // src='/video/banners/.mp4'
-            poster="/images/banners/a0oweag3d2sdmqspttoyxhpe3eqv5dw8.webp"
+            poster="/images/banners/Mainbanners.jpg"
           />
         </div>
-        <div className="absolute inset-0 bg-black/30 z-10" />
+        <div className="absolute inset-0  z-10" />
         
         {/* --- Контент поверх видео --- */}
         <div className="relative z-20 h-full flex items-center mt-10  max-w-8xl mx-auto px-4 md:px-16">
@@ -110,19 +110,19 @@ export default function Banner() {
           <div ref={categoriesRef} className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth py-2 md:py-4 scroll-container">
             <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
               <Link href="/catalog/chandeliers" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/dekoratvinysvetcategory.webp" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
+                <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
               </Link>
               <div className="mt-4 text-base md:text-xl font-semibold text-black">Декоративный свет</div>
             </div>
             <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
               <Link href="/catalog/lights/pendant-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/funcionaltsvet.webp" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
+                <Image src="/images/category/funcionaltsvetcategory.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
               </Link>
               <div className="mt-4 text-base md:text-xl font-semibold text-black">Функциональный свет</div>
             </div>
             <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
               <Link href="/catalog/outdoor-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/ylichysvetcategory.webp" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
+                <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
               </Link>
               <div className="mt-4 text-base md:text-xl font-semibold text-black">Уличный свет</div>
             </div>
