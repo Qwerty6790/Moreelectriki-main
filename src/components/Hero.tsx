@@ -91,7 +91,7 @@ export default function Banner() {
             <div className="flex flex-col  items-start text-white max-w-md">
                 <h1 className="text-5xl  md:text-7xl font-bold">Добро пожаловать</h1>
                 <p className='text-white font-bold text-1xl p-0 '>Воплощение дизайна в каждом доме</p>
-                <Link href="/catalog/maytoni" className="mt-3 md:mt-4 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                <Link href="catalog/maytoni/outdoor-lights/landscape-lights" className="mt-3 md:mt-4 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
                     Подробнее
                 </Link>
             </div>
