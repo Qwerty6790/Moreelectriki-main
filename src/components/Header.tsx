@@ -250,9 +250,12 @@ const Header = () => {
               </nav>
             </div>
 
-            {/* Центр: Логотип */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <a href="/" className="text-[20px] md:text-4xl font-bold uppercase tracking-widest md:tracking-[0.3em]">
+           {/* Центр: Логотип */}
+           <div className="absolute left-[42%] sm:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 max-w-[55%] text-center">
+              <a 
+                href="/" 
+                className="block text-lg sm:text-2xl md:text-4xl font-bold uppercase tracking-tight sm:tracking-widest md:tracking-[0.3em] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
                 MOREELEKTRIKI
               </a>
             </div>
