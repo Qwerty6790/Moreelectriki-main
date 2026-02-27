@@ -1,11 +1,11 @@
 
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// --- Компонент карточки товара ---
+// --- Компонент карточки товара (ОРИГИНАЛЬНЫЙ) ---
 const DemoProductCard = ({
   name,
   article,
@@ -55,6 +55,8 @@ const DemoProductCard = ({
 
 // --- Основной компонент страницы ---
 export default function Banner() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const demoProducts = [
     { name: 'Кабель силовой ВВГ-Пнг(А) 3х2.5 Калужский кабельный завод (ККЗ) (ГОСТ)', article: 'ЦС000038155', imageUrl: '/images/series/ввг-пнг.jpg', price: '85 руб' },
     { name: 'Кабель силовой ВВГ-Пнг(А) 3х1.5 плоский Калужский кабельный завод (ККЗ) (ГОСТ)', article: 'ЦС000038156', imageUrl: '/images/series/ввг-пнг.jpg', price: '58 руб' },
@@ -62,44 +64,86 @@ export default function Banner() {
     { name: 'Кабель силовой ВВГ-Пнг(А) 3х4 плоский Калужский кабельный завод (ККЗ) (ГОСТ)', article: 'ЦС000038158', imageUrl: '/images/series/ввг-пнг.jpg', price: '150 руб' },
   ];
 
-  const videoRefElektro = useRef<HTMLVideoElement | null>(null);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
+  const heroSlides = [
+    {
+      id: 1,
+      src: '/images/banners/Curvebanners.jpg',
+      alt: 'Главный баннер'
+    },
+    // Добавьте еще слайды по необходимости
+  ]; 
+
+  useEffect(() => {
+    if (heroSlides.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
+
   return (
-    <div className="relative  -mt-20 w-full">
+    <div className="relative w-full">
       <style jsx>{`
-        .video-transition { transition: opacity 0.5s ease-in-out; }
         .scroll-container::-webkit-scrollbar { display: none; }
         .scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* ---------- Видео-баннер ---------- */}
-      <section className="relative h-[80vh] sm:h-[90vh] md:h-[110vh] bg-black overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRefElektro}
-            className="w-full h-full object-cover"
-            autoPlay  muted playsInline preload="auto" 
-            // src='/video/banners/.mp4'
-            poster="/images/banners/Mainbanners.jpg"
-          />
-        </div>
-        <div className="absolute inset-0  z-10" />
+      {/* ---------- СЛАЙДЕР (НОВЫЙ МИНИМАЛИСТИЧНЫЙ ДИЗАЙН) ---------- */}
+      <section className="relative h-[100vh] overflow-hidden group">
+        {heroSlides.map((slide, index) => (
+          <div 
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
+        ))}
         
-        {/* --- Контент поверх видео --- */}
-        <div className="relative z-20 h-full flex items-center mt-10  max-w-8xl mx-auto px-4 md:px-16">
-            <div className="flex flex-col  items-start text-white max-w-md">
-                <h1 className="text-5xl  md:text-7xl font-bold">Добро пожаловать</h1>
-                <p className='text-white font-bold text-1xl p-0 '>Воплощение дизайна в каждом доме</p>
-                <Link href="catalog/maytoni/outdoor-lights/landscape-lights" className="mt-3 md:mt-4 inline-block bg-white text-black font-bold uppercase text-sm tracking-widest py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+        <div className="relative z-20 h-full flex items-center max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div className="max-w-2xl text-white">
+                <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-4 drop-shadow-sm">Добро пожаловать</h1>
+                <p className='text-lg md:text-xl font-light opacity-90 mb-8 max-w-md drop-shadow-sm'>
+                  Воплощение дизайна в каждом доме. Чистота линий и света.
+                </p>
+                <Link 
+                  href="catalog/maytoni/outdoor-lights/landscape-lights" 
+                  className="inline-block border border-white text-white hover:bg-white hover:text-black transition-colors duration-300 py-3 px-10 text-xs font-bold uppercase tracking-[0.2em]"
+                >
                     Подробнее
                 </Link>
             </div>
         </div>
+
+        {/* Точки навигации (Минималистичные) */}
+        {heroSlides.length > 1 && (
+          <div className="absolute bottom-10 left-6 md:left-12 z-30 flex space-x-2">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-12 h-[2px] transition-all duration-300 ${
+                  index === currentSlide ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                }`}
+                aria-label={`Слайд ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* ---------- Категории ---------- */}
-      <div className="mt-8 mb-8 max-w-8xl mx-auto px-4 md:px-6">
+      {/* ---------- КАТЕГОРИИ (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
+      <div className="mt-16 mb-8 max-w-8xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl md:text-3xl font-bold text-black">КАТЕГОРИИ</h2>
           <Link href="/catalog" className="text-sm underline">
@@ -142,7 +186,9 @@ export default function Banner() {
         </div>
       </div>
 
-      {/* ---------- Текстовый блок ---------- */}
+     
+
+      {/* ---------- ТЕКСТОВЫЙ БЛОК (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
       <div className="mb-12 md:mb-24 max-w-8xl mx-auto px-4 md:px-4">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
           <div className="w-full md:w-1/2 space-y-4 md:space-y-8 py-4 md:py-8 order-2 md:order-1">
@@ -179,7 +225,7 @@ export default function Banner() {
         </div>
       </div>
 
-      {/* ---------- Популярные под заказ ---------- */}
+      {/* ---------- ПОПУЛЯРНЫЕ ТОВАРЫ (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
       <div className="mb-12 md:mb-24 max-w-8xl mx-auto px-4 md:px-6">
         <h2 className="text-2xl md:text-4xl font-bold text-center text-black mb-8 md:mb-12">Популярные под заказ силовые кабели</h2>
         <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-4 xl:gap-9">

@@ -1,130 +1,152 @@
+
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const Login: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
-            email,
-            password,
-        });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+        email,
+        password,
+      });
 
-        // Сохранение токена и имени пользователя в локальном хранилище
-        const token = response.data.token; // Убедитесь, что сервер возвращает токен
-        localStorage.setItem('token', token); // Сохраняем токен в локальном хранилище
+      // Сохраняем данные
+      const token = response.data.token;
+      const username = response.data.username;
+      
+      localStorage.setItem('token', token);
+      if (username) {
+        localStorage.setItem('username', username);
+      }
 
-        // Сохранение имени пользователя в локальном состоянии или хранилище
-        const username = response.data.username; // Получаем имя пользователя, если оно возвращается
-        localStorage.setItem('username', username); // Сохраняем имя пользователя в локальном хранилище
-
-        // Перенаправление пользователя
-        router.push('/profile'); 
-
-    } catch (err) {
-        if (axios.isAxiosError(err) && err.response) {
-            // Обрабатываем ответ с ошибкой
-            setError(err.response.data.error || 'Неверный email или пароль');
-        } else {
-            setError('Не удалось войти. Попробуйте еще раз.');
-        }
-        console.error(err);
+      router.push('/profile');
+    } catch (err: any) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.error || 'Неверный email или пароль');
+      } else {
+        setError('Не удалось войти. Попробуйте еще раз.');
+      }
+    } finally {
+      setLoading(false);
     }
-};
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br bg-white">
-    <div className="flex flex-col md:flex-row bg-white rounded-lg overflow-hidden w-full max-w-9xl">
-      {/* Левая часть - Приветствие */}
-      <div className="md:w-1/2 bg-gradient-to-br bg-white p-12 flex items-center justify-center text-black">
-        <div>
-          <h1 className="text-8xl font-bold mb-4 text-center md:text-left">
-            Войдите в MoreElectriki
-          </h1>
+    <div className="flex min-h-screen w-full bg-gray-50">
+      {/* Левая часть - Визуал (Идентично регистрации для симметрии, можно сменить картинку) */}
+      <div className="hidden lg:flex lg:w-1/2 relative  items-center justify-center overflow-hidden">
+        <div 
+            className="absolute inset-0 bg-cover bg-center opacity-80"
+            // Здесь можно поставить другое изображение для логина, например '/images/banners/login-banner.png'
+            style={{ backgroundImage: `url('/images/banners/bannersregisterationdesigners.jpeg')` }}
+        />
+      
+        
+        <div className="relative z-10 px-12 text-black max-w-2xl text-center lg:text-left">
+          <h2 className="text-5xl font-bold mb-6 tracking-tight leading-tight">
+            С возвращением
+          </h2>
+          <p className="text-lg text-black font-light leading-relaxed opacity-90">
+            Войдите в систему, чтобы управлять заказами, отслеживать статус доставки и получать персональные предложения.
+          </p>
         </div>
       </div>
   
-      {/* Правая часть - Форма авторизации */}
-      <div className="md:w-2/4 p-8">
-        <h2 className="text-4xl font-bold text-black text-center mb-6">
-          Войти
-        </h2>
-        {error && (
-          <div className="text-gray-900 mb-4 text-center text-sm font-medium">
-            {error}
-          </div>
-        )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-800"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:border-neutral-50000 text-base"
-              placeholder="example@mail.com"
-              required
-            />
+      {/* Правая часть - Форма */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+        <div className="w-full max-w-md">
+          <div className="mb-10 text-center lg:text-left">
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+              Вход в аккаунт
+            </h1>
+            <p className="text-gray-500 mt-2 text-sm">
+              Введите свои учетные данные для доступа
+            </p>
           </div>
   
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-800"
-            >
-              Пароль
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:border-neutral-500 text-base"
-              placeholder="Пароль"
-              required
-            />
-          </div>
+          {error && (
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm font-medium">
+              {error}
+            </div>
+          )}
   
-          <div className="flex items-center justify-between mb-6">
-            <a
-              className="text-sm text-black font-bold hover:underline"
-              href="/auth/register"
-            >
-              Нет аккаунта?
-            </a>
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email */}
+            <div className="group">
+              <label 
+                htmlFor="email" 
+                className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 ml-1"
+              >
+                Email адрес
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                placeholder="name@company.com"
+                required
+              />
+            </div>
   
-          <button
-            type="submit"
-            className="w-full py-3 px-4 bg-white text-black font-medium rounded-md shadow-md transition duration-300 hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-          >
-            Войти
-          </button>
-        </form>
+            {/* Пароль */}
+            <div className="group">
+              <div className="flex justify-between items-center mb-2 ml-1">
+                <label 
+                  htmlFor="password" 
+                  className="block text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                >
+                  Пароль
+                </label>
+                {/* Ссылка на восстановление пароля (опционально) */}
+                <a href="#" className="text-xs text-gray-500 hover:text-black transition-colors">
+                  Забыли пароль?
+                </a>
+              </div>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+  
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 bg-black text-white text-sm font-bold uppercase tracking-wider rounded-lg shadow-lg hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            >
+              {loading ? 'Вход...' : 'Войти'}
+            </button>
+  
+            <div className="mt-8 text-center text-sm text-gray-600">
+              Еще нет аккаунта?{' '}
+              <Link href="/auth/register" className="font-semibold text-black hover:underline transition-all">
+                Зарегистрироваться
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  
-
   );
 };
 
 export default Login;
-
-
-
