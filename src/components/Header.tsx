@@ -558,7 +558,7 @@ const Header = () => {
                                    ))}
                                 </ul>
                              ) : (
-                                <div className="text-xs text-gray-400">Нет совпадений</div>
+                                <div className="text-xs text-gray-500">Нет совпадений</div>
                              )}
                           </div>
                        </div>
