@@ -15,8 +15,6 @@ import {
 import clsx from 'clsx';
 
 // --- ИКОНКИ ---
-
-// 1. Поиск
 const CustomSearchIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -24,7 +22,6 @@ const CustomSearchIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// 2. Профиль
 const CustomUserIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -32,7 +29,6 @@ const CustomUserIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// 3. Корзина
 const CustomCartIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -40,14 +36,12 @@ const CustomCartIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// 4. Избранное
 const CustomHeartIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
-// 5. Метка на карте
 const CustomMapMarkerIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path d="M12 22C16 17 20 13.4183 20 8.5C20 4.08172 16.4183 0.5 12 0.5C7.58172 0.5 4 4.08172 4 8.5C4 13.4183 8 17 12 22Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -220,14 +214,16 @@ const Header = () => {
   // Закрытие при клике вне
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-        if (isSearchOpen && searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        const target = event.target as HTMLElement;
+
+        if (isSearchOpen && searchContainerRef.current && !searchContainerRef.current.contains(target as Node)) {
             setIsSearchOpen(false);
         }
-        if (isCatalogOpen && catalogContainerRef.current && !catalogContainerRef.current.contains(event.target as Node)) {
-             const target = event.target as HTMLElement;
-             if (!target.closest('[data-catalog-toggle]')) {
+        
+        if (isCatalogOpen) {
+            if (!target.closest('[data-catalog-toggle]') && !target.closest('[data-catalog-content]')) {
                  setIsCatalogOpen(false);
-             }
+            }
         }
     };
 
@@ -248,7 +244,6 @@ const Header = () => {
        const timer = setTimeout(() => setActiveCategoryIdx(null), 200);
        return () => clearTimeout(timer);
     } else {
-        // Desktop: сразу открываем первую категорию
         if (window.innerWidth >= 1280 && activeCategoryIdx === null) {
             setActiveCategoryIdx(0);
         }
@@ -398,7 +393,7 @@ const Header = () => {
 
             {/* Логотип */}
             <div className="w-1/3 flex justify-center">
-              <Link href="/" className="text-5xl font-serif text-[#37373F] tracking-widest uppercase hover:opacity-80 transition-opacity">
+              <Link href="/" className="text-4xl lg:text-5xl font-serif text-[#37373F] tracking-widest uppercase hover:opacity-80 transition-opacity whitespace-nowrap">
                 MOREELEKTRIKI
               </Link>
             </div>
@@ -420,15 +415,20 @@ const Header = () => {
           {/* НИЖНИЙ УРОВЕНЬ */}
           <div className={clsx(
             "flex items-center justify-between transition-all duration-300 relative",
-            isScrolled ? "py-3" : "py-4 border-t border-gray-100"
+            isScrolled ? "py-3" : "py-4 border-t border-gray-100 min-h-[60px]"
           )}>
             
             {/* Мобильный Лого + Гамбургер (Слева) */}
-            <div className={clsx("flex items-center gap-4 xl:hidden", isSearchOpen ? "hidden" : "flex")}>
-                <button onClick={() => setIsCatalogOpen(true)} className="p-1 -ml-1 text-[#37373F] hover:text-black">
-                    <MenuIcon className="w-6 h-6" />
+            <div className={clsx("flex items-center gap-2 sm:gap-4 xl:hidden", isSearchOpen ? "opacity-0 pointer-events-none w-0 overflow-hidden" : "opacity-100 flex-shrink-0")}>
+                <button 
+                   data-catalog-toggle
+                   onClick={() => setIsCatalogOpen(true)} 
+                   className="p-1 -ml-1 text-[#37373F] hover:text-black"
+                >
+                    <MenuIcon className="w-6 h-6 sm:w-7 sm:h-7" />
                 </button>
-                <Link href="/" className="text-xl font-serif tracking-widest text-[#37373F]">
+                {/* ИСПРАВЛЕНИЕ: Убран класс truncate, добавлено whitespace-nowrap */}
+                <Link href="/" className="text-[15px] xs:text-base sm:text-lg md:text-xl font-serif tracking-widest sm:tracking-[0.15em] text-[#37373F] whitespace-nowrap">
                     MOREELEKTRIKI
                 </Link>
             </div>
@@ -438,8 +438,8 @@ const Header = () => {
                MOREELEKTRIKI
             </Link>
 
-            {/* ЦЕНТРАЛЬНАЯ ЧАСТЬ */}
-            <div className="flex-1 flex justify-center items-center relative mx-4">
+            {/* ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация + Поиск) */}
+            <div className={clsx("flex-1 flex justify-center items-center relative", isSearchOpen ? "static" : "mx-4")}>
               
               {/* Навигация (Десктоп) */}
               <nav className={clsx(
@@ -454,7 +454,6 @@ const Header = () => {
                       isCatalogOpen ? "text-black" : "text-[#37373F] hover:text-black"
                     )}
                   >
-                    {/* Смена иконки: Меню (полоски) <-> X (закрыть) */}
                     {isCatalogOpen ? (
                         <X size={16} className="animate-in fade-in zoom-in duration-200" />
                     ) : (
@@ -467,19 +466,22 @@ const Header = () => {
                     <Link
                       key={idx}
                       href={link.href}
-                      className="text-[13px] font-normal text-gray-600 uppercase tracking-[0.1em] hover:text-black transition-colors"
+                      className="text-[13px] font-normal text-gray-600 uppercase tracking-[0.1em] hover:text-black transition-colors whitespace-nowrap"
                     >
                       {link.title}
                     </Link>
                   ))}
               </nav>
 
-              {/* Поиск */}
+              {/* Поиск (Десктоп + Адаптив Мобайл) */}
               <div 
                 ref={searchContainerRef}
                 className={clsx(
-                  "w-full max-w-4xl relative z-50 transition-all duration-300",
-                  isSearchOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none absolute"
+                  "w-full max-w-4xl z-50 transition-all duration-300",
+                  // На мобилках: поиск становится абсолютным, перекрывая всю шапку
+                  isSearchOpen 
+                    ? "opacity-100 absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white px-4 xl:px-0 xl:static xl:translate-y-0 flex items-center h-full xl:h-auto" 
+                    : "opacity-0 -translate-y-2 pointer-events-none absolute"
                 )}
               >
                  <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
@@ -490,12 +492,12 @@ const Header = () => {
                       placeholder="Поиск по каталогу..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent border-b border-gray-300 py-2 pl-8 pr-8 outline-none text-[#37373F] placeholder-gray-400 text-lg uppercase font-light focus:border-black transition-colors"
+                      className="w-full bg-transparent border-b border-gray-300 py-2 pl-8 pr-10 outline-none text-[#37373F] placeholder-gray-400 text-base sm:text-lg uppercase font-light focus:border-black transition-colors rounded-none"
                     />
                     <button 
                        type="button" 
                        onClick={() => setIsSearchOpen(false)}
-                       className="absolute right-0 text-gray-400 hover:text-black transition-colors"
+                       className="absolute right-0 text-gray-400 hover:text-black transition-colors p-2 -mr-2"
                     >
                        <X size={20} />
                     </button>
@@ -503,8 +505,8 @@ const Header = () => {
 
                  {/* Dropdown Поиска */}
                  {(searchQuery || searchResults.length > 0) && (
-                    <div className="absolute top-full left-0 w-full bg-white shadow-xl border border-gray-100 rounded-b-lg mt-1 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                       <div className="grid grid-cols-1 md:grid-cols-3 divide-x divide-gray-100">
+                    <div className="absolute top-full sm:top-[calc(100%+10px)] left-0 w-full bg-white shadow-xl border-t sm:border border-gray-100 sm:rounded-b-lg mt-0 sm:mt-1 overflow-y-auto max-h-[70vh] custom-scrollbar animate-in fade-in zoom-in-95 duration-200">
+                       <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100">
                           {/* Товары */}
                           <div className="md:col-span-2 p-4">
                              <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
@@ -524,11 +526,11 @@ const Header = () => {
                                           onClick={() => setIsSearchOpen(false)}
                                           className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group transition-colors"
                                         >
-                                           <div className="w-10 h-10 bg-white border border-gray-100 rounded flex-shrink-0 flex items-center justify-center p-0.5">
-                                              {imgUrl ? <img src={imgUrl} alt={product.name} className="max-w-full max-h-full object-contain" /> : <CustomCartIcon className="w-4 h-4 text-gray-300"/>}
+                                           <div className="w-12 h-12 sm:w-10 sm:h-10 bg-white border border-gray-100 rounded flex-shrink-0 flex items-center justify-center p-0.5">
+                                              {imgUrl ? <img src={imgUrl} alt={product.name} className="max-w-full max-h-full object-contain" /> : <CustomCartIcon className="w-5 h-5 sm:w-4 sm:h-4 text-gray-300"/>}
                                            </div>
                                            <div className="min-w-0">
-                                              <p className="text-sm font-medium text-[#37373F] line-clamp-1 group-hover:text-black transition-colors">{product.name}</p>
+                                              <p className="text-sm font-medium text-[#37373F] line-clamp-2 sm:line-clamp-1 group-hover:text-black transition-colors leading-tight mb-1">{product.name}</p>
                                               <p className="text-xs text-gray-500">{Number(product.price).toLocaleString('ru-RU')} ₽</p>
                                            </div>
                                         </Link>
@@ -550,7 +552,7 @@ const Header = () => {
                                          <Link 
                                             href={cat.link}
                                             onClick={() => setIsSearchOpen(false)}
-                                            className="block text-sm text-[#37373F] hover:text-black py-1 transition-colors"
+                                            className="block text-sm text-[#37373F] hover:text-black py-2 sm:py-1 transition-colors"
                                          >
                                             {cat.title}
                                          </Link>
@@ -569,27 +571,24 @@ const Header = () => {
             </div>
 
             {/* Иконки справа */}
-            <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0">
+            <div className={clsx("flex items-center gap-3 sm:gap-5 flex-shrink-0 transition-opacity duration-300", isSearchOpen ? "opacity-0 invisible w-0 xl:opacity-100 xl:visible xl:w-auto" : "opacity-100 visible")}>
                 <button 
                   onClick={() => setIsSearchOpen(true)}
-                  className={clsx(
-                    "flex items-center gap-2 text-gray-400 hover:text-black transition-colors group",
-                    isSearchOpen ? "invisible pointer-events-none" : "visible"
-                  )}
+                  className="flex items-center gap-2 text-[#37373F] hover:text-black transition-colors group p-1 sm:p-0"
                 >
-                   <CustomSearchIcon className="w-5 h-5 text-[#37373F] group-hover:text-black transition-colors" />
+                   <CustomSearchIcon className="w-5 h-5 sm:w-6 sm:h-6 xl:w-5 xl:h-5 text-[#37373F] group-hover:text-black transition-colors" />
                    <span className="hidden xl:inline text-[13px] font-normal uppercase tracking-widest text-[#37373F] group-hover:text-black">Поиск</span>
                 </button>
 
                 <div className="w-px h-4 bg-gray-200 hidden sm:block"></div>
 
-                <div className="flex items-center gap-4">
-                    <Link href="/liked" className="relative text-[#37373F] hover:text-black transition-colors">
-                        <CustomHeartIcon className="w-6 h-6" />
+                <div className="flex items-center gap-3 sm:gap-4">
+                    <Link href="/liked" className="relative text-[#37373F] hover:text-black transition-colors p-1 sm:p-0">
+                        <CustomHeartIcon className="w-6 h-6 sm:w-[26px] sm:h-[26px] xl:w-6 xl:h-6" />
                         {likedCount > 0 && <span className={badgeStyle}>{likedCount}</span>}
                     </Link>
-                    <Link href="/cart" className="relative text-[#37373F] hover:text-black transition-colors">
-                        <CustomCartIcon className="w-6 h-6" />
+                    <Link href="/cart" className="relative text-[#37373F] hover:text-black transition-colors p-1 sm:p-0">
+                        <CustomCartIcon className="w-6 h-6 sm:w-[26px] sm:h-[26px] xl:w-6 xl:h-6" />
                         {cartCount > 0 && <span className={badgeStyle}>{cartCount}</span>}
                     </Link>
                 </div>
@@ -599,6 +598,7 @@ const Header = () => {
           {/* --- DESKTOP ВЫПАДАЮЩИЙ КАТАЛОГ --- */}
           <div 
              ref={catalogContainerRef}
+             data-catalog-content
              className={clsx(
                 "hidden xl:block absolute left-0 right-0 top-full bg-white shadow-xl border-t border-gray-100 z-40 overflow-hidden transition-all duration-300 ease-in-out origin-top",
                 isCatalogOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2 pointer-events-none"
@@ -643,8 +643,8 @@ const Header = () => {
                                    onClick={() => setIsCatalogOpen(false)}
                                    className="group flex items-start gap-2 text-[#37373F] hover:text-black transition-colors"
                                 >
-                                   <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover:bg-black transition-colors"></div>
-                                   <span className="text-base font-medium">{sub.title}</span>
+                                   <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover:bg-black transition-colors flex-shrink-0"></div>
+                                   <span className="text-base font-medium leading-snug">{sub.title}</span>
                                 </Link>
                              ))}
                          </div>
@@ -668,6 +668,7 @@ const Header = () => {
           />
 
           <div 
+            data-catalog-content
             className={clsx(
               "fixed top-0 left-0 h-full z-[95] w-full sm:w-[420px] bg-white shadow-2xl transform transition-transform duration-300 ease-out flex flex-col",
               isCatalogOpen ? "translate-x-0" : "-translate-x-full"
@@ -676,7 +677,7 @@ const Header = () => {
             {/* ШАПКА МОБИЛЬНОГО МЕНЮ */}
             <div className="flex items-center justify-between p-4 border-b border-gray-100 flex-shrink-0 z-30 bg-white relative">
                <span className="text-xl font-serif text-[#37373F] uppercase tracking-widest">Меню</span>
-               <button onClick={() => setIsCatalogOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+               <button onClick={() => setIsCatalogOpen(false)} className="p-2 -mr-2 hover:bg-gray-100 rounded-full transition-colors">
                  <X size={24} strokeWidth={1.5} className="text-black" />
                </button>
             </div>
@@ -687,7 +688,7 @@ const Header = () => {
                 {/* 1. ГЛАВНАЯ ПАНЕЛЬ */}
                 <div 
                   className={clsx(
-                    "absolute inset-0  custom-scrollbar p-4 transition-transform duration-300 ease-in-out bg-white",
+                    "absolute inset-0 overflow-y-auto custom-scrollbar p-4 pb-12 transition-transform duration-300 ease-in-out bg-white",
                     activeCategoryIdx !== null ? "-translate-x-[20%] opacity-0 pointer-events-none" : "translate-x-0 opacity-100"
                   )}
                 >
@@ -703,9 +704,9 @@ const Header = () => {
                                 className="flex items-center justify-between py-3 cursor-pointer group select-none hover:text-black text-[#37373F] transition-colors"
                                 onClick={() => hasSubs ? setActiveCategoryIdx(idx) : null}
                                 >
-                                <span className="text-base font-bold uppercase tracking-wide">{cat.title}</span>
+                                <span className="text-sm sm:text-base font-bold uppercase tracking-wide pr-4">{cat.title}</span>
                                 {hasSubs && (
-                                    <ChevronRight size={20} className="text-gray-400 group-hover:text-black transition-colors" />
+                                    <ChevronRight size={20} className="text-gray-400 group-hover:text-black transition-colors flex-shrink-0" />
                                 )}
                                 </div>
                             </li>
@@ -722,7 +723,7 @@ const Header = () => {
                             className="flex items-center gap-3 text-[#37373F] font-bold uppercase tracking-wide mb-6 p-2 -ml-2 hover:bg-gray-50 rounded-lg hover:text-black transition-colors"
                         >
                             <CustomUserIcon className="w-5 h-5" />
-                            <span>Личный кабинет</span>
+                            <span className="text-sm sm:text-base">Личный кабинет</span>
                         </Link>
 
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Информация</h3>
@@ -732,7 +733,7 @@ const Header = () => {
                                 <Link 
                                 href={link.href}
                                 onClick={() => setIsCatalogOpen(false)}
-                                className="text-base font-medium uppercase tracking-wide flex items-center justify-between py-1 text-[#37373F] hover:text-black transition-colors"
+                                className="text-sm sm:text-base font-medium uppercase tracking-wide flex items-center justify-between py-1 text-[#37373F] hover:text-black transition-colors"
                                 >
                                 {link.title}
                                 <ChevronRight size={16} className="text-gray-300" />
@@ -746,7 +747,7 @@ const Header = () => {
                 {/* 2. ПАНЕЛЬ ПОДКАТЕГОРИЙ */}
                 <div 
                    className={clsx(
-                     "absolute inset-0 overflow-y-auto custom-scrollbar bg-white transition-transform duration-300 ease-in-out z-20 flex flex-col",
+                     "absolute inset-0 overflow-y-auto custom-scrollbar bg-white transition-transform duration-300 ease-in-out z-20 flex flex-col pb-12",
                      activeCategoryIdx !== null ? "translate-x-0" : "translate-x-full"
                    )}
                 >
@@ -758,10 +759,10 @@ const Header = () => {
                                     className="flex items-center gap-1 text-gray-500 hover:text-black transition-colors -ml-2 p-2"
                                 >
                                     <ChevronLeft size={20} />
-                                    <span className="text-sm font-medium uppercase tracking-wide">Назад</span>
+                                    <span className="text-xs sm:text-sm font-medium uppercase tracking-wide">Назад</span>
                                 </button>
-                                <div className="h-5 w-px bg-gray-300 mx-2"></div>
-                                <h3 className="text-lg font-bold text-[#37373F] uppercase tracking-wide truncate">
+                                <div className="h-5 w-px bg-gray-300 mx-1 sm:mx-2"></div>
+                                <h3 className="text-sm sm:text-lg font-bold text-[#37373F] uppercase tracking-wide truncate">
                                     {fullCatalogData[activeCategoryIdx].title}
                                 </h3>
                             </div>
@@ -773,10 +774,10 @@ const Header = () => {
                                             <Link 
                                                 href={sub.link}
                                                 onClick={() => setIsCatalogOpen(false)}
-                                                className="text-[#37373F] hover:text-black text-base font-medium flex items-center justify-between py-3 group transition-colors"
+                                                className="text-[#37373F] hover:text-black text-sm sm:text-base font-medium flex items-center justify-between py-3 group transition-colors pr-2"
                                             >
-                                                <span>{sub.title}</span>
-                                                <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-black" />
+                                                <span className="pr-4 leading-tight">{sub.title}</span>
+                                                <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-black flex-shrink-0" />
                                             </Link>
                                         </li>
                                     ))}
@@ -789,9 +790,9 @@ const Header = () => {
             </div>
             
             {/* ФУТЕР МОБИЛЬНОГО МЕНЮ */}
-            <div className="p-4 border-t border-gray-100 bg-gray-50">
-               <a href="tel:+74952281733" className="block text-lg font-bold text-[#37373F] mb-1 hover:text-black transition-colors">+7 495 228-17-33</a>
-               <p className="text-xs text-gray-400 uppercase">Ежедневно 9:00 - 21:00</p>
+            <div className="p-4 sm:p-6 border-t border-gray-100 bg-gray-50 pb-safe">
+               <a href="tel:+74952281733" className="block text-base sm:text-lg font-bold text-[#37373F] mb-1 hover:text-black transition-colors">+7 495 228-17-33</a>
+               <p className="text-[10px] sm:text-xs text-gray-400 uppercase">Ежедневно 9:00 - 21:00</p>
             </div>
 
           </div>
