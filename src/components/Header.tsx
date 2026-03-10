@@ -124,7 +124,7 @@ const fullCatalogData: Category[] = [
   {
     title: 'Электроустановочные изделия',
     subcategories: [
-      { title: 'Встраиваемые серии', link: '/ElektroustnovohneIzdely/Vstraivaemy-series' },
+      { title: 'Встраиваемые серии', link: '/ElektroustnovohneIzdely' },
       { title: 'Серия Gallant', link: '/ElektroustnovohneIzdely/Werkel/Gallant' },
       { title: 'Серия Retro', link: '/ElektroustnovohneIzdely/Werkel/Retro' },
       { title: 'Серия Vintage', link: '/ElektroustnovohneIzdely/Werkel/Vintage' },
@@ -136,13 +136,12 @@ const fullCatalogData: Category[] = [
 
 const navLinks: NavLink[] = [
   { title: 'О компании', href: '/about' },
-  { title: 'Новинки', href: '/new' },
-  { title: 'Партнерам', href: '/partners' },
+  { title: 'Новинки', href: '/about' },
+  { title: 'Партнерам', href: '/about' },
   { title: 'Где купить', href: '/map' },
-  { title: 'Конфиденциальность', href: '/privacy' },
+  { title: 'Конфиденциальность', href: '/about' },
 ];
 
-// Утилиты
 const urlCache = new Map<string, string>();
 const normalizeUrl = (url: string): string => {
   if (urlCache.has(url)) return urlCache.get(url)!;
@@ -160,19 +159,15 @@ const getImgUrl = (p: Product): string | null => {
 };
 
 const Header = () => {
-  // --- UI STATE ---
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
-  
   const [activeCategoryIdx, setActiveCategoryIdx] = useState<number | null>(null);
   const [isClient, setIsClient] = useState(false);
 
-  // --- COUNTERS ---
   const [cartCount, setCartCount] = useState(0);
   const [likedCount, setLikedCount] = useState(0);
 
-  // --- SEARCH LOGIC STATE ---
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [foundCategories, setFoundCategories] = useState<{title: string, link: string}[]>([]);
@@ -186,7 +181,6 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // --- ЭФФЕКТЫ ---
   useEffect(() => {
     setIsClient(true);
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -211,7 +205,6 @@ const Header = () => {
     };
   }, []);
 
-  // Закрытие при клике вне
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
@@ -219,7 +212,6 @@ const Header = () => {
         if (isSearchOpen && searchContainerRef.current && !searchContainerRef.current.contains(target as Node)) {
             setIsSearchOpen(false);
         }
-        
         if (isCatalogOpen) {
             if (!target.closest('[data-catalog-toggle]') && !target.closest('[data-catalog-content]')) {
                  setIsCatalogOpen(false);
@@ -231,14 +223,12 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSearchOpen, isCatalogOpen]);
 
-  // Сброс при смене страницы
   useEffect(() => {
     setIsCatalogOpen(false);
     setIsSearchOpen(false);
     setActiveCategoryIdx(null);
   }, [pathname]);
 
-  // Логика подкатегорий
   useEffect(() => {
     if (!isCatalogOpen) {
        const timer = setTimeout(() => setActiveCategoryIdx(null), 200);
@@ -250,24 +240,24 @@ const Header = () => {
     }
   }, [isCatalogOpen]);
 
-  // Блокировка скролла (Mobile)
+  // Блокировка скролла
   useEffect(() => {
-    if (isCatalogOpen && window.innerWidth < 1280) {
+    if ((isCatalogOpen || isSearchOpen) && window.innerWidth < 1280) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
-      if (!isSearchOpen) setSearchQuery('');
+      if (!isSearchOpen) {
+        setTimeout(() => setSearchQuery(''), 200); 
+      }
     }
   }, [isCatalogOpen, isSearchOpen]);
 
-  // Фокус
   useEffect(() => {
     if (isSearchOpen && searchInputRef.current) {
         setTimeout(() => searchInputRef.current?.focus(), 50);
     }
   }, [isSearchOpen]);
 
-  // Дефолтные товары
   useEffect(() => {
     const fetchDefaultProducts = async () => {
         try {
@@ -292,7 +282,6 @@ const Header = () => {
     if (isClient) fetchDefaultProducts();
   }, [isClient]);
 
-  // Поиск
   useEffect(() => {
     const trimmedQuery = searchQuery.trim();
     const lowerQuery = trimmedQuery.toLowerCase();
@@ -354,12 +343,10 @@ const Header = () => {
       setIsCatalogOpen(!isCatalogOpen);
   };
 
-  // ЧЕРНЫЙ БЕЙДЖ
   const badgeStyle = "absolute -top-[6px] -right-[8px] w-[16px] h-[16px] bg-black text-white text-[10px] font-medium flex items-center justify-center rounded-full z-10";
 
   return (
     <>
-      {/* Плейсхолдер */}
       <div className={clsx("transition-all duration-300", isScrolled ? "h-[60px]" : "h-[140px] hidden xl:block")} />
       <div className="h-[60px] xl:hidden" /> 
 
@@ -378,7 +365,6 @@ const Header = () => {
               isScrolled ? "max-h-0 opacity-0" : "max-h-[100px] opacity-100 py-6"
             )}
           >
-            {/* Слоган */}
             <div className="w-1/3 flex flex-col items-start text-right">
               <a href="mailto:moreelektriki@gmail.com" className="text-lg text-[#37373F] hover:text-black transition-colors font-medium">
                 moreelektriki@gmail.com
@@ -391,16 +377,14 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Логотип */}
             <div className="w-1/3 flex justify-center">
               <Link href="/" className="text-4xl lg:text-5xl font-serif text-[#37373F] tracking-widest uppercase hover:opacity-80 transition-opacity whitespace-nowrap">
                 MOREELEKTRIKI
               </Link>
             </div>
 
-            {/* Контакты */}
             <div className="w-1/3 flex flex-col items-end text-right">
-              <a href="tel:+74952281733" className="text-lg text-[#37373F] hover:text-black transition-colors font-medium">
+              <a href="tel:+79265522173" className="text-lg text-[#37373F] hover:text-black transition-colors font-medium">
                 +7 926 552-21-73
               </a>
               <div className="flex items-center gap-6 mt-1">
@@ -419,7 +403,10 @@ const Header = () => {
           )}>
             
             {/* Мобильный Лого + Гамбургер (Слева) */}
-            <div className={clsx("flex items-center gap-2 sm:gap-4 xl:hidden", isSearchOpen ? "opacity-0 pointer-events-none w-0 overflow-hidden" : "opacity-100 flex-shrink-0")}>
+            <div className={clsx(
+              "flex items-center gap-2 sm:gap-4 xl:hidden transition-all duration-300", 
+              isSearchOpen ? "opacity-0 w-0 pointer-events-none overflow-hidden" : "opacity-100 flex-shrink-0"
+            )}>
                 <button 
                    data-catalog-toggle
                    onClick={() => setIsCatalogOpen(true)} 
@@ -427,19 +414,21 @@ const Header = () => {
                 >
                     <MenuIcon className="w-6 h-6 sm:w-7 sm:h-7" />
                 </button>
-                {/* ИСПРАВЛЕНИЕ: Убран класс truncate, добавлено whitespace-nowrap */}
                 <Link href="/" className="text-[15px] xs:text-base sm:text-lg md:text-xl font-serif tracking-widest sm:tracking-[0.15em] text-[#37373F] whitespace-nowrap">
                     MOREELEKTRIKI
                 </Link>
             </div>
             
             {/* Лого при скролле (Десктоп) */}
-            <Link href="/" className={clsx("hidden xl:block font-serif text-2xl tracking-widest text-[#37373F] transition-opacity duration-300 whitespace-nowrap mr-8", isScrolled ? "opacity-100" : "opacity-0 w-0 overflow-hidden mr-0")}>
+            <Link href="/" className={clsx(
+              "hidden xl:block font-serif text-2xl tracking-widest text-[#37373F] transition-opacity duration-300 whitespace-nowrap mr-8", 
+              isScrolled ? "opacity-100" : "opacity-0 w-0 overflow-hidden mr-0"
+            )}>
                MOREELEKTRIKI
             </Link>
 
             {/* ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация + Поиск) */}
-            <div className={clsx("flex-1 flex justify-center items-center relative", isSearchOpen ? "static" : "mx-4")}>
+            <div className="flex-1 flex justify-center items-center xl:relative mx-0 xl:mx-4">
               
               {/* Навигация (Десктоп) */}
               <nav className={clsx(
@@ -473,15 +462,16 @@ const Header = () => {
                   ))}
               </nav>
 
-              {/* Поиск (Десктоп + Адаптив Мобайл) */}
+              {/* УЛУЧШЕННЫЙ АДАПТИВНЫЙ ПОИСК */}
               <div 
                 ref={searchContainerRef}
                 className={clsx(
-                  "w-full max-w-4xl z-50 transition-all duration-300",
-                  // На мобилках: поиск становится абсолютным, перекрывая всю шапку
+                  "z-[60] transition-all duration-300",
+                  // На мобильных: 100% высоты и ширины родительской строки (top-0 left-0 w-full h-full), белый фон
+                  // На десктопе: статичное поведение внутри родителя
                   isSearchOpen 
-                    ? "opacity-100 absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white px-4 xl:px-0 xl:static xl:translate-y-0 flex items-center h-full xl:h-auto" 
-                    : "opacity-0 -translate-y-2 pointer-events-none absolute"
+                    ? "opacity-100 visible absolute top-0 left-0 w-full h-full bg-white flex items-center px-4 sm:px-6 xl:static xl:w-full xl:max-w-4xl xl:mx-auto xl:bg-transparent xl:px-0" 
+                    : "opacity-0 invisible pointer-events-none absolute xl:static"
                 )}
               >
                  <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
@@ -492,12 +482,12 @@ const Header = () => {
                       placeholder="Поиск по каталогу..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent border-b border-gray-300 py-2 pl-8 pr-10 outline-none text-[#37373F] placeholder-gray-400 text-base sm:text-lg uppercase font-light focus:border-black transition-colors rounded-none"
+                      className="w-full bg-transparent border-b border-gray-300 py-2 sm:py-3 pl-8 pr-12 outline-none text-[#37373F] placeholder-gray-400 text-sm sm:text-base xl:text-lg uppercase font-light focus:border-black transition-colors rounded-none"
                     />
                     <button 
                        type="button" 
                        onClick={() => setIsSearchOpen(false)}
-                       className="absolute right-0 text-gray-400 hover:text-black transition-colors p-2 -mr-2"
+                       className="absolute right-0 text-gray-400 hover:text-black transition-colors p-2 sm:p-3"
                     >
                        <X size={20} />
                     </button>
@@ -505,7 +495,7 @@ const Header = () => {
 
                  {/* Dropdown Поиска */}
                  {(searchQuery || searchResults.length > 0) && (
-                    <div className="absolute top-full sm:top-[calc(100%+10px)] left-0 w-full bg-white shadow-xl border-t sm:border border-gray-100 sm:rounded-b-lg mt-0 sm:mt-1 overflow-y-auto max-h-[70vh] custom-scrollbar animate-in fade-in zoom-in-95 duration-200">
+                    <div className="absolute top-[calc(100%+1px)] left-0 w-full bg-white shadow-2xl xl:shadow-xl border-t xl:border border-gray-100 xl:rounded-b-lg overflow-y-auto max-h-[calc(100vh-70px)] xl:max-h-[70vh] custom-scrollbar animate-in fade-in zoom-in-95 duration-200">
                        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100">
                           {/* Товары */}
                           <div className="md:col-span-2 p-4">
@@ -571,7 +561,10 @@ const Header = () => {
             </div>
 
             {/* Иконки справа */}
-            <div className={clsx("flex items-center gap-3 sm:gap-5 flex-shrink-0 transition-opacity duration-300", isSearchOpen ? "opacity-0 invisible w-0 xl:opacity-100 xl:visible xl:w-auto" : "opacity-100 visible")}>
+            <div className={clsx(
+              "flex items-center gap-3 sm:gap-5 flex-shrink-0 transition-all duration-300", 
+              isSearchOpen ? "opacity-0 w-0 pointer-events-none xl:w-auto xl:opacity-100 xl:pointer-events-auto" : "opacity-100 visible"
+            )}>
                 <button 
                   onClick={() => setIsSearchOpen(true)}
                   className="flex items-center gap-2 text-[#37373F] hover:text-black transition-colors group p-1 sm:p-0"
@@ -643,7 +636,8 @@ const Header = () => {
                                    onClick={() => setIsCatalogOpen(false)}
                                    className="group flex items-start gap-2 text-[#37373F] hover:text-black transition-colors"
                                 >
-                                   <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover:bg-black transition-colors flex-shrink-0"></div>
+                                   
+                                   
                                    <span className="text-base font-medium leading-snug">{sub.title}</span>
                                 </Link>
                              ))}
@@ -791,7 +785,7 @@ const Header = () => {
             
             {/* ФУТЕР МОБИЛЬНОГО МЕНЮ */}
             <div className="p-4 sm:p-6 border-t border-gray-100 bg-gray-50 pb-safe">
-               <a href="tel:+74952281733" className="block text-base sm:text-lg font-bold text-[#37373F] mb-1 hover:text-black transition-colors">+7 495 228-17-33</a>
+               <a href="tel:+79265522173" className="block text-base sm:text-lg font-bold text-[#37373F] mb-1 hover:text-black transition-colors">+7 926 552-21-73</a>
                <p className="text-[10px] sm:text-xs text-gray-400 uppercase">Ежедневно 9:00 - 21:00</p>
             </div>
 

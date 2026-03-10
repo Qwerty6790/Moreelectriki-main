@@ -5,6 +5,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+
 // --- Компонент карточки товара (ОРИГИНАЛЬНЫЙ) ---
 const DemoProductCard = ({
   name,
@@ -69,7 +70,7 @@ export default function Banner() {
   const heroSlides = [
     {
       id: 1,
-      src: '/images/banners/Curvebanners.jpg',
+      src: '/images/banners/LantraBanners.jpg',
       alt: 'Главный баннер'
     },
     // Добавьте еще слайды по необходимости
@@ -91,7 +92,7 @@ export default function Banner() {
       `}</style>
       
       {/* ---------- СЛАЙДЕР (НОВЫЙ МИНИМАЛИСТИЧНЫЙ ДИЗАЙН) ---------- */}
-      <section className="relative h-[100vh] overflow-hidden group">
+      <section className="relative h-[120vh] overflow-hidden group">
         {heroSlides.map((slide, index) => (
           <div 
             key={slide.id}
@@ -142,49 +143,13 @@ export default function Banner() {
         )}
       </section>
 
-      {/* ---------- КАТЕГОРИИ (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
-      <div className="mt-16 mb-8 max-w-8xl mx-auto px-4 md:px-6">
+
+      {/* <div className="mt-16 mb-8 max-w-8xl mx-auto px-4 md:px-6">
+      <h2 className="text-xl md:text-3xl font-bold text-black">КАТЕГОРИИ ПОДХОДЯЩИХ ТОВАРОВ</h2>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl md:text-3xl font-bold text-black">КАТЕГОРИИ</h2>
-          <Link href="/catalog" className="text-sm underline">
-            перейти в каталог
-          </Link>
+       
         </div>
-        <div className="relative">
-          <div ref={categoriesRef} className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth py-2 md:py-4 scroll-container">
-            <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
-              <Link href="/catalog/chandeliers" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/dekoratvinysvetcategory.jpg" alt="Декоративный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
-              </Link>
-              <div className="mt-4 text-base md:text-xl font-semibold text-black">Декоративный свет</div>
-            </div>
-            <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
-              <Link href="/catalog/lights/pendant-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/funcionaltsvetcategory.jpg" alt="Технический свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
-              </Link>
-              <div className="mt-4 text-base md:text-xl font-semibold text-black">Функциональный свет</div>
-            </div>
-            <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
-              <Link href="/catalog/outdoor-lights" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/ylichysvetcategory.jpg" alt="Уличный свет" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
-              </Link>
-              <div className="mt-4 text-base md:text-xl font-semibold text-black">Уличный свет</div>
-            </div>
-            <div className="flex-shrink-0 w-[70vw] sm:w-[50vw] md:w-1/3">
-              <Link href="/ElektroustnovohneIzdely" className="group relative rounded-2xl overflow-hidden h-64 md:h-[520px] block">
-                <Image src="/images/category/elektroustnovohneIzdelycategory.jpg" alt="Электроустановочное изделие" fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 70vw, (max-width: 1024px) 50vw, 33vw" />
-              </Link>
-              <div className="mt-4 text-base md:text-xl font-semibold text-black">Электроустановочное изделие</div>
-            </div>
-          </div>
-          <button onClick={() => { const el = categoriesRef.current; if (el) el.scrollBy({ left: -Math.max(el.clientWidth * 0.7, 300), behavior: 'smooth' }); }} aria-label="Предыдущая категория" className="hidden md:flex items-center justify-center w-10 h-10 text-neutral-300 absolute left-2 top-1/2 transform -translate-y-1/2 z-10">
-            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <button onClick={() => { const el = categoriesRef.current; if (el) el.scrollBy({ left: Math.max(el.clientWidth * 0.7, 300), behavior: 'smooth' }); }} aria-label="Следующая категория" className="hidden md:flex items-center justify-center w-10 h-10 text-neutral-300 absolute right-2 top-1/2 transform -translate-y-1/2 z-10">
-            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M9 5l7 7-7 7" /></svg>
-          </button>
-        </div>
-      </div>
+      </div> */}
 
      
 
@@ -195,7 +160,7 @@ export default function Banner() {
             <h2 className="text-2xl md:text-4xl font-bold text-gray-900">Твой свет для комфорта:<br />новинки от производителей</h2>
             <p className="text-base md:text-lg text-black mb-4 md:mb-8">Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность.</p>
             <div className="relative h-[250px] md:h-[500px] mt-4 md:mt-8 group">
-              <div className="absolute inset-0 bg-[url('/images/banners/bannersabouts.png')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
+              <div className="absolute inset-0 bg-[url('/images/banners/LightStarbanners.webp')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
                 <div className="absolute inset-x-0 top-0 h-16 md:h-32 pointer-events-none bg-gradient-to-b from-white to-transparent rounded-t-2xl" />
                 <div className="absolute inset-x-0 bottom-0 h-16 md:h-32 pointer-events-none bg-gradient-to-t from-white to-transparent rounded-b-2xl" />
               </div>
