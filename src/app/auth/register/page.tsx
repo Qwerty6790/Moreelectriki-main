@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link'; // Используем Link для внутренней навигации
+import Link from 'next/link';
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -41,108 +41,117 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full ">
-      {/* Левая часть - Визуал */}
-      <div className="hidden lg:flex lg:w-1/2 relative  items-center justify-center overflow-hidden">
-        {/* Фоновое изображение */}
-        <div 
-            className="absolute inset-0 bg-cover bg-center opacity-80"
-            style={{ backgroundImage: `url('/images/banners/bannersregisterationdesigners.jpeg')` }}
-        />
-
+    <section className="bg-[#fcfcfc] text-black py-12 sm:py-16 md:py-24 font-sans min-h-screen">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         
-        <div className="relative z-10 px-12 text-black max-w-2xl text-center lg:text-left">
-          <h2 className="text-5xl font-bold mb-6 tracking-tight leading-tight">
-            Регистрация дизайнеров
-          </h2>
-          <p className="text-lg text-black font-light leading-relaxed opacity-90">
-            Присоединяйтесь к профессиональному сообществу. Доступ к эксклюзивным товарам и лучшим предложениям начинается здесь.
-          </p>
-        </div>
-      </div>
-  
-      {/* Правая часть - Форма */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md">
-          <div className="mb-10 text-center lg:text-left">
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-              Создать аккаунт
-            </h1>
-            <p className="text-gray-500 mt-2 text-sm">
-              Заполните данные для регистрации в системе
-            </p>
+        {/* Главный заголовок */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold uppercase tracking-tight mb-12 sm:mb-16 md:mb-20 leading-none break-words">
+          РЕГИСТРАЦИЯ ДИЗАЙНЕРОВ
+        </h1>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-16">
+          
+          {/* Левая колонка - Текст и визуал */}
+          <div className="flex flex-col">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[1.5rem] font-normal uppercase mb-6 sm:mb-8 text-black leading-snug">
+              ПРИСОЕДИНЯЙТЕСЬ К ПРОФЕССИОНАЛЬНОМУ СООБЩЕСТВУ
+            </h3>
+            
+            <div className="space-y-6 mb-10">
+              <p className="text-base sm:text-lg md:text-[1.1rem] lg:text-xl leading-relaxed">
+                Доступ к эксклюзивным товарам, специальным условиям сотрудничества и лучшим предложениям начинается здесь.
+              </p>
+              <p className="text-base sm:text-lg md:text-[1.1rem] lg:text-xl leading-relaxed">
+                Мы ценим работу дизайнеров интерьера и архитекторов, предоставляя удобные инструменты, 3D-модели и персональную поддержку для реализации ваших проектов.
+              </p>
+            </div>
+
+            {/* Изображение, стилизованное под журнальный блок */}
+            <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden mt-auto bg-gray-200">
+              <div 
+                className="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-700"
+                style={{ backgroundImage: `url('/images/banners/bannersregisterationdesigners.jpeg')` }}
+              />
+            </div>
           </div>
-  
-          {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
-              {error}
+
+          {/* Правая колонка - Форма */}
+          <div className="flex flex-col justify-center lg:px-8">
+            <div className="w-full">
+              
+              {error && (
+                <div className="mb-8 p-5 bg-red-50 text-red-600 text-base md:text-lg border border-red-200 uppercase tracking-wide font-medium">
+                  {error}
+                </div>
+              )}
+      
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Имя пользователя */}
+                <div className="group">
+                  <label className="block text-sm md:text-base font-bold text-black uppercase tracking-wider mb-3">
+                    Имя пользователя
+                  </label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full px-5 py-4 bg-transparent border border-gray-300 text-black text-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all placeholder-gray-400"
+                    placeholder="Введите ваше имя"
+                    required
+                  />
+                </div>
+      
+                {/* Email */}
+                <div className="group">
+                  <label className="block text-sm md:text-base font-bold text-black uppercase tracking-wider mb-3">
+                    Email адрес
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-5 py-4 bg-transparent border border-gray-300 text-black text-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all placeholder-gray-400"
+                    placeholder="name@company.com"
+                    required
+                  />
+                </div>
+      
+                {/* Пароль */}
+                <div className="group">
+                  <label className="block text-sm md:text-base font-bold text-black uppercase tracking-wider mb-3">
+                    Пароль
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-5 py-4 bg-transparent border border-gray-300 text-black text-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all placeholder-gray-400"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+      
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-5 bg-black text-white text-base md:text-lg font-bold uppercase tracking-widest hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                >
+                  {loading ? 'ОБРАБОТКА...' : 'ЗАРЕГИСТРИРОВАТЬСЯ'}
+                </button>
+      
+                <div className="pt-8 mt-8 border-t border-gray-200 text-left md:text-lg text-black uppercase tracking-wide">
+                  Уже есть аккаунт?{' '}
+                  <Link href="/auth/login" className="font-bold underline underline-offset-4 hover:text-gray-500 transition-colors">
+                    Войти
+                  </Link>
+                </div>
+              </form>
             </div>
-          )}
-  
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Имя пользователя */}
-            <div className="group">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 ml-1">
-                Имя пользователя
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                placeholder="Имя пользователя"
-                required
-              />
-            </div>
-  
-            {/* Email */}
-            <div className="group">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 ml-1">
-                Email адрес
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                placeholder="name@company.com"
-                required
-              />
-            </div>
-  
-            {/* Пароль */}
-            <div className="group">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 ml-1">
-                Пароль
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-  
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 bg-black text-white text-sm font-bold uppercase tracking-wider rounded-lg shadow-lg hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed mt-4"
-            >
-              {loading ? 'Регистрация...' : 'Зарегистрироваться'}
-            </button>
-  
-            <div className="mt-8 text-center text-sm text-gray-600">
-              Уже есть аккаунт?{' '}
-              <Link href="/auth/login" className="font-semibold text-black hover:underline transition-all">
-                Войти
-              </Link>
-            </div>
-          </form>
+          </div>
+
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
