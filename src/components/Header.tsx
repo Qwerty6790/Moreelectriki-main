@@ -53,7 +53,11 @@ const CustomMapMarkerIcon = ({ className }: { className?: string }) => (
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 interface SubCategory { title: string; link: string; }
-interface Category { title: string; subcategories: SubCategory[]; }
+interface Category { 
+  title: string; 
+  image?: string; // Добавлено поле для картинки
+  subcategories: SubCategory[]; 
+}
 interface NavLink { title: string; href: string; }
 interface Product {
   _id: string; id?: string; name: string; price: number; article?: string;
@@ -64,6 +68,7 @@ interface Product {
 const fullCatalogData: Category[] = [
   {
     title: 'Люстры',
+    image: '/images/category/lustrycategory.webp', // Замените на свое фото
     subcategories: [
       { title: 'Люстры потолочные', link: '/catalog/chandeliers/ceiling-chandeliers' },
       { title: 'Люстры подвесные', link: '/catalog/chandeliers/pendant-chandeliers' },
@@ -73,6 +78,7 @@ const fullCatalogData: Category[] = [
   },
   {
     title: 'Трековые светильники',
+    image: '/images/category/trekovycategory.webp',
     subcategories: [
       { title: 'Магнитные трековые', link: '/catalog/lights/magnit-track-lights' },
       { title: 'Умные трековые', link: '/catalog/lights/track-lights/smart' },
@@ -81,6 +87,7 @@ const fullCatalogData: Category[] = [
   },
   {
     title: 'Подвесные светильники',
+    image: 'https://images.unsplash.com/photo-1540932239986-30128078f3b5?q=80&w=600&auto=format&fit=crop',
     subcategories: [
       { title: 'Встраиваемые светильники', link: '/catalog/lights/recessed-lights' },
       { title: 'Накладные светильники', link: '/catalog/lights/surface-mounted-light' }
@@ -88,24 +95,28 @@ const fullCatalogData: Category[] = [
   },
   {
     title: 'Бра',
+    image: 'https://images.unsplash.com/photo-1507652313656-b78ee2bbf6b1?q=80&w=600&auto=format&fit=crop',
     subcategories: [
       { title: 'Настенные светильники', link: '/catalog/lights/wall-lights' }
     ]
   },
   {
     title: 'Торшеры',
+    image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=600&auto=format&fit=crop',
     subcategories: [
         { title: 'Все торшеры', link: '/catalog/floor-lamps' }
     ]
   },
   {
     title: 'Настольные лампы',
+    image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=600&auto=format&fit=crop',
     subcategories: [
         { title: 'Все настольные лампы', link: '/catalog/table-lamps' }
     ]
   },
   {
     title: 'Светодиодные ленты',
+    image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=600&auto=format&fit=crop',
     subcategories: [
       { title: 'Лампа и LED', link: '/catalog/led-lamp' },
       { title: 'Аксессуары', link: '/catalog/accessories' },
@@ -114,6 +125,7 @@ const fullCatalogData: Category[] = [
   },
   {
     title: 'Уличные светильники',
+    image: 'https://images.unsplash.com/photo-1620808083984-b0431be5d535?q=80&w=600&auto=format&fit=crop',
     subcategories: [
       { title: 'Ландшафтные', link: '/catalog/outdoor-lights/landscape-lights' },
       { title: 'Парковые', link: '/catalog/outdoor-lights/park-lights' },
@@ -123,6 +135,7 @@ const fullCatalogData: Category[] = [
   },
   {
     title: 'Электроустановочные изделия',
+    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=600&auto=format&fit=crop',
     subcategories: [
       { title: 'Встраиваемые серии', link: '/ElektroustnovohneIzdely' },
       { title: 'Серия Gallant', link: '/ElektroustnovohneIzdely/Werkel/Gallant' },
@@ -467,8 +480,6 @@ const Header = () => {
                 ref={searchContainerRef}
                 className={clsx(
                   "z-[60] transition-all duration-300",
-                  // На мобильных: 100% высоты и ширины родительской строки (top-0 left-0 w-full h-full), белый фон
-                  // На десктопе: статичное поведение внутри родителя
                   isSearchOpen 
                     ? "opacity-100 visible absolute top-0 left-0 w-full h-full bg-white flex items-center px-4 sm:px-6 xl:static xl:w-full xl:max-w-4xl xl:mx-auto xl:bg-transparent xl:px-0" 
                     : "opacity-0 invisible pointer-events-none absolute xl:static"
@@ -597,8 +608,8 @@ const Header = () => {
                 isCatalogOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2 pointer-events-none"
              )}
           >
-             <div className="flex min-h-[400px]">
-                {/* Список категорий */}
+             <div className="flex min-h-[450px]">
+                {/* Список категорий (Левая колонка) */}
                 <div className="w-1/4 border-r border-gray-100 bg-gray-50/30">
                    <ul className="py-4">
                       {fullCatalogData.map((cat, idx) => (
@@ -620,28 +631,45 @@ const Header = () => {
                    </ul>
                 </div>
 
-                {/* Подкатегории */}
+                {/* Подкатегории в один столбец + Картинка справа */}
                 <div className="w-3/4 p-8">
                    {activeCategoryIdx !== null && fullCatalogData[activeCategoryIdx] && (
-                      <div className="animate-in fade-in duration-300">
-                         <h3 className="text-2xl font-serif text-[#37373F] mb-6">
-                             {fullCatalogData[activeCategoryIdx].title}
-                         </h3>
+                      <div className="animate-in fade-in duration-300 flex justify-between gap-12 h-full">
                          
-                         <div className="grid grid-cols-3 gap-x-8 gap-y-4">
-                             {fullCatalogData[activeCategoryIdx].subcategories.map((sub, sIdx) => (
-                                <Link
-                                   key={sIdx}
-                                   href={sub.link}
-                                   onClick={() => setIsCatalogOpen(false)}
-                                   className="group flex items-start gap-2 text-[#37373F] hover:text-black transition-colors"
-                                >
-                                   
-                                   
-                                   <span className="text-base font-medium leading-snug">{sub.title}</span>
-                                </Link>
-                             ))}
+                         {/* Левая часть: Подкатегории (в ряд/в столбик) */}
+                         <div className="flex-1">
+                             <h3 className="text-2xl font-serif text-[#37373F] mb-8">
+                                 {fullCatalogData[activeCategoryIdx].title}
+                             </h3>
+                             
+                             <div className="flex flex-col gap-y-5">
+                                 {fullCatalogData[activeCategoryIdx].subcategories.map((sub, sIdx) => (
+                                    <Link
+                                       key={sIdx}
+                                       href={sub.link}
+                                       onClick={() => setIsCatalogOpen(false)}
+                                       className="group flex items-center gap-3 text-[#37373F] hover:text-black transition-colors w-max"
+                                    >
+                                       <span className="text-[15px] font-medium uppercase tracking-wide border-b border-transparent group-hover:border-black transition-colors pb-0.5">
+                                           {sub.title}
+                                       </span>
+                                    </Link>
+                                 ))}
+                             </div>
                          </div>
+
+                         {/* Правая часть: Изображение категории */}
+                         {fullCatalogData[activeCategoryIdx].image && (
+                            <div className="w-[350px] xl:w-[450px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 relative group shadow-sm">
+                                <img 
+                                    src={fullCatalogData[activeCategoryIdx].image} 
+                                    alt={fullCatalogData[activeCategoryIdx].title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                />
+                                {/* Легкий оверлей для стиля (по желанию) */}
+                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                         )}
                       </div>
                    )}
                 </div>

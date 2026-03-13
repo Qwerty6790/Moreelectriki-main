@@ -21,7 +21,7 @@ const DemoProductCard = ({
   return (
     <div className="bg-white flex flex-col h-full overflow-hidden product-card rounded-lg border border-gray-200/80 transition-shadow duration-300 hover:shadow-xl">
       <div className="flex flex-col flex-grow">
-        <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center overflow-hidden product-image">
+        <div className="relative aspect-square bg-gradient-to-br  flex items-center justify-center overflow-hidden product-image">
           <div className="absolute top-3 right-3 z-10">
             <span
               title="Ожидается"
@@ -153,41 +153,67 @@ export default function Banner() {
 
      
 
-      {/* ---------- ТЕКСТОВЫЙ БЛОК (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
-      <div className="mb-12 md:mb-24 max-w-8xl mx-auto px-4 md:px-4">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-          <div className="w-full md:w-1/2 space-y-4 md:space-y-8 py-4 md:py-8 order-2 md:order-1">
-            <h2 className="text-2xl md:text-4xl font-bold text-gray-900">Твой свет для комфорта:<br />новинки от производителей</h2>
-            <p className="text-base md:text-lg text-black mb-4 md:mb-8">Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность.</p>
-            <div className="relative h-[250px] md:h-[500px] mt-4 md:mt-8 group">
-              <div className="absolute inset-0 bg-[url('/images/banners/LightStarbanners.webp')] bg-cover bg-center rounded-2xl overflow-hidden transition-opacity duration-500 ease-in-out">
-                <div className="absolute inset-x-0 top-0 h-16 md:h-32 pointer-events-none bg-gradient-to-b from-white to-transparent rounded-t-2xl" />
-                <div className="absolute inset-x-0 bottom-0 h-16 md:h-32 pointer-events-none bg-gradient-to-t from-white to-transparent rounded-b-2xl" />
-              </div>
+ {/* ---------- ТЕКСТОВЫЕ БЛОКИ (ЖУРНАЛЬНАЯ ВЕРСТКА) ---------- */}
+ <div className="max-w-[1400px] text-black mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-16 md:py-24 space-y-24 md:space-y-32">
+        
+        {/* Блок 1: Новинки (Текст слева, Картинка справа) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-12 items-center">
+          <div className="flex flex-col justify-center order-2 lg:order-1">
+            <h2 className="text-4xl md:text-5xl lg:text-[4rem] font-bold uppercase tracking-tight leading-none mb-8 break-words">
+              ТВОЙ СВЕТ ДЛЯ КОМФОРТА
+            </h2>
+            <h3 className="text-xl md:text-2xl uppercase tracking-wide text-gray-800 mb-8">
+              НОВИНКИ ОТ ПРОИЗВОДИТЕЛЕЙ
+            </h3>
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed">
+              Новые функциональные светильники от производителей, которые придадут вашему интерьеру элегантность и подчеркнут архитектурные особенности пространства.
+            </p>
+          </div>
+          <div className="order-1 lg:order-2">
+            <div className="relative h-[300px] md:h-[500px] w-full bg-gray-200 overflow-hidden">
+              <div 
+                className="absolute inset-0 bg-cover bg-center hover:scale-100 transition-transform duration-700"
+                style={{ backgroundImage: `url('/images/banners/LightStarbanners.webp')` }}
+              />
             </div>
           </div>
-          <div className="w-full md:w-1/2 relative h-auto group order-1 md:order-2 px-0">
-            <h2 className="text-2xl md:text-4xl py-4 md:py-8 font-bold text-gray-900">Открывай для себя новые возможности каждый день</h2>
-            <span className="text-base md:text-2xl text-black">
-              Мы предлагаем широкий ассортимент светильников, люстр и электротехнических товаров от лучших мировых производителей. В нашем каталоге представлены как классические, так и современные решения для освещения: от изысканных хрустальных люстр до стильных подвесных светильников, функциональных спотов и энергосберегающих систем. У нас вы можете найти всё, что необходимо для создания комфортной и гармоничной световой атмосферы в доме, офисе, ресторане или торговом помещении.
-              <br /><br />
-              Мы предоставляем не только продажу товаров, но и полный комплекс услуг — от профессионального проектирования и подбора оборудования до квалифицированного монтажа и последующего сервисного обслуживания. Наши специалисты помогут разработать индивидуальный проект освещения с учётом особенностей вашего интерьера, технических требований и бюджета.
-              <br /><br />
-              Дополнительным преимуществом является гибкость работы: мы сотрудничаем как с частными клиентами, так и с организациями, строительными компаниями, дизайнерами и архитекторами.
-            </span>
-          </div>
         </div>
+
+        {/* Блок 2: Описание (Длинный текст разбит на колонки) */}
         <div>
-          <div className="gap-8 md:gap-12 items-center">
-            <div className="space-y-4 md:space-y-6">
-              <div className="space-y-6 md:space-y-10 mt-12 md:mt-20">
-                <h3 className="text-2xl md:text-4xl font-bold text-black">Освещаем вашу жизнь</h3>
-                <p className="text-base md:text-2xl text-black leading-relaxed">MoreElektriki — ведущий поставщик качественного освещения в России. Мы специализируемся на продаже премиальных светильников, люстр и электротехнических товаров от лучших мировых производителей.</p>
-                <p className="text-base md:text-2xl text-black leading-relaxed">Наша команда профессионалов поможет вам создать идеальное освещение для дома, офиса или коммерческого объекта. Мы предлагаем не только продажу, но и полный комплекс услуг по проектированию и монтажу.</p>
-              </div>
+          <h2 className="text-4xl md:text-5xl lg:text-[4.5rem] font-bold uppercase tracking-tight leading-none mb-12 break-words max-w-5xl">
+            ОТКРЫВАЙ ДЛЯ СЕБЯ НОВЫЕ ВОЗМОЖНОСТИ
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-8">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed">
+              Мы предлагаем широкий ассортимент светильников, люстр и электротехнических товаров от лучших мировых производителей. В нашем каталоге представлены как классические, так и современные решения для освещения: от изысканных хрустальных люстр до стильных подвесных светильников, функциональных спотов и энергосберегающих систем. У нас вы можете найти всё, что необходимо для создания комфортной атмосферы.
+            </p>
+            <div className="space-y-8">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed">
+                Мы предоставляем не только продажу товаров, но и полный комплекс услуг — от профессионального проектирования и подбора оборудования до квалифицированного монтажа и последующего сервисного обслуживания. Наши специалисты помогут разработать индивидуальный проект освещения.
+              </p>
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed">
+                Дополнительным преимуществом является гибкость работы: мы сотрудничаем как с частными клиентами, так и с организациями, строительными компаниями, дизайнерами и архитекторами.
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Блок 3: Освещаем вашу жизнь (Крупный акцентный текст) */}
+        <div className=" pt-12 md:pt-16">
+          <h2 className="text-4xl md:text-5xl lg:text-[4.5rem] font-bold uppercase tracking-tight leading-none mb-12 break-words">
+            ОСВЕЩАЕМ ВАШУ ЖИЗНЬ
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-8">
+            <p className="text-lg md:text-2xl font-medium leading-relaxed text-black">
+              MoreElektriki — ведущий поставщик качественного освещения в России. Мы специализируемся на продаже премиальных светильников, люстр и электротехнических товаров от лучших мировых производителей.
+            </p>
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-800">
+              Наша команда профессионалов поможет вам создать идеальное освещение для дома, офиса или коммерческого объекта. Мы предлагаем не только продажу, но и полный комплекс услуг по проектированию и монтажу, обеспечивая безупречный результат на каждом этапе.
+            </p>
+          </div>
+        </div>
+        
       </div>
 
       {/* ---------- ПОПУЛЯРНЫЕ ТОВАРЫ (ОРИГИНАЛЬНЫЙ ДИЗАЙН) ---------- */}
