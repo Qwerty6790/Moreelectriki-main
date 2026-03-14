@@ -740,7 +740,7 @@ const Header = () => {
                     {/* ДОП. ССЫЛКИ */}
                     <div className="mb-8 border-t border-gray-100 pt-6">
                         <Link 
-                            href="/profile"
+                            href="/auth/register"
                             onClick={() => setIsCatalogOpen(false)}
                             className="flex items-center gap-3 text-[#37373F] font-bold uppercase tracking-wide mb-6 p-2 -ml-2 hover:bg-gray-50 rounded-lg hover:text-black transition-colors"
                         >
