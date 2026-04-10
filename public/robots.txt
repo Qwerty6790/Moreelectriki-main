@@ -19,7 +19,7 @@ Disallow: /_next/
 Disallow: /api/
 
 # Карта сайта
-Sitemap: https://moreelectriki.ru/sitemap.xml
+Sitemap: https://moreelektriki.ru/sitemap.xml
 
 # Специальные указания для поисковых роботов
 User-agent: Googlebot

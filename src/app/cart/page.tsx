@@ -43,7 +43,9 @@ const Cart: React.FC = () => {
   const [notifications, setNotifications] = useState<Array<{id: number, message: string, type: 'success' | 'error' | 'info'}>>([]);
 
   const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    const id = Date.now();
+    // ИСПРАВЛЕНИЕ: Добавлен Math.random(), чтобы ключи точно были уникальными, 
+    // даже если несколько уведомлений вызваны в одну миллисекунду.
+    const id = Date.now() + Math.random(); 
     setNotifications(prev => [...prev, { id, message, type }]);
     setTimeout(() => {
       setNotifications(prev => prev.filter(n => n.id !== id));

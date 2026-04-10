@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Основные категории светильников -->
   <url>
-    <loc>https://moreelectriki.ru/catalog/chandeliers</loc>
+    <loc>https://moreelektriki.ru/catalog/chandeliers</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog/chandeliers/pendant-chandeliers</loc>
+    <loc>https://moreelektriki.ru/catalog/chandeliers/pendant-chandeliers</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog/lightstar/lights/track-lights</loc>
+    <loc>https://moreelektriki.ru/catalog/lightstar/lights/track-lights</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog/lightstar/wall-sconces</loc>
+    <loc>https://moreelektriki.ru/catalog/lightstar/wall-sconces</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog/lightstar/floor-lamps</loc>
+    <loc>https://moreelektriki.ru/catalog/lightstar/floor-lamps</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog/lightstar/table-lamps</loc>
+    <loc>https://moreelektriki.ru/catalog/lightstar/table-lamps</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -45,21 +45,21 @@
   
   <!-- Категории электроустановочных изделий -->
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Donel</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Donel</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -69,14 +69,14 @@
 
   
   <url>
-    <loc>https://moreelectriki.ru/Teplypolzdely/Voltum</loc>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Voltum</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/Teplypolzdely/Werkel</loc>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Werkel</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

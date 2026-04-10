@@ -1,7 +1,7 @@
 {
-  "name": "MoreElektriki",
-  "short_name": "MoreElektriki",
-  "description": "Интернет-магазин электротоваров MoreElektriki: светильники, люстры, розетки, выключатели, теплые полы. Широкий выбор, выгодные цены, доставка по России. Дизайнерам скидки.",
+  "name": "moreelektriki",
+  "short_name": "moreelektriki",
+  "description": "Интернет-магазин электротоваров moreelektriki: светильники, люстры, розетки, выключатели, теплые полы. Широкий выбор, выгодные цены, доставка по России. Дизайнерам скидки.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#101010",

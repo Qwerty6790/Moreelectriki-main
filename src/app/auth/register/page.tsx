@@ -67,9 +67,9 @@ const Register: React.FC = () => {
             </div>
 
             {/* Изображение, стилизованное под журнальный блок */}
-            <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden mt-auto bg-gray-200">
+            <div className="relative w-full h-[600px] md:h-[600px] overflow-hidden mt-auto ">
               <div 
-                className="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-700"
+                className="absolute inset-0 bg-cover  hover:scale-105 transition-transform duration-700"
                 style={{ backgroundImage: `url('/images/banners/bannersregisterationdesigners.jpeg')` }}
               />
             </div>

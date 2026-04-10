@@ -65,12 +65,17 @@ export default function Banner() {
     { name: 'Кабель силовой ВВГ-Пнг(А) 3х4 плоский Калужский кабельный завод (ККЗ) (ГОСТ)', article: 'ЦС000038158', imageUrl: '/images/series/ввг-пнг.jpg', price: '150 руб' },
   ];
 
-  const categoriesRef = useRef<HTMLDivElement | null>(null);
+
 
   const heroSlides = [
     {
       id: 1,
-      src: '/images/banners/LantraBanners.jpg',
+      src: '/images/banners/desc-04.jpg',
+      alt: 'Главный баннер'
+    },
+    {
+      id: 2,
+      src: '/images/banners/desc-03.jpg',
       alt: 'Главный баннер'
     },
     // Добавьте еще слайды по необходимости
@@ -206,7 +211,7 @@ export default function Banner() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-8">
             <p className="text-lg md:text-2xl font-medium leading-relaxed text-black">
-              MoreElektriki — ведущий поставщик качественного освещения в России. Мы специализируемся на продаже премиальных светильников, люстр и электротехнических товаров от лучших мировых производителей.
+              MOREELEKTRIKI — ведущий поставщик качественного освещения в России. Мы специализируемся на продаже премиальных светильников, люстр и электротехнических товаров от лучших мировых производителей.
             </p>
             <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-800">
               Наша команда профессионалов поможет вам создать идеальное освещение для дома, офиса или коммерческого объекта. Мы предлагаем не только продажу, но и полный комплекс услуг по проектированию и монтажу, обеспечивая безупречный результат на каждом этапе.

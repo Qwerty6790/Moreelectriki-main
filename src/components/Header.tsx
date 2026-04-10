@@ -55,7 +55,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 interface SubCategory { title: string; link: string; }
 interface Category { 
   title: string; 
-  image?: string; // Добавлено поле для картинки
+  image?: string; 
   subcategories: SubCategory[]; 
 }
 interface NavLink { title: string; href: string; }
@@ -65,39 +65,40 @@ interface Product {
   slug?: string; source?: string;
 }
 
+// ДЕТАЛЬНЫЙ КАТАЛОГ СИНХРОНИЗИРОВАННЫЙ С CATALOG INDEX
 const fullCatalogData: Category[] = [
   {
     title: 'Люстры',
-    image: '/images/category/lustrycategory.webp', // Замените на свое фото
+    image: '/images/category/lustrycategory.webp', 
     subcategories: [
-      { title: 'Люстры потолочные', link: '/catalog/chandeliers/ceiling-chandeliers' },
-      { title: 'Люстры подвесные', link: '/catalog/chandeliers/pendant-chandeliers' },
+      { title: 'Все люстры', link: '/catalog/chandeliers' },
+      { title: 'Подвесные люстры', link: '/catalog/chandeliers/pendant-chandeliers' },
+      { title: 'Потолочные люстры', link: '/catalog/chandeliers/ceiling-chandeliers' },
       { title: 'Люстры на штанге', link: '/catalog/chandeliers/rod-chandeliers' },
-      { title: 'Люстры каскадные', link: '/catalog/chandeliers/cascade-chandeliers' }
+      { title: 'Каскадные люстры', link: '/catalog/chandeliers/cascade-chandeliers' },
+      { title: 'Хрустальные люстры', link: '/catalog/chandeliers/crystal-chandeliers' },
+      { title: 'Люстры с латунью', link: `/catalog?category=${encodeURIComponent('латунь Люстра')}` }
     ]
   },
   {
-    title: 'Трековые светильники',
+    title: 'Светильники',
     image: '/images/category/trekovycategory.webp',
     subcategories: [
-      { title: 'Магнитные трековые', link: '/catalog/lights/magnit-track-lights' },
-      { title: 'Умные трековые', link: '/catalog/lights/track-lights/smart' },
-      { title: 'Уличные трековые', link: '/catalog/lights/track-lights/outdoor' }
-    ]
-  },
-  {
-    title: 'Подвесные светильники',
-    image: 'https://images.unsplash.com/photo-1540932239986-30128078f3b5?q=80&w=600&auto=format&fit=crop',
-    subcategories: [
+      { title: 'Все светильники', link: '/catalog/lights' },
+      { title: 'Потолочные светильники', link: '/catalog/lights/ceiling-lights' },
+      { title: 'Подвесные светильники', link: '/catalog/lights/pendant-lights' },
+      { title: 'Настенные светильники', link: '/catalog/lights/wall-lights' },
       { title: 'Встраиваемые светильники', link: '/catalog/lights/recessed-lights' },
-      { title: 'Накладные светильники', link: '/catalog/lights/surface-mounted-light' }
+      { title: 'Накладные светильники', link: '/catalog/lights/surface-mounted-lights' },
+      { title: 'Трековые светильники', link: '/catalog/lights/track-lights' },
+      { title: 'Точечные светильники и споты', link: '/catalog/lights/spot-lights' }
     ]
   },
   {
     title: 'Бра',
-    image: 'https://images.unsplash.com/photo-1507652313656-b78ee2bbf6b1?q=80&w=600&auto=format&fit=crop',
+    image: '/images/category/bracategory.jpg',
     subcategories: [
-      { title: 'Настенные светильники', link: '/catalog/lights/wall-lights' }
+      { title: 'Все бра', link: '/catalog/wall-sconces' }
     ]
   },
   {
@@ -115,22 +116,37 @@ const fullCatalogData: Category[] = [
     ]
   },
   {
-    title: 'Светодиодные ленты',
+    title: 'Светодиодное освещение',
     image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=600&auto=format&fit=crop',
     subcategories: [
-      { title: 'Лампа и LED', link: '/catalog/led-lamp' },
-      { title: 'Аксессуары', link: '/catalog/accessories' },
-      { title: 'Профили для ленты', link: '/catalog/led-strip-profiles' }
+      { title: 'Светодиодные ленты', link: '/catalog/led-strips' },
+      { title: 'Профили для ленты', link: '/catalog/led-strip-profiles' },
+      { title: 'Светодиодные лампы', link: `/catalog?category=${encodeURIComponent('Светодиодная лампа')}` }
     ]
   },
   {
     title: 'Уличные светильники',
     image: 'https://images.unsplash.com/photo-1620808083984-b0431be5d535?q=80&w=600&auto=format&fit=crop',
     subcategories: [
-      { title: 'Ландшафтные', link: '/catalog/outdoor-lights/landscape-lights' },
-      { title: 'Парковые', link: '/catalog/outdoor-lights/park-lights' },
+      { title: 'Все уличные светильники', link: '/catalog/outdoor-lights' },
+      { title: 'Настенные уличные', link: '/catalog/outdoor-lights/outdoor-wall-lights' },
       { title: 'Грунтовые светильники', link: '/catalog/outdoor-lights/ground-lights' },
-      { title: 'Настенно-уличные', link: '/catalog/outdoor-lights/outdoor-wall-lights' }
+      { title: 'Ландшафтные светильники', link: '/catalog/outdoor-lights/landscape-lights' },
+      { title: 'Парковые светильники', link: '/catalog/outdoor-lights/park-lights' }
+    ]
+  },
+  {
+    title: 'Комплектующие',
+    image: '/images/category/podvesnycategory.jpeg',
+    subcategories: [
+      { title: 'Все комплектующие', link: '/catalog/accessories' },
+      { title: 'Коннекторы', link: '/catalog/accessories/connectors' },
+      { title: 'Шнуры', link: '/catalog/accessories/cords' },
+      { title: 'Блоки питания', link: '/catalog/accessories/power-supplies' },
+      { title: 'Патроны', link: '/catalog/accessories/lamp-holders' },
+      { title: 'Крепления', link: '/catalog/accessories/mounting' },
+      { title: 'Плафоны', link: '/catalog/accessories/lampshades' },
+      { title: 'Контроллеры', link: '/catalog/accessories/controllers' }
     ]
   },
   {
@@ -149,7 +165,7 @@ const fullCatalogData: Category[] = [
 
 const navLinks: NavLink[] = [
   { title: 'О компании', href: '/about' },
-  { title: 'Новинки', href: '/about' },
+  { title: 'Новинки', href: '/about' }, // Если есть отдельная страница, замените href
   { title: 'Партнерам', href: '/about' },
   { title: 'Где купить', href: '/map' },
   { title: 'Конфиденциальность', href: '/about' },
@@ -636,13 +652,13 @@ const Header = () => {
                    {activeCategoryIdx !== null && fullCatalogData[activeCategoryIdx] && (
                       <div className="animate-in fade-in duration-300 flex justify-between gap-12 h-full">
                          
-                         {/* Левая часть: Подкатегории (в ряд/в столбик) */}
+                         {/* Левая часть: Подкатегории */}
                          <div className="flex-1">
                              <h3 className="text-2xl font-serif text-[#37373F] mb-8">
                                  {fullCatalogData[activeCategoryIdx].title}
                              </h3>
                              
-                             <div className="flex flex-col gap-y-5">
+                             <div className="grid grid-cols-2 gap-y-5 gap-x-8">
                                  {fullCatalogData[activeCategoryIdx].subcategories.map((sub, sIdx) => (
                                     <Link
                                        key={sIdx}
@@ -650,7 +666,10 @@ const Header = () => {
                                        onClick={() => setIsCatalogOpen(false)}
                                        className="group flex items-center gap-3 text-[#37373F] hover:text-black transition-colors w-max"
                                     >
-                                       <span className="text-[15px] font-medium uppercase tracking-wide border-b border-transparent group-hover:border-black transition-colors pb-0.5">
+                                       <span className={clsx(
+                                           "text-[15px] tracking-wide border-b border-transparent group-hover:border-black transition-colors pb-0.5",
+                                           sIdx === 0 ? "font-bold uppercase text-black" : "font-medium"
+                                       )}>
                                            {sub.title}
                                        </span>
                                     </Link>
@@ -666,7 +685,6 @@ const Header = () => {
                                     alt={fullCatalogData[activeCategoryIdx].title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                                 />
-                                {/* Легкий оверлей для стиля (по желанию) */}
                                 <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
                          )}
@@ -796,7 +814,10 @@ const Header = () => {
                                             <Link 
                                                 href={sub.link}
                                                 onClick={() => setIsCatalogOpen(false)}
-                                                className="text-[#37373F] hover:text-black text-sm sm:text-base font-medium flex items-center justify-between py-3 group transition-colors pr-2"
+                                                className={clsx(
+                                                    "text-[#37373F] hover:text-black text-sm sm:text-base flex items-center justify-between py-3 group transition-colors pr-2",
+                                                    sIdx === 0 ? "font-bold" : "font-medium"
+                                                )}
                                             >
                                                 <span className="pr-4 leading-tight">{sub.title}</span>
                                                 <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-black flex-shrink-0" />

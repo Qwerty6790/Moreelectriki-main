@@ -4,40 +4,40 @@
   
   <!-- Главные изображения сайта -->
   <url>
-    <loc>https://moreelectriki.ru/</loc>
+    <loc>https://moreelektriki.ru/</loc>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/logo.webp</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/logo.webp</image:loc>
       <image:title>MoreElectriki - Интернет-магазин электрики в Москве</image:title>
       <image:caption>Логотип магазина светильников и электроустановочных изделий на МКАД, 25-й км</image:caption>
-      <image:license>https://moreelectriki.ru/privacy-policy</image:license>
+      <image:license>https://moreelektriki.ru/privacy-policy</image:license>
     </image:image>
   </url>
 
   <!-- Изображения брендов -->
   <url>
-    <loc>https://moreelectriki.ru/catalog</loc>
+    <loc>https://moreelektriki.ru/catalog</loc>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/lightstarlogo.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/lightstarlogo.png</image:loc>
       <image:title>LightStar - современные светильники и люстры</image:title>
       <image:caption>Бренд LightStar - качественное освещение для дома и офиса</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/maytonilogo.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/maytonilogo.png</image:loc>
       <image:title>Maytoni - элегантные люстры и светильники</image:title>
       <image:caption>Бренд Maytoni - изысканные люстры и светильники для интерьера</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/novotechlogo.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/novotechlogo.png</image:loc>
       <image:title>Novotech - современное освещение</image:title>
       <image:caption>Бренд Novotech - инновационные решения для освещения</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/artelamplogo.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/artelamplogo.png</image:loc>
       <image:title>Artelamp - итальянские светильники</image:title>
       <image:caption>Бренд Artelamp - итальянское качество и дизайн</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/brands/lumionlogo.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/brands/lumionlogo.png</image:loc>
       <image:title>Lumion - профессиональное освещение</image:title>
       <image:caption>Бренд Lumion - профессиональные решения для освещения</image:caption>
     </image:image>
@@ -45,49 +45,49 @@
 
   <!-- Изображения электроустановочных изделий -->
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely</loc>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/seris/45на45.webp</image:loc>
+      <image:loc>https://moreelektriki.ru/images/seris/45на45.webp</image:loc>
       <image:title>Розетки 45x45 - современные решения</image:title>
       <image:caption>Розетки размером 45x45 мм для современного интерьера</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/seris/45на45 usb.webp</image:loc>
+      <image:loc>https://moreelektriki.ru/images/seris/45на45 usb.webp</image:loc>
       <image:title>USB розетки 45x45</image:title>
       <image:caption>USB розетки размером 45x45 мм для зарядки устройств</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/seris/45на45RJ45.webp</image:loc>
+      <image:loc>https://moreelektriki.ru/images/seris/45на45RJ45.webp</image:loc>
       <image:title>RJ45 розетки 45x45</image:title>
       <image:caption>Сетевые розетки RJ45 размером 45x45 мм</image:caption>
     </image:image>
   </url>
 
 <url>
-  <loc>https://moreelectriki.ru/Teplypolzdely</loc>
+  <loc>https://moreelektriki.ru/Teplypolzdely</loc>
   
   <image:image>
-    <image:loc>https://moreelectriki.ru/images/seris/MNDmatnargevatelny.png</image:loc>
+    <image:loc>https://moreelektriki.ru/images/seris/MNDmatnargevatelny.png</image:loc>
     <image:title>Маты нагревательные - теплые полы</image:title>
     <image:caption>Маты нагревательные для системы теплого пола</image:caption>
   </image:image>
 
   <image:image>
-    <image:loc>https://moreelectriki.ru/images/seris/matnagrevatelnyVoltum.png</image:loc>
+    <image:loc>https://moreelektriki.ru/images/seris/matnagrevatelnyVoltum.png</image:loc>
     <image:title>Системы теплого пола</image:title>
     <image:caption>Комплектующие для систем теплого пола</image:caption>
   </image:image>
 </url>
   <!-- Изображения коллекций -->
   <url>
-    <loc>https://moreelectriki.ru/catalog</loc>
+    <loc>https://moreelektriki.ru/catalog</loc>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/categories/osvehenycollection.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/categories/osvehenycollection.png</image:loc>
       <image:title>Коллекция освещения</image:title>
       <image:caption>Широкая коллекция светильников и люстр</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/categories/elektrustanovonyizdelycollection.png</image:loc>
+      <image:loc>https://moreelektriki.ru/images/categories/elektrustanovonyizdelycollection.png</image:loc>
       <image:title>Электрооборудование</image:title>
       <image:caption>Электроустановочные изделия и оборудование</image:caption>
     </image:image>
@@ -95,9 +95,9 @@
 
   <!-- Изображения доставки -->
   <url>
-    <loc>https://moreelectriki.ru/delivery-payment</loc>
+    <loc>https://moreelektriki.ru/delivery-payment</loc>
     <image:image>
-      <image:loc>https://moreelectriki.ru/images/banners/delivaryElektromosbanners.webp</image:loc>
+      <image:loc>https://moreelektriki.ru/images/banners/delivaryElektromosbanners.webp</image:loc>
       <image:title>Доставка Elektromos</image:title>
       <image:caption>Быстрая доставка светильников и электроустановочных изделий по Москве и России</image:caption>
     </image:image>

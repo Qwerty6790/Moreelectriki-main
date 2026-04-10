@@ -1,788 +1,788 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-   <url>
-     <loc>https://moreelectriki.ru/</loc>
-     <lastmod>2025-09-03</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>1.0</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/logo.webp</image:loc>
-       <image:title>MoreElectriki - Интернет-магазин светильников в Москве</image:title>
-       <image:caption>Логотип магазина светильников и люстр</image:caption>
-     </image:image>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/headerRetro.png</image:loc>
-       <image:title>Ретро светильники и люстры</image:title>
-       <image:caption>Коллекция ретро светильников и люстр</image:caption>
-     </image:image>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/headerVintage.png</image:loc>
-       <image:title>Винтажные светильники</image:title>
-       <image:caption>Элегантные винтажные светильники для интерьера</image:caption>
-     </image:image>
-   </url>
- 
- 
- 
-   <!-- Главные страницы -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog</loc>
-     <lastmod>2025-01-27</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/catalogofsearch.png</image:loc>
-       <image:title>Каталог светильников и люстр</image:title>
-       <image:caption>Широкий выбор светильников, люстр и электроустановочных изделий</image:caption>
-     </image:image>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/lightstarlogo.png</image:loc>
-       <image:title>LightStar - современные светильники</image:title>
-       <image:caption>Бренд LightStar - качественное освещение</image:caption>
-     </image:image>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/maytonilogo.png</image:loc>
-       <image:title>Maytoni - элегантные люстры</image:title>
-       <image:caption>Бренд Maytoni - изысканные люстры и светильники</image:caption>
-     </image:image>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely</loc>
-     <lastmod>2025-01-27</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.95</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/categories/vstarivaevyseriycategory.png</image:loc>
-       <image:title>Купить розетки и выключатели в Москве - Donel, Werkel, Voltum</image:title>
-       <image:caption>Широкий выбор электроустановочных изделий: розетки и выключатели встраиваемые и накладные</image:caption>
-     </image:image>
-   </url>
- 
-     <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Configurator</loc>
-     <lastmod>2025-08-22</lastmod>
-     <changefreq>weekly</changefreq>
-   <priority>0.95</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely</loc>
-     <lastmod>2025-01-27</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/seris/MNFmelodytepla.png</image:loc>
-       <image:title>Купить теплые полы в Москве - ЧТК маты нагревательные</image:title>
-       <image:caption>Электрические теплые полы и ЧТК маты нагревательные от ведущих производителей</image:caption>
-     </image:image>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely/Mat-nagrevatelny</loc>
-     <lastmod>2025-01-27</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.95</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/seris/MNFmelodytepla.png</image:loc>
-       <image:title>Купить ЧТК маты нагревательные в Москве</image:title>
-       <image:caption>ЧТК маты нагревательные МНД, МНФ для теплого пола под плитку и ламинат</image:caption>
-     </image:image>
-   </url>
- 
-   <!-- Страница для дизайнеров -->
-   <url>
-     <loc>https://moreelectriki.ru/auth/designers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/auth/register</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/auth/login</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.6</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/auth/request-invite</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.6</priority>
-   </url>
- 
-   <!-- Категории светильников -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/chandeliers/pendant-chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/lights/track-lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/wall-sconces</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/floor-lamps</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/table-lamps</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.9</priority>
-   </url>
- 
-   <!-- Бренды -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog?source=LightStar</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog?source=Maytoni</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog?source=Novotech</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog?source=Artelamp</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog?source=Lumion</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <!-- Электроустановочные изделия -->
- 
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Vstraivaemy-series</loc>
-     <lastmod>2025-08-16</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
- 
- 
-   <!-- Теплые полы -->
- 
- 
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely/Voltum</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely/Werkel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely/Mat-nagrevatelny</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/Teplypolzdely/Thermostats-termoregulators</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
- 
- 
-   <url>
-     <loc>https://moreelectriki.ru/cart</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.5</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/liked</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.5</priority>
-   </url>
- 
- 
- 
- 
-   <!-- Дополнительные страницы для SEO -->
-   <url>
-     <loc>https://moreelectriki.ru/search</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.6</priority>
-   </url>
- 
- 
- 
- 
-   <!-- Страницы брендов Werkel -->
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/black-acrylic</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/black-matte</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/bronze-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/champagne-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/champagne-metallic</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/Gallant</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-black-chrome</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-champagne-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-graphite-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-ivory</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-silver</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/gallant-white</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/graphite-acrylic</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/graphite-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/graphite-matte</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/ivory-acrylic</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/split</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://moreelektriki.ru/</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/logo.webp</image:loc>
+      <image:title>MoreElectriki - Интернет-магазин светильников в Москве</image:title>
+      <image:caption>Логотип магазина светильников и люстр</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/headerRetro.png</image:loc>
+      <image:title>Ретро светильники и люстры</image:title>
+      <image:caption>Коллекция ретро светильников и люстр</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/headerVintage.png</image:loc>
+      <image:title>Винтажные светильники</image:title>
+      <image:caption>Элегантные винтажные светильники для интерьера</image:caption>
+    </image:image>
+  </url>
+
+
+
+  <!-- Главные страницы -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/catalogofsearch.png</image:loc>
+      <image:title>Каталог светильников и люстр</image:title>
+      <image:caption>Широкий выбор светильников, люстр и электроустановочных изделий</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/lightstarlogo.png</image:loc>
+      <image:title>LightStar - современные светильники</image:title>
+      <image:caption>Бренд LightStar - качественное освещение</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/maytonilogo.png</image:loc>
+      <image:title>Maytoni - элегантные люстры</image:title>
+      <image:caption>Бренд Maytoni - изысканные люстры и светильники</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/categories/vstarivaevyseriycategory.png</image:loc>
+      <image:title>Купить розетки и выключатели в Москве - Donel, Werkel, Voltum</image:title>
+      <image:caption>Широкий выбор электроустановочных изделий: розетки и выключатели встраиваемые и накладные</image:caption>
+    </image:image>
+  </url>
+
     <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/ivory-gloss</loc>
-     <lastmod>2025-09-22</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Configurator</loc>
+    <lastmod>2025-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+  <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/seris/MNFmelodytepla.png</image:loc>
+      <image:title>Купить теплые полы в Москве - ЧТК маты нагревательные</image:title>
+      <image:caption>Электрические теплые полы и ЧТК маты нагревательные от ведущих производителей</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Mat-nagrevatelny</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/seris/MNFmelodytepla.png</image:loc>
+      <image:title>Купить ЧТК маты нагревательные в Москве</image:title>
+      <image:caption>ЧТК маты нагревательные МНД, МНФ для теплого пола под плитку и ламинат</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Страница для дизайнеров -->
+  <url>
+    <loc>https://moreelektriki.ru/auth/designers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/auth/register</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/auth/login</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/auth/request-invite</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Категории светильников -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/chandeliers/pendant-chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/lights/track-lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/wall-sconces</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/floor-lamps</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/table-lamps</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Бренды -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog?source=LightStar</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog?source=Maytoni</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog?source=Novotech</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog?source=Artelamp</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog?source=Lumion</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Электроустановочные изделия -->
+
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Vstraivaemy-series</loc>
+    <lastmod>2025-08-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+
+
+  <!-- Теплые полы -->
+
+
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Voltum</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Werkel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Mat-nagrevatelny</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/Teplypolzdely/Thermostats-termoregulators</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+
+
+  <url>
+    <loc>https://moreelektriki.ru/cart</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/liked</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+
+
+
+  <!-- Дополнительные страницы для SEO -->
+  <url>
+    <loc>https://moreelektriki.ru/search</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+
+
+  <!-- Страницы брендов Werkel -->
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/black-acrylic</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/black-matte</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/bronze-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/champagne-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/champagne-metallic</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/Gallant</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-black-chrome</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-champagne-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-graphite-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-ivory</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-silver</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/gallant-white</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/graphite-acrylic</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/graphite-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/graphite-matte</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/ivory-acrylic</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/split</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
    <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/ivory-matte</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/nickel-corrugated-gloss</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/pearlescent-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/ramka-runda</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/Retro</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/retro-black</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/retro-ceramic</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/retro-white</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <!-- Дополнительные страницы бренда Werkel -->
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/silver-corrugated</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/</loc>
-     <lastmod>2025-09-06</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/Retro</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/</loc>
-     <lastmod>2025-09-06</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Donel/</loc>
-     <lastmod>2025-09-06</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel/Vintage</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <!-- Страницы бренда Voltum -->
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/black-matte</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/cashmere</loc>
-     <lastmod>2025-09-03</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/graphite</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/shelk</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/steel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/titan</loc>
-     <lastmod>2025-09-03</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/white-gloss</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum/white-matte</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <!-- Страницы выдвижных блоков -->
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockDonel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockWerkel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>weekly</changefreq>
-     <priority>0.7</priority>
-   </url>
- 
-   <!-- Страницы освещения -->
-   <url>
-     <loc>https://moreelectriki.ru/Osveheny</loc>
-     <lastmod>2025-01-27</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.95</priority>
-     <image:image>
-       <image:loc>https://moreelectriki.ru/images/categories/lustrycategory.webp</image:loc>
-       <image:title>Купить светильники в Москве - люстры, бра, торшеры</image:title>
-       <image:caption>Широкий выбор светильников: люстры потолочные и подвесные, настенные светильники-бра, торшеры</image:caption>
-     </image:image>
-   </url>
- 
-   <!-- Страницы корзины и заказов -->
-   <url>
-     <loc>https://moreelectriki.ru/payment-success</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.4</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/payment-cancel</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.4</priority>
-   </url>
- 
- 
- 
-   <!-- Бренды освещения -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/maytoni</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/novotech</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/artelamp</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lumion</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/elektrostandart</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
-   <!-- LightStar - категории светильников -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/wall-sconces</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/floor-lamps</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/table-lamps</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/ceiling-lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/lightstar/pendant-lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <!-- Maytoni - категории люстр -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/maytoni/chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/maytoni/chandeliers?slug=maytoni%2Cchandeliers%2Cpendant-chandeliers&amp;page=1</loc>
-     <lastmod>2025-08-30</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/maytoni/crystal-chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/maytoni/modern-chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <!-- Novotech - категории -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/novotech/led-lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/novotech/spotlights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
-   <!-- Artelamp - категории -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/artelamp/chandeliers</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
-   <url>
-     <loc>https://moreelectriki.ru/catalog/artelamp/contemporary-lights</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
- 
-   <!-- Электростандарт - категории -->
-   <url>
-     <loc>https://moreelectriki.ru/catalog/elektrostandart/electrical-equipment</loc>
-     <lastmod>2025-08-04</lastmod>
-     <changefreq>daily</changefreq>
-     <priority>0.8</priority>
-   </url>
- 
- 
- 
- 
- </urlset>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/ivory-gloss</loc>
+    <lastmod>2025-09-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/ivory-matte</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/nickel-corrugated-gloss</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/pearlescent-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/ramka-runda</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/Retro</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/retro-black</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/retro-ceramic</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/retro-white</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Дополнительные страницы бренда Werkel -->
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/silver-corrugated</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/</loc>
+    <lastmod>2025-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/Retro</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/</loc>
+    <lastmod>2025-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Donel/</loc>
+    <lastmod>2025-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel/Vintage</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Страницы бренда Voltum -->
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/black-matte</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/cashmere</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/graphite</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/shelk</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/steel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/titan</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/white-gloss</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum/white-matte</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Страницы выдвижных блоков -->
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockDonel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/VidviznoyBlock/VidihnoyblockWerkel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Страницы освещения -->
+  <url>
+    <loc>https://moreelektriki.ru/Osveheny</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://moreelektriki.ru/images/categories/lustrycategory.webp</image:loc>
+      <image:title>Купить светильники в Москве - люстры, бра, торшеры</image:title>
+      <image:caption>Широкий выбор светильников: люстры потолочные и подвесные, настенные светильники-бра, торшеры</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Страницы корзины и заказов -->
+  <url>
+    <loc>https://moreelektriki.ru/payment-success</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/payment-cancel</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+
+
+  <!-- Бренды освещения -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/maytoni</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/novotech</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/artelamp</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lumion</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/elektrostandart</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+  <!-- LightStar - категории светильников -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/wall-sconces</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/floor-lamps</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/table-lamps</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/ceiling-lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/lightstar/pendant-lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Maytoni - категории люстр -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/maytoni/chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/maytoni/chandeliers?slug=maytoni%2Cchandeliers%2Cpendant-chandeliers&amp;page=1</loc>
+    <lastmod>2025-08-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/maytoni/crystal-chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/maytoni/modern-chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Novotech - категории -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/novotech/led-lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/novotech/spotlights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+  <!-- Artelamp - категории -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/artelamp/chandeliers</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://moreelektriki.ru/catalog/artelamp/contemporary-lights</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+
+  <!-- Электростандарт - категории -->
+  <url>
+    <loc>https://moreelektriki.ru/catalog/elektrostandart/electrical-equipment</loc>
+    <lastmod>2025-08-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+
+
+</urlset>

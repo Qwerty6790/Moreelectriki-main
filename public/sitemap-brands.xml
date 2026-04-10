@@ -2,35 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Основные бренды светильников -->
   <url>
-    <loc>https://moreelectriki.ru/catalog/lightstar</loc>
+    <loc>https://moreelektriki.ru/catalog/lightstar</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog?source=Maytoni</loc>
+    <loc>https://moreelektriki.ru/catalog?source=Maytoni</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog?source=Novotech</loc>
+    <loc>https://moreelektriki.ru/catalog?source=Novotech</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog?source=Artelamp</loc>
+    <loc>https://moreelektriki.ru/catalog?source=Artelamp</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/catalog?source=Lumion</loc>
+    <loc>https://moreelektriki.ru/catalog?source=Lumion</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -39,14 +39,14 @@
   <!-- Бренды электроустановочных изделий -->
 
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Werkel</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Werkel</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Voltum</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Voltum</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -56,14 +56,14 @@
 
   
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Teplypolzdely/Voltum/Termoregulator</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Teplypolzdely/Voltum/Termoregulator</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moreelectriki.ru/ElektroustnovohneIzdely/Teplypolzdely/Werkel/Termoregulator</loc>
+    <loc>https://moreelektriki.ru/ElektroustnovohneIzdely/Teplypolzdely/Werkel/Termoregulator</loc>
     <lastmod>2025-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
